@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace HoloToolkit.Unity.InputModule
+namespace HoloToolkit.Unity.InputModule.Tests
 {
     /// <summary>
     /// Register this game object on the InputManager as a global listener.

@@ -4,10 +4,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
-#if UNITY_EDITOR || UNITY_WSA
 using UnityEngine.VR.WSA;
-#endif
 
 namespace HoloToolkit.Unity.SpatialMapping
 {
@@ -86,7 +83,6 @@ namespace HoloToolkit.Unity.SpatialMapping
             }
         }
 
-#if UNITY_EDITOR || UNITY_WSA
         /// <summary>
         /// Our Surface Observer object for generating/updating Spatial Mapping data.
         /// </summary>
@@ -96,7 +92,6 @@ namespace HoloToolkit.Unity.SpatialMapping
         /// A queue of surfaces that need their meshes created (or updated).
         /// </summary>
         private readonly Queue<SurfaceId> surfaceWorkQueue = new Queue<SurfaceId>();
-#endif
 
         /// <summary>
         /// To prevent too many meshes from being generated at the same time, we will
@@ -188,7 +183,6 @@ namespace HoloToolkit.Unity.SpatialMapping
             ObserverState = ObserverStates.Stopped;
         }
 
-#if UNITY_EDITOR || UNITY_WSA
         /// <summary>
         /// Called once per frame.
         /// </summary>
@@ -266,14 +260,12 @@ namespace HoloToolkit.Unity.SpatialMapping
                 }
             }
         }
-#endif
 
         /// <summary>
         /// Starts the Surface Observer.
         /// </summary>
         public void StartObserving()
         {
-#if UNITY_EDITOR || UNITY_WSA
             if (observer == null)
             {
                 observer = new SurfaceObserver();
@@ -288,7 +280,6 @@ namespace HoloToolkit.Unity.SpatialMapping
                 // We want the first update immediately.
                 updateTime = 0;
             }
-#endif
         }
 
         /// <summary>
@@ -297,7 +288,6 @@ namespace HoloToolkit.Unity.SpatialMapping
         /// <remarks>Sets the Surface Observer state to ObserverStates.Stopped.</remarks>
         public void StopObserving()
         {
-#if UNITY_EDITOR || UNITY_WSA
             if (ObserverState == ObserverStates.Running)
             {
                 Debug.Log("Stopping the observer.");
@@ -306,7 +296,6 @@ namespace HoloToolkit.Unity.SpatialMapping
                 surfaceWorkQueue.Clear();
                 updateTime = 0;
             }
-#endif
         }
 
         /// <summary>
@@ -314,7 +303,6 @@ namespace HoloToolkit.Unity.SpatialMapping
         /// </summary>
         public void CleanupObserver()
         {
-#if UNITY_EDITOR || UNITY_WSA
             StopObserving();
 
             if (observer != null)
@@ -336,7 +324,6 @@ namespace HoloToolkit.Unity.SpatialMapping
             }
 
             Cleanup();
-#endif
         }
 
         /// <summary>
@@ -347,13 +334,11 @@ namespace HoloToolkit.Unity.SpatialMapping
         {
             bool originUpdated = false;
 
-#if UNITY_EDITOR || UNITY_WSA
             if (observer != null)
             {
                 Origin = origin;
                 originUpdated = true;
             }
-#endif
 
             return originUpdated;
         }
@@ -363,7 +348,6 @@ namespace HoloToolkit.Unity.SpatialMapping
         /// </summary>
         private void SwitchObservedVolume()
         {
-#if UNITY_EDITOR || UNITY_WSA
             if (observer == null)
             {
               return;
@@ -384,10 +368,9 @@ namespace HoloToolkit.Unity.SpatialMapping
                     observer.SetVolumeAsAxisAlignedBox(origin, extents);
                     break;
             }
-#endif
+            
         }
 
-#if UNITY_EDITOR || UNITY_WSA
         /// <summary>
         /// Handles the SurfaceObserver's OnDataReady event.
         /// </summary>
@@ -485,14 +468,6 @@ namespace HoloToolkit.Unity.SpatialMapping
                     break;
             }
         }
-        private bool IsMatchingSurface(SurfaceObject surfaceObject, SurfaceData surfaceData)
-        {
-            return (surfaceObject.ID == surfaceData.id.handle)
-                && (surfaceObject.Filter == surfaceData.outputMesh)
-                && (surfaceObject.Collider == surfaceData.outputCollider)
-                ;
-        }
-#endif
 
         /// <summary>
         /// Called when the GameObject is unloaded.
@@ -517,6 +492,14 @@ namespace HoloToolkit.Unity.SpatialMapping
             {
                 CleanUpSurface(availableSurface);
             }
+        }
+
+        private bool IsMatchingSurface(SurfaceObject surfaceObject, SurfaceData surfaceData)
+        {
+            return (surfaceObject.ID == surfaceData.id.handle)
+                && (surfaceObject.Filter == surfaceData.outputMesh)
+                && (surfaceObject.Collider == surfaceData.outputCollider)
+                ;
         }
     }
 }
