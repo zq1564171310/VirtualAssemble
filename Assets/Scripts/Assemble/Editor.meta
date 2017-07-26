@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Prefabs.meta
+guid: b67b29440ecceb24985611f5ddd07db5
+folderAsset: yes
+timeCreated: 1501046712
+licenseType: Pro
+=======
+guid: 746277fc9dd12d44f932450e69470f9e
+folderAsset: yes
+timeCreated: 1501021209
+licenseType: Free
+>>>>>>> 7496ebc396e7e60770d81dc0d14e1d6ddae4e4eb:Assets/Scripts/Assemble/Editor.meta
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
