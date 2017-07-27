@@ -7,8 +7,10 @@
 
 using UnityEngine;
 
-namespace WyzLink.Parts{
-    public class Part : MonoBehaviour {
+namespace WyzLink.Parts
+{
+    public class Part : MonoBehaviour
+    {
         [Header("零件属性")]
         [Tooltip("零件名称")]
         public string partName;
