@@ -12,7 +12,7 @@ namespace WyzLink.Assemble
 {
     public class AssembleController : MonoBehaviour
     {
-        public List<T> GetAllPartObject<T>()
+        public List<T> GetAllNodes<T>()
         {
             var list = new List<T>();
             GetAllPartObject<T>(this.transform, list);
