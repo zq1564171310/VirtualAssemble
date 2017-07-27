@@ -24,9 +24,9 @@ namespace WyzLink.Assemble
                 style.normal.textColor = Color.white;
                 GUI.backgroundColor = Color.blue;
                 // TODO: For now, the file is fixed. We should consider make it a generic file and could be changed
-                if (GUILayout.Button("打开配置窗口", style))
+                if (GUILayout.Button("打开装配工序窗口", style))
                 {
-                    var window = EditorWindow.GetWindow<DependencyWindow>(false, "配置窗口");
+                    var window = EditorWindow.GetWindow<DependencyWindow>(false, "装配工序");
                     window.target = myController;
                     window.Show();
                 }

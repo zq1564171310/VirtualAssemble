@@ -31,13 +31,16 @@ namespace WyzLink.Assemble
             }
 
             GUILayout.BeginHorizontal();
-            foreach (var r in activePartList)
+            if (this.activePartList != null)
             {
-                if (GUILayout.Button(r.partName))
+                foreach (var r in activePartList)
                 {
-                    Selection.activeGameObject = r.gameObject;
+                    if (GUILayout.Button(r.partName))
+                    {
+                        Selection.activeGameObject = r.gameObject;
+                    }
+                    Debug.Log("Got part: " + r.partName);
                 }
-                Debug.Log("Got part: " + r.partName);
             }
         }
     }
