@@ -26,7 +26,7 @@ namespace WyzLink.Assemble
                 // TODO: For now, the file is fixed. We should consider make it a generic file and could be changed
                 if (GUILayout.Button("打开装配工序窗口", style))
                 {
-                    var window = EditorWindow.GetWindow<DependencyWindow>(false, "装配工序");
+                    var window = EditorWindow.GetWindow<InstallationFlowWindow>(false, "装配工序");
                     window.target = myController;
                     window.Show();
                 }

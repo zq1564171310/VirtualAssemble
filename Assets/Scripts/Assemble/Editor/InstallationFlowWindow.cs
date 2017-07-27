@@ -1,18 +1,18 @@
-﻿
-using System.Collections.Generic;
-/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
+﻿/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
 /// <author>xlzou</author>
 /// <summary>
 /// The part represent the part in the assembly line. It contains all the meta data 
 /// about this part, and will be attached to the actual part gameObject
 /// </summary>
-using UnityEditor;
-using UnityEngine;
-using WyzLink.Parts;
 
 namespace WyzLink.Assemble
 {
-    public class DependencyWindow : EditorWindow
+    using System.Collections.Generic;
+    using UnityEditor;
+    using UnityEngine;
+    using WyzLink.Parts;
+
+    public class InstallationFlowWindow : EditorWindow
     {
         string myString = "Hello World";
         bool groupEnabled;

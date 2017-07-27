@@ -7,7 +7,11 @@
 namespace WyzLink.Parts
 {
     using UnityEngine;
+    using Utils;
 
+    /// <summary>
+    /// 节点是每个零件的安装点。包括它的位置，旋转，还包括是哪个零件（零件名称）
+    /// </summary>
     public class Node : MonoBehaviour
     {
         [Header("零件属性")]
@@ -15,8 +19,10 @@ namespace WyzLink.Parts
         public string partName;
         [Tooltip("零件唯一标识")]
         public string partId;
-        [Tooltip("零件唯一标识")]
+
+        [Tooltip("节点唯一标识")]
         public int nodeId;
+
         [Tooltip("注释")]
         public string note;
         [Tooltip("库存编号")]
@@ -32,7 +38,8 @@ namespace WyzLink.Parts
 
         private void Reset()
         {
-            nodeId = Random.Range(0, 10000);
+            // 添加文件的时候或者重置的时候生成新节点标识
+            nodeId = IdCounter.Instance.GetNextId();
         }
     }
 }
