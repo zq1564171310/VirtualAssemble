@@ -21,13 +21,13 @@ namespace WyzLink.Assemble
 
         public AssembleController target;
 
-        List<Part> activePartList;
+        List<Node> activePartList;
 
         void OnGUI()
         {
             if (GUILayout.Button("扫描零件树"))
             {
-                activePartList = target.GetAllPartObject<Part>();
+                activePartList = target.GetAllPartObject<Node>();
             }
 
             GUILayout.BeginHorizontal();

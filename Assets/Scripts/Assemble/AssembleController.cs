@@ -1,13 +1,11 @@
-﻿
-using System;
-using System.Collections.Generic;
-/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
+﻿/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
 /// <author>xlzou</author>
 /// <summary>
 /// The part represent the part in the assembly line. It contains all the meta data 
 /// about this part, and will be attached to the actual part gameObject
 /// </summary>
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace WyzLink.Assemble

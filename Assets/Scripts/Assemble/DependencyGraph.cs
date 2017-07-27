@@ -5,12 +5,19 @@
 /// about this part, and will be attached to the actual part gameObject
 /// </summary>
 
-using UnityEngine;
+namespace WyzLink.Assemble
+{
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
 
-namespace WyzLink.Parts{
-    public class Part : MonoBehaviour {
+    public class DependencyGraph
+    {
+        public DependencyGraph()
+        {
 
+        }
 
-
+        //public bool Is
     }
 }
