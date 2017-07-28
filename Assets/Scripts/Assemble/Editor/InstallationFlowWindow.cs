@@ -7,7 +7,9 @@
 
 namespace WyzLink.Assemble
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEditor;
     using UnityEngine;
     using WyzLink.Parts;
@@ -16,17 +18,19 @@ namespace WyzLink.Assemble
     {
         public AssembleController target;
 
-        List<Node> nodeList;
+        //List<Node> nodeList;
+        IEnumerable<WindowItem> windowList;
 
         Vector2 scrollPosition;
 
         void OnGUI()
         {
+            GUILayout.BeginHorizontal();
             if (GUILayout.Button("扫描零件树", GUILayout.Width(100)))
             {
                 if (this.target != null)
                 {
-                    nodeList = target.GetAllNodes<Node>();
+                    windowList = LoadAllNodes().ToList();
                 }
                 else
                 {
@@ -34,39 +38,52 @@ namespace WyzLink.Assemble
                 }
             }
 
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.ExpandWidth(true), GUILayout.Height(80));
-            GUILayout.BeginHorizontal(EditorStyles.helpBox);
-            if (this.nodeList != null)
+            if (GUILayout.Button("视图刷新", GUILayout.Width(100)))
             {
-                int counter = 0;
-                foreach (var r in nodeList)
-                {
-                    if (GUILayout.Button(r.partName, GUILayout.MaxWidth(80)))
-                    {
-                        Selection.activeGameObject = r.gameObject;
-                    }
-                    counter++;
-                    if (counter % 10 == 0)
-                    {
-                        GUILayout.EndHorizontal();
-                        GUILayout.BeginHorizontal(EditorStyles.helpBox);
-                    }
-                }
+                // TODO: Reset the position of all windows
             }
+
             GUILayout.EndHorizontal();
-            GUILayout.EndScrollView();
 
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Box("This is an sized label");
-            EditorGUILayout.EndHorizontal();
+            scrollPosition = GUI.BeginScrollView(new Rect(0, 20, position.width, position.height - 20), scrollPosition, new Rect(0, 0, 1000, 1000));
+            BeginWindows();
+            if (windowList != null)
+            {
+                int count = 0;
+                foreach (var w in windowList)
+                {
+                    w.Update();
+                    count++;
+                }
+                Debug.Log("Item update count:" + count);
+            }
 
-            GUILayout.BeginArea(new Rect(10, 180, 1000, 700));
-            GUILayout.Button("Some button", GUILayout.Width(100));
-            GUILayout.EndArea();
+            EndWindows();
+            GUI.EndScrollView();
 
-            DrawCurves(new Rect(0, 0, 40, 40), new Rect(300, 300, 50, 50));
+        }
 
-            Handles.DrawLine(new Vector3(300, 0, 0), new Vector3(0, 300, 0));
+        private IEnumerable<WindowItem> LoadAllNodes()
+        {
+            if (target == null)
+            {
+                return Enumerable.Empty<WindowItem>();
+            }
+
+            int index = 0;
+            Vector2 position = new Vector2(10, 10);
+            WindowItem previousWindow = null;
+
+            var nodeList = target.GetAllNodes<Node>();
+            return nodeList.Select((Node node) => {
+                var window = new WindowItem(index, position, node);
+                index++;
+                position.x += 90;
+                window.AddPreviousStep(previousWindow);
+                previousWindow = window;
+                Debug.Log("Idx:" + index);
+                return window;
+            });
         }
 
         private void OnHierarchyChange()
@@ -77,18 +94,8 @@ namespace WyzLink.Assemble
             // TODO: Optimization: We should check the performance on it, and only to add/remove when needed
             if (target != null)
             {
-                this.nodeList = target.GetAllNodes<Node>();
+                this.windowList = LoadAllNodes().ToList();
             }
-        }
-
-        void DrawCurves(Rect wr, Rect wr2)
-        {
-            Color color = new Color(0.4f, 0.4f, 0.5f);
-            var startPos = new Vector3(wr.x + wr.width, wr.y + 3 + wr.height / 2, 0);
-            var endPos = new Vector3(wr2.x, wr2.y + wr2.height / 2, 0);
-            var startTangent = startPos + Vector3.right * 50.0f;
-            var endTangent = endPos - Vector3.left * 50.0f;
-            Handles.DrawBezier(startPos, endPos, startTangent, endTangent, color, null, 5f);
         }
     }
 }
