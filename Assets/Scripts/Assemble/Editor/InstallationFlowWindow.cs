@@ -53,9 +53,28 @@ namespace WyzLink.Assemble
                 //Debug.Log("Item update count:" + count);
             }
             UpdateConnecting();
+            UpdateContextMenu();
 
             EndWindows();
             GUI.EndScrollView();
+        }
+
+        private void UpdateContextMenu()
+        {
+            switch (Event.current.type)
+            {
+                case EventType.ContextClick:
+                    var window = GetCurrentWindow(Event.current.mousePosition, true);
+                    if (window != null)
+                    {
+                        var menu = window.CreateMenu();
+                        if (menu.GetItemCount() > 0)
+                        {
+                            menu.ShowAsContext();
+                        }
+                    }
+                    break;
+            }
         }
 
         private void UpdateTopToolbar()

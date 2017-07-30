@@ -8,6 +8,7 @@ namespace WyzLink.Assemble
 {
     using System;
     using System.Collections.Generic;
+    using UnityEditor;
     using UnityEngine;
     using WyzLink.Parts;
 
@@ -68,6 +69,16 @@ namespace WyzLink.Assemble
             return hitConnectingArea ? this.windowRect.Contains(point) && (windowRect.width - (point.x - windowRect.x) <= connectionAreaMargin) : this.windowRect.Contains(point);
         }
 
+        public GenericMenu CreateMenu()
+        {
+            var menu = new GenericMenu();
+            foreach (var window in this.nextSteps)
+            {
+                menu.AddItem(new GUIContent("Remove " + window.nodeName), false, () => this.RemoveNextSteps(window));
+            }
+            return menu;
+        }
+
         public static void curveFromTo(WindowItem w1, WindowItem w2)
         {
             Color s = new Color(0.4f, 0.4f, 0.5f);
@@ -96,6 +107,15 @@ namespace WyzLink.Assemble
             {
                 this.nextSteps.Add(window);
                 // Don't add back to previous
+            }
+        }
+
+        public void RemoveNextSteps(WindowItem window)
+        {
+            if (this.nextSteps.Contains(window))
+            {
+                this.nextSteps.Remove(window);
+                window.previousSteps.Remove(this);
             }
         }
 
