@@ -6,6 +6,7 @@
 
 namespace WyzLink.Assemble
 {
+    using System;
     using System.Collections.Generic;
     using UnityEngine;
     using WyzLink.Parts;
@@ -21,15 +22,21 @@ namespace WyzLink.Assemble
         private string nodeName;
         private Node node;
 
-        private int windowWidth = 80;
-        private int windowHeight = 37;
-        private int windowMarginLeft = 10;
-        private const int connectionAreaMargin = 10;
+        private const float windowWidth = 80;
+        private const float windowHeight = 37;
+        private const float windowMarginLeft = 10;
+        private const float connectionAreaMargin = 20;
+
+        public const float LayoutGapVertically = 5;
+        public const float LayoutGapHorizontally = 30;
 
         private Color s = new Color(0.4f, 0.4f, 0.5f);
-        private Rect labelRect = new Rect(3, 16, 60, 20);
-        private Rect buttonRect = new Rect(80 - 12, 15, 12, 21);
+        private Rect labelRect = new Rect(3, 18, 60, 20);
+        private Rect buttonRect = new Rect(80 - 15, 17, 12, 21);
         private Rect dragRect = new Rect(0, 0, 80 - connectionAreaMargin, 37);
+
+        // Layout properties
+        private float childHeight;
 
         public enum UIState
         {
@@ -92,11 +99,45 @@ namespace WyzLink.Assemble
             }
         }
 
+        internal List<WindowItem> GetNextSteps()
+        {
+            return this.nextSteps;
+        }
+
         private void windowFunction(int id)
         {
             GUI.Label(labelRect, this.nodeName);
             GUI.Label(buttonRect, ">");
             GUI.DragWindow(dragRect);
+        }
+
+        public int GetWindowWidth()
+        {
+            return (int)this.windowRect.width;
+        }
+
+        public void MoveTo(Vector2 point)
+        {
+            this.windowRect.position = point;
+        }
+
+        public float CalculateChildrenHeight()
+        {
+            this.childHeight = 0;
+            foreach (var w in this.nextSteps)
+            {
+                this.childHeight += w.CalculateChildrenHeight();
+            }
+            if (childHeight == 0)
+            {
+                childHeight = windowHeight + LayoutGapVertically;
+            }
+            return this.childHeight;
+        }
+
+        public float GetChildrenHeight()
+        {
+            return this.childHeight;
         }
     }
 }

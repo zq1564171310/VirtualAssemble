@@ -18,8 +18,7 @@ namespace WyzLink.Assemble
     {
         public AssembleController target;
 
-        //List<Node> nodeList;
-        IEnumerable<WindowItem> windowList;
+        IList<WindowItem> windowList;
 
         Vector2 scrollPosition;
 
@@ -34,13 +33,14 @@ namespace WyzLink.Assemble
         private WindowItem dragEndWindow;
         private Vector2 draggingPos;
 
-        private int WindowMarginTop = 20;
+        private int PanelMarginTop = 20;
+
 
         void OnGUI()
         {
             UpdateTopToolbar();
 
-            scrollPosition = GUI.BeginScrollView(new Rect(0, WindowMarginTop, position.width, position.height - WindowMarginTop), scrollPosition, new Rect(0, 0, 1000, 1000));
+            scrollPosition = GUI.BeginScrollView(new Rect(0, PanelMarginTop, position.width, position.height - PanelMarginTop), scrollPosition, new Rect(0, 0, 3000, 1000));
             BeginWindows();
             if (windowList != null)
             {
@@ -75,9 +75,46 @@ namespace WyzLink.Assemble
 
             if (GUILayout.Button("视图刷新", GUILayout.Width(100)))
             {
-                // TODO: Reset the position of all windows
+                if (windowList != null && windowList.Count() > 1)
+                {
+                    LayoutWindowItems(windowList[0]);
+                }
             }
             GUILayout.EndHorizontal();
+        }
+
+        private void LayoutWindowItems(WindowItem firstWindow)
+        {
+            Vector2 point = Vector2.one * 20;
+            firstWindow.CalculateChildrenHeight();
+
+            var list = new List<WindowItem>();
+            list.Add(firstWindow);
+            LayoutWindowLayer(list, point);
+        }
+
+        private void LayoutWindowLayer(List<WindowItem> list, Vector2 point)
+        {
+            if (list.Count() == 0)
+            {
+                return;
+            }
+
+            List<WindowItem> nextList = new List<WindowItem>();
+            int maxWidth = 0;
+            foreach (var item in list)
+            {
+                item.MoveTo(point);
+                nextList.AddRange(item.GetNextSteps());
+                point.y += item.GetChildrenHeight();
+                maxWidth = Math.Max(maxWidth, item.GetWindowWidth());
+            }
+            LayoutWindowLayer(nextList, NextRow(point, maxWidth));
+        }
+
+        private Vector2 NextRow(Vector2 point, int maxWidth)
+        {
+            return new Vector2(point.x + maxWidth + WindowItem.LayoutGapHorizontally, 20);
         }
 
         private void UpdateConnecting()
@@ -89,6 +126,7 @@ namespace WyzLink.Assemble
                     if (this.dragStartWindow != null)
                     {
                         this.uiState = UIState.connectingState;
+                        this.draggingPos = Event.current.mousePosition;
                     }
                     break;
                 case EventType.mouseDrag:
@@ -110,7 +148,7 @@ namespace WyzLink.Assemble
                 case EventType.repaint:
                     if (this.uiState == UIState.connectingState)
                     {
-                        if (this.dragEndWindow != null)
+                        if (this.dragEndWindow != null && this.dragEndWindow != this.dragStartWindow)
                         {
                             WindowItem.curveFromTo(this.dragStartWindow, this.dragEndWindow);
                         }
@@ -149,7 +187,7 @@ namespace WyzLink.Assemble
             }
 
             int index = 0;
-            Vector2 position = new Vector2(10, 10);
+            Vector2 position = new Vector2(20, 20);
             WindowItem previousWindow = null;
 
             var nodeList = target.GetAllNodes<Node>();
@@ -157,7 +195,7 @@ namespace WyzLink.Assemble
                 var window = new WindowItem(index, position, node);
                 index++;
                 position.x += 90;
-                window.AddPreviousStep(previousWindow);
+                //window.AddPreviousStep(previousWindow);
                 previousWindow = window;
                 Debug.Log("Idx:" + index);
                 return window;
