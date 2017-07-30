@@ -55,6 +55,11 @@ namespace WyzLink.Assemble
             this.nodeName = node.partName;
         }
 
+        public int GetNodeId()
+        {
+            return this.nodeId;
+        }
+
         public void Update()
         {
             this.windowRect = GUI.Window(this.id, this.windowRect, windowFunction, nodeId.ToString());

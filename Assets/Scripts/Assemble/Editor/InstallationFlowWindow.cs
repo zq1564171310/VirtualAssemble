@@ -9,7 +9,9 @@ namespace WyzLink.Assemble
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Text;
     using UnityEditor;
     using UnityEngine;
     using WyzLink.Parts;
@@ -35,6 +37,7 @@ namespace WyzLink.Assemble
 
         private int PanelMarginTop = 20;
 
+        private string defaultFileName = "AssembleFlow.txt";
 
         void OnGUI()
         {
@@ -97,6 +100,14 @@ namespace WyzLink.Assemble
                 if (windowList != null && windowList.Count() > 1)
                 {
                     LayoutWindowItems(windowList[0]);
+                }
+            }
+
+            if (GUILayout.Button("保存", GUILayout.Width(100)))
+            {
+                if (windowList != null)
+                {
+                    SaveToAsset(defaultFileName);
                 }
             }
             GUILayout.EndHorizontal();
@@ -196,6 +207,52 @@ namespace WyzLink.Assemble
                 }
             }
             return windowHit;
+        }
+
+        private void OnEnable()
+        {
+            LoadAssembleFlowFromFile(defaultFileName);
+        }
+
+        private void LoadAssembleFlowFromFile(string fileName)
+        {
+            var textAsset = Resources.Load<TextAsset>(fileName);
+            if (textAsset == null)
+            {
+                if (!AssetDatabase.IsValidFolder("Assets/Resources"))
+                {
+                    AssetDatabase.CreateFolder("Assets", "Resources");
+                }
+                File.WriteAllText(Application.dataPath + "/Resources/" + fileName, "# assemble flow created\n");
+                AssetDatabase.Refresh();
+                textAsset = Resources.Load<TextAsset>(fileName);
+            }
+
+            if (target != null)
+            {
+                this.windowList = ParseAssembleFlow(textAsset.text, target.GetAllNodes<Node>());
+            }
+        }
+
+        private IList<WindowItem> ParseAssembleFlow(string text, IEnumerable<Node> nodes)
+        {
+            Debug.Log("Parsing: " + text);
+            return LoadAllNodes().ToList();
+        }
+
+        private void SaveToAsset(string fileName)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("# File updated");
+            foreach (var w in windowList)
+            {
+                foreach (var next in w.GetNextSteps())
+                {
+                    sb.Append(w.GetNodeId()).Append("->").Append(next.GetNodeId()).AppendLine();
+                }
+            }
+            Debug.Log("Saved file in");
+            File.WriteAllText(Application.dataPath + "/Resources/" + fileName, sb.ToString());
         }
 
         private IEnumerable<WindowItem> LoadAllNodes()
