@@ -27,8 +27,8 @@ namespace WyzLink.Assemble
                 if (GUILayout.Button("打开装配工序窗口", style))
                 {
                     var window = EditorWindow.GetWindow<InstallationFlowWindow>(false, "装配工序");
-                    window.target = myController;
-                    window.Show();
+                    window.LoadContent(myController);
+                    //window.Show();
                 }
             }
         }

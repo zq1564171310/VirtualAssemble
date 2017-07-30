@@ -209,15 +209,28 @@ namespace WyzLink.Assemble
             return windowHit;
         }
 
-        private void OnEnable()
+        internal void LoadContent(AssembleController myController)
         {
+            this.target = myController;
             LoadAssembleFlowFromFile(defaultFileName);
         }
 
         private void LoadAssembleFlowFromFile(string fileName)
         {
-            var textAsset = Resources.Load<TextAsset>(fileName);
-            if (textAsset == null)
+            string text = null;
+            try
+            {
+                text = File.ReadAllText(Application.dataPath + "/Resources/" + fileName);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                // Leave the text as null
+            }
+            catch (FileNotFoundException)
+            {
+                // Leave the text as null
+            }
+            if (text == null)
             {
                 if (!AssetDatabase.IsValidFolder("Assets/Resources"))
                 {
@@ -225,12 +238,14 @@ namespace WyzLink.Assemble
                 }
                 File.WriteAllText(Application.dataPath + "/Resources/" + fileName, "# assemble flow created\n");
                 AssetDatabase.Refresh();
-                textAsset = Resources.Load<TextAsset>(fileName);
+                text = "";
             }
 
+            Debug.Log("The target is " + target);
             if (target != null)
             {
-                this.windowList = ParseAssembleFlow(textAsset.text, target.GetAllNodes<Node>());
+                this.windowList = ParseAssembleFlow(text, target.GetAllNodes<Node>());
+                //Repaint();
             }
         }
 
