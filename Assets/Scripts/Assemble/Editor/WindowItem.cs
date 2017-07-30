@@ -12,7 +12,6 @@ namespace WyzLink.Assemble
 
     public class WindowItem
     {
-
         private Rect windowRect;
         private int id;
         private List<WindowItem> previousSteps = new List<WindowItem>();
@@ -25,9 +24,20 @@ namespace WyzLink.Assemble
         private int windowWidth = 80;
         private int windowHeight = 37;
         private int windowMarginLeft = 10;
+        private const int connectionAreaMargin = 10;
 
         private Color s = new Color(0.4f, 0.4f, 0.5f);
-        private Rect labelRect = new Rect(3, 15, 60, 20);
+        private Rect labelRect = new Rect(3, 16, 60, 20);
+        private Rect buttonRect = new Rect(80 - 12, 15, 12, 21);
+        private Rect dragRect = new Rect(0, 0, 80 - connectionAreaMargin, 37);
+
+        public enum UIState
+        {
+            normalState,
+            connectingState,
+        };
+
+        public UIState uiState = UIState.normalState;
 
         public WindowItem(int id, Vector2 position, Node node)
         {
@@ -46,29 +56,26 @@ namespace WyzLink.Assemble
             }
         }
 
+        public bool HitTest(Vector2 point, bool hitConnectingArea)
+        {
+            return hitConnectingArea ? this.windowRect.Contains(point) && (windowRect.width - (point.x - windowRect.x) <= connectionAreaMargin) : this.windowRect.Contains(point);
+        }
+
         public static void curveFromTo(WindowItem w1, WindowItem w2)
         {
             Color s = new Color(0.4f, 0.4f, 0.5f);
-            curveFromTo(w1.windowRect, w2.windowRect, new Color(0.3f, 0.7f, 0.4f), s);
+            Drawing.curveFromTo(w1.windowRect, w2.windowRect, new Color(0.3f, 0.7f, 0.4f), s);
         }
 
-        public static void curveFromTo(Rect wr, Rect wr2, Color color, Color shadow)
+        public static void curveFromTo(WindowItem w1, Vector2 point)
         {
-            Drawing.DrawBezierLine(
-                new Vector2(wr.x + wr.width, wr.y + 3 + wr.height / 2),
-                new Vector2(wr.x + wr.width + Mathf.Abs(wr2.x - (wr.x + wr.width)) / 2, wr.y + 3 + wr.height / 2),
-                new Vector2(wr2.x, wr2.y + 3 + wr2.height / 2),
-                new Vector2(wr2.x - Mathf.Abs(wr2.x - (wr.x + wr.width)) / 2, wr2.y + 3 + wr2.height / 2), shadow, 5, true, 20);
-            Drawing.DrawBezierLine(
-                new Vector2(wr.x + wr.width, wr.y + wr.height / 2),
-                new Vector2(wr.x + wr.width + Mathf.Abs(wr2.x - (wr.x + wr.width)) / 2, wr.y + wr.height / 2),
-                new Vector2(wr2.x, wr2.y + wr2.height / 2),
-                new Vector2(wr2.x - Mathf.Abs(wr2.x - (wr.x + wr.width)) / 2, wr2.y + wr2.height / 2), color, 2, true, 20);
+            Color s = new Color(0.4f, 0.4f, 0.5f);
+            Drawing.curveFromTo(w1.windowRect, new Rect(point, Vector2.zero), new Color(0.3f, 0.7f, 0.4f), s);
         }
 
         public void AddPreviousStep(WindowItem window)
         {
-            if (window != null)
+            if (window != null && !this.previousSteps.Contains(window))
             {
                 this.previousSteps.Add(window);
                 window.AddNextStep(this);
@@ -88,7 +95,8 @@ namespace WyzLink.Assemble
         private void windowFunction(int id)
         {
             GUI.Label(labelRect, this.nodeName);
-            GUI.DragWindow();
+            GUI.Label(buttonRect, ">");
+            GUI.DragWindow(dragRect);
         }
     }
 }
