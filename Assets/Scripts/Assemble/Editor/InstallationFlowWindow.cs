@@ -244,15 +244,75 @@ namespace WyzLink.Assemble
             Debug.Log("The target is " + target);
             if (target != null)
             {
-                this.windowList = ParseAssembleFlow(text, target.GetAllNodes<Node>());
-                //Repaint();
+                this.windowList = ParseAssembleFlow(text, LoadAllNodesToDictionary(target));
+                if (this.windowList != null && this.windowList.Count() > 0)
+                {
+                    LayoutWindowItems(this.windowList[0]);
+                }
             }
         }
 
-        private IList<WindowItem> ParseAssembleFlow(string text, IEnumerable<Node> nodes)
+        private IList<WindowItem> ParseAssembleFlow(string text, IDictionary<int, WindowItem> nodeDictionary)
         {
             Debug.Log("Parsing: " + text);
-            return LoadAllNodes().ToList();
+
+            ParseAssembleFlowFile(text, (int step0, int step1) => {
+                WindowItem w0;
+                WindowItem w1;
+                if (nodeDictionary.TryGetValue(step0, out w0) && nodeDictionary.TryGetValue(step1, out w1))
+                {
+                    w1.AddPreviousStep(w0);
+                    Debug.Log("Connected flow:" + w0.GetNodeId() + "->" + w1.GetNodeId());
+                }
+                else
+                {
+                    Debug.LogError("Failed to create flow nodes of " + step0 + "->" + step1);
+                }
+            });
+
+            return nodeDictionary.Values.ToList();
+        }
+
+        private void ParseAssembleFlowFile(string text, Action<int, int> action)
+        {
+            var sr = new StringReader(text);
+            int lineNumber = 0;
+            while (true)
+            {
+                var line = sr.ReadLine();
+                if (line == null)
+                {
+                    break;
+                }
+
+                line.Trim();
+                if (line.StartsWith("#"))
+                {
+                    // Comment, ignore
+                }
+                else
+                {
+                    var index = line.IndexOf("->");
+                    if (index == -1)
+                    {
+                        Debug.LogError("The text parsing failed on line: " + line + "@" + lineNumber);
+                    }
+                    var t0 = line.Substring(0, index);
+                    var t1 = line.Substring(index + 2, line.Length - index - 2);
+                    Debug.Log("Parse result:" + t0 + ":" + t1);
+                    int a0;
+                    int a1;
+                    if (Int32.TryParse(t0, out a0) && Int32.TryParse(t1, out a1))
+                    {
+                        action(a0, a1);
+                    }
+                    else
+                    {
+                        Debug.LogError("Failed to parse the format of line: " + line + "@" + lineNumber);
+                    }
+                }
+                lineNumber++;
+            }
         }
 
         private void SaveToAsset(string fileName)
@@ -291,6 +351,28 @@ namespace WyzLink.Assemble
                 Debug.Log("Idx:" + index);
                 return window;
             });
+        }
+
+        private IDictionary<int, WindowItem> LoadAllNodesToDictionary(AssembleController target)
+        {
+            var dictionary = new Dictionary<int, WindowItem>();
+            if (target == null)
+            {
+                return dictionary;
+            }
+
+            int index = 0;
+            Vector2 position = new Vector2(20, 20);
+
+            var nodeList = target.GetAllNodes<Node>();
+            foreach (var node in nodeList)
+            {
+                var window = new WindowItem(index, position, node);
+                index++;
+                position.x += 90;
+                dictionary.Add(window.GetNodeId(), window);
+            }
+            return dictionary;
         }
 
         private void OnHierarchyChange()
