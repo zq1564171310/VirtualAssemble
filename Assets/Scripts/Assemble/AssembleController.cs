@@ -5,11 +5,11 @@
 /// about this part, and will be attached to the actual part gameObject
 /// </summary>
 
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace WyzLink.Assemble
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+
     public class AssembleController : MonoBehaviour
     {
         public List<T> GetAllNodes<T>()

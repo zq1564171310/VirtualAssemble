@@ -7,22 +7,16 @@
 
 namespace WyzLink.Assemble
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Text;
     using UnityEditor;
     using UnityEngine;
-    using WyzLink.Parts;
 
     public class InstallationFlowWindow : EditorWindow
     {
         public AssembleController target;
 
-        IList<WindowItem> windowList;
+        private WindowManager windowManager;
 
-        Vector2 scrollPosition;
+        private Vector2 scrollPosition;
 
         public enum UIState
         {
@@ -37,18 +31,16 @@ namespace WyzLink.Assemble
 
         private int PanelMarginTop = 20;
 
-        private string defaultFileName = "AssembleFlow.txt";
-
         void OnGUI()
         {
             UpdateTopToolbar();
 
             scrollPosition = GUI.BeginScrollView(new Rect(0, PanelMarginTop, position.width, position.height - PanelMarginTop), scrollPosition, new Rect(0, 0, 3000, 1000));
             BeginWindows();
-            if (windowList != null)
+            if (windowManager != null)
             {
                 int count = 0;
-                foreach (var w in windowList)
+                foreach (var w in windowManager.GetWindowList())
                 {
                     w.Update();
                     count++;
@@ -67,7 +59,7 @@ namespace WyzLink.Assemble
             switch (Event.current.type)
             {
                 case EventType.ContextClick:
-                    var window = GetCurrentWindow(Event.current.mousePosition, true);
+                    var window = this.windowManager.GetCurrentWindow(Event.current.mousePosition, true);
                     if (window != null)
                     {
                         var menu = window.CreateMenu();
@@ -87,7 +79,7 @@ namespace WyzLink.Assemble
             {
                 if (this.target != null)
                 {
-                    windowList = LoadAllNodes().ToList();
+                    windowManager.LoadWindows(target);
                 }
                 else
                 {
@@ -97,54 +89,14 @@ namespace WyzLink.Assemble
 
             if (GUILayout.Button("视图刷新", GUILayout.Width(100)))
             {
-                if (windowList != null && windowList.Count() > 1)
-                {
-                    LayoutWindowItems(windowList[0]);
-                }
+                windowManager.RefreshLayout();
             }
 
             if (GUILayout.Button("保存", GUILayout.Width(100)))
             {
-                if (windowList != null)
-                {
-                    SaveToAsset(defaultFileName);
-                }
+                windowManager.SaveToAsset();
             }
             GUILayout.EndHorizontal();
-        }
-
-        private void LayoutWindowItems(WindowItem firstWindow)
-        {
-            Vector2 point = Vector2.one * 20;
-            firstWindow.CalculateChildrenHeight();
-
-            var list = new List<WindowItem>();
-            list.Add(firstWindow);
-            LayoutWindowLayer(list, point);
-        }
-
-        private void LayoutWindowLayer(List<WindowItem> list, Vector2 point)
-        {
-            if (list.Count() == 0)
-            {
-                return;
-            }
-
-            List<WindowItem> nextList = new List<WindowItem>();
-            int maxWidth = 0;
-            foreach (var item in list)
-            {
-                item.MoveTo(point);
-                nextList.AddRange(item.GetNextSteps());
-                point.y += item.GetChildrenHeight();
-                maxWidth = Math.Max(maxWidth, item.GetWindowWidth());
-            }
-            LayoutWindowLayer(nextList, NextRow(point, maxWidth));
-        }
-
-        private Vector2 NextRow(Vector2 point, int maxWidth)
-        {
-            return new Vector2(point.x + maxWidth + WindowItem.LayoutGapHorizontally, 20);
         }
 
         private void UpdateConnecting()
@@ -152,7 +104,7 @@ namespace WyzLink.Assemble
             switch (Event.current.type)
             {
                 case EventType.mouseDown:
-                    this.dragStartWindow = GetCurrentWindow(Event.current.mousePosition, true);
+                    this.dragStartWindow = this.windowManager.GetCurrentWindow(Event.current.mousePosition, true);
                     if (this.dragStartWindow != null)
                     {
                         this.uiState = UIState.connectingState;
@@ -161,7 +113,7 @@ namespace WyzLink.Assemble
                     break;
                 case EventType.mouseDrag:
                     this.draggingPos = Event.current.mousePosition;
-                    this.dragEndWindow = GetCurrentWindow(Event.current.mousePosition, false);
+                    this.dragEndWindow = this.windowManager.GetCurrentWindow(Event.current.mousePosition, false);
                     Repaint();
                     break;
                 case EventType.mouseUp:
@@ -169,6 +121,7 @@ namespace WyzLink.Assemble
                     {
                         // Connect the two nodes
                         this.dragEndWindow.AddPreviousStep(this.dragStartWindow);
+                        this.windowManager.SetDirty();
                     }
                     this.uiState = UIState.normalState;
                     this.dragStartWindow = null;
@@ -191,188 +144,11 @@ namespace WyzLink.Assemble
             }
         }
 
-        private WindowItem GetCurrentWindow(Vector2 mousePosition, bool connectionAreaOnly)
-        {
-            var position = mousePosition;
-            WindowItem windowHit = null;
-            if (windowList != null)
-            {
-                foreach (var w in windowList)
-                {
-                    if (w.HitTest(position, connectionAreaOnly))
-                    {
-                        windowHit = w;
-                        break;
-                    }
-                }
-            }
-            return windowHit;
-        }
-
-        internal void LoadContent(AssembleController myController)
+        public void LoadContent(AssembleController myController)
         {
             this.target = myController;
-            LoadAssembleFlowFromFile(defaultFileName);
-        }
-
-        private void LoadAssembleFlowFromFile(string fileName)
-        {
-            string text = null;
-            try
-            {
-                text = File.ReadAllText(Application.dataPath + "/Resources/" + fileName);
-            }
-            catch (DirectoryNotFoundException)
-            {
-                // Leave the text as null
-            }
-            catch (FileNotFoundException)
-            {
-                // Leave the text as null
-            }
-            if (text == null)
-            {
-                if (!AssetDatabase.IsValidFolder("Assets/Resources"))
-                {
-                    AssetDatabase.CreateFolder("Assets", "Resources");
-                }
-                File.WriteAllText(Application.dataPath + "/Resources/" + fileName, "# assemble flow created\n");
-                AssetDatabase.Refresh();
-                text = "";
-            }
-
-            Debug.Log("The target is " + target);
-            if (target != null)
-            {
-                this.windowList = ParseAssembleFlow(text, LoadAllNodesToDictionary(target));
-                if (this.windowList != null && this.windowList.Count() > 0)
-                {
-                    LayoutWindowItems(this.windowList[0]);
-                }
-            }
-        }
-
-        private IList<WindowItem> ParseAssembleFlow(string text, IDictionary<int, WindowItem> nodeDictionary)
-        {
-            Debug.Log("Parsing: " + text);
-
-            ParseAssembleFlowFile(text, (int step0, int step1) => {
-                WindowItem w0;
-                WindowItem w1;
-                if (nodeDictionary.TryGetValue(step0, out w0) && nodeDictionary.TryGetValue(step1, out w1))
-                {
-                    w1.AddPreviousStep(w0);
-                    Debug.Log("Connected flow:" + w0.GetNodeId() + "->" + w1.GetNodeId());
-                }
-                else
-                {
-                    Debug.LogError("Failed to create flow nodes of " + step0 + "->" + step1);
-                }
-            });
-
-            return nodeDictionary.Values.ToList();
-        }
-
-        private void ParseAssembleFlowFile(string text, Action<int, int> action)
-        {
-            var sr = new StringReader(text);
-            int lineNumber = 0;
-            while (true)
-            {
-                var line = sr.ReadLine();
-                if (line == null)
-                {
-                    break;
-                }
-
-                line.Trim();
-                if (line.StartsWith("#"))
-                {
-                    // Comment, ignore
-                }
-                else
-                {
-                    var index = line.IndexOf("->");
-                    if (index == -1)
-                    {
-                        Debug.LogError("The text parsing failed on line: " + line + "@" + lineNumber);
-                    }
-                    var t0 = line.Substring(0, index);
-                    var t1 = line.Substring(index + 2, line.Length - index - 2);
-                    Debug.Log("Parse result:" + t0 + ":" + t1);
-                    int a0;
-                    int a1;
-                    if (Int32.TryParse(t0, out a0) && Int32.TryParse(t1, out a1))
-                    {
-                        action(a0, a1);
-                    }
-                    else
-                    {
-                        Debug.LogError("Failed to parse the format of line: " + line + "@" + lineNumber);
-                    }
-                }
-                lineNumber++;
-            }
-        }
-
-        private void SaveToAsset(string fileName)
-        {
-            var sb = new StringBuilder();
-            sb.AppendLine("# File updated");
-            foreach (var w in windowList)
-            {
-                foreach (var next in w.GetNextSteps())
-                {
-                    sb.Append(w.GetNodeId()).Append("->").Append(next.GetNodeId()).AppendLine();
-                }
-            }
-            Debug.Log("Saved file in");
-            File.WriteAllText(Application.dataPath + "/Resources/" + fileName, sb.ToString());
-        }
-
-        private IEnumerable<WindowItem> LoadAllNodes()
-        {
-            if (target == null)
-            {
-                return Enumerable.Empty<WindowItem>();
-            }
-
-            int index = 0;
-            Vector2 position = new Vector2(20, 20);
-            WindowItem previousWindow = null;
-
-            var nodeList = target.GetAllNodes<Node>();
-            return nodeList.Select((Node node) => {
-                var window = new WindowItem(index, position, node);
-                index++;
-                position.x += 90;
-                //window.AddPreviousStep(previousWindow);
-                previousWindow = window;
-                Debug.Log("Idx:" + index);
-                return window;
-            });
-        }
-
-        private IDictionary<int, WindowItem> LoadAllNodesToDictionary(AssembleController target)
-        {
-            var dictionary = new Dictionary<int, WindowItem>();
-            if (target == null)
-            {
-                return dictionary;
-            }
-
-            int index = 0;
-            Vector2 position = new Vector2(20, 20);
-
-            var nodeList = target.GetAllNodes<Node>();
-            foreach (var node in nodeList)
-            {
-                var window = new WindowItem(index, position, node);
-                index++;
-                position.x += 90;
-                dictionary.Add(window.GetNodeId(), window);
-            }
-            return dictionary;
+            this.windowManager = new WindowManager();
+            windowManager.LoadWindows(myController);
         }
 
         private void OnHierarchyChange()
@@ -383,7 +159,16 @@ namespace WyzLink.Assemble
             // TODO: Optimization: We should check the performance on it, and only to add/remove when needed
             if (target != null)
             {
-                this.windowList = LoadAllNodes().ToList();
+                windowManager.LoadWindows(target);
+            }
+        }
+
+        private void OnProjectChange()
+        {
+            Debug.Log("Update from Project notification");
+            if (target != null)
+            {
+                //windowManager.LoadWindows(target);
             }
         }
     }

@@ -129,6 +129,16 @@ namespace WyzLink.Assemble
             return this.nextSteps;
         }
 
+        internal bool HasNextSteps()
+        {
+            return this.nextSteps.Count > 0;
+        }
+
+        internal bool HasPreviousSteps()
+        {
+            return this.previousSteps.Count > 0;
+        }
+
         private void windowFunction(int id)
         {
             GUI.Label(labelRect, this.nodeName);
@@ -163,6 +173,11 @@ namespace WyzLink.Assemble
         public float GetChildrenHeight()
         {
             return this.childHeight;
+        }
+
+        internal Rect GetWindowRect()
+        {
+            return this.windowRect;
         }
     }
 }
