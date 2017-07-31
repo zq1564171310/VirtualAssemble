@@ -13,6 +13,7 @@ namespace WyzLink.Assemble
     using System.Text;
     using System.IO;
     using UnityEditor;
+    using Utils;
 
     public class WindowManager
     {
