@@ -31,7 +31,6 @@ namespace WyzLink.Assemble
         public const float LayoutGapVertically = 5;
         public const float LayoutGapHorizontally = 30;
 
-        private Color s = new Color(0.4f, 0.4f, 0.5f);
         private Rect labelRect = new Rect(3, 18, 60, 20);
         private Rect buttonRect = new Rect(80 - 15, 17, 12, 21);
         private Rect dragRect = new Rect(0, 0, 80 - connectionAreaMargin, 37);
@@ -55,6 +54,7 @@ namespace WyzLink.Assemble
             this.windowRect = new Rect(position, new Vector2(windowWidth, windowHeight));
             this.nodeId = node.nodeId;
             this.nodeName = node.partName;
+            this.node = node;
         }
 
         public int GetNodeId()
@@ -76,12 +76,16 @@ namespace WyzLink.Assemble
             return hitConnectingArea ? this.windowRect.Contains(point) && (windowRect.width - (point.x - windowRect.x) <= connectionAreaMargin) : this.windowRect.Contains(point);
         }
 
-        public GenericMenu CreateMenu()
+        public GenericMenu CreateMenu(WindowManager windowManager)
         {
             var menu = new GenericMenu();
             foreach (var window in this.nextSteps)
             {
-                menu.AddItem(new GUIContent("Remove " + window.nodeName), false, () => this.RemoveNextSteps(window));
+                menu.AddItem(new GUIContent("Remove " + window.nodeName), false, 
+                    () => {
+                        this.RemoveNextSteps(window);
+                        windowManager.SetDirty();
+                    });
             }
             return menu;
         }
@@ -161,6 +165,26 @@ namespace WyzLink.Assemble
         internal Rect GetWindowRect()
         {
             return this.windowRect;
+        }
+
+        //
+        // Game object related
+        //
+        internal void ShowObject(bool display)
+        {
+            if (this.node != null)
+            {
+                this.node.gameObject.SetActive(display);
+            }
+        }
+
+        public void SelectAndFrameObject()
+        {
+            if (this.node != null)
+            {
+                Selection.activeGameObject = this.node.gameObject;
+                SceneView.FrameLastActiveSceneView();
+            }
         }
     }
 }

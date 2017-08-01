@@ -29,9 +29,24 @@ namespace WyzLink.Assemble
         private WindowItem dragEndWindow;
         private Vector2 draggingPos;
 
+        //
+        // Display options
+        //
+        private bool displayLinked = true;
+        private bool displayUnlinked = true;
+
         private int PanelMarginTop = 20;
 
         private Vector2 panelSize = new Vector2(3000, 1000);
+
+        private void OnEnable()
+        {
+            if (windowManager == null)
+            {
+                windowManager = new WindowManager();
+            }
+            this.panelSize = windowManager.LoadWindows(target).size;
+        }
 
         void OnGUI()
         {
@@ -41,15 +56,9 @@ namespace WyzLink.Assemble
             BeginWindows();
             if (windowManager != null)
             {
-                int count = 0;
-                foreach (var w in windowManager.GetWindowList())
-                {
-                    w.Update();
-                    count++;
-                }
+                windowManager.UpdateWindows();
                 UpdateConnecting();
                 UpdateContextMenu();
-                //Debug.Log("Item update count:" + count);
             }
             EndWindows();
             GUI.EndScrollView();
@@ -63,7 +72,7 @@ namespace WyzLink.Assemble
                     var window = this.windowManager.GetCurrentWindow(Event.current.mousePosition, true);
                     if (window != null)
                     {
-                        var menu = window.CreateMenu();
+                        var menu = window.CreateMenu(this.windowManager);
                         if (menu.GetItemCount() > 0)
                         {
                             menu.ShowAsContext();
@@ -101,6 +110,13 @@ namespace WyzLink.Assemble
             {
                 windowManager.SaveToAsset();
             }
+
+            GUILayout.FlexibleSpace();
+
+            displayLinked = GUILayout.Toggle(displayLinked, "显示流程对象", GUILayout.Width(100));
+            displayUnlinked = GUILayout.Toggle(displayUnlinked, "显示非流程对象", GUILayout.Width(100));
+            windowManager.SetObjectVisibilities(displayLinked, displayUnlinked);
+
             GUILayout.EndHorizontal();
         }
 
@@ -109,11 +125,22 @@ namespace WyzLink.Assemble
             switch (Event.current.type)
             {
                 case EventType.mouseDown:
-                    this.dragStartWindow = this.windowManager.GetCurrentWindow(Event.current.mousePosition, true);
-                    if (this.dragStartWindow != null)
+                    if (Event.current.isMouse && Event.current.clickCount == 1)
                     {
-                        this.uiState = UIState.connectingState;
-                        this.draggingPos = Event.current.mousePosition;
+                        this.dragStartWindow = this.windowManager.GetCurrentWindow(Event.current.mousePosition, true);
+                        if (this.dragStartWindow != null)
+                        {
+                            this.uiState = UIState.connectingState;
+                            this.draggingPos = Event.current.mousePosition;
+                        }
+                    }
+                    else if (Event.current.isMouse && Event.current.clickCount == 2)
+                    {
+                        var window = this.windowManager.GetCurrentWindow(Event.current.mousePosition, true);
+                        if (window != null)
+                        {
+                            window.SelectAndFrameObject();
+                        }
                     }
                     break;
                 case EventType.mouseDrag:
@@ -164,7 +191,8 @@ namespace WyzLink.Assemble
             // TODO: Optimization: We should check the performance on it, and only to add/remove when needed
             if (target != null)
             {
-                this.panelSize = windowManager.LoadWindows(target).size;
+                //this.panelSize = windowManager.LoadWindows(target).size;
+                // windowManager.UpdateFromHierarchy();
             }
         }
 

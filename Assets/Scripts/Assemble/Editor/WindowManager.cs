@@ -18,7 +18,7 @@ namespace WyzLink.Assemble
     public class WindowManager
     {
         private IDictionary<int, WindowItem> windowList;
-        private IList<WindowItem> heads;
+        private IList<WindowItem> headers;
         private IList<WindowItem> standalones;
         private const string defaultFileName = "AssembleFlow.txt";      // TODO: Will change this to a new file format later
 
@@ -26,14 +26,12 @@ namespace WyzLink.Assemble
         private bool isDirty = true;
         private int layoutToken = 0;
 
+        private bool displayLinkedObjects = true;     // Display objects by default
+        private bool displayUnlinkedObjects = true;     // Display objects by default
+
         public WindowManager()
         {
             this.windowList = new Dictionary<int, WindowItem>();
-        }
-
-        public IEnumerable<WindowItem> GetWindowList()
-        {
-            return windowList.Values;
         }
 
         public int Count()
@@ -56,6 +54,14 @@ namespace WyzLink.Assemble
                 this.isDirty = false;
             }
             return LayoutWindows();
+        }
+
+        internal void UpdateWindows()
+        {
+            foreach (var window in windowList.Values)
+            {
+                window.Update();
+            }
         }
 
         public Rect RefreshLayout()
@@ -87,7 +93,7 @@ namespace WyzLink.Assemble
 
         private void PrepareList(IDictionary<int, WindowItem> windowList)
         {
-            this.heads = new List<WindowItem>();
+            this.headers = new List<WindowItem>();
             this.standalones = new List<WindowItem>();
             foreach (var window in windowList.Values)
             {
@@ -95,7 +101,7 @@ namespace WyzLink.Assemble
                 {
                     if (window.HasNextSteps())
                     {
-                        this.heads.Add(window);
+                        this.headers.Add(window);
                     }
                     else
                     {
@@ -161,9 +167,9 @@ namespace WyzLink.Assemble
             var startPoint = Vector2.one * 20;
             this.layoutToken++;     // Start a new layout
             var panelSize = Rect.zero;
-            if (this.heads != null)
+            if (this.headers != null)
             {
-                foreach (var window in this.heads)
+                foreach (var window in this.headers)
                 {
                     var rect = LayoutWindows(window, startPoint);
                     startPoint.y = rect.yMax + 20;
@@ -204,7 +210,6 @@ namespace WyzLink.Assemble
             }
 
             Rect rect = new Rect(point, Vector2.zero);
-            List<WindowItem> nextList = new List<WindowItem>();
             foreach (var item in list)
             {
                 if (item.LayoutToken != this.layoutToken || item.Layer < layer)
@@ -272,6 +277,34 @@ namespace WyzLink.Assemble
         public void SetDirty()
         {
             this.isDirty = true;
+            UpdateVisibility();
+        }
+
+        public void SetObjectVisibilities(bool displayLinkedObjects, bool displayUnlinkedObjects)
+        {
+            bool needsUpdate = false;
+            if (displayLinkedObjects != this.displayLinkedObjects)
+            {
+                this.displayLinkedObjects = displayLinkedObjects;
+                needsUpdate = true;
+            }
+            if (displayUnlinkedObjects != this.displayUnlinkedObjects)
+            {
+                this.displayUnlinkedObjects = displayUnlinkedObjects;
+                needsUpdate = true;
+            }
+            if (needsUpdate)
+            {
+                UpdateVisibility();
+            }
+        }
+
+        internal void UpdateVisibility()
+        {
+            foreach (var window in windowList.Values)
+            {
+                window.ShowObject((window.HasNextSteps() || window.HasPreviousSteps()) ? this.displayLinkedObjects : this.displayUnlinkedObjects);
+            }
         }
     }
 }
