@@ -9,6 +9,9 @@ public class Parts : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, 
     public Vector3 StartPos;
     public Vector3 EndPos;
     public int AssebleStaus;                //0是再零件架上未安装，1安装正确
+    public GameObject PartsGameObject;
+    public Vector3 LocalSize;                //原本尺寸
+    public string Name;
 
     // Use this for initialization
     void Start()

@@ -9,6 +9,8 @@ public class PartsManager : MonoBehaviour
     public List<Vector3> EndPosList = new List<Vector3>();
     public bool AssembleFlag;
 
+    public List<Parts> PartsList = new List<Parts>();
+
     // Use this for initialization
     void Start()
     {
