@@ -38,6 +38,8 @@ namespace WyzLink.Assemble
 
         // Layout properties
         private float childHeight;
+        public int LayoutToken { get; set; }        // Used to label the rounds of layout
+        public int Layer { get; set; }
 
         public enum UIState
         {
@@ -154,25 +156,6 @@ namespace WyzLink.Assemble
         public void MoveTo(Vector2 point)
         {
             this.windowRect.position = point;
-        }
-
-        public float CalculateChildrenHeight()
-        {
-            this.childHeight = 0;
-            foreach (var w in this.nextSteps)
-            {
-                this.childHeight += w.CalculateChildrenHeight();
-            }
-            if (childHeight == 0)
-            {
-                childHeight = windowHeight + LayoutGapVertically;
-            }
-            return this.childHeight;
-        }
-
-        public float GetChildrenHeight()
-        {
-            return this.childHeight;
         }
 
         internal Rect GetWindowRect()

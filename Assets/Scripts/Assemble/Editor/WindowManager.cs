@@ -24,6 +24,7 @@ namespace WyzLink.Assemble
 
         public List<Rect> debugRects = new List<Rect>();
         private bool isDirty = true;
+        private int layoutToken = 0;
 
         public WindowManager()
         {
@@ -158,6 +159,7 @@ namespace WyzLink.Assemble
         private void LayoutWindows()
         {
             var startPoint = Vector2.one * 20;
+            this.layoutToken++;     // Start a new layout
             if (this.heads != null)
             {
                 foreach (var window in this.heads)
@@ -179,15 +181,18 @@ namespace WyzLink.Assemble
 
         private Rect LayoutWindows(WindowItem firstWindow, Vector2 startPoint)
         {
-            firstWindow.CalculateChildrenHeight();
-
             var list = new List<WindowItem>();
             list.Add(firstWindow);
-            return LayoutWindowLayer(list, startPoint);
+            return LayoutWindowLayer(list, startPoint, 0);
         }
 
-        private Rect LayoutWindowLayer(IList<WindowItem> list, Vector2 point)
+        private Rect LayoutWindowLayer(IList<WindowItem> list, Vector2 point, int layer)
         {
+            if (layer > 1000)
+            {
+                Debug.LogError("There is a loop in the graph. Can't finish it.");
+                return new Rect(point, Vector2.zero);
+            }
             if (list.Count == 0)
             {
                 return new Rect(point, Vector2.zero);
@@ -197,11 +202,18 @@ namespace WyzLink.Assemble
             List<WindowItem> nextList = new List<WindowItem>();
             foreach (var item in list)
             {
-                item.MoveTo(point);
-                rect = rect.Union(item.GetWindowRect());
-                var childRect = LayoutWindowLayer(item.GetNextSteps(), point + new Vector2(item.GetWindowWidth() + WindowItem.LayoutGapHorizontally, 0));
-                point.y += Mathf.Max(childRect.height, item.GetWindowRect().height) + WindowItem.LayoutGapVertically;
-                rect = rect.Union(childRect);
+                if (item.LayoutToken != this.layoutToken || item.Layer < layer)
+                {
+                    item.MoveTo(point);
+                    rect = rect.Union(item.GetWindowRect());
+                    var childRect = LayoutWindowLayer(item.GetNextSteps(), point + new Vector2(item.GetWindowWidth() + WindowItem.LayoutGapHorizontally, 0), layer + 1);
+                    point.y += Mathf.Max(childRect.height, item.GetWindowRect().height) + WindowItem.LayoutGapVertically;
+                    rect = rect.Union(childRect);
+
+                    // Mark the item
+                    item.LayoutToken = this.layoutToken;
+                    item.Layer = layer;
+                }
             }
             this.debugRects.Add(rect);
             return rect;
