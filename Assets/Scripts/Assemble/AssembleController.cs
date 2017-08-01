@@ -12,6 +12,15 @@ namespace WyzLink.Assemble
 
     public class AssembleController : MonoBehaviour
     {
+        public TextAsset assembleFlow;
+
+        private void Start()
+        {
+            AssembleFlowParser.ParseAssembleFlowFile(assembleFlow.text, (a0, a1) => {
+                // TODO: The code to generate the flow manager
+            });
+        }
+
         public List<T> GetAllNodes<T>()
         {
             var list = new List<T>();
