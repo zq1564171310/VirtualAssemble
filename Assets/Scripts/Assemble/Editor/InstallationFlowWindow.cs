@@ -31,11 +31,13 @@ namespace WyzLink.Assemble
 
         private int PanelMarginTop = 20;
 
+        private Vector2 panelSize = new Vector2(3000, 1000);
+
         void OnGUI()
         {
             UpdateTopToolbar();
 
-            scrollPosition = GUI.BeginScrollView(new Rect(0, PanelMarginTop, position.width, position.height - PanelMarginTop), scrollPosition, new Rect(0, 0, 3000, 1000));
+            scrollPosition = GUI.BeginScrollView(new Rect(0, PanelMarginTop, position.width, position.height - PanelMarginTop), scrollPosition, new Rect(Vector2.zero, panelSize));
             BeginWindows();
             if (windowManager != null)
             {
@@ -45,11 +47,10 @@ namespace WyzLink.Assemble
                     w.Update();
                     count++;
                 }
+                UpdateConnecting();
+                UpdateContextMenu();
                 //Debug.Log("Item update count:" + count);
             }
-            UpdateConnecting();
-            UpdateContextMenu();
-
             EndWindows();
             GUI.EndScrollView();
         }
@@ -79,7 +80,11 @@ namespace WyzLink.Assemble
             {
                 if (this.target != null)
                 {
-                    windowManager.LoadWindows(target);
+                    if (windowManager == null)
+                    {
+                        windowManager = new WindowManager();
+                    }
+                    this.panelSize = windowManager.LoadWindows(target).size;
                 }
                 else
                 {
@@ -89,7 +94,7 @@ namespace WyzLink.Assemble
 
             if (GUILayout.Button("视图刷新", GUILayout.Width(100)))
             {
-                windowManager.RefreshLayout();
+                this.panelSize = windowManager.RefreshLayout().size;
             }
 
             if (GUILayout.Button("保存", GUILayout.Width(100)))
@@ -117,7 +122,7 @@ namespace WyzLink.Assemble
                     Repaint();
                     break;
                 case EventType.mouseUp:
-                    if (this.dragEndWindow != null && this.dragStartWindow != null)
+                    if (this.dragEndWindow != null && this.dragStartWindow != null && this.dragEndWindow != this.dragStartWindow)
                     {
                         // Connect the two nodes
                         this.dragEndWindow.AddPreviousStep(this.dragStartWindow);
@@ -159,7 +164,7 @@ namespace WyzLink.Assemble
             // TODO: Optimization: We should check the performance on it, and only to add/remove when needed
             if (target != null)
             {
-                windowManager.LoadWindows(target);
+                this.panelSize = windowManager.LoadWindows(target).size;
             }
         }
 

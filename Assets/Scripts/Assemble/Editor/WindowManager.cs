@@ -41,30 +41,31 @@ namespace WyzLink.Assemble
             return windowList.Count;
         }
 
-        public void LoadWindows(AssembleController assembleController)
+        public Rect LoadWindows(AssembleController assembleController)
         {
-            if (assembleController != null)
+            if (assembleController == null)
             {
-                if (isDirty)
-                {
-                    this.windowList = LoadAllNodesToDictionary(assembleController);
-                    var flowString = LoadAssembleFlowFromFile(defaultFileName);
-                    ApplyAssembleFlow(this.windowList, flowString);
-                    PrepareList(windowList);
-                }
-                LayoutWindows();
+                return Rect.zero;
+            }
+            if (isDirty)
+            {
+                this.windowList = LoadAllNodesToDictionary(assembleController);
+                var flowString = LoadAssembleFlowFromFile(defaultFileName);
+                ApplyAssembleFlow(this.windowList, flowString);
+                PrepareList(windowList);
                 this.isDirty = false;
             }
+            return LayoutWindows();
         }
 
-        public void RefreshLayout()
+        public Rect RefreshLayout()
         {
             if (isDirty)
             {
                 PrepareList(windowList);
                 this.isDirty = false;
             }
-            LayoutWindows();
+            return LayoutWindows();
         }
 
         private void ApplyAssembleFlow(IDictionary<int, WindowItem> windowList, string flowString)
@@ -76,7 +77,6 @@ namespace WyzLink.Assemble
                 if (windowList.TryGetValue(step0, out w0) && windowList.TryGetValue(step1, out w1))
                 {
                     w1.AddPreviousStep(w0);
-                    Debug.Log("Connected flow:" + w0.GetNodeId() + "->" + w1.GetNodeId());
                 }
                 else
                 {
@@ -156,16 +156,18 @@ namespace WyzLink.Assemble
             return text;
         }
 
-        private void LayoutWindows()
+        private Rect LayoutWindows()
         {
             var startPoint = Vector2.one * 20;
             this.layoutToken++;     // Start a new layout
+            var panelSize = Rect.zero;
             if (this.heads != null)
             {
                 foreach (var window in this.heads)
                 {
                     var rect = LayoutWindows(window, startPoint);
                     startPoint.y = rect.yMax + 20;
+                    panelSize = panelSize.Union(rect);
                 }
             }
             if (this.standalones != null)
@@ -175,8 +177,11 @@ namespace WyzLink.Assemble
                     // Layout individual items
                     window.MoveTo(startPoint);
                     startPoint.x += 90;
+                    panelSize = panelSize.Union(window.GetWindowRect());
                 }
             }
+            panelSize.height += 20; // Buttom margin
+            return panelSize;
         }
 
         private Rect LayoutWindows(WindowItem firstWindow, Vector2 startPoint)

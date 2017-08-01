@@ -41,7 +41,6 @@ namespace WyzLink.Assemble
                     }
                     var t0 = line.Substring(0, index);
                     var t1 = line.Substring(index + 2, line.Length - index - 2);
-                    Debug.Log("Parse result:" + t0 + ":" + t1);
                     int a0;
                     int a1;
                     if (Int32.TryParse(t0, out a0) && Int32.TryParse(t1, out a1))
