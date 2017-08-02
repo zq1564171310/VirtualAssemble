@@ -233,5 +233,10 @@ namespace WyzLink.Assemble
                 SceneView.FrameLastActiveSceneView();
             }
         }
+
+        internal void UpdateNodeName(string name)
+        {
+            this.nodeName = name;
+        }
     }
 }

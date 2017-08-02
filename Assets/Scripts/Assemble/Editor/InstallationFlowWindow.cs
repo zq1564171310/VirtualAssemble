@@ -48,6 +48,14 @@ namespace WyzLink.Assemble
             this.panelSize = windowManager.LoadWindows(target).size;
         }
 
+        private void OnDisable()
+        {
+            if (windowManager != null)
+            {
+                windowManager.SetObjectVisibilities(true, true);
+            }
+        }
+
         void OnGUI()
         {
             UpdateTopToolbar();

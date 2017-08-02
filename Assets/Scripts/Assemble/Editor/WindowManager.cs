@@ -293,22 +293,26 @@ namespace WyzLink.Assemble
             var nodeSetToBeDeleted = new HashSet<int>(windowList.Keys);
             foreach (var node in nodeList)
             {
-                if (this.windowList.ContainsKey(node.nodeId))
+                WindowItem window;
+                this.windowList.TryGetValue(node.nodeId, out window);
+                if (window != null)
                 {
                     // Exist item, just remove from node set and do nothing
                     nodeSetToBeDeleted.Remove(node.nodeId);
-                    if (windowList[node.nodeId].IsDeleted())
+                    
+                    if (window.IsDeleted())
                     {
-                        windowList[node.nodeId].MarkDeleted(false);
+                        window.MarkDeleted(false);
                     }
+                    window.UpdateNodeName(node.partName);
                 }
                 else
                 {
                     // The key is new, add new item
-                    var window = new WindowItem(node);
-                    this.windowList.Add(window.GetNodeId(), window);
+                    var newWindow = new WindowItem(node);
+                    this.windowList.Add(newWindow.GetNodeId(), newWindow);
                     needRefresh = true;
-                    Debug.Log("Added item " + window.GetNodeId());
+                    Debug.Log("Added item " + newWindow.GetNodeId());
                 }
             }
             foreach (var item in nodeSetToBeDeleted)
