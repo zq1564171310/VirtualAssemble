@@ -14,15 +14,25 @@ namespace WyzLink.Assemble
 
     public class WindowItem
     {
+        //
+        // Window structure
+        //
         private Rect windowRect;
         private int id;
         private List<WindowItem> previousSteps = new List<WindowItem>();
         private List<WindowItem> nextSteps = new List<WindowItem>();
+        private static int windowIndex = 0;
 
+        //
+        // Window properties
+        //
         private int nodeId;
         private string nodeName;
         private Node node;
 
+        //
+        // Const parameters
+        //
         private const float windowWidth = 80;
         private const float windowHeight = 37;
         private const float windowMarginLeft = 10;
@@ -31,27 +41,44 @@ namespace WyzLink.Assemble
         public const float LayoutGapVertically = 5;
         public const float LayoutGapHorizontally = 30;
 
+        //
+        // Window areas
+        //
         private Rect labelRect = new Rect(3, 18, 60, 20);
         private Rect buttonRect = new Rect(80 - 15, 17, 12, 21);
         private Rect dragRect = new Rect(0, 0, 80 - connectionAreaMargin, 37);
 
+        //
         // Layout properties
+        //
         private float childHeight;
         public int LayoutToken { get; set; }        // Used to label the rounds of layout
         public int Layer { get; set; }
 
+        //
+        // Static properties
+        //
+        private static GUIStyle styleWindowNormal = null;
+        private static GUIStyle styleWindowDeleted = null;
+        private static GUIStyle styleLabelNormal = null;
+        private static GUIStyle styleLabelDeleted = null;
+
+        //
+        // Window states for connection
+        //
         public enum UIState
         {
             normalState,
             connectingState,
         };
-
         public UIState uiState = UIState.normalState;
+        private bool isDeleted = false;
 
-        public WindowItem(int id, Vector2 position, Node node)
+
+        public WindowItem(Node node)
         {
-            this.id = id;
-            this.windowRect = new Rect(position, new Vector2(windowWidth, windowHeight));
+            this.id = WindowItem.windowIndex++;
+            this.windowRect = new Rect(Vector2.zero, new Vector2(windowWidth, windowHeight));
             this.nodeId = node.nodeId;
             this.nodeName = node.partName;
             this.node = node;
@@ -64,7 +91,17 @@ namespace WyzLink.Assemble
 
         public void Update()
         {
-            this.windowRect = GUI.Window(this.id, this.windowRect, windowFunction, nodeId.ToString());
+            if (styleWindowDeleted == null)
+            {
+                styleWindowNormal = new GUIStyle(GUI.skin.window);
+                styleWindowDeleted = new GUIStyle(GUI.skin.window);
+                styleWindowDeleted.normal.textColor = Color.red;
+                styleLabelNormal = new GUIStyle(GUI.skin.label);
+                styleLabelDeleted = new GUIStyle(GUI.skin.label);
+                styleLabelDeleted.normal.textColor = Color.red;
+            }
+
+            this.windowRect = GUI.Window(this.id, this.windowRect, windowFunction, nodeId.ToString(), this.isDeleted ? styleWindowDeleted : styleWindowNormal);
             foreach (var w in previousSteps)
             {
                 curveFromTo(w, this);
@@ -147,8 +184,8 @@ namespace WyzLink.Assemble
 
         private void windowFunction(int id)
         {
-            GUI.Label(labelRect, this.nodeName);
-            GUI.Label(buttonRect, ">");
+            GUI.Label(labelRect, this.nodeName, this.isDeleted ? styleLabelDeleted : styleLabelNormal);
+            GUI.Label(buttonRect, ">", this.isDeleted ? styleLabelDeleted : styleLabelNormal);
             GUI.DragWindow(dragRect);
         }
 
@@ -165,6 +202,16 @@ namespace WyzLink.Assemble
         internal Rect GetWindowRect()
         {
             return this.windowRect;
+        }
+
+        public void MarkDeleted(bool isDeleted)
+        {
+            this.isDeleted = isDeleted;
+        }
+
+        public bool IsDeleted()
+        {
+            return this.isDeleted;
         }
 
         //

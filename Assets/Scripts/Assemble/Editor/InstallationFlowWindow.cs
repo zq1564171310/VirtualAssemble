@@ -85,6 +85,27 @@ namespace WyzLink.Assemble
         private void UpdateTopToolbar()
         {
             GUILayout.BeginHorizontal();
+            if (this.target == null)
+            {
+                GUI.enabled = false;
+            }
+            ToolbarContent();
+
+            GUI.enabled = true;
+
+            GUILayout.EndHorizontal();
+
+            // Error message
+            if (this.target == null)
+            {
+                var style = new GUIStyle(GUI.skin.label);
+                style.normal.textColor = Color.red;
+                GUILayout.Label("请关闭该窗口并从安装控制器入口重新打开。", style);
+            }
+        }
+
+        private void ToolbarContent()
+        {
             if (GUILayout.Button("扫描零件树", GUILayout.Width(100)))
             {
                 if (this.target != null)
@@ -116,8 +137,6 @@ namespace WyzLink.Assemble
             displayLinked = GUILayout.Toggle(displayLinked, "显示流程对象", GUILayout.Width(100));
             displayUnlinked = GUILayout.Toggle(displayUnlinked, "显示非流程对象", GUILayout.Width(100));
             windowManager.SetObjectVisibilities(displayLinked, displayUnlinked);
-
-            GUILayout.EndHorizontal();
         }
 
         private void UpdateConnecting()
@@ -188,11 +207,13 @@ namespace WyzLink.Assemble
             // Update the content from Hierarchy
             Debug.Log("Update from Hierarchy notification");
 
-            // TODO: Optimization: We should check the performance on it, and only to add/remove when needed
             if (target != null)
             {
-                //this.panelSize = windowManager.LoadWindows(target).size;
-                // windowManager.UpdateFromHierarchy();
+                if (windowManager.UpdateFromHierarchy(target))
+                {
+                    windowManager.RefreshLayout();
+                    Repaint();
+                }
             }
         }
 

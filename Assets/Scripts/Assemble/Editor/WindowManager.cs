@@ -17,7 +17,7 @@ namespace WyzLink.Assemble
 
     public class WindowManager
     {
-        private IDictionary<int, WindowItem> windowList;
+        private IDictionary<int, WindowItem> windowList = new Dictionary<int, WindowItem>();
         private IList<WindowItem> headers;
         private IList<WindowItem> standalones;
         private const string defaultFileName = "AssembleFlow.txt";      // TODO: Will change this to a new file format later
@@ -45,9 +45,10 @@ namespace WyzLink.Assemble
             {
                 return Rect.zero;
             }
-            if (isDirty)
+
+            var needRefresh = UpdateFromHierarchy(assembleController);
+            if (needRefresh)
             {
-                this.windowList = LoadAllNodesToDictionary(assembleController);
                 var flowString = LoadAssembleFlowFromFile(defaultFileName);
                 ApplyAssembleFlow(this.windowList, flowString);
                 PrepareList(windowList);
@@ -109,29 +110,6 @@ namespace WyzLink.Assemble
                     }
                 }
             }
-        }
-
-        private IDictionary<int, WindowItem> LoadAllNodesToDictionary(AssembleController target)
-        {
-            var dictionary = new Dictionary<int, WindowItem>();
-            if (target == null)
-            {
-                return dictionary;
-            }
-
-            int index = 0;
-            Vector2 position = new Vector2(20, 20);
-
-            var nodeList = target.GetAllNodes<Node>();
-            foreach (var node in nodeList)
-            {
-                var window = new WindowItem(index, position, node);
-                // TODO: Do position with Layout flow
-                index++;
-                //position.x += 90;
-                dictionary.Add(window.GetNodeId(), window);
-            }
-            return dictionary;
         }
 
         private string LoadAssembleFlowFromFile(string fileName)
@@ -228,16 +206,6 @@ namespace WyzLink.Assemble
             this.debugRects.Add(rect);
             return rect;
         }
-
-        private Vector2 NextRow(Vector2 point, int maxWidth)
-        {
-            return new Vector2(point.x + maxWidth + WindowItem.LayoutGapHorizontally, 20);
-        }
-
-        private IEnumerable<object> GetHeads()
-        {
-            throw new NotImplementedException();
-        }
         
         public WindowItem GetCurrentWindow(Vector2 mousePosition, bool connectionAreaOnly)
         {
@@ -305,6 +273,51 @@ namespace WyzLink.Assemble
             {
                 window.ShowObject((window.HasNextSteps() || window.HasPreviousSteps()) ? this.displayLinkedObjects : this.displayUnlinkedObjects);
             }
+        }
+
+        // TODO: Need furture clarification about the load process
+        internal bool UpdateFromHierarchy(AssembleController assembleController)
+        {
+            var needFresh = UpdateWindowList(assembleController);
+            if (needFresh)
+            {
+                PrepareList(this.windowList);
+            }
+            return needFresh;
+        }
+
+        private bool UpdateWindowList(AssembleController assembleController)
+        { 
+            bool needRefresh = false;
+            var nodeList = assembleController.GetAllNodes<Node>();
+            var nodeSetToBeDeleted = new HashSet<int>(windowList.Keys);
+            foreach (var node in nodeList)
+            {
+                if (this.windowList.ContainsKey(node.nodeId))
+                {
+                    // Exist item, just remove from node set and do nothing
+                    nodeSetToBeDeleted.Remove(node.nodeId);
+                    if (windowList[node.nodeId].IsDeleted())
+                    {
+                        windowList[node.nodeId].MarkDeleted(false);
+                    }
+                }
+                else
+                {
+                    // The key is new, add new item
+                    var window = new WindowItem(node);
+                    this.windowList.Add(window.GetNodeId(), window);
+                    needRefresh = true;
+                    Debug.Log("Added item " + window.GetNodeId());
+                }
+            }
+            foreach (var item in nodeSetToBeDeleted)
+            {
+                this.windowList[item].MarkDeleted(true);
+                needRefresh = true;
+                Debug.Log("Item deleted " + item);
+            }
+            return needRefresh;
         }
     }
 }

@@ -41,5 +41,10 @@ namespace WyzLink.Parts
             // 添加文件的时候或者重置的时候生成新节点标识
             nodeId = IdCounter.Instance.GetNextId();
         }
+
+        private void Start()
+        {
+            // Do nothing, but we need this so the component could be disabled
+        }
     }
 }

@@ -21,23 +21,28 @@ namespace WyzLink.Assemble
             });
         }
 
-        public List<T> GetAllNodes<T>()
+        public IEnumerable<T> GetAllNodes<T>(Transform transform = null) where T : MonoBehaviour
         {
-            var list = new List<T>();
-            GetAllPartObject<T>(this.transform, list);
-            return list;
-        }
-
-        private void GetAllPartObject<T>(Transform transform, List<T> list)
-        {
-            var part = transform.GetComponent<T>();
-            if (part != null)
+            if (transform == null)
             {
-                list.Add(part);
+                transform = this.transform;
             }
-            foreach (Transform t in transform)
+
+            var part = transform.GetComponent<T>();
+            if (part != null && part.enabled)
             {
-                GetAllPartObject<T>(t, list);
+                // We only count if the component is enabled
+                yield return part;
+            }
+            else
+            {
+                foreach (Transform t in transform)
+                {
+                    foreach (var p in GetAllNodes<T>(t))
+                    {
+                        yield return p;
+                    }
+                }
             }
         }
     }
