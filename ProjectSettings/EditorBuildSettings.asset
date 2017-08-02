@@ -6,5 +6,5 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/VirtualAssemble_Unity.unity
-    guid: a8291eebe700c804abeba3a806992ff9
+    path: Assets/Scenes/VirtualAssembleUI.unity
+    guid: c9b928f2baa66ab45b21fa4b0d138111
