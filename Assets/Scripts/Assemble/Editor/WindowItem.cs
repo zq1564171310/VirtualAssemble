@@ -89,6 +89,11 @@ namespace WyzLink.Assemble
             return this.nodeId;
         }
 
+        public string GetNodeName()
+        {
+            return this.nodeName;
+        }
+
         public void Update()
         {
             if (styleWindowDeleted == null)

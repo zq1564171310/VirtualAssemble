@@ -13,12 +13,16 @@ namespace WyzLink.Assemble
     public class AssembleController : MonoBehaviour
     {
         public TextAsset assembleFlow;
+        private DependencyGraph dependencyGraph;
 
-        private void Start()
+        private void Awake()
         {
-            AssembleFlowParser.ParseAssembleFlowFile(assembleFlow.text, (a0, a1) => {
-                // TODO: The code to generate the flow manager
-            });
+            dependencyGraph = new DependencyGraph(this, assembleFlow.text);
+        }
+
+        public DependencyGraph GetDependencyGraph()
+        {
+            return dependencyGraph;
         }
 
         public IEnumerable<T> GetAllNodes<T>(Transform transform = null) where T : MonoBehaviour

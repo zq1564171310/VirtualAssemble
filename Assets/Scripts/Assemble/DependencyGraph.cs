@@ -1,23 +1,89 @@
 ﻿/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
 /// <author>xlzou</author>
 /// <summary>
-/// The part represent the part in the assembly line. It contains all the meta data 
-/// about this part, and will be attached to the actual part gameObject
+/// This class contains all the flow information like whether the part is ready to be installed
 /// </summary>
 
 namespace WyzLink.Assemble
 {
-    using System.Collections;
+    using System;
     using System.Collections.Generic;
     using UnityEngine;
+    using WyzLink.Parts;
 
     public class DependencyGraph
     {
-        public DependencyGraph()
+        private class GraphNode
         {
+            public Node node;
+            public IList<GraphNode> previousNodes = new List<GraphNode>();
+            public IList<GraphNode> nextNodes = new List<GraphNode>();
 
+            public GraphNode(Node node)
+            {
+                this.node = node;
+            }
         }
 
-        //public bool Is
+        private IDictionary<int, GraphNode> nodeList;
+
+        public DependencyGraph(AssembleController assembleController, string flowString)
+        {
+            InitializeDependencyGraph(assembleController, flowString);
+        }
+
+        private void InitializeDependencyGraph(AssembleController assembleController, string flowString)
+        {
+            this.nodeList = LoadAllToDictionary(assembleController.GetAllNodes<Node>());
+            AssembleFlowParser.ParseAssembleFlowFile(flowString, (a0, a1) => {
+                GraphNode n0;
+                GraphNode n1;
+                if (!this.nodeList.TryGetValue(a0, out n0))
+                {
+                    Debug.LogError("Can't find the item " + a0 + " from the hierarcy.");
+                    return;
+                }
+                if (!this.nodeList.TryGetValue(a1, out n1))
+                {
+                    Debug.LogError("Can't find the item " + a1 + " from the hierarcy.");
+                    return;
+                }
+                n0.nextNodes.Add(n1);
+                n1.previousNodes.Add(n0);
+            });
+            // TODO: Check for loops
+        }
+
+        private IDictionary<int, GraphNode> LoadAllToDictionary(IEnumerable<Node> nodes)
+        {
+            IDictionary<int, GraphNode> nodeList = new Dictionary<int, GraphNode>();
+            foreach (var node in nodes)
+            {
+                nodeList.Add(node.nodeId, new GraphNode(node));
+            }
+            return nodeList;
+        }
+
+        public bool IsNodeValidToInstall(Node node)
+        {
+            bool validToInstall = true;
+            GraphNode graphNode;
+            if (nodeList.TryGetValue(node.nodeId, out graphNode))
+            {
+                foreach (var pnode in graphNode.previousNodes)
+                {
+                    if (pnode.node.GetInstallationState() == InstallationState.NotInstalled)
+                    {
+                        validToInstall = false;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                throw new System.InvalidOperationException("The node " + node.nodeId + " could not be found in the dpendency graph");
+            }
+            return validToInstall;
+        }
     }
 }

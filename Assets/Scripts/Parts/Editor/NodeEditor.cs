@@ -1,16 +1,15 @@
 ﻿/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
 /// <author>xlzou</author>
 /// <summary>
-/// The part represent the part in the assembly line. It contains all the meta data 
-/// about this part, and will be attached to the actual part gameObject
+/// This is the editor options for node component
 /// </summary>
 
 using UnityEditor;
 
 namespace WyzLink.Parts
 {
-    [CustomEditor(typeof(Part))]
-    public class PartEditor : Editor
+    [CustomEditor(typeof(Node))]
+    public class NodeEditor : Editor
     {
         // Exclude the script part in component
         private static readonly string[] _dontIncludeMe = new string[] { "m_Script" };

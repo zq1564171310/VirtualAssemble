@@ -1,14 +1,15 @@
 ﻿/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
 /// <author>xlzou</author>
 /// <summary>
-/// The part represent the part in the assembly line. It contains all the meta data 
-/// about this part, and will be attached to the actual part gameObject
+/// The state of the installation
 /// </summary>
-using UnityEngine;
 
-internal enum InstallationState
+namespace WyzLink.Parts
 {
-    NotInstalled,
-    Step1Installed,
-    Installed,
+    internal enum InstallationState
+    {
+        NotInstalled,
+        Step1Installed,
+        Installed,
+    }
 }

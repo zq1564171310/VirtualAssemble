@@ -14,37 +14,47 @@ namespace WyzLink.Parts
     /// </summary>
     public class Node : MonoBehaviour
     {
+        [Tooltip("节点唯一标识")]
+        [ReadOnly]
+        public int nodeId;
+
         [Header("零件属性")]
         [Tooltip("零件名称")]
         public string partName;
         [Tooltip("零件唯一标识")]
         public string partId;
 
-        [Tooltip("节点唯一标识")]
-        public int nodeId;
-
         [Tooltip("注释")]
         public string note;
         [Tooltip("库存编号")]
         public string inventoryId;
 
+        // 导入点
         [Header("零件信息")]
         public Vector3 position;
 
         private InstallationState installationState;
 
-        private Vector3 originalPartPosition;
-        private Quaternion originalPartRotation;
+        private Vector3 targetPosition;
+        private Quaternion targetRotation;
 
         private void Reset()
         {
             // 添加文件的时候或者重置的时候生成新节点标识
-            nodeId = IdCounter.Instance.GetNextId();
+            this.nodeId = IdCounter.Instance.GetNextId();
+            this.partName = this.gameObject.name;
         }
 
         private void Start()
         {
-            // Do nothing, but we need this so the component could be disabled
+            // Capture the target points
+            this.targetPosition = this.transform.position;
+            this.targetRotation = this.transform.rotation;
+        }
+
+        internal InstallationState GetInstallationState()
+        {
+            return this.installationState;
         }
     }
 }

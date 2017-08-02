@@ -325,7 +325,11 @@ namespace WyzLink.Assemble
                     {
                         window.MarkDeleted(false);
                     }
-                    window.UpdateNodeName(node.partName);
+                    if (node.partName != window.GetNodeName())
+                    {
+                        window.UpdateNodeName(node.partName);
+                        needRefresh = true;
+                    }
                 }
                 else
                 {
@@ -333,7 +337,7 @@ namespace WyzLink.Assemble
                     var newWindow = new WindowItem(node);
                     this.windowList.Add(newWindow.GetNodeId(), newWindow);
                     needRefresh = true;
-                    Debug.Log("Added item " + newWindow.GetNodeId());
+                    //Debug.Log("Added item " + newWindow.GetNodeId());
                 }
             }
             foreach (var item in nodeSetToBeDeleted)
