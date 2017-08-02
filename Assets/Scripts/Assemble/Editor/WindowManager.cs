@@ -22,12 +22,14 @@ namespace WyzLink.Assemble
         private IList<WindowItem> standalones;
         private const string defaultFileName = "AssembleFlow.txt";      // TODO: Will change this to a new file format later
 
-        public List<Rect> debugRects = new List<Rect>();
         private bool isDirty = true;
+        private bool doLayout = false;
         private int layoutToken = 0;
 
         private bool displayLinkedObjects = true;     // Display objects by default
         private bool displayUnlinkedObjects = true;     // Display objects by default
+
+        private Action<Rect> layoutCallback = null;
 
         public WindowManager()
         {
@@ -39,11 +41,11 @@ namespace WyzLink.Assemble
             return windowList.Count;
         }
 
-        public Rect LoadWindows(AssembleController assembleController)
+        public void LoadWindows(AssembleController assembleController, Action<Rect> layoutCallback)
         {
             if (assembleController == null)
             {
-                return Rect.zero;
+                layoutCallback(Rect.zero);
             }
 
             var needRefresh = UpdateFromHierarchy(assembleController);
@@ -54,25 +56,33 @@ namespace WyzLink.Assemble
                 PrepareList(windowList);
                 this.isDirty = false;
             }
-            return LayoutWindows();
+            LayoutWindows(layoutCallback);
         }
 
         internal void UpdateWindows()
         {
+            if (doLayout)
+            {
+                Debug.Log("Layout windows");
+                LayoutWindowsOnGUI(layoutCallback);
+                layoutCallback = null;
+                doLayout = false;
+            }
+
             foreach (var window in windowList.Values)
             {
                 window.Update();
             }
         }
 
-        public Rect RefreshLayout()
+        public void RefreshLayout(Action<Rect> layoutCallback)
         {
             if (isDirty)
             {
                 PrepareList(windowList);
                 this.isDirty = false;
             }
-            return LayoutWindows();
+            LayoutWindows(layoutCallback);
         }
 
         private void ApplyAssembleFlow(IDictionary<int, WindowItem> windowList, string flowString)
@@ -140,17 +150,26 @@ namespace WyzLink.Assemble
             return text;
         }
 
-        private Rect LayoutWindows()
+        private void LayoutWindows(Action<Rect> layoutCallback)
         {
-            var startPoint = Vector2.one * 20;
+            // All the layout work will need to be done inside OnGUI() function.
+            // This function will trigger it
+            this.layoutCallback = layoutCallback;
+            this.doLayout = true;
+        }
+
+        // This function could only be called inside OnGUI
+        private void LayoutWindowsOnGUI(Action<Rect> layoutCallback)
+        {
+            var startPoint = Vector2.one * WindowItem.LayoutGapVerticallyGroup;
             this.layoutToken++;     // Start a new layout
             var panelSize = Rect.zero;
             if (this.headers != null)
             {
                 foreach (var window in this.headers)
                 {
-                    var rect = LayoutWindows(window, startPoint);
-                    startPoint.y = rect.yMax + 20;
+                    var rect = LayoutFlow(window, startPoint);
+                    startPoint.y = rect.yMax + WindowItem.LayoutGapVerticallyGroup;
                     panelSize = panelSize.Union(rect);
                 }
             }
@@ -159,19 +178,22 @@ namespace WyzLink.Assemble
                 foreach (var window in this.standalones)
                 {
                     // Layout individual items
-                    window.MoveTo(startPoint);
-                    startPoint.x += 90;
+                    window.LayoutAt(startPoint);
+                    startPoint.x += window.GetWindowWidth() + WindowItem.WindowMarginLeft;
                     panelSize = panelSize.Union(window.GetWindowRect());
                 }
             }
             panelSize.height += 20; // Buttom margin
-            return panelSize;
+            if (layoutCallback != null)
+            {
+                layoutCallback(panelSize);
+            }
+            Debug.Log("Finished layout with panel size: " + panelSize);
         }
 
-        private Rect LayoutWindows(WindowItem firstWindow, Vector2 startPoint)
+        private Rect LayoutFlow(WindowItem startWindow, Vector2 startPoint)
         {
-            var list = new List<WindowItem>();
-            list.Add(firstWindow);
+            var list = new List<WindowItem>() { startWindow };
             return LayoutWindowLayer(list, startPoint, 0);
         }
 
@@ -192,7 +214,7 @@ namespace WyzLink.Assemble
             {
                 if (item.LayoutToken != this.layoutToken || item.Layer < layer)
                 {
-                    item.MoveTo(point);
+                    item.LayoutAt(point);
                     rect = rect.Union(item.GetWindowRect());
                     var childRect = LayoutWindowLayer(item.GetNextSteps(), point + new Vector2(item.GetWindowWidth() + WindowItem.LayoutGapHorizontally, 0), layer + 1);
                     point.y += Mathf.Max(childRect.height, item.GetWindowRect().height) + WindowItem.LayoutGapVertically;
@@ -203,7 +225,6 @@ namespace WyzLink.Assemble
                     item.Layer = layer;
                 }
             }
-            this.debugRects.Add(rect);
             return rect;
         }
         

@@ -45,7 +45,10 @@ namespace WyzLink.Assemble
             {
                 windowManager = new WindowManager();
             }
-            this.panelSize = windowManager.LoadWindows(target).size;
+            if (target != null)
+            {
+                windowManager.LoadWindows(target, (r) => this.panelSize = r.size);
+            }
         }
 
         private void OnDisable()
@@ -122,7 +125,7 @@ namespace WyzLink.Assemble
                     {
                         windowManager = new WindowManager();
                     }
-                    this.panelSize = windowManager.LoadWindows(target).size;
+                    windowManager.LoadWindows(target, (r) => this.panelSize = r.size);
                 }
                 else
                 {
@@ -132,7 +135,7 @@ namespace WyzLink.Assemble
 
             if (GUILayout.Button("视图刷新", GUILayout.Width(100)))
             {
-                this.panelSize = windowManager.RefreshLayout().size;
+                windowManager.RefreshLayout((r) => this.panelSize = r.size);
             }
 
             if (GUILayout.Button("保存", GUILayout.Width(100)))
@@ -207,7 +210,7 @@ namespace WyzLink.Assemble
         {
             this.target = myController;
             this.windowManager = new WindowManager();
-            windowManager.LoadWindows(myController);
+            windowManager.LoadWindows(myController, (r) => this.panelSize = r.size);
         }
 
         private void OnHierarchyChange()
@@ -219,7 +222,7 @@ namespace WyzLink.Assemble
             {
                 if (windowManager.UpdateFromHierarchy(target))
                 {
-                    windowManager.RefreshLayout();
+                    windowManager.RefreshLayout((r) => this.panelSize = r.size);
                     Repaint();
                 }
             }

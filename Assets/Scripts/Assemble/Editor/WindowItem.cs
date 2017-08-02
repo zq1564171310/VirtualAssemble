@@ -35,11 +35,12 @@ namespace WyzLink.Assemble
         //
         private const float windowWidth = 80;
         private const float windowHeight = 37;
-        private const float windowMarginLeft = 10;
         private const float connectionAreaMargin = 20;
+        public const float WindowMarginLeft = 10;
 
         public const float LayoutGapVertically = 5;
         public const float LayoutGapHorizontally = 30;
+        public const float LayoutGapVerticallyGroup = 20;
 
         //
         // Window areas
@@ -78,7 +79,6 @@ namespace WyzLink.Assemble
         public WindowItem(Node node)
         {
             this.id = WindowItem.windowIndex++;
-            this.windowRect = new Rect(Vector2.zero, new Vector2(windowWidth, windowHeight));
             this.nodeId = node.nodeId;
             this.nodeName = node.partName;
             this.node = node;
@@ -194,9 +194,14 @@ namespace WyzLink.Assemble
             return (int)this.windowRect.width;
         }
 
-        public void MoveTo(Vector2 point)
+        public void LayoutAt(Vector2 position)
         {
-            this.windowRect.position = point;
+            var size = GUI.skin.label.CalcSize(new GUIContent(node.partName));
+            var windowSize = new Vector2(Mathf.Max(size.x + 15, windowWidth), Mathf.Max(size.y + 21, windowHeight));
+            this.labelRect = new Rect(3, 18, size.x, size.y);
+            this.buttonRect = new Rect(windowSize.x - 13, 17, 12, size.y);
+            this.dragRect = new Rect(0, 0, windowSize.x - connectionAreaMargin, windowSize.y);
+            this.windowRect = new Rect(position, windowSize);
         }
 
         internal Rect GetWindowRect()
