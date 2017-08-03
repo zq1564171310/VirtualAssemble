@@ -1371,7 +1371,7 @@ RectTransform:
   - {fileID: 321416070}
   - {fileID: 1228846455}
   m_Father: {fileID: 1138481190}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1389,16 +1389,16 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Material: {fileID: 2100000, guid: 6fe30b7caed96ef43a928cdff018cff0, type: 2}
+  m_Color: {r: 0.20784314, g: 0.7372549, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 53b9b246198d84f49b24fc1eb4a1361b, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 4ef6d06bb856cb9449effe2c118dcce4, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2416,7 +2416,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -58.6, y: 0.086000055}
+  m_AnchoredPosition: {x: -52.1, y: 0.086000055}
   m_SizeDelta: {x: 22, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &826403680
@@ -2831,7 +2831,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -58.2, y: 0.088}
+  m_AnchoredPosition: {x: -51.9, y: 0.088}
   m_SizeDelta: {x: 22, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &926172465
@@ -3498,7 +3498,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.15399998, y: 41.6}
+  m_AnchoredPosition: {x: -0.15399998, y: 37.6}
   m_SizeDelta: {x: 22, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1089550797
@@ -3737,6 +3737,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1493813460}
   - {fileID: 488520442}
   m_Father: {fileID: 505355962}
   m_RootOrder: 0
@@ -3758,7 +3759,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0.9338235, g: 0.24032223, b: 0.24032223, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3766,7 +3767,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 0}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4156,7 +4157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -58.3, y: -15.8}
+  m_AnchoredPosition: {x: -52.000004, y: -15.299999}
   m_SizeDelta: {x: 22, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1209108678
@@ -4527,7 +4528,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -59.5, y: -15.2}
+  m_AnchoredPosition: {x: -52.2, y: -15.2}
   m_SizeDelta: {x: 22, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1238524881
@@ -5216,6 +5217,74 @@ Transform:
   m_Father: {fileID: 1769826580}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1493813459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1493813460}
+  - component: {fileID: 1493813462}
+  - component: {fileID: 1493813461}
+  m_Layer: 5
+  m_Name: BackgroundMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1493813460
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1493813459}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1138481190}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.30499983, y: -0.33499944}
+  m_SizeDelta: {x: -8.45, y: -13.130001}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1493813461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1493813459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: 6fe30b7caed96ef43a928cdff018cff0, type: 2}
+  m_Color: {r: 0.20588237, g: 0.73711956, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: 1473977fff81d994ba45f8e81915c48c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1493813462
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1493813459}
 --- !u!1 &1496434739
 GameObject:
   m_ObjectHideFlags: 0
@@ -6738,7 +6807,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 39.8, y: 40.7}
+  m_AnchoredPosition: {x: 39.8, y: 37.7}
   m_SizeDelta: {x: 22, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1895610482
