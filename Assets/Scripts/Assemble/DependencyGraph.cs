@@ -8,6 +8,7 @@ namespace WyzLink.Assemble
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
     using WyzLink.Parts;
 
@@ -26,6 +27,7 @@ namespace WyzLink.Assemble
         }
 
         private IDictionary<int, GraphNode> nodeList;
+        private IList<GraphNode> headers;
 
         public DependencyGraph(AssembleController assembleController, string flowString)
         {
@@ -64,12 +66,42 @@ namespace WyzLink.Assemble
             return nodeList;
         }
 
+        public IEnumerable<Node> GetHeaders()
+        {
+            return headers.Select((graphNode) => graphNode.node);
+        }
+
+        public IEnumerable<Node> GetAllNodes()
+        {
+            return this.nodeList.Values.Select((n) => n.node);
+        }
+
+        public IEnumerable<Node> GetNextSteps(Node node)
+        {
+            GraphNode graphNode = GetGraphNode(node);
+            if (graphNode != null)
+            {
+                return graphNode.nextNodes.Select((n) => n.node);
+            }
+            else
+            {
+                throw new System.InvalidOperationException("The node " + node.nodeId + " could not be found in the dpendency graph");
+            }
+        }
+
+        private GraphNode GetGraphNode(Node node)
+        {
+            GraphNode graphNode;
+            nodeList.TryGetValue(node.nodeId, out graphNode);
+            return graphNode;
+        }
+
         public bool IsNodeValidToInstall(Node node)
         {
             bool validToInstall = true;
-            GraphNode graphNode;
-            if (nodeList.TryGetValue(node.nodeId, out graphNode))
-            {
+            GraphNode graphNode = GetGraphNode(node);
+            if (graphNode != null)
+            { 
                 foreach (var pnode in graphNode.previousNodes)
                 {
                     if (pnode.node.GetInstallationState() == InstallationState.NotInstalled)
