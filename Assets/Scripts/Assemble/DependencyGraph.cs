@@ -54,6 +54,14 @@ namespace WyzLink.Assemble
                 n1.previousNodes.Add(n0);
             });
             // TODO: Check for loops
+            this.headers = new List<GraphNode>();
+            foreach (var node in nodeList.Values)
+            {
+                if (node.previousNodes.Count == 0)
+                {
+                    this.headers.Add(node);
+                }
+            }
         }
 
         private IDictionary<int, GraphNode> LoadAllToDictionary(IEnumerable<Node> nodes)
@@ -68,6 +76,7 @@ namespace WyzLink.Assemble
 
         public IEnumerable<Node> GetHeaders()
         {
+            Debug.Assert(headers != null);
             return headers.Select((graphNode) => graphNode.node);
         }
 

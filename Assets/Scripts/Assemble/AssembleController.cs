@@ -7,13 +7,18 @@
 
 namespace WyzLink.Assemble
 {
+    using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
+    using WyzLink.Parts;
 
     public class AssembleController : MonoBehaviour
     {
         public TextAsset assembleFlow;
         private DependencyGraph dependencyGraph;
+        public bool DoFlowRender;
 
         private void Awake()
         {
@@ -23,6 +28,39 @@ namespace WyzLink.Assemble
         public DependencyGraph GetDependencyGraph()
         {
             return dependencyGraph;
+        }
+
+        public void Start()
+        {
+            if (DoFlowRender)
+            {
+                StartCoroutine(FlowRender());
+            }
+        }
+
+        private IEnumerator FlowRender()
+        {
+            yield return new WaitForSeconds(1f);
+
+            foreach (var item in dependencyGraph.GetAllNodes())
+            {
+                item.gameObject.SetActive(false);
+            }
+
+            yield return -1;
+            List<Node> headers = dependencyGraph.GetHeaders().ToList();
+            while (headers.Count > 0)
+            {
+                List<Node> nextRound = new List<Node>();
+                foreach (var node in headers)
+                {
+                    node.gameObject.SetActive(true);
+
+                    nextRound.AddRange(dependencyGraph.GetNextSteps(node).ToList());
+                    yield return new WaitForSeconds(0.2f);
+                }
+                headers = nextRound;
+            }
         }
 
         public IEnumerable<T> GetAllNodes<T>(Transform transform = null) where T : MonoBehaviour
