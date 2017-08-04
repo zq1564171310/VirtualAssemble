@@ -217,7 +217,7 @@ public class PaginationUtil : MonoBehaviour
         //{
         //    Debug.Log("当前点击的元素名称为:" + gridItem.ItemName);
         //});
-        gridItem.PartsGameObject.transform.position = trans.GetChild(1).transform.position;
+       // gridItem.PartsGameObject.transform.position = trans.GetChild(1).transform.position;
         //gridItem.PartsGameObject.transform.position = trans.position;
     }
 }
