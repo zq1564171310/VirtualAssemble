@@ -16,12 +16,8 @@ public class Parts : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, 
     // Use this for initialization
     void Start()
     {
-        StartPos = gameObject.transform.position;
-        EndPos = GameObject.Find("Engine/Model/" + gameObject.name).transform.position;
-        if (gameObject.name == "NONE 106")
-        {
-            gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HighLightMate;
-        }
+        //StartPos = gameObject.transform.position;
+        //EndPos = GameObject.Find("Engine/Model/" + gameObject.name).transform.position;
     }
 
     // Update is called once per frame

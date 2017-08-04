@@ -7,7 +7,7 @@ public class GlobalVar : MonoBehaviour
 {
     //脚本实例话
     public static UIPlaneManager _UIManagerPlaneScript = GameObject.Find("Canvas/UIManagerPlane").GetComponent<UIPlaneManager>();   //UI管理类的实例
-    public static PartsManager _PartsManager = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject1").GetComponent<PartsManager>();
+    public static PartsManager _PartsManager = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel").GetComponent<PartsManager>();
 
     public static GetModelSize _GetModelSize = GameObject.Find("Models").GetComponent<GetModelSize>();
 
@@ -24,7 +24,7 @@ public class GlobalVar : MonoBehaviour
 
     public static GameObject _FatherGameObject = GameObject.Find("Engine/Model");         //获取工具类型UI对象
 
-    public static GameObject _PartsFatherGameObject = GameObject.Find("Models/ModelsManager");
+    public static GameObject _PartsFatherGameObject = GameObject.Find("Models");
 
     //UI按钮
     public static Button _PartsMenuBtn = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsBtn").GetComponent<Button>();

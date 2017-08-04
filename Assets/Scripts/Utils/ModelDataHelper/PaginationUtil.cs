@@ -57,8 +57,8 @@ public class PaginationUtil : MonoBehaviour
         m_PanelText = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PageText").GetComponent<Text>();
 
         //为上一页和下一页添加事件
-        //m_BtnNext.onClick.AddListener(() => { Next(); });
-        //m_BtnPrevious.onClick.AddListener(() => { Previous(); });
+        m_BtnNext.onClick.AddListener(() => { Next(); });
+        m_BtnPrevious.onClick.AddListener(() => { Previous(); });
 
     }
 
@@ -204,18 +204,6 @@ public class PaginationUtil : MonoBehaviour
         }
     }
 
-    ///// <summary>
-    ///// 加载一个Sprite
-    ///// </summary>
-    ///// <param name="assetName">资源名称</param>
-    //private Sprite LoadSprite(string assetName)
-    //{
-    //    Texture texture = (Texture)Resources.Load(assetName);
-
-    //    Sprite sprite = Sprite.Create((Texture2D)texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-    //    return sprite;
-    //}
-
     /// <summary>
     /// 将一个GridItem实例绑定到指定的Transform上
     /// </summary>
@@ -229,6 +217,7 @@ public class PaginationUtil : MonoBehaviour
         //{
         //    Debug.Log("当前点击的元素名称为:" + gridItem.ItemName);
         //});
+        gridItem.PartsGameObject.transform.position = trans.GetChild(1).transform.position;
         //gridItem.PartsGameObject.transform.position = trans.position;
     }
 }

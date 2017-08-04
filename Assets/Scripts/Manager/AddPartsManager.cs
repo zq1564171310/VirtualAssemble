@@ -9,25 +9,19 @@ public class AddPartsManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        GameObject game;
-
         PartsTransform = GlobalVar._PartsFatherGameObject.GetComponentsInChildren<Transform>();
+        Parts parts;
         foreach (Transform child in PartsTransform)
         {
             if (null != child.GetComponent<MeshFilter>())
             {
-                Parts parts = new Parts();
+                child.gameObject.AddComponent<Parts>();
+                parts = child.GetComponent<Parts>();
                 parts.EndPos = child.transform.position;
                 parts.LocalSize = child.transform.localScale;
                 parts.Name = child.name;
                 parts.PartsGameObject = child.gameObject;
                 GlobalVar._PartsManager.PartsList.Add(parts);
-
-                game = GameObject.Find(("Engine/Model/") + child.name);
-                if (null != game && game.name != "NONE 106")
-                {
-                    game.SetActive(false);
-                }
             }
         }
     }

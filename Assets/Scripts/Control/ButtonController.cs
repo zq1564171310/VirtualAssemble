@@ -11,8 +11,8 @@ public class ButtonController : MonoBehaviour
         EventTriggerListener.Get(GlobalVar._ToolsMenuBtn.gameObject).onClick = OnButtonClick;
 
 
-        EventTriggerListener.Get(GlobalVar._PartsNextBtn.gameObject).onClick = OnButtonClick;
-        EventTriggerListener.Get(GlobalVar._PartsPreviousBtn.gameObject).onClick = OnButtonClick;
+        //EventTriggerListener.Get(GlobalVar._PartsNextBtn.gameObject).onClick = OnButtonClick;
+        //EventTriggerListener.Get(GlobalVar._PartsPreviousBtn.gameObject).onClick = OnButtonClick;
     }
 
     private void OnButtonClick(GameObject gameObj)
