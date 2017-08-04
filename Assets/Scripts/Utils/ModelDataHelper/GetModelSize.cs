@@ -1,49 +1,101 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class GetModelSize : MonoBehaviour
+﻿/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
+/// <author>zq</author>
+/// <summary>
+/// 获取零件的真实大小
+/// </summary>
+namespace WyzLink.Utils.ModelDataHelper
 {
-    // Use this for initialization
-    void Start()
-    {
-        // Debug.Log(GetModelRealSize(GlobalVar._Parts86).ToString("f4"));
-    }
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using WyzLink.Parts;
 
-    public Vector3 GetPartModelRealSize(GameObject partModel)
+    public class GetModelSize : MonoBehaviour
     {
-        Vector3 Ver;
-        float xSize = partModel.GetComponent<MeshFilter>().mesh.bounds.size.x * partModel.transform.localScale.x;
-        float ySize = (float)Math.Round(partModel.GetComponent<MeshFilter>().mesh.bounds.size.y * partModel.transform.localScale.y, 3);
-        float zSize = partModel.GetComponent<MeshFilter>().mesh.bounds.size.z * partModel.transform.localScale.z;
-        Ver = new Vector3(xSize, ySize, zSize);
-        return Ver;
-    }
-
-    public Vector3 GetToolModelRealSize(GameObject toolModel)
-    {
-        Vector3 Ver;
-        Transform[] Trans = toolModel.GetComponentsInChildren<Transform>();
-        GameObject realToolModel = null;
-        foreach (Transform child in Trans)
+        // Use this for initialization
+        void Start()
         {
-            if (null != child.GetComponent<MeshFilter>())
-            {
-                realToolModel = child.gameObject;
-            }
+
         }
-        if (null != realToolModel)
+
+        /// <summary>
+        /// 获取零件的大小尺寸
+        /// </summary>
+        /// <param name="partModel"></param>
+        /// <returns></returns>
+        public Vector3 GetPartModelRealSize(GameObject partModel)
         {
-            float xSize = realToolModel.GetComponent<MeshFilter>().mesh.bounds.size.x * realToolModel.transform.localScale.x;
-            float ySize = (float)Math.Round(realToolModel.GetComponent<MeshFilter>().mesh.bounds.size.y * realToolModel.transform.localScale.y, 3);
-            float zSize = realToolModel.GetComponent<MeshFilter>().mesh.bounds.size.z * realToolModel.transform.localScale.z;
+            Vector3 Ver;
+            float xSize = partModel.GetComponent<MeshFilter>().mesh.bounds.size.x * partModel.transform.localScale.x;
+            float ySize = (float)Math.Round(partModel.GetComponent<MeshFilter>().mesh.bounds.size.y * partModel.transform.localScale.y, 3);
+            float zSize = partModel.GetComponent<MeshFilter>().mesh.bounds.size.z * partModel.transform.localScale.z;
+            
             Ver = new Vector3(xSize, ySize, zSize);
+            return Ver;
         }
-        else
+
+        /// <summary>
+        /// 获取工具大大小尺寸
+        /// </summary>
+        /// <param name="toolModel"></param>
+        /// <returns></returns>
+        public Vector3 GetToolModelRealSize(GameObject toolModel)
         {
-            Ver = new Vector3(0, 0, 0);
+            Vector3 Ver;
+            Transform[] Trans = toolModel.GetComponentsInChildren<Transform>();
+            GameObject realToolModel = null;
+            foreach (Transform child in Trans)
+            {
+                if (null != child.GetComponent<MeshFilter>())
+                {
+                    realToolModel = child.gameObject;
+                }
+            }
+            if (null != realToolModel)
+            {
+                float xSize = realToolModel.GetComponent<MeshFilter>().mesh.bounds.size.x * realToolModel.transform.localScale.x;
+                float ySize = (float)Math.Round(realToolModel.GetComponent<MeshFilter>().mesh.bounds.size.y * realToolModel.transform.localScale.y, 3);
+                float zSize = realToolModel.GetComponent<MeshFilter>().mesh.bounds.size.z * realToolModel.transform.localScale.z;
+                Ver = new Vector3(xSize, ySize, zSize);
+            }
+            else
+            {
+                Ver = new Vector3(0, 0, 0);
+            }
+            return Ver;
         }
-        return Ver;
+
+        /// <summary>
+        /// 获取统一规格需要缩放的大小比例
+        /// </summary>
+        /// <param name="go"></param>
+        /// <returns></returns>
+        public float Scaling(GameObject go, ModelType type)
+        {
+            float scalingNum = 1;
+            Vector3 targeSize = GlobalVar.ModelSize;
+            if (ModelType.Part == type)
+            {
+                Vector3 localSize = GetPartModelRealSize(go);
+                List<float> list = new List<float>();
+                list.Add(localSize.x);
+                list.Add(localSize.y);
+                list.Add(localSize.z);
+                list.Sort();
+                if (list[2] >= targeSize.x)
+                {
+                    scalingNum = list[2] / targeSize.x;
+                }
+                else
+                {
+                    scalingNum = list[2] / targeSize.x;
+                }
+            }
+            else if (ModelType.Tools == type)
+            {
+
+            }
+            return scalingNum;
+        }
     }
 }

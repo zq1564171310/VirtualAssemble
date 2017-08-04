@@ -1,33 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class AddToolsManager : MonoBehaviour
+﻿/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
+/// <author>zq</author>
+/// <summary>
+/// 扫描添加工具集合
+/// </summary>
+namespace WyzLink.Manager
 {
-    private GameObject[] Tools;    //Resoures目录下的工具预制体
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
 
-    private List<GameObject> ToolsList = new List<GameObject>();
-
-    // Use this for initialization
-    void Start()
+    public class AddToolsManager : MonoBehaviour
     {
-        Tools = Resources.LoadAll<GameObject>("ToolsPrefabs");
+        private GameObject[] Tools;    //Resoures目录下的工具预制体
 
-        if (Tools.Length > 0)
+        private List<GameObject> ToolsList = new List<GameObject>();
+
+        // Use this for initialization
+        void Start()
         {
-            for (int i = 0; i < Tools.Length; i++)
-            {
-                ToolsList.Add(Instantiate(Tools[i]));
-                ToolsList[i].transform.parent = GlobalVar._ToolsGameObjects.transform;
+            Tools = Resources.LoadAll<GameObject>("ToolsPrefabs");
 
-                //Debug.Log(GlobalVar._GetModelSize.GetToolModelRealSize(ToolsList[i]).ToString("f4"));
+            if (Tools.Length > 0)
+            {
+                for (int i = 0; i < Tools.Length; i++)
+                {
+                    ToolsList.Add(Instantiate(Tools[i]));
+                    ToolsList[i].transform.parent = GlobalVar._ToolsGameObjects.transform;
+
+                    //Debug.Log(GlobalVar._GetModelSize.GetToolModelRealSize(ToolsList[i]).ToString("f4"));
+                }
             }
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+        // Update is called once per frame
+        void Update()
+        {
 
+        }
     }
 }
