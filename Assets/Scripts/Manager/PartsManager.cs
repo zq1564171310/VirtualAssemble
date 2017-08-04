@@ -23,10 +23,6 @@ public class PartsManager : MonoBehaviour
                 EndPosList.Add(child.transform.position);
             }
         }
-        //foreach (GameObject child in AssemblesList)
-        //{
-        //    child.GetComponent<MeshRenderer>().enabled = false;
-        //}
     }
 
     // Update is called once per frame

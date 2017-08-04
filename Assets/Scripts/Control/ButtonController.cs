@@ -10,8 +10,6 @@ public class ButtonController : MonoBehaviour
         EventTriggerListener.Get(GlobalVar._PartsMenuBtn.gameObject).onClick = OnButtonClick;
         EventTriggerListener.Get(GlobalVar._ToolsMenuBtn.gameObject).onClick = OnButtonClick;
 
-        //EventTriggerListener.Get(GlobalVar._Parts208.gameObject).onClick = OnButtonClick;
-
 
         EventTriggerListener.Get(GlobalVar._PartsNextBtn.gameObject).onClick = OnButtonClick;
         EventTriggerListener.Get(GlobalVar._PartsPreviousBtn.gameObject).onClick = OnButtonClick;
@@ -32,19 +30,15 @@ public class ButtonController : MonoBehaviour
             GlobalVar._UIManagerPlaneScript.MenuNum = 1;
             GlobalVar._UIManagerPlaneScript.UIRefreshFlag = true;
         }
-        else if (GlobalVar._PartsNextBtn.gameObject)
-        {
-            GlobalVar._PaginationUtil.Next();
-            Debug.Log("点击了“下一页”");
-        }
-        else if (GlobalVar._PartsPreviousBtn.gameObject)
-        {
-            GlobalVar._PaginationUtil.Previous();
-            Debug.Log("点击了“上一页”");
-        }
-        else if (gameObj == GlobalVar._Parts208.gameObject)
-        {
-            Debug.Log("点击了“280”");
-        }
+        //else if (GlobalVar._PartsNextBtn.gameObject)
+        //{
+        //    GlobalVar._PaginationUtil.Next();
+        //    Debug.Log("点击了“下一页”");
+        //}
+        //else if (GlobalVar._PartsPreviousBtn.gameObject)
+        //{
+        //    GlobalVar._PaginationUtil.Previous();
+        //    Debug.Log("点击了“上一页”");
+        //}
     }
 }

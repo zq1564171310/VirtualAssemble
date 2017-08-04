@@ -9,6 +9,8 @@ public class AddPartsManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GameObject game;
+
         PartsTransform = GlobalVar._PartsFatherGameObject.GetComponentsInChildren<Transform>();
         foreach (Transform child in PartsTransform)
         {
@@ -20,6 +22,12 @@ public class AddPartsManager : MonoBehaviour
                 parts.Name = child.name;
                 parts.PartsGameObject = child.gameObject;
                 GlobalVar._PartsManager.PartsList.Add(parts);
+
+                game = GameObject.Find(("Engine/Model/") + child.name);
+                if (null != game && game.name != "NONE 106")
+                {
+                    game.SetActive(false);
+                }
             }
         }
     }
