@@ -65,5 +65,15 @@ namespace WyzLink.Parts
             return this.installationState;
         }
 
+        internal void SetInstallationState(InstallationState installationState)
+        {
+            this.installationState = installationState;
+        }
+
+        public Vector3 GetTargetPosition()
+        {
+            return targetPosition;
+        }
+
     }
 }

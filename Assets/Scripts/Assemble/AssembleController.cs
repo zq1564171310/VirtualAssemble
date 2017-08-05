@@ -42,25 +42,46 @@ namespace WyzLink.Assemble
         {
             yield return new WaitForSeconds(1f);
 
-            foreach (var item in dependencyGraph.GetAllNodes())
+            foreach (var node in dependencyGraph.GetAllNodes())
             {
-                item.gameObject.SetActive(false);
+                node.SetInstallationState(InstallationState.NotInstalled);
+                node.gameObject.SetActive(false);
             }
-
             yield return -1;
-            List<Node> headers = dependencyGraph.GetHeaders().ToList();
-            while (headers.Count > 0)
-            {
-                List<Node> nextRound = new List<Node>();
-                foreach (var node in headers)
-                {
-                    node.gameObject.SetActive(true);
 
-                    nextRound.AddRange(dependencyGraph.GetNextSteps(node).ToList());
-                    yield return new WaitForSeconds(0.2f);
+            yield return StartCoroutine(FlowRenderOneFlow(dependencyGraph.GetHeaders()));
+            Debug.Log("All items are installed");
+        }
+
+        private IEnumerator FlowRenderOneFlow(IEnumerable<Node> headers)
+        {
+            foreach (var node in headers)
+            {
+                if (dependencyGraph.IsNodeValidToInstall(node))
+                {
+                    StartCoroutine(AssemblePart(node));
+
+                    yield return new WaitForSeconds(0.4f);
+
+                    yield return StartCoroutine(FlowRenderOneFlow(dependencyGraph.GetNextSteps(node)));
                 }
-                headers = nextRound;
             }
+        }
+
+        private IEnumerator AssemblePart(Node node)
+        {
+            Vector3 velocity = Vector3.up;
+            node.transform.position = Vector3.left * 2;
+            node.gameObject.SetActive(true);
+            node.SetInstallationState(InstallationState.Installed);
+            float deltaTime = 0;
+            while (deltaTime < 0.6f)
+            {
+                node.transform.position = Vector3.SmoothDamp(node.transform.position, node.GetTargetPosition(), ref velocity, 0.3f);
+                deltaTime += Time.deltaTime;
+                yield return 1;
+            }
+            node.transform.position = node.GetTargetPosition();
         }
 
         public IEnumerable<T> GetAllNodes<T>(Transform transform = null) where T : MonoBehaviour
