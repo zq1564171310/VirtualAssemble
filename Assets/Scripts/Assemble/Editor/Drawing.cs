@@ -107,18 +107,25 @@ public static class Drawing
         GL.PopMatrix();
     }
 
-    public static void curveFromTo(Rect wr, Rect wr2, Color color, Color shadow)
+    // mask == 1: foreground, mask == 2: background, mask == 3: both
+    public static void curveFromTo(Rect wr, Rect wr2, Color color, Color shadow, int mask = 3)
     {
-        Drawing.DrawBezierLine(
-            new Vector2(wr.x + wr.width, wr.y + 3 + wr.height / 2),
-            new Vector2(wr.x + wr.width + Mathf.Abs(wr2.x - (wr.x + wr.width)) / 2, wr.y + 3 + wr.height / 2),
-            new Vector2(wr2.x, wr2.y + 3 + wr2.height / 2),
-            new Vector2(wr2.x - Mathf.Abs(wr2.x - (wr.x + wr.width)) / 2, wr2.y + 3 + wr2.height / 2), shadow, 5, true, 20);
-        Drawing.DrawBezierLine(
-            new Vector2(wr.x + wr.width, wr.y + wr.height / 2),
-            new Vector2(wr.x + wr.width + Mathf.Abs(wr2.x - (wr.x + wr.width)) / 2, wr.y + wr.height / 2),
-            new Vector2(wr2.x, wr2.y + wr2.height / 2),
-            new Vector2(wr2.x - Mathf.Abs(wr2.x - (wr.x + wr.width)) / 2, wr2.y + wr2.height / 2), color, 2, true, 20);
+        if ((mask & 0x2) != 0)
+        {
+            Drawing.DrawBezierLine(
+                new Vector2(wr.x + wr.width, wr.y + 3 + wr.height / 2),
+                new Vector2(wr.x + wr.width + Mathf.Abs(wr2.x - (wr.x + wr.width)) / 2, wr.y + 3 + wr.height / 2),
+                new Vector2(wr2.x, wr2.y + 3 + wr2.height / 2),
+                new Vector2(wr2.x - Mathf.Abs(wr2.x - (wr.x + wr.width)) / 2, wr2.y + 3 + wr2.height / 2), shadow, 5, true, 20);
+        }
+        if ((mask & 0x1) != 0)
+        {
+            Drawing.DrawBezierLine(
+                new Vector2(wr.x + wr.width, wr.y + wr.height / 2),
+                new Vector2(wr.x + wr.width + Mathf.Abs(wr2.x - (wr.x + wr.width)) / 2, wr.y + wr.height / 2),
+                new Vector2(wr2.x, wr2.y + wr2.height / 2),
+                new Vector2(wr2.x - Mathf.Abs(wr2.x - (wr.x + wr.width)) / 2, wr2.y + wr2.height / 2), color, 2, true, 20);
+        }
     }
 
     // Other than method name, DrawBezierLine is unchanged from Linusmartensson's original implementation.

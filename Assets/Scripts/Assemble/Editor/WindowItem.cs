@@ -109,6 +109,14 @@ namespace WyzLink.Assemble
             this.windowRect = GUI.Window(this.id, this.windowRect, windowFunction, nodeId.ToString(), this.isDeleted ? styleWindowDeleted : styleWindowNormal);
             foreach (var w in previousSteps)
             {
+                curveFromToBg(w, this);
+            }
+        }
+
+        public void UpdateLate()
+        {
+            foreach (var w in previousSteps)
+            {
                 curveFromTo(w, this);
             }
         }
@@ -135,7 +143,13 @@ namespace WyzLink.Assemble
         public static void curveFromTo(WindowItem w1, WindowItem w2)
         {
             Color s = new Color(0.4f, 0.4f, 0.5f);
-            Drawing.curveFromTo(w1.windowRect, w2.windowRect, new Color(0.3f, 0.7f, 0.4f), s);
+            Drawing.curveFromTo(w1.windowRect, w2.windowRect, new Color(0.3f, 0.7f, 0.4f), s, 1);
+        }
+
+        public static void curveFromToBg(WindowItem w1, WindowItem w2)
+        {
+            Color s = new Color(0.4f, 0.4f, 0.5f);
+            Drawing.curveFromTo(w1.windowRect, w2.windowRect, new Color(0.3f, 0.7f, 0.4f), s, 2);
         }
 
         public static void curveFromTo(WindowItem w1, Vector2 point)

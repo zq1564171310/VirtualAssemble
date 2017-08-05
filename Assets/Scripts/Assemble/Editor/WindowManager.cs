@@ -76,6 +76,14 @@ namespace WyzLink.Assemble
             }
         }
 
+        internal void UpdateWindowsLate()
+        {
+            foreach (var window in windowList.Values)
+            {
+                window.UpdateLate();
+            }
+        }
+
         public void RefreshLayout(Action<Rect> layoutCallback)
         {
             if (isDirty)
@@ -229,8 +237,8 @@ namespace WyzLink.Assemble
                     item.Layer = layer;
 
                     // Progress to next item
-                    this.layoutLayerBuffer[layer] = maxHeight;
                     maxHeight += item.GetWindowRect().height + WindowItem.LayoutGapVertically;
+                    this.layoutLayerBuffer[layer] = maxHeight;
                 }
             }
             return rect;
