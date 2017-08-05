@@ -29,7 +29,7 @@ namespace WyzLink.Utils.ModelDataHelper
             float xSize = partModel.GetComponent<MeshFilter>().mesh.bounds.size.x * partModel.transform.localScale.x;
             float ySize = (float)Math.Round(partModel.GetComponent<MeshFilter>().mesh.bounds.size.y * partModel.transform.localScale.y, 3);
             float zSize = partModel.GetComponent<MeshFilter>().mesh.bounds.size.z * partModel.transform.localScale.z;
-            
+
             Ver = new Vector3(xSize, ySize, zSize);
             return Ver;
         }
@@ -84,7 +84,7 @@ namespace WyzLink.Utils.ModelDataHelper
                 list.Sort();
                 if (list[2] >= targeSize.x)
                 {
-                    scalingNum = list[2] / targeSize.x;
+                    scalingNum = list[2] / targeSize.x;                    //目前定义的x，y，z是一样大的，先把逻辑简单化，将来在做复杂逻辑
                 }
                 else
                 {
