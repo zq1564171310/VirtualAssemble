@@ -7,6 +7,7 @@
 namespace WyzLink.Parts
 {
     using UnityEngine;
+    using UnityEngine.EventSystems;
     using Utils;
 
     /// <summary>
@@ -23,6 +24,8 @@ namespace WyzLink.Parts
         public string partName;
         [Tooltip("零件唯一标识")]
         public string partId;
+        [Tooltip("零件所属类别")]
+        public string Type;                      //零件类别（零件所在的不相同的Group）
 
         [Tooltip("注释")]
         public string note;
@@ -33,10 +36,15 @@ namespace WyzLink.Parts
         [Header("零件信息")]
         public Vector3 position;
 
-        private InstallationState installationState;
+        private InstallationState installationState;      //安装状态
 
         private Vector3 targetPosition;
         private Quaternion targetRotation;
+
+        public Vector3 StartPos;                  //安装的起始位置（在零件架上的位置）
+        public Vector3 EndPos;                    //安装的终点位置（最终在工作区上的位置）
+        public Vector3 LocalSize;                 //原本尺寸（从零件架上取下之后的大小，零件架上的零件都会被放缩到差不多的大小）
+
 
         private void Reset()
         {
@@ -56,5 +64,6 @@ namespace WyzLink.Parts
         {
             return this.installationState;
         }
+
     }
 }

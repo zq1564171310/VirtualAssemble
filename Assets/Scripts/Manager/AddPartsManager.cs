@@ -7,14 +7,22 @@ namespace WyzLink.Manager
 {
     using UnityEngine;
     using WyzLink.Assemble;
+    using WyzLink.Control;
     using WyzLink.Parts;
-    using WyzLink.Test;
 
     public class AddPartsManager : MonoBehaviour
     {
         private Transform[] PartsTransform;
 
         private GameObject RootPartGameObject;
+
+        //private NodesController _NodesController;
+
+        void Awake()
+        {
+            //_NodesController = NodesController.Instance;
+        }
+
         // Use this for initialization
         void Start()
         {
@@ -24,6 +32,10 @@ namespace WyzLink.Manager
                 if (null != rootObj.GetComponent<AssembleController>())
                 {
                     RootPartGameObject = rootObj;
+                    if (NodesController.Instance == null)
+                    {
+                        var _NodesController = new GameObject("NodesController", typeof(NodesController));
+                    }
                 }
             }
 
@@ -35,27 +47,26 @@ namespace WyzLink.Manager
 
             if (null != PartsTransform)
             {
-                Parts parts;
+                Node node;
                 foreach (Transform child in PartsTransform)
                 {
-                    if (null != child.GetComponent<MeshFilter>())
+                    if (null != child.GetComponent<Node>() && child.name != "底座平台" && child.name != "储气罐" && child.name != "抽屉气推" && child.name != "背门合页" && child.name != "背门合页 (1)" && child.name != "背门合页 (2)" && child.name != "背门合页 (3)" && child.name != "内部结构" && child.name != "背板锁" && child.name != "轨道固定座0" && child.name != "轨道固定座1" && child.name != "轨道固定杆" && child.name != "滑杆")
                     {
-                        child.gameObject.AddComponent<Parts>();
-                        parts = child.GetComponent<Parts>();
-                        parts.EndPos = child.transform.position;
-                        parts.LocalSize = GlobalVar._GetModelSize.GetPartModelRealSize(child.gameObject);
-                        parts.Name = child.name;
-                        parts.PartsGameObject = child.gameObject;
-                        GlobalVar._PartsManager.PartsList.Add(parts);
+                        child.gameObject.AddComponent<NodeManager>();
+                        node = child.gameObject.GetComponent<Node>();
+                        node.EndPos = child.transform.position;
+                        node.LocalSize = GlobalVar._GetModelSize.GetPartModelRealSize(child.gameObject);
+                        node.partName = child.name;
+                        NodesController.Instance.NodeList.Add(node);
                     }
                 }
 
                 float ScalingNum = 1;
-                //for (int i = 0; i < GlobalVar._PartsManager.PartsList.Count; i++)
-                //{
-                //    ScalingNum = GlobalVar._GetModelSize.Scaling(GlobalVar._PartsManager.PartsList[i].PartsGameObject, ModelType.Part);
-                //    GlobalVar._PartsManager.PartsList[i].PartsGameObject.transform.localScale = new Vector3(GlobalVar._PartsManager.PartsList[i].PartsGameObject.transform.localScale.x / ScalingNum, GlobalVar._PartsManager.PartsList[i].PartsGameObject.transform.localScale.y / ScalingNum, GlobalVar._PartsManager.PartsList[i].PartsGameObject.transform.localScale.z / ScalingNum);
-                //}
+                for (int i = 0; i < NodesController.Instance.NodeList.Count; i++)
+                {
+                    ScalingNum = GlobalVar._GetModelSize.Scaling(NodesController.Instance.NodeList[i].gameObject, ModelType.Part);
+                    NodesController.Instance.NodeList[i].gameObject.transform.localScale = new Vector3(NodesController.Instance.NodeList[i].gameObject.transform.localScale.x / ScalingNum, NodesController.Instance.NodeList[i].gameObject.transform.localScale.y / ScalingNum, NodesController.Instance.NodeList[i].gameObject.transform.localScale.z / ScalingNum);
+                }
             }
         }
 

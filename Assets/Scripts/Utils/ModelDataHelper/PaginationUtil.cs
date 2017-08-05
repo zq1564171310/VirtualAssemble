@@ -5,12 +5,11 @@
 /// </summary>
 namespace WyzLink.Utils.ModelDataHelper
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.UI;
-    using WyzLink.Test;
+    using WyzLink.Control;
+    using WyzLink.Parts;
 
     public class PaginationUtil : MonoBehaviour
     {
@@ -32,7 +31,7 @@ namespace WyzLink.Utils.ModelDataHelper
         /// <summary>
         /// 元素列表
         /// </summary>
-        private List<Parts> m_ItemsList;
+        private List<Node> m_ItemsList;
 
         /// <summary>
         /// 上一页
@@ -75,10 +74,11 @@ namespace WyzLink.Utils.ModelDataHelper
         /// </summary>
         private void InitItems()
         {
-            m_ItemsList = new List<Parts>();
-            for (int i = 0; i < GlobalVar._PartsManager.PartsList.Count; i++)
+            m_ItemsList = new List<Node>();
+            //初始化零件数据
+            for (int i = 0; i < NodesController.Instance.NodeList.Count; i++)
             {
-                m_ItemsList.Add(GlobalVar._PartsManager.PartsList[i]);
+                m_ItemsList.Add(NodesController.Instance.NodeList[i]);
             }
 
             //计算元素总个数
@@ -148,9 +148,9 @@ namespace WyzLink.Utils.ModelDataHelper
 
             for (int i = 0; i < m_ItemsList.Count; i++)
             {
-                if (0 == m_ItemsList[i].AssebleStaus)
+                if ((int)(InstallationState.NotInstalled) == m_ItemsList[i].GetInstallationState())
                 {
-                    m_ItemsList[i].PartsGameObject.SetActive(false);
+                    m_ItemsList[i].gameObject.SetActive(false);
                 }
             }
 
@@ -164,7 +164,7 @@ namespace WyzLink.Utils.ModelDataHelper
                     {
                         BindGridItem(transform.GetChild(canDisplay), m_ItemsList[6 - i]);
                         transform.GetChild(canDisplay).gameObject.SetActive(true);
-                        m_ItemsList[6 - i].PartsGameObject.SetActive(true);
+                        m_ItemsList[6 - i].gameObject.SetActive(true);
                     }
                     else
                     {
@@ -190,7 +190,7 @@ namespace WyzLink.Utils.ModelDataHelper
                         {
                             BindGridItem(transform.GetChild(canDisplay), m_ItemsList[6 * index - i]);
                             transform.GetChild(canDisplay).gameObject.SetActive(true);
-                            m_ItemsList[6 * index - i].PartsGameObject.SetActive(true);
+                            m_ItemsList[6 * index - i].gameObject.SetActive(true);
                         }
                         else
                         {
@@ -206,7 +206,7 @@ namespace WyzLink.Utils.ModelDataHelper
                     {
                         BindGridItem(transform.GetChild(6 - i), m_ItemsList[6 * index - i]);
                         transform.GetChild(6 - i).gameObject.SetActive(true);
-                        m_ItemsList[6 * index - i].PartsGameObject.SetActive(true);
+                        m_ItemsList[6 * index - i].gameObject.SetActive(true);
                     }
                 }
             }
@@ -217,10 +217,10 @@ namespace WyzLink.Utils.ModelDataHelper
         /// </summary>
         /// <param name="trans"></param>
         /// <param name="gridItem"></param>
-        private void BindGridItem(Transform trans, Parts gridItem)
+        private void BindGridItem(Transform trans, Node gridItem)
         {
             //trans.GetComponent<Image>().sprite = LoadSprite(gridItem.ItemSprite);
-            trans.Find("Text").GetComponent<Text>().text = gridItem.Name;
+            trans.Find("Text").GetComponent<Text>().text = gridItem.partName;
 
             //if (4 == a)
             //{
@@ -228,7 +228,7 @@ namespace WyzLink.Utils.ModelDataHelper
             //}
             //a++;
 
-            gridItem.PartsGameObject.transform.position = trans.GetChild(1).transform.position + gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center / 10;
+            gridItem.gameObject.transform.position = trans.GetChild(1).transform.position + gridItem.gameObject.GetComponent<MeshFilter>().mesh.bounds.center / 10;
             // gridItem.PartsGameObject.transform.position = trans.GetChild(1).transform.position + (gridItem.PartsGameObject.transform.position - new Vector3(gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.x / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.y / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.z / 10));
             //gridItem.PartsGameObject.transform.position = gridItem.PartsGameObject.transform.position + new Vector3(gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.x / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.y / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.z / 10);
             //GameObject.Find("Part__Feature").GetComponent<MeshFilter>().mesh.bounds.center = trans.GetChild(1).transform.position;
