@@ -5,8 +5,10 @@
 /// </summary>
 namespace WyzLink.Manager
 {
+    using System.Collections.Generic;
     using UnityEngine;
     using WyzLink.Assemble;
+    using WyzLink.Common;
     using WyzLink.Control;
     using WyzLink.Parts;
 
@@ -35,6 +37,12 @@ namespace WyzLink.Manager
                     if (NodesController.Instance == null)
                     {
                         var _NodesController = new GameObject("NodesController", typeof(NodesController));
+                        _NodesController.transform.parent = GlobalVar._RuntimeObject.transform;
+                    }
+                    if (NodesCommon.Instance == null)
+                    {
+                        var _NodesCommon = new GameObject("NodesCommon", typeof(NodesCommon));
+                        _NodesCommon.transform.parent = GlobalVar._RuntimeObject.transform;
                     }
                 }
             }
@@ -57,15 +65,29 @@ namespace WyzLink.Manager
                         node.EndPos = child.transform.position;
                         node.LocalSize = GlobalVar._GetModelSize.GetPartModelRealSize(child.gameObject);
                         node.partName = child.name;
-                        NodesController.Instance.NodeList.Add(node);
+                        #region  Test
+                        if (node.partName.Contains("底座"))
+                        {
+                            node.Type = "底座以及底座相关";
+                        }
+                        else if (node.partName.Contains("抽屉"))
+                        {
+                            node.Type = "抽屉以及抽屉相关";
+                        }
+                        else
+                        {
+                            node.Type = "其他";
+                        }
+                        #endregion
+                        NodesController.Instance.AddNodeList(node);
                     }
                 }
-
+                List<string> list = NodesCommon.Instance.GetNodeTypes();
                 float ScalingNum = 1;
-                for (int i = 0; i < NodesController.Instance.NodeList.Count; i++)
+                for (int i = 0; i < NodesController.Instance.GetNodeList().Count; i++)
                 {
-                    ScalingNum = GlobalVar._GetModelSize.Scaling(NodesController.Instance.NodeList[i].gameObject, ModelType.Part);
-                    NodesController.Instance.NodeList[i].gameObject.transform.localScale = new Vector3(NodesController.Instance.NodeList[i].gameObject.transform.localScale.x / ScalingNum, NodesController.Instance.NodeList[i].gameObject.transform.localScale.y / ScalingNum, NodesController.Instance.NodeList[i].gameObject.transform.localScale.z / ScalingNum);
+                    ScalingNum = GlobalVar._GetModelSize.Scaling(NodesController.Instance.GetNodeList()[i].gameObject, ModelType.Part);
+                    NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale = new Vector3(NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.x / ScalingNum, NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.y / ScalingNum, NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.z / ScalingNum);
                 }
             }
         }

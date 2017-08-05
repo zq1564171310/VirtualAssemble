@@ -6,7 +6,7 @@ using WyzLink.Manager;
 using WyzLink.Utils.ModelDataHelper;
 
 /// <summary>
-/// 存放项目资源，包含脚本，物体，材质，后续UI优化以后，将只保留材质贴图等固定资源，实现模块化，将不在获取物体，只获取绝对位置的脚本和物体
+/// 存放项目资源对象，包含脚本，物体，材质，后续UI优化以后，将只保留材质贴图等固定资源，实现模块化，将不在获取物体，只获取绝对位置的脚本和物体
 /// </summary>
 public class GlobalVar : MonoBehaviour
 {
@@ -26,6 +26,7 @@ public class GlobalVar : MonoBehaviour
 
     public static GameObject _ErrorMassage = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/ErrorMassage");         //获取工具类型UI对象
 
+    public static GameObject _RuntimeObject = GameObject.Find("RuntimeObject");
 
     //UI按钮
     public static Button _PartsMenuBtn = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsBtn").GetComponent<Button>();

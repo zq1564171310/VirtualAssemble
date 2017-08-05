@@ -66,7 +66,6 @@ namespace WyzLink.Utils.ModelDataHelper
             //为上一页和下一页添加事件
             m_BtnNext.onClick.AddListener(() => { Next(); });
             m_BtnPrevious.onClick.AddListener(() => { Previous(); });
-
         }
 
         /// <summary>
@@ -76,9 +75,9 @@ namespace WyzLink.Utils.ModelDataHelper
         {
             m_ItemsList = new List<Node>();
             //初始化零件数据
-            for (int i = 0; i < NodesController.Instance.NodeList.Count; i++)
+            for (int i = 0; i < NodesController.Instance.GetNodeList().Count; i++)
             {
-                m_ItemsList.Add(NodesController.Instance.NodeList[i]);
+                m_ItemsList.Add(NodesController.Instance.GetNodeList()[i]);
             }
 
             //计算元素总个数

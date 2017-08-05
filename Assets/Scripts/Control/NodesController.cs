@@ -12,7 +12,7 @@ namespace WyzLink.Control
 
     public class NodesController : Singleton<NodesController>
     {
-        public List<Node> NodeList = new List<Node>();              //存放所有零件
+        private List<Node> NodeList = new List<Node>();              //存放所有零件集合
 
         // Use this for initialization
         void Start()
@@ -29,6 +29,16 @@ namespace WyzLink.Control
         public List<Node> GetNodeList()
         {
             return NodeList;
+        }
+
+        public void SetNodeList(List<Node> listist)
+        {
+            NodeList = listist;
+        }
+
+        public void AddNodeList(Node node)
+        {
+            NodeList.Add(node);
         }
     }
 }
