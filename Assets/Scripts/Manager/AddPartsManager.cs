@@ -51,11 +51,11 @@ namespace WyzLink.Manager
                 }
 
                 float ScalingNum = 1;
-                for (int i = 0; i < GlobalVar._PartsManager.PartsList.Count; i++)
-                {
-                    ScalingNum = GlobalVar._GetModelSize.Scaling(GlobalVar._PartsManager.PartsList[i].PartsGameObject, ModelType.Part);
-                    GlobalVar._PartsManager.PartsList[i].PartsGameObject.transform.localScale = new Vector3(GlobalVar._PartsManager.PartsList[i].PartsGameObject.transform.localScale.x / ScalingNum, GlobalVar._PartsManager.PartsList[i].PartsGameObject.transform.localScale.y / ScalingNum, GlobalVar._PartsManager.PartsList[i].PartsGameObject.transform.localScale.z / ScalingNum);
-                }
+                //for (int i = 0; i < GlobalVar._PartsManager.PartsList.Count; i++)
+                //{
+                //    ScalingNum = GlobalVar._GetModelSize.Scaling(GlobalVar._PartsManager.PartsList[i].PartsGameObject, ModelType.Part);
+                //    GlobalVar._PartsManager.PartsList[i].PartsGameObject.transform.localScale = new Vector3(GlobalVar._PartsManager.PartsList[i].PartsGameObject.transform.localScale.x / ScalingNum, GlobalVar._PartsManager.PartsList[i].PartsGameObject.transform.localScale.y / ScalingNum, GlobalVar._PartsManager.PartsList[i].PartsGameObject.transform.localScale.z / ScalingNum);
+                //}
             }
         }
 
