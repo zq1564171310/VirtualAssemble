@@ -34,6 +34,8 @@ namespace WyzLink.Assemble
             }
         }
 
+        // To invoke an animation, call PlayAnimation with animation name and animation target, 
+        // The animation target is a transform, with Z forward as the forward
         private IEnumerator TestAnimations()
         {
             foreach (var t in targets)
