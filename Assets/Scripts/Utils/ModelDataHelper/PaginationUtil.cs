@@ -203,7 +203,6 @@ namespace WyzLink.Utils.ModelDataHelper
                 {
                     for (int i = 6; i > 0; i--)
                     {
-                        Debug.Log("Bind item " + i);
                         BindGridItem(transform.GetChild(6 - i), m_ItemsList[6 * index - i]);
                         transform.GetChild(6 - i).gameObject.SetActive(true);
                         m_ItemsList[6 * index - i].gameObject.SetActive(true);
