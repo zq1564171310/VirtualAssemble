@@ -25,6 +25,7 @@ namespace WyzLink.Assemble
         private bool isDirty = true;
         private bool doLayout = false;
         private int layoutToken = 0;
+        private float[] layoutLayerBuffer;
 
         private bool displayLinkedObjects = true;     // Display objects by default
         private bool displayUnlinkedObjects = true;     // Display objects by default
@@ -72,6 +73,14 @@ namespace WyzLink.Assemble
             foreach (var window in windowList.Values)
             {
                 window.Update();
+            }
+        }
+
+        internal void UpdateWindowsLate()
+        {
+            foreach (var window in windowList.Values)
+            {
+                window.UpdateLate();
             }
         }
 
@@ -194,6 +203,7 @@ namespace WyzLink.Assemble
         private Rect LayoutFlow(WindowItem startWindow, Vector2 startPoint)
         {
             var list = new List<WindowItem>() { startWindow };
+            this.layoutLayerBuffer = new float[1000];
             return LayoutWindowLayer(list, startPoint, 0);
         }
 
@@ -201,7 +211,7 @@ namespace WyzLink.Assemble
         {
             if (layer > 1000)
             {
-                Debug.LogError("There is a loop in the graph. Can't finish it.");
+                Debug.LogError("Stack overflow. Please check if there is a loop in the graph and remove it.");
                 return new Rect(point, Vector2.zero);
             }
             if (list.Count == 0)
@@ -210,24 +220,49 @@ namespace WyzLink.Assemble
             }
 
             Rect rect = new Rect(point, Vector2.zero);
+            float maxHeight = point.y;
             foreach (var item in list)
             {
-                if (item.LayoutToken != this.layoutToken || item.Layer < layer)
+                if (item.LayoutToken != this.layoutToken || item.GetWindowRect().x < point.x)
                 {
-                    item.LayoutAt(point);
+                    maxHeight = Mathf.Max(maxHeight, TestChildrenHeights(item.GetNextSteps(), layer + 1));
+                    item.LayoutAt(new Vector2(point.x, maxHeight));
                     rect = rect.Union(item.GetWindowRect());
-                    var childRect = LayoutWindowLayer(item.GetNextSteps(), point + new Vector2(item.GetWindowWidth() + WindowItem.LayoutGapHorizontally, 0), layer + 1);
-                    point.y += Mathf.Max(childRect.height, item.GetWindowRect().height) + WindowItem.LayoutGapVertically;
+
+                    var childRect = LayoutWindowLayer(item.GetNextSteps(), new Vector2(point.x + item.GetWindowWidth() + WindowItem.LayoutGapHorizontally, maxHeight), layer + 1);
                     rect = rect.Union(childRect);
 
                     // Mark the item
                     item.LayoutToken = this.layoutToken;
                     item.Layer = layer;
+
+                    // Progress to next item
+                    maxHeight += item.GetWindowRect().height + WindowItem.LayoutGapVertically;
+                    this.layoutLayerBuffer[layer] = maxHeight;
                 }
             }
             return rect;
         }
-        
+
+        private float TestChildrenHeights(List<WindowItem> list, int layer)
+        {
+            if (layer > 1000)
+            {
+                Debug.LogError("Stack overflow. Please check if there is a loop in the graph and remove it.");
+                return 0;
+            }
+
+            var maxHeight = this.layoutLayerBuffer[layer];
+            foreach (var item in list)
+            {
+                if (item.LayoutToken != this.layoutToken)
+                {
+                    maxHeight = Mathf.Max(maxHeight, TestChildrenHeights(item.GetNextSteps(), layer + 1));
+                }
+            }
+            return maxHeight;
+        }
+
         public WindowItem GetCurrentWindow(Vector2 mousePosition, bool connectionAreaOnly)
         {
             var position = mousePosition;
@@ -303,6 +338,7 @@ namespace WyzLink.Assemble
             if (needFresh)
             {
                 PrepareList(this.windowList);
+                UpdateVisibility();
             }
             return needFresh;
         }

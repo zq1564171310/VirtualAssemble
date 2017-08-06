@@ -7,8 +7,12 @@
 
 namespace WyzLink.Assemble
 {
+    using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
+    using WyzLink.Parts;
 
     public class AssembleController : MonoBehaviour
     {

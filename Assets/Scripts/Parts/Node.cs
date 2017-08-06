@@ -6,7 +6,10 @@
 
 namespace WyzLink.Parts
 {
+    using System;
+    using System.Collections;
     using UnityEngine;
+    using UnityEngine.EventSystems;
     using Utils;
 
     /// <summary>
@@ -23,6 +26,8 @@ namespace WyzLink.Parts
         public string partName;
         [Tooltip("零件唯一标识")]
         public string partId;
+        [Tooltip("零件所属类别")]
+        public string Type;                      //零件类别（零件所在的不相同的Group）
 
         [Tooltip("注释")]
         public string note;
@@ -33,10 +38,17 @@ namespace WyzLink.Parts
         [Header("零件信息")]
         public Vector3 position;
 
-        private InstallationState installationState;
+        private InstallationState installationState;      //安装状态
 
         private Vector3 targetPosition;
         private Quaternion targetRotation;
+
+        public Vector3 StartPos;                  //安装的起始位置（在零件架上的位置）
+        public Vector3 EndPos;                    //安装的终点位置（最终在工作区上的位置）
+        public Vector3 LocalSize;                 //原本尺寸（从零件架上取下之后的大小，零件架上的零件都会被放缩到差不多的大小）
+
+        public bool hasAnimation;
+        public AnimationPlayer[] animationAnchors;
 
         private void Reset()
         {
@@ -55,6 +67,51 @@ namespace WyzLink.Parts
         internal InstallationState GetInstallationState()
         {
             return this.installationState;
+        }
+
+        internal void SetInstallationState(InstallationState installationState)
+        {
+            this.installationState = installationState;
+        }
+
+        public Vector3 GetTargetPosition()
+        {
+            return targetPosition;
+        }
+
+        public Vector3 GetDimensions()
+        {
+            Bounds totalBounds = new Bounds();
+            var renderer = GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                totalBounds = renderer.bounds;
+            }
+            foreach (Transform t in transform)
+            {
+                var childRenderer = t.GetComponent<Renderer>();
+                if (childRenderer != null)
+                {
+                    totalBounds.Encapsulate(childRenderer.bounds);
+                }
+            }
+            return totalBounds.extents;
+        }
+
+        public Coroutine PlayAnimations()
+        {
+            return StartCoroutine(PlayAnimationCoroutine());
+        }
+
+        private IEnumerator PlayAnimationCoroutine()
+        {
+            if (hasAnimation)
+            {
+                foreach (var animationAnchor in this.animationAnchors)
+                {
+                    yield return animationAnchor.PlayAnimation();
+                }
+            }
         }
     }
 }

@@ -68,6 +68,7 @@ namespace WyzLink.Assemble
             if (windowManager != null)
             {
                 windowManager.UpdateWindows();
+                windowManager.UpdateWindowsLate();
                 UpdateConnecting();
                 UpdateContextMenu();
             }
@@ -195,6 +196,7 @@ namespace WyzLink.Assemble
                     {
                         if (this.dragEndWindow != null && this.dragEndWindow != this.dragStartWindow)
                         {
+                            WindowItem.curveFromToBg(this.dragStartWindow, this.dragEndWindow);
                             WindowItem.curveFromTo(this.dragStartWindow, this.dragEndWindow);
                         }
                         else

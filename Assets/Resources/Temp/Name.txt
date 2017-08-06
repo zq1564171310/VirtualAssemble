@@ -1,0 +1,219 @@
+Part__Feature	01-01脚轮安装板21
+Part__Feature001	01-01脚轮安装板
+Part__Feature002	01-01脚轮安装板
+Part__Feature003	01-01脚轮安装板
+Part__Feature004	01-02支撑型材121
+Part__Feature005	01-02支撑型材121
+Part__Feature006	01-02支撑型材121
+Part__Feature007	01-02支撑型材121
+Part__Feature008	01-03支撑型材221
+Part__Feature009	01-03支撑型材221
+Part__Feature010	01-03支撑型材221
+Part__Feature011	01-03支撑型材221
+Part__Feature012	01-04支撑型材321
+Part__Feature013	01-04支撑型材321
+Part__Feature014	01-04支撑型材321
+Part__Feature015	01-04支撑型材321
+Part__Feature016	01-10鼠标盒21
+Part__Feature017	01-20滑轨支撑件21
+Part__Feature018	01-20滑轨支撑件21
+Part__Feature019	01-20滑轨支撑件21
+Part__Feature020	01-20滑轨支撑件21
+Part__Feature021	01-20滑轨支撑件21
+Part__Feature022	01-20滑轨支撑件21
+Part__Feature023	01-21键盘抽屉21
+Part__Feature024	UWANDC11521
+Part__Feature025	防静电机架台面板21
+Part__Feature026	GD-100F21
+Part__Feature027	
+Part__Feature028	
+Part__Feature029	
+Part__Feature030	GD-100F21
+Part__Feature031	
+Part__Feature032	
+Part__Feature033	
+Part__Feature034	GD-100F21
+Part__Feature035	
+Part__Feature036	
+Part__Feature037	
+Part__Feature038	GD-100F21
+Part__Feature039	
+Part__Feature040	
+Part__Feature041	
+Part__Feature042	键盘21
+Part__Feature043	
+Part__Feature044	
+Part__Feature045	
+Part__Feature046	
+Part__Feature047	
+Part__Feature048	
+Part__Feature049	
+Part__Feature050	rail_SAR227021
+Part__Feature051	body_SAR23021
+Part__Feature052	rail_SAR227021
+Part__Feature053	body_SAR23021
+Part__Feature054	
+Part__Feature055	
+Part__Feature056	
+Part__Feature057	
+Part__Feature058	
+Part__Feature059	
+Part__Feature060	
+Part__Feature061	
+Part__Feature062	
+Part__Feature063	
+Part__Feature064	
+Part__Feature065	
+Part__Feature066	
+Part__Feature067	
+Part__Feature068	
+Part__Feature069	
+Part__Feature070	
+Part__Feature071	
+Part__Feature072	
+Part__Feature073	
+Part__Feature074	
+Part__Feature075	
+Part__Feature076	
+Part__Feature077	
+Part__Feature078	
+Part__Feature079	
+Part__Feature080	
+Part__Feature081	
+Part__Feature082	
+Part__Feature083	
+Part__Feature084	
+Part__Feature085	
+Part__Feature086	
+Part__Feature087	
+Part__Feature088	
+Part__Feature089	
+Part__Feature090	
+Part__Feature091	
+Part__Feature092	
+Part__Feature093	
+Part__Feature094	
+Part__Feature095	
+Part__Feature096	
+Part__Feature097	
+Part__Feature098	
+Part__Feature099	
+Part__Feature100	
+Part__Feature101	
+Part__Feature102	
+Part__Feature103	
+Part__Feature104	
+Part__Feature105	
+Part__Feature106	
+Part__Feature107	
+Part__Feature108	
+Part__Feature109	
+Part__Feature110	
+Part__Feature111	
+Part__Feature112	
+Part__Feature113	
+Part__Feature114	
+Part__Feature115	
+Part__Feature116	
+Part__Feature117	
+Part__Feature118	01-22支撑固定板21<6>
+Part__Feature119	01-22支撑固定板21<7>
+Part__Feature120	01-35阻挡块21
+Part__Feature121	01-15侧光源固定板21<7>
+Part__Feature122	01-15侧光源固定板21<7>
+Part__Feature123	
+Part__Feature124	
+Part__Feature125	
+Part__Feature126	
+Part__Feature127	
+Part__Feature128	01-16光源固定板21
+Part__Feature129	01-08测试箱底板21
+Part__Feature130	01-11测试箱脚垫21
+Part__Feature131	01-11测试箱脚垫21
+Part__Feature132	01-11测试箱脚垫21
+Part__Feature133	01-11测试箱脚垫21
+Part__Feature134	01-17电控箱21
+Part__Feature135	钣金护罩装配体1221
+Part__Feature136	钣金护罩装配体1221
+Part__Feature137	钣金护罩装配体1221
+Part__Feature138	01-09 后门板21
+Part__Feature139	Panel-IPM121TC1221
+Part__Feature140	16急停开关1221
+Part__Feature141	16绿色按钮1221
+Part__Feature142	16红色按钮1221
+Part__Feature143	16绿色按钮1221
+Part__Feature144	16红色按钮1221
+Part__Feature145	01-43急停小标示牌21
+Part__Feature146	01-42复位小标示牌21
+Part__Feature147	01-39电源指示灯小标示牌21
+Part__Feature148	01-40开机小标示牌 1221
+Part__Feature149	LOCNL11221
+Part__Feature150	
+Part__Feature151	
+Part__Feature152	嵌入式 H-1221221
+Part__Feature153	
+Part__Feature154	嵌入式 H-1221221
+Part__Feature155	
+Part__Feature156	网口1221
+Part__Feature157	01-32 铭牌1
+Part__Feature158	SHHPS5-21221
+Part__Feature159	
+Part__Feature160	
+Part__Feature161	01-41启动小标示牌21
+Part__Feature162	SHHPS5-21221
+Part__Feature163	
+Part__Feature164	
+Part__Feature165	
+Part__Feature166	
+Part__Feature167	
+Part__Feature168	
+Part__Feature169	
+Part__Feature170	
+Part__Feature171	
+Part__Feature172	
+Part__Feature173	
+Part__Feature174	
+Part__Feature175	
+Part__Feature176	
+Part__Feature177	
+Part__Feature178	
+Part__Feature179	
+Part__Feature180	
+Part__Feature181	
+Part__Feature182	
+Part__Feature183	
+Part__Feature184	
+Part__Feature185	
+Part__Feature186	
+Part__Feature187	
+Part__Feature188	
+Part__Feature189	
+Part__Feature190	
+Part__Feature191	
+Part__Feature192	
+Part__Feature193	
+Part__Feature194	
+Part__Feature195	
+Part__Feature196	
+Part__Feature197	
+Part__Feature198	
+Part__Feature199	
+Part__Feature200	
+Part__Feature201	
+Part__Feature202	
+Part__Feature203	
+Part__Feature204	
+Part__Feature205	
+Part__Feature206	
+Part__Feature207	
+Part__Feature208	
+Part__Feature209	
+Part__Feature210	
+Part__Feature211	
+Part__Feature212	
+Part__Feature213	
+Part__Feature214	
+Part__Feature215	
+Part__Feature216	
+Part__Feature217	
+Part__Feature218	

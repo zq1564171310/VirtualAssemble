@@ -1,15 +1,6 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Scripts/Control.meta
-guid: 26b05cb46dd567f479aa777e70ff8c0a
+guid: 38445f38982a3e54c9b9fb8873064453
 folderAsset: yes
-timeCreated: 1501046759
-licenseType: Pro
-=======
-guid: be53eecfe62447b4b97da32691da9c85
-folderAsset: yes
-timeCreated: 1501025159
-licenseType: Free
->>>>>>> 7496ebc396e7e60770d81dc0d14e1d6ddae4e4eb:Assets/Scripts/Parts/Editor.meta
 DefaultImporter:
   userData: 
   assetBundleName: 
