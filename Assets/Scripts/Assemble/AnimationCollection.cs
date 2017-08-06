@@ -1,13 +1,12 @@
 ﻿/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
 /// <author>xlzou</author>
 /// <summary>
-/// The part represent the part in the assembly line. It contains all the meta data 
-/// about this part, and will be attached to the actual part gameObject
+/// This is the manager for the animations. We use the animation object from 
+/// the children of this gameobject and use the name to identify.
 /// </summary>
 
 namespace WyzLink.Assemble
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
@@ -21,43 +20,25 @@ namespace WyzLink.Assemble
 
         void Start()
         {
-            animationList = new Dictionary<string, Transform>();
+            this.animationList = LoadAnimationsFromChildren();
+        }
+
+        private IDictionary<string, Transform> LoadAnimationsFromChildren()
+        {
+            var animationList = new Dictionary<string, Transform>();
             foreach (Transform t in transform)
             {
                 animationList.Add(t.gameObject.name, t);
                 t.gameObject.SetActive(false);
             }
-
-            if (selfTest)
-            {
-                StartCoroutine(TestAnimations());
-            }
+            return animationList;
         }
 
-        // To invoke an animation, call PlayAnimation with animation name and animation target, 
-        // The animation target is a transform, with Z forward as the forward
-        private IEnumerator TestAnimations()
-        {
-            foreach (var t in targets)
-            {
-                if (t == null)
-                {
-                    continue;
-                }
-                yield return new WaitForSeconds(3);
-
-                PlayAnimation("十字螺丝刀旋入", t);
-
-                yield return new WaitForSeconds(3);
-
-                PlayAnimation("一字螺丝刀旋入", t);
-
-                yield return new WaitForSeconds(3);
-
-                PlayAnimation("M12内六角旋入", t);
-            }
-        }
-
+        /// <summary>
+        /// This function will invoke a animation to play in the specific position and rotation
+        /// </summary>
+        /// <param name="name">The name of the animation, which is the name of the gameObject of the child of AnimationCollection</param>
+        /// <param name="target">The position and rotation where the animation will happen</param>
         public void PlayAnimation(string name, Transform target)
         {
             Transform animationTransform;
