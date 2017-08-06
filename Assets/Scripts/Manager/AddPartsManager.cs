@@ -16,7 +16,7 @@ namespace WyzLink.Manager
     {
         private Transform[] PartsTransform;
 
-        private GameObject RootPartGameObject;
+        private AssembleController RootPartGameObject;
 
         //private NodesController _NodesController;
 
@@ -29,21 +29,18 @@ namespace WyzLink.Manager
         void Start()
         {
             //获取根节点的物体
-            foreach (GameObject rootObj in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
+            RootPartGameObject = GameObject.FindObjectOfType<AssembleController>();
+            if (null != RootPartGameObject)
             {
-                if (null != rootObj.GetComponent<AssembleController>())
+                if (NodesController.Instance == null)
                 {
-                    RootPartGameObject = rootObj;
-                    if (NodesController.Instance == null)
-                    {
-                        var _NodesController = new GameObject("NodesController", typeof(NodesController));
-                        _NodesController.transform.parent = GlobalVar._RuntimeObject.transform;
-                    }
-                    if (NodesCommon.Instance == null)
-                    {
-                        var _NodesCommon = new GameObject("NodesCommon", typeof(NodesCommon));
-                        _NodesCommon.transform.parent = GlobalVar._RuntimeObject.transform;
-                    }
+                    var _NodesController = new GameObject("NodesController", typeof(NodesController));
+                    _NodesController.transform.parent = GlobalVar._RuntimeObject.transform;
+                }
+                if (NodesCommon.Instance == null)
+                {
+                    var _NodesCommon = new GameObject("NodesCommon", typeof(NodesCommon));
+                    _NodesCommon.transform.parent = GlobalVar._RuntimeObject.transform;
                 }
             }
 
@@ -58,12 +55,12 @@ namespace WyzLink.Manager
                 Node node;
                 foreach (Transform child in PartsTransform)
                 {
-                    if (null != child.GetComponent<Node>() && child.name != "底座平台" && child.name != "储气罐" && child.name != "抽屉气推" && child.name != "背门合页" && child.name != "背门合页 (1)" && child.name != "背门合页 (2)" && child.name != "背门合页 (3)" && child.name != "内部结构" && child.name != "背板锁" && child.name != "轨道固定座0" && child.name != "轨道固定座1" && child.name != "轨道固定杆" && child.name != "滑杆")
+                    if (null != child.GetComponent<Node>())
                     {
                         child.gameObject.AddComponent<NodeManager>();
                         node = child.gameObject.GetComponent<Node>();
                         node.EndPos = child.transform.position;
-                        node.LocalSize = GlobalVar._GetModelSize.GetPartModelRealSize(child.gameObject);
+                        node.LocalSize = node.GetDimensions();
                         node.partName = child.name;
                         #region  Test
                         if (node.partName.Contains("底座"))
@@ -87,7 +84,7 @@ namespace WyzLink.Manager
                 for (int i = 0; i < NodesController.Instance.GetNodeList().Count; i++)
                 {
                     ScalingNum = GlobalVar._GetModelSize.Scaling(NodesController.Instance.GetNodeList()[i].gameObject, ModelType.Part);
-                    NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale = new Vector3(NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.x / ScalingNum, NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.y / ScalingNum, NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.z / ScalingNum);
+                    NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale /= ScalingNum;
                 }
             }
         }

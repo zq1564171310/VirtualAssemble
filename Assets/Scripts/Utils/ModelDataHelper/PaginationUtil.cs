@@ -203,6 +203,7 @@ namespace WyzLink.Utils.ModelDataHelper
                 {
                     for (int i = 6; i > 0; i--)
                     {
+                        Debug.Log("Bind item " + i);
                         BindGridItem(transform.GetChild(6 - i), m_ItemsList[6 * index - i]);
                         transform.GetChild(6 - i).gameObject.SetActive(true);
                         m_ItemsList[6 * index - i].gameObject.SetActive(true);
@@ -227,7 +228,7 @@ namespace WyzLink.Utils.ModelDataHelper
             //}
             //a++;
 
-            gridItem.gameObject.transform.position = trans.GetChild(1).transform.position + gridItem.gameObject.GetComponent<MeshFilter>().mesh.bounds.center / 10;
+            gridItem.transform.position = trans.position;
             // gridItem.PartsGameObject.transform.position = trans.GetChild(1).transform.position + (gridItem.PartsGameObject.transform.position - new Vector3(gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.x / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.y / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.z / 10));
             //gridItem.PartsGameObject.transform.position = gridItem.PartsGameObject.transform.position + new Vector3(gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.x / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.y / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.z / 10);
             //GameObject.Find("Part__Feature").GetComponent<MeshFilter>().mesh.bounds.center = trans.GetChild(1).transform.position;

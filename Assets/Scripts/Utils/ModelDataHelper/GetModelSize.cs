@@ -25,13 +25,7 @@ namespace WyzLink.Utils.ModelDataHelper
         /// <returns></returns>
         public Vector3 GetPartModelRealSize(GameObject partModel)
         {
-            Vector3 Ver;
-            float xSize = partModel.GetComponent<MeshFilter>().mesh.bounds.size.x * partModel.transform.localScale.x;
-            float ySize = (float)Math.Round(partModel.GetComponent<MeshFilter>().mesh.bounds.size.y * partModel.transform.localScale.y, 3);
-            float zSize = partModel.GetComponent<MeshFilter>().mesh.bounds.size.z * partModel.transform.localScale.z;
-
-            Ver = new Vector3(xSize, ySize, zSize);
-            return Ver;
+            return partModel.GetComponent<Node>().GetDimensions();
         }
 
         /// <summary>
@@ -88,7 +82,7 @@ namespace WyzLink.Utils.ModelDataHelper
                 }
                 else
                 {
-                    scalingNum = list[2] / targeSize.x;
+                    scalingNum = Mathf.Max(0.5f, list[2] / targeSize.x);        // Do not make the parts too big
                 }
             }
             else if (ModelType.Tools == type)
