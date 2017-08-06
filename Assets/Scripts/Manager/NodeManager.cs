@@ -5,15 +5,22 @@
 /// </summary>
 namespace WyzLink.Manager
 {
+    using System.Collections;
     using UnityEngine;
     using UnityEngine.EventSystems;
 
     public class NodeManager : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
+        private Coroutine MaterialCoroutine;
+        private Material OriginalMaterial;
+
         // Use this for initialization
         void Start()
         {
-
+            if (null != gameObject.GetComponent<MeshRenderer>())
+            {
+                OriginalMaterial = gameObject.GetComponent<MeshRenderer>().sharedMaterial;
+            }
         }
 
         // Update is called once per frame
@@ -22,25 +29,42 @@ namespace WyzLink.Manager
 
         }
 
-        void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
+        public void OnPointerClick(PointerEventData eventData)
         {
 
         }
 
-        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+        public void OnPointerEnter(PointerEventData eventData)
         {
-            //if (null != gameObject.GetComponent<MeshFilter>())
-            //{
-            //    gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HighLightMate;
-            //}
+            if (null != gameObject.GetComponent<MeshRenderer>())
+            {
+                TransformIntoMaterial(GlobalVar.HighLightMate);
+            }
+
         }
 
-        void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+        public void OnPointerExit(PointerEventData eventData)
         {
-            //if (null != gameObject.GetComponent<MeshFilter>())
-            //{
-            //    gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.NomalMate;
-            //}
+            if (null != gameObject.GetComponent<MeshRenderer>())
+            {
+                TransformIntoMaterial(OriginalMaterial);
+            }
+
+        }
+
+        private void TransformIntoMaterial(Material targetMat)
+        {
+            if (this.MaterialCoroutine != null)
+            {
+                StopCoroutine(this.MaterialCoroutine);
+            }
+            this.MaterialCoroutine = StartCoroutine(TransformMaterialCoroutine(targetMat));
+        }
+
+        private IEnumerator TransformMaterialCoroutine(Material targetMat)
+        {
+            this.GetComponent<MeshRenderer>().material = targetMat;
+            yield return 0;
         }
     }
 }

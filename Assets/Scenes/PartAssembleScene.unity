@@ -24164,7 +24164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfe3cbc3d75f062418a2d0cd354985ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selfTest: 0
+  selfTest: 1
   targets:
   - {fileID: 1890858843}
   - {fileID: 1525232955}

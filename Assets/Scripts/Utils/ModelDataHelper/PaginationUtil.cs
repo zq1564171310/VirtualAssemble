@@ -210,7 +210,6 @@ namespace WyzLink.Utils.ModelDataHelper
                 }
             }
         }
-        int a = 0;
         /// <summary>
         /// 将一个GridItem实例绑定到指定的Transform上
         /// </summary>
@@ -218,16 +217,15 @@ namespace WyzLink.Utils.ModelDataHelper
         /// <param name="gridItem"></param>
         private void BindGridItem(Transform trans, Node gridItem)
         {
-            //trans.GetComponent<Image>().sprite = LoadSprite(gridItem.ItemSprite);
             trans.Find("Text").GetComponent<Text>().text = gridItem.partName;
 
-            //if (4 == a)
-            //{
-            //    GameObject.Find("Part__Feature004").transform.position = trans.GetChild(1).transform.position + (GameObject.Find("Part__Feature004").transform.position - new Vector3(GameObject.Find("Part__Feature004").GetComponent<MeshFilter>().mesh.bounds.center.x / 10, GameObject.Find("Part__Feature004").GetComponent<MeshFilter>().mesh.bounds.center.y / 10, GameObject.Find("Part__Feature").GetComponent<MeshFilter>().mesh.bounds.center.z / 10));
-            //}
-            //a++;
+            gridItem.gameObject.transform.position = trans.GetChild(1).transform.position;
 
-            gridItem.gameObject.transform.position = trans.GetChild(1).transform.position + gridItem.gameObject.GetComponent<MeshFilter>().mesh.bounds.center / 10;
+
+            //gridItem.gameObject.transform.position = trans.GetChild(1).transform.position + gridItem.gameObject.GetComponent<MeshFilter>().mesh.bounds.center / 10;
+
+
+
             // gridItem.PartsGameObject.transform.position = trans.GetChild(1).transform.position + (gridItem.PartsGameObject.transform.position - new Vector3(gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.x / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.y / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.z / 10));
             //gridItem.PartsGameObject.transform.position = gridItem.PartsGameObject.transform.position + new Vector3(gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.x / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.y / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.z / 10);
             //GameObject.Find("Part__Feature").GetComponent<MeshFilter>().mesh.bounds.center = trans.GetChild(1).transform.position;
