@@ -66,16 +66,16 @@ public class PaginationUtil : MonoBehaviour
     /// 初始化元素
     /// </summary>
     private void InitItems()
-    {
+    {//定义一个数组
         m_ItemsList = new List<Parts>();
         for (int i = 0; i < GlobalVar._PartsManager.PartsList.Count; i++)
-        {
+        {//遍历所有配件
             m_ItemsList.Add(GlobalVar._PartsManager.PartsList[i]);
         }
 
         //计算元素总个数
         m_ItemsCount = m_ItemsList.Count;
-        //计算总页数
+        //计算总页数BindGridItem
         m_PageCount = (m_ItemsCount % 6) == 0 ? m_ItemsCount / 6 : (m_ItemsCount / 6) + 1;
 
         BindPage(m_PageIndex);

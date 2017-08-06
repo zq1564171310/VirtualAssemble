@@ -5,7 +5,9 @@ using UnityEngine;
 public class PartsManager : MonoBehaviour
 {
     public bool AssembleFlag;
-
+    /// <summary>
+    /// 所有零件组
+    /// </summary>
     public List<Parts> PartsList = new List<Parts>();
 
     // Use this for initialization
