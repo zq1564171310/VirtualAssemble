@@ -79,6 +79,25 @@ namespace WyzLink.Parts
             return targetPosition;
         }
 
+        public Vector3 GetDimensions()
+        {
+            Bounds totalBounds = new Bounds();
+            var renderer = GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                totalBounds = renderer.bounds;
+            }
+            foreach (Transform t in transform)
+            {
+                var childRenderer = t.GetComponent<Renderer>();
+                if (childRenderer != null)
+                {
+                    totalBounds.Encapsulate(childRenderer.bounds);
+                }
+            }
+            return totalBounds.extents;
+        }
+
         public Coroutine PlayAnimations()
         {
             return StartCoroutine(PlayAnimationCoroutine());
