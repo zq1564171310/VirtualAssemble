@@ -57,7 +57,13 @@ namespace WyzLink.Assemble
             {
                 if (assembleController.GetDependencyGraph().IsNodeValidToInstall(node))
                 {
-                    StartCoroutine(AssemblePart(node));
+                    var coroutine = StartCoroutine(AssemblePart(node));
+
+                    if (node.hasAnimation)
+                    {
+                        yield return coroutine;
+                        yield return node.PlayAnimations();
+                    }
 
                     yield return new WaitForSeconds(0.4f);
 
@@ -92,17 +98,14 @@ namespace WyzLink.Assemble
                 {
                     continue;
                 }
-                yield return new WaitForSeconds(1.5f);
+                yield return AnimationCollection.Instance.PlayAnimation("十字螺丝刀旋入", t);
+                yield return new WaitForSeconds(0.1f);
 
-                AnimationCollection.Instance.PlayAnimation("十字螺丝刀旋入", t);
+                yield return AnimationCollection.Instance.PlayAnimation("一字螺丝刀旋入", t);
+                yield return new WaitForSeconds(0.1f);
 
-                yield return new WaitForSeconds(1.5f);
-
-                AnimationCollection.Instance.PlayAnimation("一字螺丝刀旋入", t);
-
-                yield return new WaitForSeconds(1.5f);
-
-                AnimationCollection.Instance.PlayAnimation("M12内六角旋入", t);
+                yield return AnimationCollection.Instance.PlayAnimation("M12内六角旋入", t);
+                yield return new WaitForSeconds(0.1f);
             }
         }
     }

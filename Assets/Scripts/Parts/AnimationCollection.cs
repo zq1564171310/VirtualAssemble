@@ -5,8 +5,9 @@
 /// the children of this gameobject and use the name to identify.
 /// </summary>
 
-namespace WyzLink.Assemble
+namespace WyzLink.Parts
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
@@ -14,9 +15,22 @@ namespace WyzLink.Assemble
 
     public class AnimationCollection : Singleton<AnimationCollection>
     {
+        public class AnimationPlay : CustomYieldInstruction
+        {
+            private bool isDone = false;
+            public void SetIsDone()
+            {
+                this.isDone = true;
+            }
+            public override bool keepWaiting
+            {
+                get
+                {
+                    return !isDone;
+                }
+            }
+        }
         private IDictionary<string, Transform> animationList;
-        public bool selfTest;
-        public Transform[] targets;
 
         void Start()
         {
@@ -39,26 +53,34 @@ namespace WyzLink.Assemble
         /// </summary>
         /// <param name="name">The name of the animation, which is the name of the gameObject of the child of AnimationCollection</param>
         /// <param name="target">The position and rotation where the animation will happen</param>
-        public void PlayAnimation(string name, Transform target)
+        public AnimationPlay PlayAnimation(string name, Transform target)
         {
+            var play = new AnimationPlay();
             Transform animationTransform;
             if (animationList.TryGetValue(name, out animationTransform))
             {
                 animationTransform.position = target.position;
                 animationTransform.rotation = target.rotation;
                 animationTransform.gameObject.SetActive(true);
-                StartCoroutine(TurnOffAnimation(animationTransform));
+                StartCoroutine(TurnOffAnimation(animationTransform, play));
             }
             else
             {
                 Debug.Log("Not about to find the animation of name " + name);
+                play.SetIsDone();
             }
+            return play;
         }
 
-        private IEnumerator TurnOffAnimation(Transform t)
+        private IEnumerator TurnOffAnimation(Transform t, AnimationPlay play)
         {
-            yield return new WaitForSeconds(1);
+            var animator = t.GetComponent<Animator>();
+            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("End"))
+            {
+                yield return new WaitForSeconds(0.3f);
+            }
             t.gameObject.SetActive(false);
+            play.SetIsDone();
         }
     }
 }

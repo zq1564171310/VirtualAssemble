@@ -6,6 +6,8 @@
 
 namespace WyzLink.Parts
 {
+    using System;
+    using System.Collections;
     using UnityEngine;
     using UnityEngine.EventSystems;
     using Utils;
@@ -45,6 +47,8 @@ namespace WyzLink.Parts
         public Vector3 EndPos;                    //安装的终点位置（最终在工作区上的位置）
         public Vector3 LocalSize;                 //原本尺寸（从零件架上取下之后的大小，零件架上的零件都会被放缩到差不多的大小）
 
+        public bool hasAnimation;
+        public AnimationPlayer[] animationAnchors;
 
         private void Reset()
         {
@@ -75,5 +79,20 @@ namespace WyzLink.Parts
             return targetPosition;
         }
 
+        public Coroutine PlayAnimations()
+        {
+            return StartCoroutine(PlayAnimationCoroutine());
+        }
+
+        private IEnumerator PlayAnimationCoroutine()
+        {
+            if (hasAnimation)
+            {
+                foreach (var animationAnchor in this.animationAnchors)
+                {
+                    yield return animationAnchor.PlayAnimation();
+                }
+            }
+        }
     }
 }
