@@ -56,7 +56,7 @@ namespace WyzLink.Manager
                 Node node;
                 foreach (Transform child in PartsTransform)
                 {
-                    if (null != child.GetComponent<Node>() && child.name != "底盘平台" && child.name != "接线器" && child.name != "底板组件0" && child.name != "耳机孔测试固定座" && child.name != "抽屉推拉杆")
+                    if (null != child.GetComponent<Node>() && child.name != "接线器" && child.name != "气压瓶" && child.name != "底板组件0" && child.name != "耳机孔测试固定座" && child.name != "抽屉推拉杆")
                     {
                         child.gameObject.AddComponent<NodeManager>();
                         node = child.gameObject.GetComponent<Node>();
@@ -74,7 +74,16 @@ namespace WyzLink.Manager
                             node.GetComponent<BoxCollider>().size = node.GetComponent<BoxCollider>().size / 10;
                         }
                         node.partName = child.name;
+
                         #region  Test
+                        if (child.name == "底盘平台")
+                        {
+                            node.SetInstallationState(InstallationState.Installed);     //底盘平台默认是安装的
+                        }
+                        else
+                        {
+                            node.SetInstallationState(InstallationState.NotInstalled);  //其他零件默认是未安装的
+                        }
                         if (node.partName.Contains("工作台"))
                         {
                             node.Type = "底座以及底座相关";
@@ -87,8 +96,8 @@ namespace WyzLink.Manager
                         {
                             node.Type = "其他";
                         }
-
                         #endregion
+
                         NodesController.Instance.AddNodeList(node);
                     }
                 }
@@ -100,6 +109,13 @@ namespace WyzLink.Manager
                         ScalingNum = GlobalVar._GetModelSize.Scaling(NodesController.Instance.GetNodeList()[i].gameObject, ModelType.Part);
                         NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale = new Vector3(NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.x / ScalingNum, NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.y / ScalingNum, NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.z / ScalingNum);
                     }
+                }
+
+                if (AssembleManager.Instance == null)
+                {
+                    var _AssembleManager = new GameObject("AssembleManager", typeof(AssembleManager));
+                    _AssembleManager.transform.parent = GlobalVar._RuntimeObject.transform;
+                    _AssembleManager.GetComponent<AssembleManager>().SetDependencyGraph(new DependencyGraph(RootPartGameObject.GetComponent<AssembleController>(), RootPartGameObject.GetComponent<AssembleController>().assembleFlow.text));
                 }
             }
         }

@@ -444,6 +444,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &17611788
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,6 +823,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &33295602
 GameObject:
   m_ObjectHideFlags: 0
@@ -1551,6 +1555,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1001 &55450927
 Prefab:
   m_ObjectHideFlags: 0
@@ -1601,6 +1607,10 @@ Prefab:
     - target: {fileID: 1605303716913278, guid: c1ec9a9ce12ef964eb719acbc9982a48, type: 2}
       propertyPath: m_Name
       value: M12HexKey
+      objectReference: {fileID: 0}
+    - target: {fileID: 1605303716913278, guid: c1ec9a9ce12ef964eb719acbc9982a48, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 95264513752280226, guid: c1ec9a9ce12ef964eb719acbc9982a48, type: 2}
@@ -1846,6 +1856,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &77538971
 GameObject:
   m_ObjectHideFlags: 0
@@ -2294,6 +2306,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &101571377
 GameObject:
   m_ObjectHideFlags: 0
@@ -2813,6 +2827,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &125015911
 GameObject:
   m_ObjectHideFlags: 0
@@ -3368,6 +3384,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &141353383
 GameObject:
   m_ObjectHideFlags: 0
@@ -4161,6 +4179,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &205355380
 GameObject:
   m_ObjectHideFlags: 0
@@ -4467,6 +4487,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &217772860
 GameObject:
   m_ObjectHideFlags: 0
@@ -4560,6 +4582,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &218951205
 GameObject:
   m_ObjectHideFlags: 0
@@ -4724,6 +4748,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &224322530
 GameObject:
   m_ObjectHideFlags: 0
@@ -5079,6 +5105,83 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 232583111}
   m_Mesh: {fileID: 4300032, guid: bc982b1f584a99b44b33872551ab9c79, type: 3}
+--- !u!1 &236510962
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 236510965}
+  - component: {fileID: 236510964}
+  - component: {fileID: 236510963}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!59 &236510963
+HingeJoint:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 236510962}
+  m_ConnectedBody: {fileID: 0}
+  m_Anchor: {x: 0, y: 0, z: 0}
+  m_Axis: {x: 1, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: 0.011607587, y: 0.16342217, z: -0.13195719}
+  m_UseSpring: 0
+  m_Spring:
+    spring: 0
+    damper: 0
+    targetPosition: 0
+  m_UseMotor: 0
+  m_Motor:
+    targetVelocity: 0
+    force: 0
+    freeSpin: 0
+  m_UseLimits: 0
+  m_Limits:
+    min: 0
+    max: 0
+    bounciness: 0
+    bounceMinVelocity: 0.2
+    contactDistance: 0
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+--- !u!54 &236510964
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 236510962}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!4 &236510965
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 236510962}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.011607587, y: 0.16342217, z: -0.13195719}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &239179869
 GameObject:
   m_ObjectHideFlags: 0
@@ -5669,6 +5772,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &264624721
 GameObject:
   m_ObjectHideFlags: 0
@@ -6117,6 +6222,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &284181904
 GameObject:
   m_ObjectHideFlags: 0
@@ -6281,6 +6388,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &295680957
 GameObject:
   m_ObjectHideFlags: 0
@@ -6334,6 +6443,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &298641583
 GameObject:
   m_ObjectHideFlags: 0
@@ -6458,6 +6569,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &299576196
 GameObject:
   m_ObjectHideFlags: 0
@@ -7318,6 +7431,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 331739673}
+  - component: {fileID: 331739674}
   m_Layer: 0
   m_Name: TestPoint2
   m_TagString: Untagged
@@ -7331,13 +7445,24 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 331739672}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.266, y: 0, z: 0.173}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.079180256, y: 0.2052486, z: 0.42199722}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1032681274}
-  m_RootOrder: 5
+  m_Father: {fileID: 1751253607}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &331739674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 331739672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf7fcf2fbcfa0248884cafff5dfad80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &334829370
 GameObject:
   m_ObjectHideFlags: 0
@@ -7622,6 +7747,47 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 352748253}
   m_Mesh: {fileID: 4300182, guid: bc982b1f584a99b44b33872551ab9c79, type: 3}
+--- !u!1 &352925203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 352925204}
+  - component: {fileID: 352925205}
+  m_Layer: 0
+  m_Name: Animation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &352925204
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 352925203}
+  m_LocalRotation: {x: 0.6807904, y: -0, z: -0, w: 0.73247826}
+  m_LocalPosition: {x: 0, y: 0.206, z: 0.232}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 997830597}
+  m_RootOrder: 52
+  m_LocalEulerAnglesHint: {x: 85.811005, y: 0, z: 0}
+--- !u!114 &352925205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 352925203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd2f0fecb6c55d1498cc92768b778fa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationName: "\u5341\u5B57\u87BA\u4E1D\u5200\u65CB\u5165"
 --- !u!1 &354734645
 GameObject:
   m_ObjectHideFlags: 0
@@ -7928,6 +8094,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &364000304
 GameObject:
   m_ObjectHideFlags: 0
@@ -8485,6 +8653,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &380843293
 GameObject:
   m_ObjectHideFlags: 0
@@ -8649,6 +8819,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &382572697
 GameObject:
   m_ObjectHideFlags: 0
@@ -8742,6 +8914,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &386181456
 GameObject:
   m_ObjectHideFlags: 0
@@ -9221,6 +9395,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &413600901
 GameObject:
   m_ObjectHideFlags: 0
@@ -9669,6 +9845,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &437094335
 GameObject:
   m_ObjectHideFlags: 0
@@ -10721,6 +10899,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &486278670
 GameObject:
   m_ObjectHideFlags: 0
@@ -11626,6 +11806,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &502418158
 GameObject:
   m_ObjectHideFlags: 0
@@ -12917,6 +13099,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &579372330
 GameObject:
   m_ObjectHideFlags: 0
@@ -13269,6 +13453,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &587178685
 GameObject:
   m_ObjectHideFlags: 0
@@ -13327,6 +13513,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &591696243
 GameObject:
   m_ObjectHideFlags: 0
@@ -13451,6 +13639,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &595400948
 GameObject:
   m_ObjectHideFlags: 0
@@ -13793,6 +13983,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &606096590
 GameObject:
   m_ObjectHideFlags: 0
@@ -13987,6 +14179,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &621363212
 GameObject:
   m_ObjectHideFlags: 0
@@ -14507,7 +14701,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 643691486}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.733, y: 0, z: 0}
+  m_LocalPosition: {x: -0.12, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 55450928}
@@ -14625,6 +14819,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1001 &648347371
 Prefab:
   m_ObjectHideFlags: 0
@@ -14671,6 +14867,10 @@ Prefab:
     - target: {fileID: 4163340212231446, guid: e34e4fc3c5211914fa97766927b8b12c, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885978076995308, guid: e34e4fc3c5211914fa97766927b8b12c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e34e4fc3c5211914fa97766927b8b12c, type: 2}
@@ -15270,6 +15470,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &672742983
 GameObject:
   m_ObjectHideFlags: 0
@@ -15718,6 +15920,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &695434287
 GameObject:
   m_ObjectHideFlags: 0
@@ -16237,6 +16441,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &712798645
 GameObject:
   m_ObjectHideFlags: 0
@@ -16472,6 +16678,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &714815357
 GameObject:
   m_ObjectHideFlags: 0
@@ -17332,6 +17540,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &745892844
 GameObject:
   m_ObjectHideFlags: 0
@@ -17668,6 +17878,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &755414594
 GameObject:
   m_ObjectHideFlags: 0
@@ -19181,6 +19393,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &832956863
 GameObject:
   m_ObjectHideFlags: 0
@@ -20005,6 +20219,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 1273856241286430, guid: 34f0ad64f3b43a4418261a9177336834, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 34f0ad64f3b43a4418261a9177336834, type: 2}
   m_IsPrefabParent: 0
@@ -20319,6 +20537,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &895074005
 GameObject:
   m_ObjectHideFlags: 0
@@ -20412,6 +20632,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &896562006
 GameObject:
   m_ObjectHideFlags: 0
@@ -20783,6 +21005,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &905921746
 GameObject:
   m_ObjectHideFlags: 0
@@ -21927,6 +22151,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &936207202
 GameObject:
   m_ObjectHideFlags: 0
@@ -22091,6 +22317,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &950982358
 GameObject:
   m_ObjectHideFlags: 0
@@ -22428,6 +22656,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &964438406
 GameObject:
   m_ObjectHideFlags: 0
@@ -23018,6 +23248,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &987834887
 GameObject:
   m_ObjectHideFlags: 0
@@ -23451,6 +23683,9 @@ Transform:
   - {fileID: 437305517}
   - {fileID: 1263675921}
   - {fileID: 146323492}
+  - {fileID: 352925204}
+  - {fileID: 1088503431}
+  - {fileID: 1840298274}
   m_Father: {fileID: 1473381809}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -23475,6 +23710,11 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 1
+  animationAnchors:
+  - {fileID: 352925205}
+  - {fileID: 1088503432}
+  - {fileID: 1840298275}
 --- !u!1 &1005549481
 GameObject:
   m_ObjectHideFlags: 0
@@ -23528,6 +23768,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1008730232
 GameObject:
   m_ObjectHideFlags: 0
@@ -24118,6 +24360,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1032681273
 GameObject:
   m_ObjectHideFlags: 0
@@ -24141,17 +24385,14 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1032681273}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.18681975, y: 0.2052486, z: 0.24899723}
+  m_LocalPosition: {x: -1.943, y: 0.925, z: 0.24899723}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1126898574}
   - {fileID: 1435055456}
   - {fileID: 643691487}
-  - {fileID: 1890858843}
-  - {fileID: 1525232955}
-  - {fileID: 331739673}
   m_Father: {fileID: 1751253607}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1032681275
 MonoBehaviour:
@@ -24161,14 +24402,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1032681273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfe3cbc3d75f062418a2d0cd354985ad, type: 3}
+  m_Script: {fileID: 11500000, guid: f48681b06431df6469feaef3c551d46d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   selfTest: 1
   targets:
   - {fileID: 1890858843}
   - {fileID: 1525232955}
   - {fileID: 331739673}
+=======
+>>>>>>> b354e2e2e49dcd3bc50f51591b73d9db32215ee6
 --- !u!1 &1033726581
 GameObject:
   m_ObjectHideFlags: 0
@@ -24718,6 +24962,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1063267781
 GameObject:
   m_ObjectHideFlags: 0
@@ -24882,6 +25128,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1066803731
 GameObject:
   m_ObjectHideFlags: 0
@@ -25355,6 +25603,47 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1083220498}
   m_Mesh: {fileID: 4300900, guid: bc982b1f584a99b44b33872551ab9c79, type: 3}
+--- !u!1 &1088503430
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1088503431}
+  - component: {fileID: 1088503432}
+  m_Layer: 0
+  m_Name: Animation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1088503431
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1088503430}
+  m_LocalRotation: {x: 0.51056, y: -0.4837941, z: -0.44676432, w: 0.5528774}
+  m_LocalPosition: {x: 0.342, y: 0.23, z: -0.387}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 997830597}
+  m_RootOrder: 53
+  m_LocalEulerAnglesHint: {x: 7.6010003, y: -89.39101, z: -85.402}
+--- !u!114 &1088503432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1088503430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd2f0fecb6c55d1498cc92768b778fa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationName: "\u4E00\u5B57\u87BA\u4E1D\u5200\u65CB\u5165"
 --- !u!1 &1089980716
 GameObject:
   m_ObjectHideFlags: 0
@@ -25448,6 +25737,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1090818211
 GameObject:
   m_ObjectHideFlags: 0
@@ -25896,6 +26187,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1117612614
 GameObject:
   m_ObjectHideFlags: 0
@@ -25990,7 +26283,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1126898573}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.526, y: 0, z: 0}
+  m_LocalPosition: {x: 0.111, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 648347372}
@@ -26392,6 +26685,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1137930517
 GameObject:
   m_ObjectHideFlags: 0
@@ -27883,6 +28178,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1197294349
 GameObject:
   m_ObjectHideFlags: 0
@@ -28598,6 +28895,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1220430393
 GameObject:
   m_ObjectHideFlags: 0
@@ -28700,6 +28999,7 @@ Transform:
   - {fileID: 1475529499}
   - {fileID: 2009082526}
   - {fileID: 1482544229}
+  - {fileID: 1758167666}
   m_Father: {fileID: 1165482972}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -28724,6 +29024,9 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 1
+  animationAnchors:
+  - {fileID: 1758167667}
 --- !u!1 &1239578582
 GameObject:
   m_ObjectHideFlags: 0
@@ -28817,6 +29120,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1239827284
 GameObject:
   m_ObjectHideFlags: 0
@@ -29508,6 +29813,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1287842011
 GameObject:
   m_ObjectHideFlags: 0
@@ -29622,6 +29929,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1290789876
 GameObject:
   m_ObjectHideFlags: 0
@@ -29988,6 +30297,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1307827835
 GameObject:
   m_ObjectHideFlags: 0
@@ -30081,6 +30392,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1308836246
 GameObject:
   m_ObjectHideFlags: 0
@@ -30174,6 +30487,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1310969902
 GameObject:
   m_ObjectHideFlags: 0
@@ -30409,6 +30724,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1315390883
 GameObject:
   m_ObjectHideFlags: 0
@@ -30644,6 +30961,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1321947394
 GameObject:
   m_ObjectHideFlags: 0
@@ -31236,6 +31555,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1331727333
 GameObject:
   m_ObjectHideFlags: 0
@@ -31968,6 +32289,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1346166358
 GameObject:
   m_ObjectHideFlags: 0
@@ -32842,6 +33165,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1388027380
 GameObject:
   m_ObjectHideFlags: 0
@@ -32965,6 +33290,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1394878143
 GameObject:
   m_ObjectHideFlags: 0
@@ -33058,6 +33385,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1404310049
 GameObject:
   m_ObjectHideFlags: 0
@@ -33151,6 +33480,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1407803855
 GameObject:
   m_ObjectHideFlags: 0
@@ -33490,6 +33821,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1416494761
 GameObject:
   m_ObjectHideFlags: 0
@@ -34000,6 +34333,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1425727585
 GameObject:
   m_ObjectHideFlags: 0
@@ -34235,6 +34570,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1435055455
 GameObject:
   m_ObjectHideFlags: 0
@@ -34258,7 +34595,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1435055455}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.312, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 874973074}
@@ -34512,6 +34849,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1447727796
 GameObject:
   m_ObjectHideFlags: 0
@@ -34605,6 +34944,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1450653020
 GameObject:
   m_ObjectHideFlags: 0
@@ -34771,6 +35112,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1463940091
 GameObject:
   m_ObjectHideFlags: 0
@@ -34941,7 +35284,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   assembleFlow: {fileID: 4900000, guid: e2c8bd28480c8554392adddaa65f4cb7, type: 3}
-  DoFlowRender: 0
 --- !u!4 &1473381809
 Transform:
   m_ObjectHideFlags: 0
@@ -35093,6 +35435,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1478332072
 GameObject:
   m_ObjectHideFlags: 0
@@ -35328,6 +35672,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1482544228
 GameObject:
   m_ObjectHideFlags: 0
@@ -36180,6 +36526,47 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1522663099}
   m_Mesh: {fileID: 4301166, guid: bc982b1f584a99b44b33872551ab9c79, type: 3}
+--- !u!1 &1522749753
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1522749754}
+  - component: {fileID: 1522749755}
+  m_Layer: 0
+  m_Name: Animation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1522749754
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1522749753}
+  m_LocalRotation: {x: 0.01197709, y: -0.78069925, z: 0.6246128, w: 0.014970077}
+  m_LocalPosition: {x: -0.013, y: 0.033173323, z: 0.027}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1825046441}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 77.324005, y: -177.80301, z: 0}
+--- !u!114 &1522749755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1522749753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd2f0fecb6c55d1498cc92768b778fa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationName: "\u5341\u5B57\u87BA\u4E1D\u5200\u65CB\u5165"
 --- !u!1 &1523936651
 GameObject:
   m_ObjectHideFlags: 0
@@ -36330,6 +36717,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1525232955}
+  - component: {fileID: 1525232956}
   m_Layer: 0
   m_Name: TestPoint1
   m_TagString: Untagged
@@ -36343,13 +36731,24 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1525232954}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.229, y: -0.281, z: -0}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.042180255, y: -0.075751394, z: 0.24899723}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1032681274}
-  m_RootOrder: 4
+  m_Father: {fileID: 1751253607}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1525232956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1525232954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf7fcf2fbcfa0248884cafff5dfad80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1526776963
 GameObject:
   m_ObjectHideFlags: 0
@@ -37179,6 +37578,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1549345213
 GameObject:
   m_ObjectHideFlags: 0
@@ -37556,6 +37957,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1571630308
 GameObject:
   m_ObjectHideFlags: 0
@@ -37933,6 +38336,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1588470856
 GameObject:
   m_ObjectHideFlags: 0
@@ -38168,6 +38573,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1590409908
 GameObject:
   m_ObjectHideFlags: 0
@@ -39397,6 +39804,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1636091203
 GameObject:
   m_ObjectHideFlags: 0
@@ -39916,6 +40325,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1650515797
 GameObject:
   m_ObjectHideFlags: 0
@@ -40151,6 +40562,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1668995856
 GameObject:
   m_ObjectHideFlags: 0
@@ -40771,6 +41184,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1704250890
 GameObject:
   m_ObjectHideFlags: 0
@@ -41533,6 +41948,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1728605444
 GameObject:
   m_ObjectHideFlags: 0
@@ -41657,6 +42074,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1734080619
 GameObject:
   m_ObjectHideFlags: 0
@@ -41821,6 +42240,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1735968605
 GameObject:
   m_ObjectHideFlags: 0
@@ -41914,6 +42335,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1738369207
 GameObject:
   m_ObjectHideFlags: 0
@@ -42278,6 +42701,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1751253607}
   - component: {fileID: 1751253606}
+  - component: {fileID: 1751253608}
   m_Layer: 0
   m_Name: UnityMain
   m_TagString: Untagged
@@ -42307,10 +42731,28 @@ Transform:
   m_LocalPosition: {x: -0.18026133, y: 0.4850114, z: -0.41708687}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1890858843}
+  - {fileID: 1525232955}
+  - {fileID: 331739673}
   - {fileID: 1032681274}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1751253608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1751253605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca36375196a6f6d44b431aba7b90f53d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targets:
+  - {fileID: 1890858843}
+  - {fileID: 1525232955}
+  - {fileID: 331739673}
 --- !u!1 &1752383992
 GameObject:
   m_ObjectHideFlags: 0
@@ -42666,6 +43108,47 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1756785277}
   m_Mesh: {fileID: 4301204, guid: bc982b1f584a99b44b33872551ab9c79, type: 3}
+--- !u!1 &1758167665
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1758167666}
+  - component: {fileID: 1758167667}
+  m_Layer: 0
+  m_Name: Animation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1758167666
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1758167665}
+  m_LocalRotation: {x: 0.01197709, y: -0.78069925, z: 0.6246128, w: 0.014970077}
+  m_LocalPosition: {x: 0.017, y: 0.018, z: 0.035}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1238564889}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 77.324005, y: -177.80301, z: 0}
+--- !u!114 &1758167667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1758167665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd2f0fecb6c55d1498cc92768b778fa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationName: "\u4E00\u5B57\u87BA\u4E1D\u5200\u65CB\u5165"
 --- !u!1 &1759090642
 GameObject:
   m_ObjectHideFlags: 0
@@ -43256,6 +43739,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1786952554
 GameObject:
   m_ObjectHideFlags: 0
@@ -43704,6 +44189,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1808535160
 GameObject:
   m_ObjectHideFlags: 0
@@ -44017,6 +44504,7 @@ Transform:
   - {fileID: 1217461917}
   - {fileID: 908437713}
   - {fileID: 1050070424}
+  - {fileID: 1522749754}
   m_Father: {fileID: 1165482972}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -44041,6 +44529,9 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 1
+  animationAnchors:
+  - {fileID: 1522749755}
 --- !u!1 &1828883304
 GameObject:
   m_ObjectHideFlags: 0
@@ -44394,6 +44885,47 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1839712869}
   m_Mesh: {fileID: 4300288, guid: bc982b1f584a99b44b33872551ab9c79, type: 3}
+--- !u!1 &1840298273
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1840298274}
+  - component: {fileID: 1840298275}
+  m_Layer: 0
+  m_Name: Animation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1840298274
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1840298273}
+  m_LocalRotation: {x: -0, y: -0.99981624, z: -0, w: 0.019171694}
+  m_LocalPosition: {x: 0.014, y: 0.227, z: 0.369}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 997830597}
+  m_RootOrder: 54
+  m_LocalEulerAnglesHint: {x: 0, y: -177.80301, z: 0}
+--- !u!114 &1840298275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1840298273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd2f0fecb6c55d1498cc92768b778fa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationName: "M12\u5185\u516D\u89D2\u65CB\u5165"
 --- !u!1 &1842100621
 GameObject:
   m_ObjectHideFlags: 0
@@ -45538,6 +46070,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1890858843}
+  - component: {fileID: 1890858844}
   m_Layer: 0
   m_Name: TestPoint0
   m_TagString: Untagged
@@ -45552,12 +46085,23 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1890858842}
   m_LocalRotation: {x: 0.056528952, y: 0.0127456905, z: -0.024018293, w: 0.99803066}
-  m_LocalPosition: {x: 0.127, y: -0.155, z: -0.275}
+  m_LocalPosition: {x: 0.31381977, y: 0.050248563, z: -0.026002795}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1032681274}
-  m_RootOrder: 3
+  m_Father: {fileID: 1751253607}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 6.5140004, y: 1.3110001, z: -2.683}
+--- !u!114 &1890858844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1890858842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf7fcf2fbcfa0248884cafff5dfad80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1894776277
 GameObject:
   m_ObjectHideFlags: 0
@@ -46123,6 +46667,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1922605282
 GameObject:
   m_ObjectHideFlags: 0
@@ -47281,6 +47827,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1978559464
 GameObject:
   m_ObjectHideFlags: 0
@@ -47476,6 +48024,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &1995851398
 GameObject:
   m_ObjectHideFlags: 0
@@ -47711,6 +48261,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &2003420520
 GameObject:
   m_ObjectHideFlags: 0
@@ -47810,6 +48362,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &2004625595
 GameObject:
   m_ObjectHideFlags: 0
@@ -47974,6 +48528,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &2006084585
 GameObject:
   m_ObjectHideFlags: 0
@@ -48280,6 +48836,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &2026666480
 GameObject:
   m_ObjectHideFlags: 0
@@ -48547,6 +49105,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &2036752736
 GameObject:
   m_ObjectHideFlags: 0
@@ -49634,6 +50194,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &2089499225
 GameObject:
   m_ObjectHideFlags: 0
@@ -50366,6 +50928,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &2127522882
 GameObject:
   m_ObjectHideFlags: 0
@@ -51027,6 +51591,8 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []
 --- !u!1 &2146594399
 GameObject:
   m_ObjectHideFlags: 0
@@ -51191,3 +51757,5 @@ MonoBehaviour:
   StartPos: {x: 0, y: 0, z: 0}
   EndPos: {x: 0, y: 0, z: 0}
   LocalSize: {x: 0, y: 0, z: 0}
+  hasAnimation: 0
+  animationAnchors: []

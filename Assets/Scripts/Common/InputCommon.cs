@@ -15,138 +15,139 @@ namespace WyzLink.Common
 
         public void OnInputUp(InputEventData eventData)
         {
-            Debug.LogFormat("OnInputUp\r\nSource: {0}  SourceId: {1}", eventData.InputSource, eventData.SourceId);
+            //Debug.LogFormat("OnInputUp\r\nSource: {0}  SourceId: {1}", eventData.InputSource, eventData.SourceId);
         }
 
         public void OnInputDown(InputEventData eventData)
         {
-            Debug.LogFormat("OnInputDown\r\nSource: {0}  SourceId: {1}", eventData.InputSource, eventData.SourceId);
+            //Debug.LogFormat("OnInputDown\r\nSource: {0}  SourceId: {1}", eventData.InputSource, eventData.SourceId);
         }
 
         public void OnInputClicked(InputClickedEventData eventData)
         {
-            Debug.LogFormat("OnInputClicked\r\nSource: {0}  SourceId: {1} TapCount: {2}", eventData.InputSource, eventData.SourceId, eventData.TapCount);
+            //Debug.LogFormat("OnInputClicked\r\nSource: {0}  SourceId: {1} TapCount: {2}", eventData.InputSource, eventData.SourceId, eventData.TapCount);
         }
 
         public void OnFocusEnter()
         {
-            Debug.Log("OnFocusEnter");
+            //Debug.Log("OnFocusEnter");
         }
 
         public void OnFocusExit()
         {
-            Debug.Log("OnFocusExit");
+            //Debug.Log("OnFocusExit");
         }
 
         public void OnSourceDetected(SourceStateEventData eventData)
         {
-            Debug.LogFormat("OnSourceDetected\r\nSource: {0}  SourceId: {1}", eventData.InputSource, eventData.SourceId);
+            //Debug.LogFormat("OnSourceDetected\r\nSource: {0}  SourceId: {1}", eventData.InputSource, eventData.SourceId);
         }
 
         public void OnSourceLost(SourceStateEventData eventData)
         {
-            Debug.LogFormat("OnSourceLost\r\nSource: {0}  SourceId: {1}", eventData.InputSource, eventData.SourceId);
+            //Debug.LogFormat("OnSourceLost\r\nSource: {0}  SourceId: {1}", eventData.InputSource, eventData.SourceId);
         }
 
         public void OnHoldStarted(HoldEventData eventData)
         {
+            Debug.LogFormat("抓起了： " + gameObject.name);
             Debug.LogFormat("OnHoldStarted\r\nSource: {0}  SourceId: {1}", eventData.InputSource, eventData.SourceId);
         }
 
         public void OnHoldCompleted(HoldEventData eventData)
         {
-            Debug.LogFormat("OnHoldCompleted\r\nSource: {0}  SourceId: {1}", eventData.InputSource, eventData.SourceId);
+            //Debug.LogFormat("OnHoldCompleted\r\nSource: {0}  SourceId: {1}", eventData.InputSource, eventData.SourceId);
         }
 
         public void OnHoldCanceled(HoldEventData eventData)
         {
-            Debug.LogFormat("OnHoldCanceled\r\nSource: {0}  SourceId: {1}", eventData.InputSource, eventData.SourceId);
+            //Debug.LogFormat("OnHoldCanceled\r\nSource: {0}  SourceId: {1}", eventData.InputSource, eventData.SourceId);
         }
 
         public void OnManipulationStarted(ManipulationEventData eventData)
         {
-            Debug.LogFormat("OnManipulationStarted\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
-                eventData.InputSource,
-                eventData.SourceId,
-                eventData.CumulativeDelta.x,
-                eventData.CumulativeDelta.y,
-                eventData.CumulativeDelta.z);
+            //Debug.LogFormat("OnManipulationStarted\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
+            //eventData.InputSource,
+            //eventData.SourceId,
+            //eventData.CumulativeDelta.x,
+            //eventData.CumulativeDelta.y,
+            //eventData.CumulativeDelta.z);
         }
 
         public void OnManipulationUpdated(ManipulationEventData eventData)
         {
             if (LogGesturesUpdateEvents)
             {
-                Debug.LogFormat("OnManipulationUpdated\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
-                    eventData.InputSource,
-                    eventData.SourceId,
-                    eventData.CumulativeDelta.x,
-                    eventData.CumulativeDelta.y,
-                    eventData.CumulativeDelta.z);
+                //Debug.LogFormat("OnManipulationUpdated\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
+                //eventData.InputSource,
+                //eventData.SourceId,
+                //eventData.CumulativeDelta.x,
+                //eventData.CumulativeDelta.y,
+                //eventData.CumulativeDelta.z);
             }
         }
 
         public void OnManipulationCompleted(ManipulationEventData eventData)
         {
-            Debug.LogFormat("OnManipulationCompleted\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
-                eventData.InputSource,
-                eventData.SourceId,
-                eventData.CumulativeDelta.x,
-                eventData.CumulativeDelta.y,
-                eventData.CumulativeDelta.z);
+            //Debug.LogFormat("OnManipulationCompleted\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
+            //    eventData.InputSource,
+            //    eventData.SourceId,
+            //    eventData.CumulativeDelta.x,
+            //    eventData.CumulativeDelta.y,
+            //    eventData.CumulativeDelta.z);
         }
 
         public void OnManipulationCanceled(ManipulationEventData eventData)
         {
-            Debug.LogFormat("OnManipulationCanceled\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
-                eventData.InputSource,
-                eventData.SourceId,
-                eventData.CumulativeDelta.x,
-                eventData.CumulativeDelta.y,
-                eventData.CumulativeDelta.z);
+            //Debug.LogFormat("OnManipulationCanceled\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
+            //    eventData.InputSource,
+            //    eventData.SourceId,
+            //    eventData.CumulativeDelta.x,
+            //    eventData.CumulativeDelta.y,
+            //    eventData.CumulativeDelta.z);
         }
 
         public void OnNavigationStarted(NavigationEventData eventData)
         {
-            Debug.LogFormat("OnNavigationStarted\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
-                eventData.InputSource,
-                eventData.SourceId,
-                eventData.CumulativeDelta.x,
-                eventData.CumulativeDelta.y,
-                eventData.CumulativeDelta.z);
+            //Debug.LogFormat("OnNavigationStarted\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
+            //    eventData.InputSource,
+            //    eventData.SourceId,
+            //    eventData.CumulativeDelta.x,
+            //    eventData.CumulativeDelta.y,
+            //    eventData.CumulativeDelta.z);
         }
 
         public void OnNavigationUpdated(NavigationEventData eventData)
         {
             if (LogGesturesUpdateEvents)
             {
-                Debug.LogFormat("OnNavigationUpdated\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
-                    eventData.InputSource,
-                    eventData.SourceId,
-                    eventData.CumulativeDelta.x,
-                    eventData.CumulativeDelta.y,
-                    eventData.CumulativeDelta.z);
+                //Debug.LogFormat("OnNavigationUpdated\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
+                //    eventData.InputSource,
+                //    eventData.SourceId,
+                //    eventData.CumulativeDelta.x,
+                //    eventData.CumulativeDelta.y,
+                //    eventData.CumulativeDelta.z);
             }
         }
 
         public void OnNavigationCompleted(NavigationEventData eventData)
         {
-            Debug.LogFormat("OnNavigationCompleted\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
-                eventData.InputSource,
-                eventData.SourceId,
-                eventData.CumulativeDelta.x,
-                eventData.CumulativeDelta.y,
-                eventData.CumulativeDelta.z);
+            //Debug.LogFormat("OnNavigationCompleted\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
+            //    eventData.InputSource,
+            //    eventData.SourceId,
+            //    eventData.CumulativeDelta.x,
+            //    eventData.CumulativeDelta.y,
+            //    eventData.CumulativeDelta.z);
         }
 
         public void OnNavigationCanceled(NavigationEventData eventData)
         {
-            Debug.LogFormat("OnNavigationCanceled\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
-                eventData.InputSource,
-                eventData.SourceId,
-                eventData.CumulativeDelta.x,
-                eventData.CumulativeDelta.y,
-                eventData.CumulativeDelta.z);
+            //Debug.LogFormat("OnNavigationCanceled\r\nSource: {0}  SourceId: {1}\r\nCumulativeDelta: {2} {3} {4}",
+            //    eventData.InputSource,
+            //    eventData.SourceId,
+            //    eventData.CumulativeDelta.x,
+            //    eventData.CumulativeDelta.y,
+            //    eventData.CumulativeDelta.z);
         }
     }
 }

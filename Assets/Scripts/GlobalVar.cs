@@ -41,8 +41,8 @@ public class GlobalVar : MonoBehaviour
 
 
     //材质
-    public static Material NomalMate = Resources.Load<Material>("Test");
-    public static Material HighLightMate = Resources.Load<Material>("Test4");
+    public static Material NextInstallMate = Resources.Load<Material>("NextInstallMate");
+    public static Material HighLightMate = Resources.Load<Material>("HighLightMate");
     public static Material HideLightMate = Resources.Load<Material>("Test2");
 
     //音频
