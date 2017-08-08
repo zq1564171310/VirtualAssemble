@@ -8,8 +8,9 @@ namespace WyzLink.Parts
 {
     internal enum InstallationState
     {
-        NotInstalled,
-        Step1Installed,
-        Installed,
+        NotInstalled,                             //还没安装
+        NextInstalling,                           //还没安装，但是轮到该零件安装了
+        Step1Installed,                           //正在安装
+        Installed,                                //已经安装了
     }
 }
