@@ -9,9 +9,8 @@ namespace WyzLink.Assemble
 {
     using UnityEditor;
     using UnityEngine;
-    using WyzLink.Parts;
 
-    public class InstallationFlowWindow<T> : EditorWindow where T: IFlowNode
+    public class InstallationFlowWindow<T> : EditorWindow where T: Parts.IFlowNode
     {
         public AssembleController target;
 

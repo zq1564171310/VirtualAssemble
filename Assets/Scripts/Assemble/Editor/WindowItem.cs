@@ -9,9 +9,8 @@ namespace WyzLink.Assemble
     using System.Collections.Generic;
     using UnityEditor;
     using UnityEngine;
-    using WyzLink.Parts;
 
-    public class WindowItem<T> where T: IFlowNode
+    public class WindowItem<T> where T: Parts.IFlowNode
     {
         //
         // Window structure

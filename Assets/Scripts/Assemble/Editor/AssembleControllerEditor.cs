@@ -9,7 +9,6 @@ namespace WyzLink.Assemble
 {
     using UnityEditor;
     using UnityEngine;
-    using WyzLink.Parts;
 
     public class AssembleControllerEditor : Editor
     {

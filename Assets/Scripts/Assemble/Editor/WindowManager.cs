@@ -14,9 +14,8 @@ namespace WyzLink.Assemble
     using UnityEditor;
     using UnityEngine;
     using Utils;
-    using WyzLink.Parts;
 
-    public class WindowManager<T> where T: IFlowNode
+    public class WindowManager<T> where T: Parts.IFlowNode
     {
         private IDictionary<int, WindowItem<T>> windowList = new Dictionary<int, WindowItem<T>>();
         private IList<WindowItem<T>> headers;
