@@ -8,11 +8,8 @@
 namespace WyzLink.Assemble
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
     using UnityEngine;
-    using WyzLink.Parts;
 
     public class AssembleController : MonoBehaviour
     {
@@ -29,7 +26,7 @@ namespace WyzLink.Assemble
             return dependencyGraph;
         }
 
-        public IEnumerable<T> GetAllNodes<T>(Transform transform = null) where T : MonoBehaviour
+        public IEnumerable<T> GetAllNodes<T>(Transform transform = null)
         {
             if (transform == null)
             {
@@ -37,7 +34,7 @@ namespace WyzLink.Assemble
             }
 
             var part = transform.GetComponent<T>();
-            if (part != null && part.enabled)
+            if (part != null && IsPartEnabledComponent(part))
             {
                 // We only count if the component is enabled
                 yield return part;
@@ -52,6 +49,13 @@ namespace WyzLink.Assemble
                     }
                 }
             }
+        }
+
+        private bool IsPartEnabledComponent<T>(T part)
+        {
+            // Kind of hacky, but so far it is the best way to convert a type to T
+            MonoBehaviour m = (MonoBehaviour)(object)part;
+            return m.enabled;
         }
     }
 }

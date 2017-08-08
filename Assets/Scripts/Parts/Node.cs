@@ -6,16 +6,14 @@
 
 namespace WyzLink.Parts
 {
-    using System;
     using System.Collections;
     using UnityEngine;
-    using UnityEngine.EventSystems;
     using Utils;
 
     /// <summary>
     /// 节点是每个零件的安装点。包括它的位置，旋转，还包括是哪个零件（零件名称）
     /// </summary>
-    public class Node : MonoBehaviour
+    public class Node : MonoBehaviour, IFlowNode
     {
         [Tooltip("节点唯一标识")]
         [ReadOnly]
@@ -112,6 +110,21 @@ namespace WyzLink.Parts
                     yield return animationAnchor.PlayAnimation();
                 }
             }
+        }
+
+        public int GetID()
+        {
+            return this.nodeId;
+        }
+
+        public string GetName()
+        {
+            return this.partName;
+        }
+
+        public GameObject GetTarget()
+        {
+            return this.gameObject;
         }
     }
 }

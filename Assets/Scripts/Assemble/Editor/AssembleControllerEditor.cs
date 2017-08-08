@@ -5,11 +5,12 @@
 /// about this part, and will be attached to the actual part gameObject
 /// </summary>
 
-using UnityEditor;
-using UnityEngine;
-
 namespace WyzLink.Assemble
 {
+    using UnityEditor;
+    using UnityEngine;
+    using WyzLink.Parts;
+
     public class AssembleControllerEditor : Editor
     {
         [CustomEditor(typeof(AssembleController))]
@@ -26,7 +27,7 @@ namespace WyzLink.Assemble
                 // TODO: For now, the file is fixed. We should consider make it a generic file and could be changed
                 if (GUILayout.Button("打开装配工序窗口", style))
                 {
-                    var window = EditorWindow.GetWindow<InstallationFlowWindow>(false, "装配工序");
+                    var window = EditorWindow.GetWindow<WyzLinkAssembleFlow>(false, "装配工序");
                     window.LoadContent(myController);
                     //window.Show();
                 }
