@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: color_bfbfbf
+  m_Name: BlackPlastic
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -59,9 +59,9 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.973
+    - _Glossiness: 0.405
     - _GlossyReflections: 1
-    - _Metallic: 0.87
+    - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -71,5 +71,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.7205882, g: 0.7205882, b: 0.7205882, a: 1}
+    - _Color: {r: 0.014705896, g: 0.00951558, b: 0.00951558, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
