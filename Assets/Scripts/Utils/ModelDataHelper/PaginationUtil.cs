@@ -226,19 +226,6 @@ namespace WyzLink.Utils.ModelDataHelper
             {
                 gridItem.gameObject.transform.position = trans.GetChild(1).transform.position;
             }
-
-            //gridItem.gameObject.transform.position = trans.GetChild(1).transform.position + gridItem.gameObject.GetComponent<MeshFilter>().mesh.bounds.center / 10;
-
-
-
-            gridItem.transform.position = trans.position;
-            // gridItem.PartsGameObject.transform.position = trans.GetChild(1).transform.position + (gridItem.PartsGameObject.transform.position - new Vector3(gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.x / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.y / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.z / 10));
-            //gridItem.PartsGameObject.transform.position = gridItem.PartsGameObject.transform.position + new Vector3(gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.x / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.y / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.z / 10);
-            //GameObject.Find("Part__Feature").GetComponent<MeshFilter>().mesh.bounds.center = trans.GetChild(1).transform.position;
-            //GameObject.Find("Part__Feature").transform.position = trans.GetChild(1).transform.position;
-
-            //gridItem.PartsGameObject.transform.position = trans.GetChild(1).transform.position + (gridItem.PartsGameObject.transform.position - new Vector3(gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.x / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.y / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.z / 10));
-            //gridItem.PartsGameObject.transform.position = gridItem.PartsGameObject.transform.position - new Vector3(gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.x / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.y / 10, gridItem.PartsGameObject.GetComponent<MeshFilter>().mesh.bounds.center.z / 10);
         }
     }
 }

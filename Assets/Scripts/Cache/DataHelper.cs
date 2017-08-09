@@ -5,6 +5,7 @@
 /// </summary>
 namespace WyzLink.Cache
 {
+    using WyzLink.Parts;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -13,7 +14,6 @@ namespace WyzLink.Cache
 
 #if UNITY_EDITOR
     using UnityEditor;
-    using WyzLink.Parts;
 #endif
 
     public class DataHelper

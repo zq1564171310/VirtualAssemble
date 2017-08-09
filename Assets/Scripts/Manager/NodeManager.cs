@@ -23,6 +23,7 @@ namespace WyzLink.Manager
 
         private Coroutine AsseablCoroutine;                //光标进入和失去材质改变协程
 
+        public float Var = 0.3f;
         // Use this for initialization
         void Start()
         {
@@ -173,7 +174,7 @@ namespace WyzLink.Manager
 
         void IManipulationHandler.OnManipulationUpdated(ManipulationEventData eventData)
         {
-            if (InstallationState.Step1Installed == gameObject.GetComponent<Node>().GetInstallationState() && 6 >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
+            if (InstallationState.Step1Installed == gameObject.GetComponent<Node>().GetInstallationState() && Var >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
             {
                 gameObject.GetComponent<Node>().SetInstallationState(InstallationState.Installed);
                 Destroy(gameObject.GetComponent<HandDraggable>());

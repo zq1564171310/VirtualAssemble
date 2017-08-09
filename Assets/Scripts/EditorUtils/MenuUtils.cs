@@ -7,11 +7,14 @@
 namespace WyzLink.Assemble
 {
     using System.Collections.Generic;
-    using UnityEditor;
     using UnityEngine;
+#if UNITY_EDITOR                                //申明宏定义，表示是unity模式下，Hololens模式下UnityEditor会报错
+    using UnityEditor;
+#endif
 
     public class MenuUtils : MonoBehaviour
     {
+#if UNITY_EDITOR
         [MenuItem("Edit/修正父节点坐标")]
         static void FixParentAccordinate()
         {
@@ -19,10 +22,13 @@ namespace WyzLink.Assemble
             {
                 FixParentAccordinate(Selection.activeTransform);
             }
+
         }
+#endif
 
         private static void FixParentAccordinate(UnityEngine.Transform transform)
         {
+#if UNITY_EDITOR
             var diff = GetBestFitParentPosition(transform);
 
             // Capture the undo list
@@ -39,6 +45,7 @@ namespace WyzLink.Assemble
                 t.localPosition -= diff;
             }
             transform.position += transform.TransformVector(diff);
+#endif
         }
 
         private static Vector3 GetBestFitParentPosition(Transform transform)
