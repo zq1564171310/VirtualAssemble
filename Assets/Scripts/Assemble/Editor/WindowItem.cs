@@ -129,7 +129,7 @@ namespace WyzLink.Assemble
             var menu = new GenericMenu();
             foreach (var window in this.nextSteps)
             {
-                menu.AddItem(new GUIContent("Remove " + window.nodeName), false, 
+                menu.AddItem(new GUIContent("Remove " + window.nodeName + "(" + window.nodeId + ")"), false, 
                     () => {
                         this.RemoveNextSteps(window);
                         windowManager.SetDirty();
