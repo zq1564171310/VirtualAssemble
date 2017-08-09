@@ -7,6 +7,7 @@
 
 namespace WyzLink.Assemble
 {
+    using System;
     using UnityEditor;
     using UnityEngine;
 
@@ -15,8 +16,6 @@ namespace WyzLink.Assemble
         public AssembleController target;
 
         private WindowManager<T> windowManager;
-
-        private Vector2 scrollPosition;
 
         public enum UIState
         {
@@ -36,8 +35,12 @@ namespace WyzLink.Assemble
         private bool displayUnlinked = true;
 
         private int PanelMarginTop = 20;
+        private int PanelMarginLeft = 0;
 
+        private Vector2 scrollPosition;
         private Vector2 panelSize = new Vector2(3000, 1000);
+
+        private const float autoScrollingMargin = 40.0f;
 
         private void OnEnable()
         {
@@ -63,7 +66,7 @@ namespace WyzLink.Assemble
         {
             UpdateTopToolbar();
 
-            scrollPosition = GUI.BeginScrollView(new Rect(0, PanelMarginTop, position.width, position.height - PanelMarginTop), scrollPosition, new Rect(Vector2.zero, panelSize));
+            scrollPosition = GUI.BeginScrollView(new Rect(PanelMarginLeft, PanelMarginTop, position.width - PanelMarginLeft, position.height - PanelMarginTop), scrollPosition, new Rect(Vector2.zero, panelSize));
             BeginWindows();
             if (windowManager != null)
             {
@@ -177,6 +180,7 @@ namespace WyzLink.Assemble
                 case EventType.mouseDrag:
                     this.draggingPos = Event.current.mousePosition;
                     this.dragEndWindow = this.windowManager.GetCurrentWindow(Event.current.mousePosition, false);
+                    this.scrollPosition += GetAdjustmentOffset(this.draggingPos);
                     Repaint();
                     break;
                 case EventType.mouseUp:
@@ -206,6 +210,36 @@ namespace WyzLink.Assemble
                     }
                     break;
             }
+        }
+
+        private Vector2 GetAdjustmentOffset(Vector2 mousePos)
+        {
+            var relativeMousePos = mousePos - this.scrollPosition;
+            Vector2 offset = Vector2.zero;
+            Vector2 viewPortSize = GetViewPortSize();
+            if (relativeMousePos.x < autoScrollingMargin && relativeMousePos.x > 0)
+            {
+                offset += Vector2.left * (autoScrollingMargin - relativeMousePos.x);
+            }
+            if (relativeMousePos.y < autoScrollingMargin && relativeMousePos.y > 0)
+            {
+                offset += Vector2.down * (autoScrollingMargin - relativeMousePos.y);
+            }
+            if (viewPortSize.x - relativeMousePos.x < autoScrollingMargin && viewPortSize.x - relativeMousePos.x > 0)
+            {
+                offset += Vector2.right * (autoScrollingMargin - relativeMousePos.x + viewPortSize.x);
+            }
+            if (viewPortSize.y - relativeMousePos.y < autoScrollingMargin && viewPortSize.y - relativeMousePos.y> 0)
+            {
+                offset += Vector2.up * (autoScrollingMargin - relativeMousePos.y + viewPortSize.y);
+            }
+            return offset;
+        }
+
+        private Vector2 GetViewPortSize()
+        {
+            // TODO: Will consider the scroll bar size if we have extra time
+            return new Vector2(position.width - PanelMarginLeft, position.height - PanelMarginTop);
         }
 
         public void LoadContent(AssembleController myController)
