@@ -10,11 +10,11 @@ namespace WyzLink.Assemble
     using UnityEditor;
     using UnityEngine;
 
-    public class InstallationFlowWindow : EditorWindow
+    public class InstallationFlowWindow<T> : EditorWindow where T: Parts.IFlowNode
     {
         public AssembleController target;
 
-        private WindowManager windowManager;
+        private WindowManager<T> windowManager;
 
         private Vector2 scrollPosition;
 
@@ -25,8 +25,8 @@ namespace WyzLink.Assemble
         };
         public UIState uiState = UIState.normalState;
 
-        private WindowItem dragStartWindow;
-        private WindowItem dragEndWindow;
+        private WindowItem<T> dragStartWindow;
+        private WindowItem<T> dragEndWindow;
         private Vector2 draggingPos;
 
         //
@@ -43,7 +43,7 @@ namespace WyzLink.Assemble
         {
             if (windowManager == null)
             {
-                windowManager = new WindowManager();
+                windowManager = new WindowManager<T>();
             }
             if (target != null)
             {
@@ -124,7 +124,7 @@ namespace WyzLink.Assemble
                 {
                     if (windowManager == null)
                     {
-                        windowManager = new WindowManager();
+                        windowManager = new WindowManager<T>();
                     }
                     windowManager.LoadWindows(target, (r) => this.panelSize = r.size);
                 }
@@ -196,12 +196,12 @@ namespace WyzLink.Assemble
                     {
                         if (this.dragEndWindow != null && this.dragEndWindow != this.dragStartWindow)
                         {
-                            WindowItem.curveFromToBg(this.dragStartWindow, this.dragEndWindow);
-                            WindowItem.curveFromTo(this.dragStartWindow, this.dragEndWindow);
+                            WindowItem<T>.curveFromToBg(this.dragStartWindow, this.dragEndWindow);
+                            WindowItem<T>.curveFromTo(this.dragStartWindow, this.dragEndWindow);
                         }
                         else
                         {
-                            WindowItem.curveFromTo(this.dragStartWindow, this.draggingPos);
+                            WindowItem<T>.curveFromTo(this.dragStartWindow, this.draggingPos);
                         }
                     }
                     break;
@@ -211,7 +211,7 @@ namespace WyzLink.Assemble
         public void LoadContent(AssembleController myController)
         {
             this.target = myController;
-            this.windowManager = new WindowManager();
+            this.windowManager = new WindowManager<T>();
             windowManager.LoadWindows(myController, (r) => this.panelSize = r.size);
         }
 

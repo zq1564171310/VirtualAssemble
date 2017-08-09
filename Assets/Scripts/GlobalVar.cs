@@ -28,17 +28,10 @@ public class GlobalVar : MonoBehaviour
 
     public static GameObject _RuntimeObject = GameObject.Find("RuntimeObject");
 
-    //UI按钮
-    public static Button _PartsMenuBtn = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsBtn").GetComponent<Button>();
-    public static Button _ToolsMenuBtn = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/ToolsPanel/ToolsBtn").GetComponent<Button>();
-
     public static Button _PartsNextBtn = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/NextBtn").GetComponent<Button>();
     public static Button _PartsPreviousBtn = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PreviousBtn").GetComponent<Button>();
 
     //UI按钮文本
-    public static Text _PartsMenuBtnText = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsBtn/Text").GetComponent<Text>();
-    public static Text _ToolsMenuBtnText = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/ToolsPanel/ToolsBtn/Text").GetComponent<Text>();
-
 
     //材质
     public static Material NextInstallMate = Resources.Load<Material>("NextInstallMate");

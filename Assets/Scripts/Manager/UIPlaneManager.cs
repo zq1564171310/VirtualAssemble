@@ -18,41 +18,6 @@ namespace WyzLink.Manager
         // Use this for initialization
         void Start()
         {
-            StartCoroutine(OnPlayIEnumerator());
-        }
-
-        IEnumerator OnPlayIEnumerator()
-        {
-            while (true)
-            {
-                if (true == UIRefreshFlag)
-                {
-                    if ((int)ModelType.Part == MenuNum)
-                    {
-                        GlobalVar._PartsTypePlane.SetActive(true);
-                        GlobalVar._ToolsTypePlane.SetActive(false);
-                        GlobalVar._PartsGameObjects.SetActive(true);
-                        GlobalVar._ToolsGameObjects.SetActive(false);
-                        GlobalVar._PartsMenuBtnText.color = Color.red;
-                        GlobalVar._ToolsMenuBtnText.color = Color.yellow;
-                    }
-                    else if ((int)ModelType.Tools == MenuNum)
-                    {
-                        GlobalVar._PartsTypePlane.SetActive(false);
-                        GlobalVar._ToolsTypePlane.SetActive(true);
-                        GlobalVar._PartsGameObjects.SetActive(false);
-                        GlobalVar._ToolsGameObjects.SetActive(true);
-                        GlobalVar._PartsMenuBtnText.color = Color.yellow;
-                        GlobalVar._ToolsMenuBtnText.color = Color.red;
-                    }
-                    else
-                    {
-                        Debug.LogError("没有该类型枚举");
-                    }
-                    UIRefreshFlag = false;
-                }
-                yield return new WaitForSeconds(0);
-            }
         }
     }
 }

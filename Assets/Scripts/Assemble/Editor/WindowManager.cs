@@ -6,20 +6,20 @@
 
 namespace WyzLink.Assemble
 {
-    using Parts;
-    using System.Collections.Generic;
-    using UnityEngine;
     using System;
-    using System.Text;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
+    using System.Text;
     using UnityEditor;
+    using UnityEngine;
     using Utils;
 
-    public class WindowManager
+    public class WindowManager<T> where T: Parts.IFlowNode
     {
-        private IDictionary<int, WindowItem> windowList = new Dictionary<int, WindowItem>();
-        private IList<WindowItem> headers;
-        private IList<WindowItem> standalones;
+        private IDictionary<int, WindowItem<T>> windowList = new Dictionary<int, WindowItem<T>>();
+        private IList<WindowItem<T>> headers;
+        private IList<WindowItem<T>> standalones;
         private const string defaultFileName = "AssembleFlow.txt";      // TODO: Will change this to a new file format later
 
         private bool isDirty = true;
@@ -34,7 +34,7 @@ namespace WyzLink.Assemble
 
         public WindowManager()
         {
-            this.windowList = new Dictionary<int, WindowItem>();
+            this.windowList = new Dictionary<int, WindowItem<T>>();
         }
 
         public int Count()
@@ -94,12 +94,12 @@ namespace WyzLink.Assemble
             LayoutWindows(layoutCallback);
         }
 
-        private void ApplyAssembleFlow(IDictionary<int, WindowItem> windowList, string flowString)
+        private void ApplyAssembleFlow(IDictionary<int, WindowItem<T>> windowList, string flowString)
         {
             AssembleFlowParser.ParseAssembleFlowFile(flowString, (int step0, int step1) =>
             {
-                WindowItem w0;
-                WindowItem w1;
+                WindowItem<T> w0;
+                WindowItem<T> w1;
                 if (windowList.TryGetValue(step0, out w0) && windowList.TryGetValue(step1, out w1))
                 {
                     w1.AddPreviousStep(w0);
@@ -111,10 +111,10 @@ namespace WyzLink.Assemble
             });
         }
 
-        private void PrepareList(IDictionary<int, WindowItem> windowList)
+        private void PrepareList(IDictionary<int, WindowItem<T>> windowList)
         {
-            this.headers = new List<WindowItem>();
-            this.standalones = new List<WindowItem>();
+            this.headers = new List<WindowItem<T>>();
+            this.standalones = new List<WindowItem<T>>();
             foreach (var window in windowList.Values)
             {
                 if (!window.HasPreviousSteps())
@@ -170,7 +170,7 @@ namespace WyzLink.Assemble
         // This function could only be called inside OnGUI
         private void LayoutWindowsOnGUI(Action<Rect> layoutCallback)
         {
-            var startPoint = Vector2.one * WindowItem.LayoutGapVerticallyGroup;
+            var startPoint = Vector2.one * WindowItem<T>.LayoutGapVerticallyGroup;
             this.layoutToken++;     // Start a new layout
             var panelSize = Rect.zero;
             if (this.headers != null)
@@ -178,7 +178,7 @@ namespace WyzLink.Assemble
                 foreach (var window in this.headers)
                 {
                     var rect = LayoutFlow(window, startPoint);
-                    startPoint.y = rect.yMax + WindowItem.LayoutGapVerticallyGroup;
+                    startPoint.y = rect.yMax + WindowItem<T>.LayoutGapVerticallyGroup;
                     panelSize = panelSize.Union(rect);
                 }
             }
@@ -188,7 +188,7 @@ namespace WyzLink.Assemble
                 {
                     // Layout individual items
                     window.LayoutAt(startPoint);
-                    startPoint.x += window.GetWindowWidth() + WindowItem.WindowMarginLeft;
+                    startPoint.x += window.GetWindowWidth() + WindowItem<T>.WindowMarginLeft;
                     panelSize = panelSize.Union(window.GetWindowRect());
                 }
             }
@@ -200,14 +200,14 @@ namespace WyzLink.Assemble
             Debug.Log("Finished layout with panel size: " + panelSize);
         }
 
-        private Rect LayoutFlow(WindowItem startWindow, Vector2 startPoint)
+        private Rect LayoutFlow(WindowItem<T> startWindow, Vector2 startPoint)
         {
-            var list = new List<WindowItem>() { startWindow };
+            var list = new List<WindowItem<T>>() { startWindow };
             this.layoutLayerBuffer = new float[1000];
             return LayoutWindowLayer(list, startPoint, 0);
         }
 
-        private Rect LayoutWindowLayer(IList<WindowItem> list, Vector2 point, int layer)
+        private Rect LayoutWindowLayer(IList<WindowItem<T>> list, Vector2 point, int layer)
         {
             if (layer > 1000)
             {
@@ -229,7 +229,7 @@ namespace WyzLink.Assemble
                     item.LayoutAt(new Vector2(point.x, maxHeight));
                     rect = rect.Union(item.GetWindowRect());
 
-                    var childRect = LayoutWindowLayer(item.GetNextSteps(), new Vector2(point.x + item.GetWindowWidth() + WindowItem.LayoutGapHorizontally, maxHeight), layer + 1);
+                    var childRect = LayoutWindowLayer(item.GetNextSteps(), new Vector2(point.x + item.GetWindowWidth() + WindowItem<T>.LayoutGapHorizontally, maxHeight), layer + 1);
                     rect = rect.Union(childRect);
 
                     // Mark the item
@@ -237,14 +237,14 @@ namespace WyzLink.Assemble
                     item.Layer = layer;
 
                     // Progress to next item
-                    maxHeight += item.GetWindowRect().height + WindowItem.LayoutGapVertically;
+                    maxHeight += item.GetWindowRect().height + WindowItem<T>.LayoutGapVertically;
                     this.layoutLayerBuffer[layer] = maxHeight;
                 }
             }
             return rect;
         }
 
-        private float TestChildrenHeights(List<WindowItem> list, int layer)
+        private float TestChildrenHeights(List<WindowItem<T>> list, int layer)
         {
             if (layer > 1000)
             {
@@ -263,10 +263,10 @@ namespace WyzLink.Assemble
             return maxHeight;
         }
 
-        public WindowItem GetCurrentWindow(Vector2 mousePosition, bool connectionAreaOnly)
+        public WindowItem<T> GetCurrentWindow(Vector2 mousePosition, bool connectionAreaOnly)
         {
             var position = mousePosition;
-            WindowItem windowHit = null;
+            WindowItem<T> windowHit = null;
             foreach (var w in this.windowList.Values)
             {
                 if (w.HitTest(position, connectionAreaOnly))
@@ -346,31 +346,32 @@ namespace WyzLink.Assemble
         private bool UpdateWindowList(AssembleController assembleController)
         { 
             bool needRefresh = false;
-            var nodeList = assembleController.GetAllNodes<Node>();
+            // A bit hacky, but so far the best way to convert any type to T
+            IEnumerable<T> nodeList = assembleController.GetAllNodes<T>();
             var nodeSetToBeDeleted = new HashSet<int>(windowList.Keys);
             foreach (var node in nodeList)
             {
-                WindowItem window;
-                this.windowList.TryGetValue(node.nodeId, out window);
+                WindowItem<T> window;
+                this.windowList.TryGetValue(node.GetID(), out window);
                 if (window != null)
                 {
                     // Exist item, just remove from node set and do nothing
-                    nodeSetToBeDeleted.Remove(node.nodeId);
+                    nodeSetToBeDeleted.Remove(node.GetID());
                     
                     if (window.IsDeleted())
                     {
                         window.MarkDeleted(false);
                     }
-                    if (node.partName != window.GetNodeName())
+                    if (node.GetName() != window.GetNodeName())
                     {
-                        window.UpdateNodeName(node.partName);
+                        window.UpdateNodeName(node.GetName());
                         needRefresh = true;
                     }
                 }
                 else
                 {
                     // The key is new, add new item
-                    var newWindow = new WindowItem(node);
+                    var newWindow = new WindowItem<T>(node);
                     this.windowList.Add(newWindow.GetNodeId(), newWindow);
                     needRefresh = true;
                     //Debug.Log("Added item " + newWindow.GetNodeId());

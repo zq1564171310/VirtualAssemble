@@ -16,7 +16,7 @@ namespace WyzLink.Manager
     {
         private Transform[] PartsTransform;
 
-        private GameObject RootPartGameObject;
+        private AssembleController RootPartGameObject;
 
         void Awake()
         {
@@ -27,21 +27,18 @@ namespace WyzLink.Manager
         void Start()
         {
             //获取根节点的物体
-            foreach (GameObject rootObj in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
+            RootPartGameObject = GameObject.FindObjectOfType<AssembleController>();
+            if (null != RootPartGameObject)
             {
-                if (null != rootObj.GetComponent<AssembleController>())
+                if (NodesController.Instance == null)
                 {
-                    RootPartGameObject = rootObj;
-                    if (NodesController.Instance == null)
-                    {
-                        var _NodesController = new GameObject("NodesController", typeof(NodesController));
-                        _NodesController.transform.parent = GlobalVar._RuntimeObject.transform;
-                    }
-                    if (NodesCommon.Instance == null)
-                    {
-                        var _NodesCommon = new GameObject("NodesCommon", typeof(NodesCommon));
-                        _NodesCommon.transform.parent = GlobalVar._RuntimeObject.transform;
-                    }
+                    var _NodesController = new GameObject("NodesController", typeof(NodesController));
+                    _NodesController.transform.parent = GlobalVar._RuntimeObject.transform;
+                }
+                if (NodesCommon.Instance == null)
+                {
+                    var _NodesCommon = new GameObject("NodesCommon", typeof(NodesCommon));
+                    _NodesCommon.transform.parent = GlobalVar._RuntimeObject.transform;
                 }
             }
 
@@ -56,7 +53,7 @@ namespace WyzLink.Manager
                 Node node;
                 foreach (Transform child in PartsTransform)
                 {
-                    if (null != child.GetComponent<Node>() && child.name != "接线器" && child.name != "气压瓶" && child.name != "底板组件0" && child.name != "耳机孔测试固定座" && child.name != "抽屉推拉杆")
+                    if (null != child.GetComponent<Node>())
                     {
                         child.gameObject.AddComponent<NodeManager>();
                         node = child.gameObject.GetComponent<Node>();
@@ -65,14 +62,7 @@ namespace WyzLink.Manager
                         node.gameObject.gameObject.AddComponent<Rigidbody>();
                         node.gameObject.GetComponent<Rigidbody>().useGravity = false;
                         node.EndPos = child.transform.position;
-                        if (null != child.GetComponent<MeshFilter>())
-                        {
-                            node.LocalSize = GlobalVar._GetModelSize.GetPartModelRealSize(child.gameObject);
-                        }
-                        else
-                        {
-                            node.GetComponent<BoxCollider>().size = node.GetComponent<BoxCollider>().size / 10;
-                        }
+                        node.LocalSize = node.GetDimensions();
                         node.partName = child.name;
 
                         #region  Test

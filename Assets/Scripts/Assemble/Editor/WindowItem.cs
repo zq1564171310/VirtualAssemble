@@ -6,21 +6,19 @@
 
 namespace WyzLink.Assemble
 {
-    using System;
     using System.Collections.Generic;
     using UnityEditor;
     using UnityEngine;
-    using WyzLink.Parts;
 
-    public class WindowItem
+    public class WindowItem<T> where T: Parts.IFlowNode
     {
         //
         // Window structure
         //
         private Rect windowRect;
         private int id;
-        private List<WindowItem> previousSteps = new List<WindowItem>();
-        private List<WindowItem> nextSteps = new List<WindowItem>();
+        private List<WindowItem<T>> previousSteps = new List<WindowItem<T>>();
+        private List<WindowItem<T>> nextSteps = new List<WindowItem<T>>();
         private static int windowIndex = 0;
 
         //
@@ -28,7 +26,7 @@ namespace WyzLink.Assemble
         //
         private int nodeId;
         private string nodeName;
-        private Node node;
+        private T node;
 
         //
         // Const parameters
@@ -76,11 +74,11 @@ namespace WyzLink.Assemble
         private bool isDeleted = false;
 
 
-        public WindowItem(Node node)
+        public WindowItem(T node)
         {
-            this.id = WindowItem.windowIndex++;
-            this.nodeId = node.nodeId;
-            this.nodeName = node.partName;
+            this.id = WindowItem<T>.windowIndex++;
+            this.nodeId = node.GetID();
+            this.nodeName = node.GetName();
             this.node = node;
         }
 
@@ -126,7 +124,7 @@ namespace WyzLink.Assemble
             return hitConnectingArea ? this.windowRect.Contains(point) && (windowRect.width - (point.x - windowRect.x) <= connectionAreaMargin) : this.windowRect.Contains(point);
         }
 
-        public GenericMenu CreateMenu(WindowManager windowManager)
+        public GenericMenu CreateMenu(WindowManager<T> windowManager)
         {
             var menu = new GenericMenu();
             foreach (var window in this.nextSteps)
@@ -140,25 +138,25 @@ namespace WyzLink.Assemble
             return menu;
         }
 
-        public static void curveFromTo(WindowItem w1, WindowItem w2)
+        public static void curveFromTo(WindowItem<T> w1, WindowItem<T> w2)
         {
             Color s = new Color(0.4f, 0.4f, 0.5f);
             Drawing.curveFromTo(w1.windowRect, w2.windowRect, new Color(0.3f, 0.7f, 0.4f), s, 1);
         }
 
-        public static void curveFromToBg(WindowItem w1, WindowItem w2)
+        public static void curveFromToBg(WindowItem<T> w1, WindowItem<T> w2)
         {
             Color s = new Color(0.4f, 0.4f, 0.5f);
             Drawing.curveFromTo(w1.windowRect, w2.windowRect, new Color(0.3f, 0.7f, 0.4f), s, 2);
         }
 
-        public static void curveFromTo(WindowItem w1, Vector2 point)
+        public static void curveFromTo(WindowItem<T> w1, Vector2 point)
         {
             Color s = new Color(0.4f, 0.4f, 0.5f);
             Drawing.curveFromTo(w1.windowRect, new Rect(point, Vector2.zero), new Color(0.3f, 0.7f, 0.4f), s);
         }
 
-        public void AddPreviousStep(WindowItem window)
+        public void AddPreviousStep(WindowItem<T> window)
         {
             if (window != null && !this.previousSteps.Contains(window))
             {
@@ -168,7 +166,7 @@ namespace WyzLink.Assemble
         }
 
         // Never add next step from external
-        private void AddNextStep(WindowItem window)
+        private void AddNextStep(WindowItem<T> window)
         {
             if (window != null)
             {
@@ -177,7 +175,7 @@ namespace WyzLink.Assemble
             }
         }
 
-        public void RemoveNextSteps(WindowItem window)
+        public void RemoveNextSteps(WindowItem<T> window)
         {
             if (this.nextSteps.Contains(window))
             {
@@ -186,7 +184,7 @@ namespace WyzLink.Assemble
             }
         }
 
-        internal List<WindowItem> GetNextSteps()
+        internal List<WindowItem<T>> GetNextSteps()
         {
             return this.nextSteps;
         }
@@ -215,7 +213,7 @@ namespace WyzLink.Assemble
 
         public void LayoutAt(Vector2 position)
         {
-            var size = GUI.skin.label.CalcSize(new GUIContent(node.partName));
+            var size = GUI.skin.label.CalcSize(new GUIContent(node.GetName()));
             var windowSize = new Vector2(Mathf.Max(size.x + 15, windowWidth), Mathf.Max(size.y + 21, windowHeight));
             this.labelRect = new Rect(3, 18, size.x, size.y);
             this.buttonRect = new Rect(windowSize.x - 13, 17, 12, size.y);
@@ -245,7 +243,7 @@ namespace WyzLink.Assemble
         {
             if (this.node != null)
             {
-                this.node.gameObject.SetActive(display);
+                this.node.GetTarget().SetActive(display);
             }
         }
 
@@ -253,7 +251,7 @@ namespace WyzLink.Assemble
         {
             if (this.node != null)
             {
-                Selection.activeGameObject = this.node.gameObject;
+                Selection.activeGameObject = this.node.GetTarget();
                 SceneView.FrameLastActiveSceneView();
             }
         }
