@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 3e5a04d0c03b24643a502c522ebd0e86
+timeCreated: 1501508276
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: SCFwxz
+  fontNames:
+  - SCFwxz
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
