@@ -14,6 +14,7 @@ namespace WyzLink.Manager
     using WyzLink.Assemble;
     using WyzLink.Control;
     using WyzLink.Parts;
+    using WyzLink.Utils.ModelDataHelper;
 
     public class AssembleManager : Singleton<AssembleManager>
     {
@@ -31,12 +32,18 @@ namespace WyzLink.Manager
             if (null != NextInstallNode)
             {
                 string err = "";
+                int index = 1;
                 foreach (Node node in NextInstallNode)
                 {
                     node.SetInstallationState(InstallationState.NextInstalling);
-                    err += node.name + "/";
+                    #region Test 跳转页面
+                    GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().SetIndex(node);
+                    index = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().GetIndex(node);
+                    #endregion
+                    err += node.name + "(第" + index + "页）" + "/";
                 }
-                GlobalVar._ErrorMassage.GetComponent<Text>().text = "现在应该安装:" + err;
+                GlobalVar._ErrorMassage.GetComponent<Text>().text = "现在应该安装: " + err;
+
             }
             #endregion
         }
@@ -58,6 +65,7 @@ namespace WyzLink.Manager
             if (null != NextInstallNode)
             {
                 string err = "";
+                int index = 1;
                 foreach (Node nodes in NextInstallNode)
                 {
                     nodes.SetInstallationState(InstallationState.NextInstalling);
@@ -66,9 +74,14 @@ namespace WyzLink.Manager
                     {
                         nodes.gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.NextInstallMate;
                     }
-                    err += nodes.name + "/";
-                    GlobalVar._ErrorMassage.GetComponent<Text>().text = "现在应该安装:" + err;
+                    #region Test 跳转页面
+                    GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().SetIndex(node);
+                    index = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().GetIndex(node);
+                    #endregion
+                    err += nodes.name + "(第" + index + "页）" + "/";
+
                 }
+                GlobalVar._ErrorMassage.GetComponent<Text>().text = "现在应该安装:" + err;
             }
         }
     }

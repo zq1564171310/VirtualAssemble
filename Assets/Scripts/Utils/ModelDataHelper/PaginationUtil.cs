@@ -140,6 +140,43 @@ namespace WyzLink.Utils.ModelDataHelper
         }
 
         /// <summary>
+        /// 指定跳转相应页数
+        /// </summary>
+        public void SetIndex(Node node)
+        {
+            int pageIndex = 1;
+            for (int i = 0; i < m_ItemsList.Count; i++)
+            {
+                if (m_ItemsList[i].nodeId == node.nodeId)
+                {
+                    pageIndex = i / Page_Count + 1;
+                    break;
+                }
+            }
+            m_PageIndex = pageIndex;
+            BindPage(m_PageIndex);
+
+            //更新界面页数
+            m_PanelText.text = string.Format("第" + "{0}/{1}" + "页", m_PageIndex.ToString(), m_PageCount.ToString());
+        }
+
+        public int GetIndex(Node node)
+        {
+            int pageIndex = 1;
+            for (int i = 0; i < m_ItemsList.Count; i++)
+            {
+                if (m_ItemsList[i].nodeId == node.nodeId)
+                {
+                    pageIndex = i / Page_Count + 1;
+                    Debug.Log(m_ItemsList[i].nodeId + "           nodeId         " + pageIndex);
+                    break;
+                }
+            }
+            m_PageIndex = pageIndex;
+            return pageIndex;
+        }
+
+        /// <summary>
         /// 绑定指定索引处的页面元素
         /// </summary>
         /// <param name="index">页面索引</param>
@@ -232,5 +269,7 @@ namespace WyzLink.Utils.ModelDataHelper
                 gridItem.gameObject.transform.position = trans.GetChild(1).transform.position;
             }
         }
+
+
     }
 }
