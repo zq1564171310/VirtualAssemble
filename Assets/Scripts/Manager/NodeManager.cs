@@ -9,10 +9,9 @@ namespace WyzLink.Manager
     using System.Collections;
     using UnityEngine;
     using UnityEngine.EventSystems;
-    using WyzLink.Common;
     using WyzLink.Parts;
-    using System;
     using WyzLink.Control;
+    using UnityEngine.SocialPlatforms;
 
     public class NodeManager : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IManipulationHandler
     {
@@ -23,7 +22,6 @@ namespace WyzLink.Manager
 
         private Coroutine AsseablCoroutine;                //光标进入和失去材质改变协程
 
-        public float Var = 0.3f;
         // Use this for initialization
         void Start()
         {
@@ -174,7 +172,7 @@ namespace WyzLink.Manager
 
         void IManipulationHandler.OnManipulationUpdated(ManipulationEventData eventData)
         {
-            if (InstallationState.Step1Installed == gameObject.GetComponent<Node>().GetInstallationState() && Var >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
+            if (InstallationState.Step1Installed == gameObject.GetComponent<Node>().GetInstallationState() && 6 >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
             {
                 gameObject.GetComponent<Node>().SetInstallationState(InstallationState.Installed);
                 Destroy(gameObject.GetComponent<HandDraggable>());
@@ -200,11 +198,6 @@ namespace WyzLink.Manager
                     }
                 }
             }
-            //if (null != gameObject.GetComponent<HandDraggable>())
-            //{
-            //    IsInstallationStateChangeFlag = true;
-            //}
-            // Debug.Log(gameObject.GetComponent<Node>().GetInstallationState() + "         0000000     " + gameObject.name + "     11111    " + Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos));
         }
 
         void IManipulationHandler.OnManipulationCompleted(ManipulationEventData eventData)

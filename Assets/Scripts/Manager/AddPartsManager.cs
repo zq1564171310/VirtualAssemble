@@ -27,7 +27,7 @@ namespace WyzLink.Manager
         void Start()
         {
             //获取根节点的物体
-            RootPartGameObject = GameObject.FindObjectOfType<AssembleController>();
+            RootPartGameObject = FindObjectOfType<AssembleController>();
             if (null != RootPartGameObject)
             {
                 if (NodesController.Instance == null)
@@ -96,7 +96,7 @@ namespace WyzLink.Manager
                 {
                     if (null != NodesController.Instance.GetNodeList()[i].GetComponent<MeshFilter>())
                     {
-                        //ScalingNum = GlobalVar._GetModelSize.Scaling(NodesController.Instance.GetNodeList()[i].gameObject, ModelType.Part);
+                        ScalingNum = NodesController.Instance.GetNodeList()[i].Scaling(ModelType.Part);
                         NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale = new Vector3(NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.x / ScalingNum, NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.y / ScalingNum, NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.z / ScalingNum);
                     }
                 }

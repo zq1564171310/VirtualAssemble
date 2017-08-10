@@ -48,6 +48,11 @@ namespace WyzLink.Utils.ModelDataHelper
         /// </summary>
         private Text m_PanelText;
 
+        /// <summary>
+        /// 一页6个
+        /// </summary>
+        private int Page_Count = 6;
+
         void Start()
         {
             InitGUI();
@@ -86,7 +91,7 @@ namespace WyzLink.Utils.ModelDataHelper
             //计算元素总个数
             m_ItemsCount = m_ItemsList.Count;
             //计算总页数
-            m_PageCount = (m_ItemsCount % 6) == 0 ? m_ItemsCount / 6 : (m_ItemsCount / 6) + 1;
+            m_PageCount = (m_ItemsCount % Page_Count) == 0 ? m_ItemsCount / Page_Count : (m_ItemsCount / Page_Count) + 1;
 
             BindPage(m_PageIndex);
             //更新界面页数
@@ -160,13 +165,13 @@ namespace WyzLink.Utils.ModelDataHelper
             if (m_PageCount == 1)
             {
                 int canDisplay = 0;
-                for (int i = 6; i > 0; i--)
+                for (int i = Page_Count; i > 0; i--)
                 {
-                    if (canDisplay < 6)
+                    if (canDisplay < Page_Count)
                     {
-                        BindGridItem(transform.GetChild(canDisplay), m_ItemsList[6 - i]);
+                        BindGridItem(transform.GetChild(canDisplay), m_ItemsList[Page_Count - i]);
                         transform.GetChild(canDisplay).gameObject.SetActive(true);
-                        m_ItemsList[6 - i].gameObject.SetActive(true);
+                        m_ItemsList[Page_Count - i].gameObject.SetActive(true);
                     }
                     else
                     {
@@ -181,18 +186,18 @@ namespace WyzLink.Utils.ModelDataHelper
             {
                 //1页以上需要特别处理的是最后1页
                 //和1页时的情况类似判断最后一页剩下的元素数目
-                //第1页时显然剩下的为6所以不用处理
+                //第1页时显然剩下的为Page_Count所以不用处理
                 if (index == m_PageCount)
                 {
                     int canDisplay = 0;
-                    for (int i = 6; i > 0; i--)
+                    for (int i = Page_Count; i > 0; i--)
                     {
-                        //最后一页剩下的元素数目为 m_ItemsCount - 6 * (index-1)
-                        if (canDisplay < m_ItemsCount - 6 * (index - 1))
+                        //最后一页剩下的元素数目为 m_ItemsCount - Page_Count * (index-1)
+                        if (canDisplay < m_ItemsCount - Page_Count * (index - 1))
                         {
-                            BindGridItem(transform.GetChild(canDisplay), m_ItemsList[6 * index - i]);
+                            BindGridItem(transform.GetChild(canDisplay), m_ItemsList[Page_Count * index - i]);
                             transform.GetChild(canDisplay).gameObject.SetActive(true);
-                            m_ItemsList[6 * index - i].gameObject.SetActive(true);
+                            m_ItemsList[Page_Count * index - i].gameObject.SetActive(true);
                         }
                         else
                         {
@@ -204,11 +209,11 @@ namespace WyzLink.Utils.ModelDataHelper
                 }
                 else
                 {
-                    for (int i = 6; i > 0; i--)
+                    for (int i = Page_Count; i > 0; i--)
                     {
-                        BindGridItem(transform.GetChild(6 - i), m_ItemsList[6 * index - i]);
-                        transform.GetChild(6 - i).gameObject.SetActive(true);
-                        m_ItemsList[6 * index - i].gameObject.SetActive(true);
+                        BindGridItem(transform.GetChild(Page_Count - i), m_ItemsList[Page_Count * index - i]);
+                        transform.GetChild(Page_Count - i).gameObject.SetActive(true);
+                        m_ItemsList[Page_Count * index - i].gameObject.SetActive(true);
                     }
                 }
             }

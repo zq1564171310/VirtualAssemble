@@ -26,8 +26,6 @@ namespace WyzLink.Manager
                 {
                     ToolsList.Add(Instantiate(Tools[i]));
                     ToolsList[i].transform.parent = GlobalVar._ToolsGameObjects.transform;
-
-                    //Debug.Log(GlobalVar._GetModelSize.GetToolModelRealSize(ToolsList[i]).ToString("f4"));
                 }
             }
         }

@@ -36,7 +36,7 @@ namespace WyzLink.Manager
                     node.SetInstallationState(InstallationState.NextInstalling);
                     err += node.name + "/";
                 }
-                //GlobalVar._ErrorMassage.GetComponent<Text>().text = "现在应该安装:" + err;
+                GlobalVar._ErrorMassage.GetComponent<Text>().text = "现在应该安装:" + err;
             }
             #endregion
         }
