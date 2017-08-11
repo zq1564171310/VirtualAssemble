@@ -5,15 +5,24 @@ WyzLink机械组装流程演示项目是一个利用Unity3D实现的机械组装
 
 ## 安装
 
+### 安装Unity3D
+
+安装Unity3D请按如下步骤。
+用浏览器访问地址[Unity3D download](https://unity3d.com/get-unity/download)，选择正确的版本进行下载。
+
+[//]: 需要确认是否可以不用安装Visual Studio
 
 ## 使用
 
 ### 创建场景
 打开Unity3D，创建一个新的场景，导入安装包。确定在Project窗口能看到WyzLinkAssembleFlow目录
 
+[//]: 调整文件夹目录，所有预安装文件放入同一个文件夹
+
 ### 导入模型
 将已有工程STEP文件导出成为FBX文件
-// 需要详细导入导出步骤
+
+[//]: 需要详细导入导出步骤
 
 ### 准备工作
 
