@@ -28,11 +28,11 @@ WyzLink机械组装流程演示项目是一个利用Unity3D实现的机械组装
 ### 装配工序设置
 将模型导入之后，选择根节点，在根节点上添加AssembleController组件。
 
-![装配工序窗口](/images/RootFlowNode.png)
+![装配工序窗口](/Doc/images/RootFlowNode.png)
 
 然后点击打开装配工序按钮。这时可以看到一个新的装配工序窗口打开。在新的装配工序窗口中可以看到所有的零件都会被列出来。
 
-![装配工序窗口](/images/AssembleFlow.png)
+![装配工序窗口](/Doc/images/AssembleFlow.png)
 
 用户可以用鼠标从一个节点的右边链接区域拖拽出一个连接线来连接下一节点。
 
