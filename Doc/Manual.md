@@ -4,13 +4,15 @@ WyzLink机械组装流程演示项目使用说明
 WyzLink机械组装流程演示项目是一个利用Unity3D实现的机械组装流程演示项目，并可以部署到HoloLens上面实现混合现实交互式机械组装流程的演示和练习。
 
 ## 安装
+首先需要准备一台Windows 10电脑，台式机或者笔记本都可以，需要安装微软最新的操作系统Windows 10，并需要在系统设置中打开开发员模式（控制面板->）
 
 ### 安装Unity3D
 
 安装Unity3D请按如下步骤。
 用浏览器访问地址[Unity3D download](https://unity3d.com/get-unity/download)，选择正确的版本进行下载。
 
-[//]: 需要确认是否可以不用安装Visual Studio
+### 安装Visual Studio 2017
+
 
 ## 使用
 
@@ -56,3 +58,11 @@ WyzLink机械组装流程演示项目是一个利用Unity3D实现的机械组装
 
 
 ## 部署
+
+用户需要准备好HoloLens，并通过下列方式与本机相连接。
+
+1. USB连接方式，用USB电缆连接本机与HoloLens
+
+2. WIFI连接方式，确保本机与HoloLens存在于同一个子网，可以访问HoloLens的IP地址
+
+在Unity3D中打开项目，选择File -> Build Settings...
