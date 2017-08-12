@@ -51,7 +51,7 @@ namespace WyzLink.Parts
         public float HaulingDistance;                //吸附距离
 
         public bool hasAnimation;
-        public AnimationPlayer[] animationAnchors;
+        public AnimationPlayer[] animationPlayers;
 
 
         private void Reset()
@@ -111,7 +111,7 @@ namespace WyzLink.Parts
         {
             if (hasAnimation)
             {
-                foreach (var animationAnchor in this.animationAnchors)
+                foreach (var animationAnchor in this.animationPlayers)
                 {
                     yield return animationAnchor.PlayAnimation();
                 }
