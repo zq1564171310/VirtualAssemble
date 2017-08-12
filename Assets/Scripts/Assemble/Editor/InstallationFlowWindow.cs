@@ -31,8 +31,8 @@ namespace WyzLink.Assemble
         //
         // Display options
         //
-        private bool displayLinked = true;
-        private bool displayUnlinked = true;
+        private bool hideLinkedObjects = false;
+        private bool hideUnlinkedObjects = false;
 
         private int PanelMarginTop = 20;
         private int PanelMarginLeft = 0;
@@ -149,9 +149,9 @@ namespace WyzLink.Assemble
 
             GUILayout.FlexibleSpace();
 
-            displayLinked = GUILayout.Toggle(displayLinked, "显示流程对象", GUILayout.Width(100));
-            displayUnlinked = GUILayout.Toggle(displayUnlinked, "显示非流程对象", GUILayout.Width(100));
-            windowManager.SetObjectVisibilities(displayLinked, displayUnlinked);
+            hideLinkedObjects = GUILayout.Toggle(hideLinkedObjects, "隐藏流程对象", GUILayout.Width(100));
+            hideUnlinkedObjects = GUILayout.Toggle(hideUnlinkedObjects, "隐藏非流程对象", GUILayout.Width(100));
+            windowManager.SetObjectVisibilities(!hideLinkedObjects, !hideUnlinkedObjects);
         }
 
         private void UpdateConnecting()
