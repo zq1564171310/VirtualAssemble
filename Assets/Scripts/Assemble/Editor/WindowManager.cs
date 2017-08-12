@@ -20,7 +20,7 @@ namespace WyzLink.Assemble
         private IDictionary<int, WindowItem<T>> windowList = new Dictionary<int, WindowItem<T>>();
         private IList<WindowItem<T>> headers;
         private IList<WindowItem<T>> standalones;
-        private const string defaultFileName = "AssembleFlow.txt";      // TODO: Will change this to a new file format later
+        private AssembleController assembleController;
 
         private bool isDirty = true;
         private bool doLayout = false;
@@ -46,13 +46,14 @@ namespace WyzLink.Assemble
         {
             if (assembleController == null)
             {
+                // TODO: Clean the screen when assembleController is null
                 layoutCallback(Rect.zero);
             }
-
+            this.assembleController = assembleController;
             var needRefresh = UpdateFromHierarchy(assembleController);
             if (needRefresh)
             {
-                var flowString = LoadAssembleFlowFromFile(defaultFileName);
+                var flowString = assembleController.assembleFlow == null ? "" : assembleController.assembleFlow.text;
                 ApplyAssembleFlow(this.windowList, flowString);
                 PrepareList(windowList);
                 this.isDirty = false;
@@ -129,34 +130,6 @@ namespace WyzLink.Assemble
                     }
                 }
             }
-        }
-
-        private string LoadAssembleFlowFromFile(string fileName)
-        {
-            string text = null;
-            try
-            {
-                text = File.ReadAllText(Application.dataPath + "/Resources/" + fileName);
-            }
-            catch (DirectoryNotFoundException)
-            {
-                // Leave the text as null
-            }
-            catch (FileNotFoundException)
-            {
-                // Leave the text as null
-            }
-            if (text == null)
-            {
-                if (!AssetDatabase.IsValidFolder("Assets/Resources"))
-                {
-                    AssetDatabase.CreateFolder("Assets", "Resources");
-                }
-                File.WriteAllText(Application.dataPath + "/Resources/" + fileName, "# assemble flow created\n");
-                AssetDatabase.Refresh();
-                text = "";
-            }
-            return text;
         }
 
         private void LayoutWindows(Action<Rect> layoutCallback)
@@ -280,7 +253,40 @@ namespace WyzLink.Assemble
 
         public void SaveToAsset()
         {
-            SaveToAsset(defaultFileName);
+            if (assembleController.assembleFlow == null)
+            {
+                var filePath = EditorUtility.SaveFilePanel("把装配工序保存到文件", "Assets", "AssembleFlow.txt", "txt");
+                if (filePath.Length != 0)
+                {
+                    var relativeFilePath = GerRelativePath(filePath);
+                    if (filePath == null)
+                    {
+                        Debug.LogError("The file has to be saved within the Unity project path.");
+                    }
+                    else
+                    {
+                        Debug.Log("Path0" + filePath);
+                        SaveToAsset(filePath);
+
+                        assembleController.assembleFlow = AssetDatabase.LoadAssetAtPath<TextAsset>(relativeFilePath);
+                    }
+                }
+            }
+            else
+            {
+                var assetFilePath = AssetDatabase.GetAssetPath(assembleController.assembleFlow);
+                assetFilePath = Application.dataPath + "/../" + assetFilePath;
+                SaveToAsset(assetFilePath);
+            }
+        }
+
+        private string GerRelativePath(string filePath)
+        {
+            if (filePath.StartsWith(Application.dataPath))
+            {
+                return "Assets" + filePath.Substring(Application.dataPath.Length);
+            }
+            return null;
         }
 
         private void SaveToAsset(string fileName)
@@ -295,7 +301,8 @@ namespace WyzLink.Assemble
                 }
             }
             Debug.Log("Saved file in");
-            File.WriteAllText(Application.dataPath + "/Resources/" + fileName, sb.ToString());
+            File.WriteAllText(fileName, sb.ToString());
+            AssetDatabase.Refresh();
         }
 
         public void SetDirty()
