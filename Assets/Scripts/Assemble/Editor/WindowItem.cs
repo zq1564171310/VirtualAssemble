@@ -199,6 +199,11 @@ namespace WyzLink.Assemble
             return this.previousSteps.Count > 0;
         }
 
+        internal void SetFocus()
+        {
+            GUI.FocusWindow(this.id);
+        }
+
         private void windowFunction(int id)
         {
             GUI.Label(labelRect, this.nodeName, this.isDeleted ? styleLabelDeleted : styleLabelNormal);

@@ -30,6 +30,8 @@ namespace WyzLink.Assemble
         private bool displayLinkedObjects = true;     // Display objects by default
         private bool displayUnlinkedObjects = true;     // Display objects by default
 
+        private int previousSearchKey;
+
         private Action<Rect> layoutCallback = null;
 
         public WindowManager()
@@ -171,6 +173,38 @@ namespace WyzLink.Assemble
                 layoutCallback(panelSize);
             }
             Debug.Log("Finished layout with panel size: " + panelSize);
+        }
+
+        internal Rect FindNextMatch(string searchText)
+        {
+            foreach (var window in this.windowList.OrderBy(kvp => kvp.Key))
+            {
+                if (window.Key >= previousSearchKey)
+                {
+                    if (window.Value.GetNodeName().Contains(searchText))
+                    {
+                        window.Value.SetFocus();
+                        this.previousSearchKey = window.Key + 1;
+                        return window.Value.GetWindowRect();
+                    }
+                }
+            }
+            Debug.Log("Search past the end. Start over");
+            this.previousSearchKey = 0;
+            foreach (var window in this.windowList.OrderBy(kvp => kvp.Key))
+            {
+                if (window.Key >= previousSearchKey)
+                {
+                    if (window.Value.GetNodeName().Contains(searchText))
+                    {
+                        window.Value.SetFocus();
+                        this.previousSearchKey = window.Key + 1;
+                        return window.Value.GetWindowRect();
+                    }
+                }
+            }
+            Debug.Log("Can't find the string " + searchText);
+            return Rect.zero;
         }
 
         private Rect LayoutFlow(WindowItem<T> startWindow, Vector2 startPoint)

@@ -10,6 +10,7 @@ namespace WyzLink.Assemble
     using System;
     using UnityEditor;
     using UnityEngine;
+    using WyzLink.Utils;
 
     public class InstallationFlowWindow<T> : EditorWindow where T: Parts.IFlowNode
     {
@@ -33,6 +34,7 @@ namespace WyzLink.Assemble
         //
         private bool hideLinkedObjects = false;
         private bool hideUnlinkedObjects = false;
+        private string searchText = "";
 
         private int PanelMarginTop = 20;
         private int PanelMarginLeft = 0;
@@ -149,9 +151,31 @@ namespace WyzLink.Assemble
 
             GUILayout.FlexibleSpace();
 
+            searchText = GUILayout.TextField(searchText, GUILayout.Width(100));
+            if (GUILayout.Button("搜索", GUILayout.Width(80)) && !string.IsNullOrEmpty(searchText))
+            {
+                var rect = this.windowManager.FindNextMatch(searchText);
+                if (rect.width > 0)
+                {
+                    ScrollToInclude(rect);
+                }
+            }
+
+            GUILayout.FlexibleSpace();
+
             hideLinkedObjects = GUILayout.Toggle(hideLinkedObjects, "隐藏流程对象", GUILayout.Width(100));
             hideUnlinkedObjects = GUILayout.Toggle(hideUnlinkedObjects, "隐藏非流程对象", GUILayout.Width(100));
             windowManager.SetObjectVisibilities(!hideLinkedObjects, !hideUnlinkedObjects);
+        }
+
+        private void ScrollToInclude(Rect rect)
+        {
+            var viewPort = this.GetViewPortSize();
+            rect = rect.Extend(12, 12);
+            this.scrollPosition.x += Mathf.Max(0, rect.xMax - (this.scrollPosition.x + viewPort.x));
+            this.scrollPosition.x += Mathf.Min(0, rect.xMin - this.scrollPosition.x);
+            this.scrollPosition.y += Mathf.Max(0, rect.yMax - (this.scrollPosition.y + viewPort.y));
+            this.scrollPosition.y += Mathf.Min(0, rect.yMin - this.scrollPosition.y);
         }
 
         private void UpdateConnecting()
