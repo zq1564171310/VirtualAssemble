@@ -10,26 +10,23 @@ namespace WyzLink.Assemble
     using UnityEditor;
     using UnityEngine;
 
+    [CustomEditor(typeof(AssembleController))]
     public class AssembleControllerEditor : Editor
     {
-        [CustomEditor(typeof(AssembleController))]
-        public class ObjectBuilderEditor : Editor
+        public override void OnInspectorGUI()
         {
-            public override void OnInspectorGUI()
-            {
-                DrawDefaultInspector();
+            DrawDefaultInspector();
 
-                AssembleController myController = (AssembleController)target;
-                var style = new GUIStyle(GUI.skin.button);
-                style.normal.textColor = Color.white;
-                GUI.backgroundColor = Color.blue;
-                // TODO: For now, the file is fixed. We should consider make it a generic file and could be changed
-                if (GUILayout.Button("打开装配工序窗口", style))
-                {
-                    var window = EditorWindow.GetWindow<WyzLinkAssembleFlow>(false, "装配工序");
-                    window.LoadContent(myController);
-                    //window.Show();
-                }
+            AssembleController myController = (AssembleController)target;
+            var style = new GUIStyle(GUI.skin.button);
+            style.normal.textColor = Color.white;
+            GUI.backgroundColor = Color.blue;
+            // TODO: For now, the file is fixed. We should consider make it a generic file and could be changed
+            if (GUILayout.Button("打开装配工序窗口", style))
+            {
+                var window = EditorWindow.GetWindow<WyzLinkAssembleFlow>(false, "装配工序");
+                window.LoadContent(myController);
+                //window.Show();
             }
         }
     }
