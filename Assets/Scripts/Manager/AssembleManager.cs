@@ -51,8 +51,8 @@ namespace WyzLink.Manager
 
             //获取物体的绝对路径，新的UI中都会改掉
             GlobalVar._Slider.onValueChanged.AddListener(SlideTheSlider);
-            GameObject.Find("MainWorkCanvas/Panel/Rota_Left").GetComponent<Button>().onClick.AddListener(RotaLeftBtnClick);
-            GameObject.Find("MainWorkCanvas/Panel/Rota_Right").GetComponent<Button>().onClick.AddListener(RotaRightBtnClick);
+            GameObject.Find("Canvas/WorkSpacePanel/Rota_Left").GetComponent<Button>().onClick.AddListener(RotaLeftBtnClick);
+            GameObject.Find("Canvas/WorkSpacePanel/Rota_Right").GetComponent<Button>().onClick.AddListener(RotaRightBtnClick);
         }
 
         // Update is called once per frame
@@ -106,7 +106,7 @@ namespace WyzLink.Manager
             {
                 Num = (int)((value - 10) * 100);
             }
-            WorkSpaceScalingNum = (float)(Num / 100);
+            WorkSpaceScalingNum = (float)(Num / 100.00);
             WorkSpaceScal(WorkSpaceScalingNum);
             GlobalVar._SliderText.text = "工作区显示比例" + Num + "%";
         }
@@ -132,11 +132,11 @@ namespace WyzLink.Manager
                 if (InstallationState.Step1Installed == NodesController.Instance.GetNodeList()[i].GetInstallationState() || InstallationState.Installed == NodesController.Instance.GetNodeList()[i].GetInstallationState())
                 {
                     //将模型缩放，此处有隐患（组合模型）
-                    NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale *= scalNum;
+                    NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale = NodesController.Instance.GetNodeList()[i].gameObject.GetComponent<Node>().LocalSize * scalNum;
                 }
             }
             //工作区大小随着缩放
-            GameObject.Find("MainWorkCanvas").transform.localScale *= scalNum;
+            GameObject.Find("Canvas/WorkSpacePanel").transform.localScale *= scalNum;
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace WyzLink.Manager
         public void WorkSpaceRota(int rota)
         {
             //获取工作区中心位置
-            Vector3 vec = GameObject.Find("MainWorkCanvas").transform.position;
+            Vector3 vec = GameObject.Find("Canvas/WorkSpacePanel").transform.position;
             if (0 == rota)        //左旋转
             {
                 for (int i = 0; i < NodesController.Instance.GetNodeList().Count; i++)
