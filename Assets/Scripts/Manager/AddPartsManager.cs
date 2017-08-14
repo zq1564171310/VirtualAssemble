@@ -65,6 +65,11 @@ namespace WyzLink.Manager
                         node.LocalSize = node.GetDimensions();
                         node.partName = child.name;
 
+                        if (null == node.gameObject.GetComponent<MeshFilter>())
+                        {
+                            node.gameObject.GetComponent<BoxCollider>().size /= 10;
+                        }
+
                         #region  Test
                         if (child.name == "底盘平台")
                         {

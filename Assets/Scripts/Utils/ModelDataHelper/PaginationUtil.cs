@@ -168,7 +168,6 @@ namespace WyzLink.Utils.ModelDataHelper
                 if (m_ItemsList[i].nodeId == node.nodeId)
                 {
                     pageIndex = i / Page_Count + 1;
-                    Debug.Log(m_ItemsList[i].nodeId + "           nodeId         " + pageIndex);
                     break;
                 }
             }

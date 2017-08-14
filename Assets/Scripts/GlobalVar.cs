@@ -12,6 +12,8 @@ public class GlobalVar : MonoBehaviour
 
     public static GameObject _RuntimeObject = GameObject.Find("RuntimeObject");
 
+    public static UnityEngine.UI.Slider _Slider = GameObject.Find("MainWorkCanvas/Panel/SliderPlane/Slider").GetComponent<UnityEngine.UI.Slider>();
+    public static UnityEngine.UI.Text _SliderText = GameObject.Find("MainWorkCanvas/Panel/SliderPlane/SliderText").GetComponent<UnityEngine.UI.Text>();
 
     //材质
     public static Material NextInstallMate = Resources.Load<Material>("NextInstallMate");
