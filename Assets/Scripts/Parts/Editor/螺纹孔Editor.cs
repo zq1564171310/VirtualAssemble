@@ -9,15 +9,16 @@ namespace WyzLink.Parts
     using UnityEditor;
     using UnityEngine;
 
-    [CustomEditor(typeof(长孔))]
+    [CustomEditor(typeof(螺纹孔))]
     [CanEditMultipleObjects]
-    public class 长孔Editor : Editor
+    public class 螺纹孔Editor : Editor
     {
         private void OnSceneGUI()
         {
-            长孔 t = target as 长孔;
+            螺纹孔 t = target as 螺纹孔;
             Handles.color = Color.yellow;
-            HandleExtention.DrawDualHole(t.transform, Vector3.zero, t.长度 * 0.001f, t.半径 * 0.001f, t.厚度 * 0.001f);
+            HandleExtention.DrawColumn(t.transform, Vector3.zero + Vector3.forward * t.厚度 * 0.001f / 2, t.半径 * 0.001f, t.厚度 * 0.001f);
+            HandleExtention.DrawEnd(t.transform, Vector3.zero + Vector3.forward * t.厚度 * 0.001f, t.半径 * 0.001f);
         }
     }
 }
