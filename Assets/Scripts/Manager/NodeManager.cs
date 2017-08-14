@@ -12,6 +12,7 @@ namespace WyzLink.Manager
     using WyzLink.Parts;
     using WyzLink.Control;
     using UnityEngine.SocialPlatforms;
+    using UnityEngine.UI;
 
     public class NodeManager : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IManipulationHandler
     {
@@ -21,6 +22,8 @@ namespace WyzLink.Manager
         private bool IsInstallationStateChangeFlag;           //是否有零件的状态发生变化，有状态变化协程执行相关操作，否则协程继续挂起
 
         private Coroutine AsseablCoroutine;                //光标进入和失去材质改变协程
+
+        private GameObject Txt;                            //零件名字，跟随零件一起移动
 
         // Use this for initialization
         void Start()
@@ -167,12 +170,25 @@ namespace WyzLink.Manager
             {
                 gameObject.GetComponent<Node>().SetInstallationState(InstallationState.Step1Installed);
                 IsInstallationStateChangeFlag = true;
+                if (null != gameObject.GetComponent<HandDraggable>())
+                {
+                    GameObject go = Instantiate(gameObject, gameObject.transform, true);
+                    go.transform.parent = GameObject.Find("RuntimeObject").transform;
+                    Destroy(go.GetComponent<HandDraggable>());
+                    #region Test 此处根据UI布局写活，后续需要根据UI调整
+                    Txt = Instantiate(GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject/ItemText"), GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").transform, true);
+                    //Txt.transform.parent = GameObject.Find("RuntimeObject").transform;
+                    //Txt.transform.position = gameObject.transform.position;
+                    Txt.transform.position = gameObject.transform.position;
+                    Txt.transform.GetChild(0).GetComponent<Text>().text = gameObject.name;
+                    #endregion
+                }
             }
         }
 
         void IManipulationHandler.OnManipulationUpdated(ManipulationEventData eventData)
         {
-            if (InstallationState.Step1Installed == gameObject.GetComponent<Node>().GetInstallationState() && 6 >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
+            if (InstallationState.Step1Installed == gameObject.GetComponent<Node>().GetInstallationState() && gameObject.GetComponent<Node>().HaulingDistance >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
             {
                 gameObject.GetComponent<Node>().SetInstallationState(InstallationState.Installed);
                 Destroy(gameObject.GetComponent<HandDraggable>());
@@ -197,6 +213,11 @@ namespace WyzLink.Manager
                         StopCoroutine(NodeInstallationStateManagerCoroutine());
                     }
                 }
+                Txt.SetActive(false);
+            }
+            else
+            {
+                Txt.transform.position = gameObject.transform.position;
             }
         }
 
