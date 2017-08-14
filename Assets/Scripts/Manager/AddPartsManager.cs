@@ -18,11 +18,6 @@ namespace WyzLink.Manager
 
         private AssembleController RootPartGameObject;
 
-        void Awake()
-        {
-
-        }
-
         // Use this for initialization
         void Start()
         {

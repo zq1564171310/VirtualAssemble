@@ -22,7 +22,6 @@ public class GlobalVar : MonoBehaviour
 
     //音频
 
-
     //大小
     public static Vector3 ModelSize = new Vector3(0.15f, 0.15f, 0.15f);                                         //定义零件架上零件大小，统一规格摆放到零件架上
 }

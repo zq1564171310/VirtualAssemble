@@ -28,6 +28,11 @@ namespace WyzLink.Manager
         // Use this for initialization
         void Start()
         {
+
+        }
+
+        public void Init()
+        {
             #region Test
             InstalledNode = NodesController.Instance.GetNodeList()[0];
             NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNode);
@@ -47,7 +52,6 @@ namespace WyzLink.Manager
                 GlobalVar._ErrorMassage.GetComponent<Text>().text = "现在应该安装: " + err;
             }
             #endregion
-
 
             //获取物体的绝对路径，新的UI中都会改掉
             GlobalVar._Slider.onValueChanged.AddListener(SlideTheSlider);

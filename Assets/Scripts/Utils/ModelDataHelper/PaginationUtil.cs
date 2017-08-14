@@ -60,6 +60,15 @@ namespace WyzLink.Utils.ModelDataHelper
         }
 
         /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+            //InitGUI();
+            //InitItems();
+        }
+
+        /// <summary>
         /// 初始化GUI
         /// </summary>
         private void InitGUI()
