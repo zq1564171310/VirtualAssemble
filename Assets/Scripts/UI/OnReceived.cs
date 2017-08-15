@@ -198,12 +198,15 @@ public class OnReceived : MonoBehaviour
 
         for (int i = 0; i < temp.Count; i++)
         {
+            GameObject TipsText = parent.GetChild(i).GetChild(2).gameObject;//零件提示框
+            Text Tips = TipsText.GetComponent<Text>();
+            
             Transform tran = parent.GetChild(i).GetChild(1);//找到SinglePartPanel的子物体Btn,再找子物体下的cube
             Node partOwnCurType = temp[i];//属于当前零件类型的第i个Node类物体
             string name = partOwnCurType.partName;
             string type = partOwnCurType.Type;
             GameObject go = partOwnCurType.gameObject;
-            Text t = parent.GetChild(i).GetChild(0).GetComponent<Text>();
+            Text t = parent.GetChild(i).GetChild(0).GetComponent<Text>();//用来存储零件名字
             t.gameObject.SetActive(true);
             t.text = name;
 
