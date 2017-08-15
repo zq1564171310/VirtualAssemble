@@ -205,7 +205,7 @@ public class OnReceived : MonoBehaviour
             GameObject go = partOwnCurType.gameObject;
             Text t = parent.GetChild(i).GetChild(0).GetComponent<Text>();
             t.gameObject.SetActive(true);
-            t.text =  name + "  " + type;
+            t.text = name;
 
             if (go.GetComponent<MeshRenderer>())
             {
