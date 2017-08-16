@@ -11,10 +11,14 @@ namespace WyzLink.Manager
 
     public class AddToolsManager : MonoBehaviour
     {
-        private GameObject[] Tools;    //Resoures目录下的工具预制体
+        [HideInInspector]
+        public GameObject[] Tools;    //Resoures目录下的工具预制体
 
-        private List<GameObject> ToolsList = new List<GameObject>();
+        [HideInInspector]
+        public static List<GameObject> ToolsList = new List<GameObject>();
 
+        [HideInInspector]
+        public static List<string> ToolsType = new List<string>();
         // Use this for initialization
         void Start()
         {
@@ -25,7 +29,27 @@ namespace WyzLink.Manager
                 for (int i = 0; i < Tools.Length; i++)
                 {
                     ToolsList.Add(Instantiate(Tools[i]));
-                    //ToolsList[i].transform.parent = GlobalVar._ToolsGameObjects.transform;
+                    if (ToolsList[i].name.Contains("一字螺丝刀"))
+                    {
+                        if (!ToolsType.Contains("一字螺丝刀"))
+                        {
+                            ToolsType.Add("一字螺丝刀");
+                        }
+                    }
+                    else if (ToolsList[i].name.Contains("十字螺丝刀"))
+                    {
+                        if (!ToolsType.Contains("十字螺丝刀"))
+                        {
+                            ToolsType.Add("十字螺丝刀");
+                        }
+                    }
+                    else if (ToolsList[i].name.Contains("内六角"))
+                    {
+                        if (!ToolsType.Contains("内六角"))
+                        {
+                            ToolsType.Add("内六角");
+                        }
+                    }
                 }
             }
         }
