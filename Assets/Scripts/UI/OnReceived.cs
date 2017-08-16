@@ -205,9 +205,10 @@ public class OnReceived : MonoBehaviour
             string name = partOwnCurType.partName;
             string type = partOwnCurType.Type;
             GameObject go = partOwnCurType.gameObject;
-            Text t = parent.GetChild(i).GetChild(0).GetComponent<Text>();
+            Text t = parent.GetChild(i).GetChild(0).GetComponent<Text>();//用来存储零件名字
             t.gameObject.SetActive(true);
             t.text = name + "  " + type;
+            t.text = name;
 
             if (go.GetComponent<MeshRenderer>())
             {
