@@ -44,19 +44,19 @@ namespace WyzLink.Manager
                 {
                     node.SetInstallationState(InstallationState.NextInstalling);
                     #region Test 跳转页面
-                    GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().SetIndex(node);
-                    index = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().GetIndex(node);
+                    //GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().SetIndex(node);
+                    //index = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().GetIndex(node);
                     #endregion
                     err += node.name + "(第" + index + "页）" + "/";
                 }
-                GlobalVar._ErrorMassage.GetComponent<Text>().text = "现在应该安装: " + err;
+                //GlobalVar._ErrorMassage.GetComponent<Text>().text = "现在应该安装: " + err;
             }
             #endregion
 
             //获取物体的绝对路径，新的UI中都会改掉
             GlobalVar._Slider.onValueChanged.AddListener(SlideTheSlider);
-            GameObject.Find("Canvas/WorkSpacePanel/Rota_Left").GetComponent<Button>().onClick.AddListener(RotaLeftBtnClick);
-            GameObject.Find("Canvas/WorkSpacePanel/Rota_Right").GetComponent<Button>().onClick.AddListener(RotaRightBtnClick);
+            GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Left").GetComponent<Button>().onClick.AddListener(RotaLeftBtnClick);
+            GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Right").GetComponent<Button>().onClick.AddListener(RotaRightBtnClick);
         }
 
         // Update is called once per frame
@@ -86,12 +86,12 @@ namespace WyzLink.Manager
                         nodes.gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.NextInstallMate;
                     }
                     #region Test 跳转页面
-                    GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().SetIndex(node);
-                    index = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().GetIndex(node);
+                    //GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().SetIndex(node);
+                    //index = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().GetIndex(node);
                     #endregion
                     err += nodes.name + "(第" + index + "页）" + "/";
                 }
-                GlobalVar._ErrorMassage.GetComponent<Text>().text = "现在应该安装:" + err;
+                //GlobalVar._ErrorMassage.GetComponent<Text>().text = "现在应该安装:" + err;
             }
         }
 

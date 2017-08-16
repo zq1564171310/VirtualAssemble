@@ -25,7 +25,7 @@ namespace WyzLink.Manager
                 for (int i = 0; i < Tools.Length; i++)
                 {
                     ToolsList.Add(Instantiate(Tools[i]));
-                    ToolsList[i].transform.parent = GlobalVar._ToolsGameObjects.transform;
+                    //ToolsList[i].transform.parent = GlobalVar._ToolsGameObjects.transform;
                 }
             }
         }

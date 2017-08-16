@@ -59,7 +59,7 @@ namespace WyzLink.Manager
                 }
             }
 
-            GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().Init();
+            //GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().Init();
 
             AssembleManager.Instance.Init();
         }

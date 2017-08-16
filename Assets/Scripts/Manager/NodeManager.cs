@@ -168,21 +168,20 @@ namespace WyzLink.Manager
         {
             if (InstallationState.Step1Installed != gameObject.GetComponent<Node>().GetInstallationState())
             {
-                gameObject.GetComponent<Node>().SetInstallationState(InstallationState.Step1Installed);
-                IsInstallationStateChangeFlag = true;
                 if (null != gameObject.GetComponent<HandDraggable>())
                 {
                     GameObject go = Instantiate(gameObject, gameObject.transform, true);
                     go.transform.parent = GameObject.Find("RuntimeObject").transform;
+                    //go.transform.position = gameObject.GetComponent<Node>().StartPos;
                     Destroy(go.GetComponent<HandDraggable>());
                     #region Test 此处根据UI布局写活，后续需要根据UI调整
                     Txt = Instantiate(GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject/ItemText"), GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").transform, true);
-                    //Txt.transform.parent = GameObject.Find("RuntimeObject").transform;
-                    //Txt.transform.position = gameObject.transform.position;
                     Txt.transform.position = gameObject.transform.position;
                     Txt.transform.GetChild(0).GetComponent<Text>().text = gameObject.name;
                     #endregion
                 }
+                gameObject.GetComponent<Node>().SetInstallationState(InstallationState.Step1Installed);
+                IsInstallationStateChangeFlag = true;
             }
         }
 

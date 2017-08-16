@@ -48,7 +48,7 @@ namespace WyzLink.Parts
         public Vector3 LocalSize;                 //原本尺寸（从零件架上取下之后的大小，零件架上的零件都会被放缩到差不多的大小）
         public Quaternion LocalRotation;             //零件原本世界坐标的角度
         [Range(0, 0.1f)]
-        public float HaulingDistance;                //吸附距离
+        public float HaulingDistance = 6;                //吸附距离
 
         public bool hasAnimation;
         public AnimationPlayer[] animationPlayers;

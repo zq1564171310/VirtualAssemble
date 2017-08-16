@@ -25,7 +25,7 @@ public class UIPartsClassPanel : MonoBehaviour
     /// </summary>
     /// <param name="map"></param>
     /// <param name="callback"></param>
-    public void Init(Dictionary<MyTransform, List<Node>> map , Action<int> callback)
+    public void Init(Dictionary<MyTransform, List<Node>> map, Action<int> callback)
     {
 
         call = callback;
@@ -54,11 +54,11 @@ public class UIPartsClassPanel : MonoBehaviour
     //右方向
     void Nextbut()
     {
-        int pagestotal = Mathf.CeilToInt( mystyps.Count / 3f);
+        int pagestotal = Mathf.CeilToInt(mystyps.Count / 3f);
         if (CurClassNum < pagestotal && CurClassNum > 0)
         {
             CurClassNum++;
-            int current = ((CurClassNum - 1 )*3) + 1;
+            int current = ((CurClassNum - 1) * 3) + 1;
             if (current <= mystyps.Count)
             {
                 Refresh(current);
@@ -108,31 +108,57 @@ public class UIPartsClassPanel : MonoBehaviour
         PartClass2.onValueChanged.RemoveAllListeners();
         PartClass3.onValueChanged.RemoveAllListeners();
 
+        #region  错误逻辑，暂时先定3个类别，有时间修改该bug
         //关闭无用Toggle
-        if (obj + 2 > mystyps.Count)
-        {
-            PartClass2.gameObject.SetActive(false);
-            PartClass3.gameObject.SetActive(false);
+        //if (obj + 2 > mystyps.Count)
+        //{
+        //    PartClass2.gameObject.SetActive(false);
+        //    PartClass3.gameObject.SetActive(false);
 
-            PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
-        }
-        else if (obj + 3 > mystyps.Count)
-        {
-            PartClass3.gameObject.SetActive(false);
+        //    PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
+        //}
+        //else if (obj + 3 > mystyps.Count)
+        //{
+        //    PartClass3.gameObject.SetActive(false);
 
+        //    PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
+        //    PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
+        //}
+        //else
+        //{
+        //    PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
+        //    PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
+        //    PartClass3.GetComponentInChildren<Text>().text = mystyps[obj + 1].partclassname;
+        //}
+
+        if (obj % 3 == 0)
+        {
             PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
             PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
+            PartClass3.GetComponentInChildren<Text>().text = mystyps[obj + 1].partclassname;
         }
-        else {
+        else if (obj % 3 == 1)
+        {
+            //PartClass2.gameObject.SetActive(false);
+            //PartClass3.gameObject.SetActive(false);
+            //PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
 
             PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
             PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
             PartClass3.GetComponentInChildren<Text>().text = mystyps[obj + 1].partclassname;
         }
+        else
+        {
+            PartClass3.gameObject.SetActive(false);
+            PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
+            PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
+        }
+        #endregion
+
 
         //更新监听
         PartClass1.onValueChanged.AddListener(
-            (Ison) => 
+            (Ison) =>
             {
                 if (call != null && Ison)
                 {
@@ -141,7 +167,7 @@ public class UIPartsClassPanel : MonoBehaviour
             }
             );
         PartClass2.onValueChanged.AddListener(
-            (Ison) => 
+            (Ison) =>
             {
                 if (call != null && Ison)
                 {
@@ -150,7 +176,7 @@ public class UIPartsClassPanel : MonoBehaviour
             }
             );
         PartClass3.onValueChanged.AddListener(
-            (Ison) => 
+            (Ison) =>
             {
                 if (call != null && Ison)
                 {
@@ -166,7 +192,8 @@ public class UIPartsClassPanel : MonoBehaviour
         {
             PartClass1.onValueChanged.Invoke(true);
         }
-        else {
+        else
+        {
             PartClass1.isOn = true;
         }
         PartClass2.isOn = false;

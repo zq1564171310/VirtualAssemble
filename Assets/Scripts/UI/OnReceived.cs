@@ -37,14 +37,23 @@ public class OnReceived : MonoBehaviour
         NodesCommon common = NodesCommon.Instance;
         mynodes = common.GetNodeList();
         mytypes = common.GetNodeTypes();
-        
+
         //CurClassNum = 1;
 
         //将零件类型和其所包含的零件集合分别作为字典的Key和Value添加到字典maps
         InitNodes();
 
         partsclass.Init(maps, OnCallBack);
-        OnCallBack(1);
+        for (int i = 0; i < 3; i++)
+        {
+            OnCallBack(i);
+            int PartTotalPage = Mathf.CeilToInt(Curpartlist.Count / (float)UI_Btn_Num);
+            if (CurPartPage < PartTotalPage && CurClassNum > 0)
+            {
+                CurPartPage++;
+                RefreshPage(CurPartPage);
+            }
+        }
 
         //添加监听
         NextPage.onClick.AddListener(NextPage_Btn);
@@ -76,10 +85,6 @@ public class OnReceived : MonoBehaviour
             CurPartPage++;
             RefreshPage(CurPartPage);
         }
-        else
-        {
-            Debug.Log("CurPartPage 最大不能再加了" + CurPartPage);
-        }
     }
 
     void PreviousPage_Btn()
@@ -90,10 +95,6 @@ public class OnReceived : MonoBehaviour
             CurPartPage--;
             RefreshPage(CurPartPage);
         }
-        else
-        {
-            Debug.Log("CurPartPage 最小不能再减了" + CurPartPage);
-        }
     }
 
 
@@ -101,7 +102,7 @@ public class OnReceived : MonoBehaviour
     private void OnCallBack(int obj)
     {
         //重复点击返回
-        if (lastpage == obj )
+        if (lastpage == obj)
         {
             return;
         }
@@ -109,7 +110,7 @@ public class OnReceived : MonoBehaviour
 
         Cleared(lastlist);
 
-       // RefreshToogles(obj);
+        // RefreshToogles(obj);
 
         List<MyTransform> mys = new List<MyTransform>(maps.Keys);
 
@@ -131,6 +132,8 @@ public class OnReceived : MonoBehaviour
                 RefreshPage(CurPartPage);
             }
         }
+
+
     }
 
 
@@ -145,7 +148,7 @@ public class OnReceived : MonoBehaviour
     //刷新按钮
     private void RefreshIndex(int first)
     {
-        ViewPage.GetComponent<Text>().text = "第"+first+"页/共"+ GetCurrentIndex() + "页";
+        ViewPage.GetComponent<Text>().text = "第" + first + "页/共" + GetCurrentIndex() + "页";
     }
 
 
@@ -154,7 +157,6 @@ public class OnReceived : MonoBehaviour
         //刷新显示
         RefreshIndex(CurPartPage);
 
-        //
         List<Node> temp = new List<Node>();
         int count = Curpartlist.Count;
         int PartTotalPage = Mathf.CeilToInt(count / (float)UI_Btn_Num);
@@ -162,9 +164,9 @@ public class OnReceived : MonoBehaviour
         {
             Cleared(lastlist);
             //如果不是最后一页，遍历属于当前类型的的零件并记录在集合
-            if (count >= (CurPartPage  * UI_Btn_Num))
+            if (count >= (CurPartPage * UI_Btn_Num))
             {
-                for (int i = UI_Btn_Num * (CurPartPage - 1); i < (CurPartPage)* UI_Btn_Num; i++)
+                for (int i = UI_Btn_Num * (CurPartPage - 1); i < (CurPartPage) * UI_Btn_Num; i++)
                 {
                     temp.Add(Curpartlist[i]);
                 }
@@ -205,7 +207,7 @@ public class OnReceived : MonoBehaviour
             GameObject go = partOwnCurType.gameObject;
             Text t = parent.GetChild(i).GetChild(0).GetComponent<Text>();
             t.gameObject.SetActive(true);
-            t.text =  name + "  " + type;
+            t.text = name + "  " + type;
 
             if (go.GetComponent<MeshRenderer>())
             {
@@ -260,7 +262,7 @@ public class OnReceived : MonoBehaviour
                     temp.Add(partOwnCurType);
                 }
             }
-            MyTransform mt = new MyTransform(str,i);
+            MyTransform mt = new MyTransform(str, i);
 
             maps.Add(mt, temp);
         }
@@ -271,7 +273,7 @@ public class OnReceived : MonoBehaviour
 
 public class MyTransform
 {
-    public MyTransform(string str,int page)
+    public MyTransform(string str, int page)
     {
         partclassname = str;
         this.page = page;
