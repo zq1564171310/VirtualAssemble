@@ -38,48 +38,31 @@ public class OnReceived : MonoBehaviour
         mynodes = common.GetNodeList();
         mytypes = common.GetNodeTypes();
 
-        //CurClassNum = 1;
-
         //将零件类型和其所包含的零件集合分别作为字典的Key和Value添加到字典maps
         InitNodes();
 
         partsclass.Init(maps, OnCallBack);
-        for (int i = 0; i < 3; i++)
-        {
-            OnCallBack(i);
-            int PartTotalPage = Mathf.CeilToInt(Curpartlist.Count / (float)UI_Btn_Num);
-            if (CurPartPage < PartTotalPage && CurClassNum > 0)
-            {
-                CurPartPage++;
-                RefreshPage(CurPartPage);
-            }
-        }
 
         //添加监听
         NextPage.onClick.AddListener(NextPage_Btn);
         PreviousPage.onClick.AddListener(PreviousPage_Btn);
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    OnCallBack(i);
+        //    int PartTotalPage = Mathf.CeilToInt(Curpartlist.Count / (float)UI_Btn_Num);
+        //    if (CurPartPage < PartTotalPage && CurClassNum > 0)
+        //    {
+        //        CurPartPage++;
+        //        RefreshPage(CurPartPage);
+        //    }
+        //}
     }
 
 
     void NextPage_Btn()
     {
         int PartTotalPage = Mathf.CeilToInt(Curpartlist.Count / (float)UI_Btn_Num);
-        //if (PartTotalPage <= 0)
-        //{
-        //    return;
-        //}
-
-        //if (CurPartPage >= PartTotalPage)
-        //{
-        //    return;
-        //}
-
-        //CurPartPage += 1;
-
-        //if (CurPartPage >= PartTotalPage)
-        //{
-        //    CurPartPage = PartTotalPage;
-        //}
+        
         if (CurPartPage < PartTotalPage && CurClassNum > 0)
         {
             CurPartPage++;
@@ -258,20 +241,23 @@ public class OnReceived : MonoBehaviour
             for (int j = 0; j < mynodes.Count; j++)
             {
                 Node partOwnCurType = mynodes[j];
-                if (partOwnCurType.Type == str)
+                if (partOwnCurType.Type == str && 
+                    (partOwnCurType.GetInstallationState() == InstallationState.NotInstalled 
+                    || partOwnCurType.GetInstallationState()==InstallationState.NextInstalling))
                 {
                     temp.Add(partOwnCurType);
                 }
             }
             MyTransform mt = new MyTransform(str, i);
-
             maps.Add(mt, temp);
         }
 
     }
 }
 
-
+/// <summary>
+/// 零件了类型和页数
+/// </summary>
 public class MyTransform
 {
     public MyTransform(string str, int page)

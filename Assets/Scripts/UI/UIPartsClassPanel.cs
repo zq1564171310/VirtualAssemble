@@ -12,7 +12,7 @@ public class UIPartsClassPanel : MonoBehaviour
     private Toggle PartClass1, PartClass2, PartClass3;
 
     private Action<int> call;
-    private int CurClassNum = 0;
+    private int CurClassNum = 1;//当前类的页数
 
     private Dictionary<MyTransform, List<Node>> maps = new Dictionary<MyTransform, List<Node>>();
 
@@ -45,13 +45,12 @@ public class UIPartsClassPanel : MonoBehaviour
     {
         NodesCommon common = NodesCommon.Instance;
 
-        CurClassNum = 1;
         next.onClick.AddListener(Nextbut);
         previous.onClick.AddListener(Previousbut);
 
     }
 
-    //右方向
+    //右方向按钮
     void Nextbut()
     {
         int pagestotal = Mathf.CeilToInt(mystyps.Count / 3f);
@@ -66,7 +65,7 @@ public class UIPartsClassPanel : MonoBehaviour
         }
     }
 
-    //左方向
+    //左方向按钮
     void Previousbut()
     {
         int pagestotal = Mathf.CeilToInt(mystyps.Count / 3f);
@@ -110,49 +109,49 @@ public class UIPartsClassPanel : MonoBehaviour
 
         #region  错误逻辑，暂时先定3个类别，有时间修改该bug
         //关闭无用Toggle
-        //if (obj + 2 > mystyps.Count)
-        //{
-        //    PartClass2.gameObject.SetActive(false);
-        //    PartClass3.gameObject.SetActive(false);
+        if (obj + 1 > mystyps.Count)
+        {
+            PartClass2.gameObject.SetActive(false);
+            PartClass3.gameObject.SetActive(false);
 
-        //    PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
-        //}
-        //else if (obj + 3 > mystyps.Count)
-        //{
-        //    PartClass3.gameObject.SetActive(false);
+            PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
+        }
+        else if (obj + 2 > mystyps.Count)
+        {
+            PartClass3.gameObject.SetActive(false);
 
-        //    PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
-        //    PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
-        //}
-        //else
+            PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
+            PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
+        }
+        else
+        {
+            PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
+            PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
+            PartClass3.GetComponentInChildren<Text>().text = mystyps[obj + 1].partclassname;
+        }
+
+        //if (obj % 3 == 0)
         //{
         //    PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
         //    PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
         //    PartClass3.GetComponentInChildren<Text>().text = mystyps[obj + 1].partclassname;
         //}
+        //else if (obj % 3 == 1)
+        //{
+        //    //PartClass2.gameObject.SetActive(false);
+        //    //PartClass3.gameObject.SetActive(false);
+        //    //PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
 
-        if (obj % 3 == 0)
-        {
-            PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
-            PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
-            PartClass3.GetComponentInChildren<Text>().text = mystyps[obj + 1].partclassname;
-        }
-        else if (obj % 3 == 1)
-        {
-            //PartClass2.gameObject.SetActive(false);
-            //PartClass3.gameObject.SetActive(false);
-            //PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
-
-            PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
-            PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
-            PartClass3.GetComponentInChildren<Text>().text = mystyps[obj + 1].partclassname;
-        }
-        else
-        {
-            PartClass3.gameObject.SetActive(false);
-            PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
-            PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
-        }
+        //    PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
+        //    PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
+        //    PartClass3.GetComponentInChildren<Text>().text = mystyps[obj + 1].partclassname;
+        //}
+        //else
+        //{
+        //    PartClass3.gameObject.SetActive(false);
+        //    PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
+        //    PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
+        //}
         #endregion
 
 
