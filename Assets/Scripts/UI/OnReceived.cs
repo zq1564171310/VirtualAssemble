@@ -8,13 +8,12 @@ using System;
 
 public class OnReceived : MonoBehaviour
 {
-    public List<Node> Curpartlist = new List<Node>();
+    public List<Node> Curpartlist = new List<Node>();//当前零件类型的集合
 
-    //声明字典maps
-    public Dictionary<MyTransform, List<Node>> maps = new Dictionary<MyTransform, List<Node>>();
+    public Dictionary<MyTransform, List<Node>> maps = new Dictionary<MyTransform, List<Node>>(); //声明字典maps
 
-    public UIPartsClassPanel partsclass;
-    public Transform parent;//就是SinglePartPanel，即该脚本所挂物体
+    public UIPartsClassPanel partsclass;// 声明UIPartsClassPanel类变量
+    public Transform parent;//就是SinglePartPanel，即该脚本所挂物体的Transform
 
     public Button NextPage, PreviousPage;//分别表示下一页，上一页按钮
     public GameObject ViewPage;//显示当前类别下第几页，共几页
@@ -23,20 +22,18 @@ public class OnReceived : MonoBehaviour
     private int UI_Btn_Num = 12;//零件架每页显示零件的个顺
     private int CurPartPage = 1;//当前页数（当前类别下的多个零件翻页，上一页，下一页按钮，每12个零件一翻页）
 
+    private int lastpage = -1;//刷新时上一页
 
-    //上一刷新的page
-    private int lastpage = -1;
-
-    private List<GameObject> lastlist = new List<GameObject>();
-    private List<Node> mynodes = new List<Node>();
-    private List<string> mytypes = new List<string>();
+    private List<GameObject> lastlist = new List<GameObject>();//翻页时上一页存储的零件
+    private List<Node> mynodes = new List<Node>();//所有零件的集合
+    private List<string> mytypes = new List<string>();//所有零件类型的集合
 
     // Use this for initialization
     void Start()
     {
         NodesCommon common = NodesCommon.Instance;
-        mynodes = common.GetNodeList();
-        mytypes = common.GetNodeTypes();
+        mynodes = common.GetNodeList();//初始化零件集合
+        mytypes = common.GetNodeTypes();//初始化零件类型集合
 
         //将零件类型和其所包含的零件集合分别作为字典的Key和Value添加到字典maps
         InitNodes();
@@ -46,19 +43,11 @@ public class OnReceived : MonoBehaviour
         //添加监听
         NextPage.onClick.AddListener(NextPage_Btn);
         PreviousPage.onClick.AddListener(PreviousPage_Btn);
-        //for (int i = 0; i < 3; i++)
-        //{
-        //    OnCallBack(i);
-        //    int PartTotalPage = Mathf.CeilToInt(Curpartlist.Count / (float)UI_Btn_Num);
-        //    if (CurPartPage < PartTotalPage && CurClassNum > 0)
-        //    {
-        //        CurPartPage++;
-        //        RefreshPage(CurPartPage);
-        //    }
-        //}
-    }
+  }
 
-
+    /// <summary>
+    /// 零件下一页按钮
+    /// </summary>
     void NextPage_Btn()
     {
         int PartTotalPage = Mathf.CeilToInt(Curpartlist.Count / (float)UI_Btn_Num);
@@ -70,6 +59,9 @@ public class OnReceived : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 零件上一页按钮
+    /// </summary>
     void PreviousPage_Btn()
     {
         int PartTotalPage = Mathf.CeilToInt(Curpartlist.Count / (float)UI_Btn_Num);
@@ -110,7 +102,7 @@ public class OnReceived : MonoBehaviour
                 //默认刷新第一页
                 CurPartPage = 1;
 
-                RefreshIndex(CurPartPage);
+                RefreshViewCurPage(CurPartPage);
 
                 RefreshPage(CurPartPage);
             }
@@ -120,25 +112,31 @@ public class OnReceived : MonoBehaviour
     }
 
 
-    //获取当前总页数（小）
-    private int GetCurrentIndex()
+    /// <summary>
+    /// 获取当前类型下零件的总页数
+    /// </summary>
+    /// <returns PartTotalPage总页数></returns>
+    private int GetPartsCurClassTotalPage()
     {
         int count = Curpartlist.Count;
         int PartTotalPage = Mathf.CeilToInt(count / (float)UI_Btn_Num);
         return PartTotalPage;
     }
 
-    //刷新按钮
-    private void RefreshIndex(int first)
+    /// <summary>
+    /// 刷新显示当前共多少页，第几页
+    /// </summary>
+    /// <param name="CurFirstPage"></param>
+    private void RefreshViewCurPage(int CurFirstPage)
     {
-        ViewPage.GetComponent<Text>().text = "第" + first + "页/共" + GetCurrentIndex() + "页";
+        ViewPage.GetComponent<Text>().text = "第" + CurFirstPage + "页/共" + GetPartsCurClassTotalPage() + "页";
     }
 
 
     void RefreshPage(int CurPartPage)
     {
         //刷新显示
-        RefreshIndex(CurPartPage);
+        RefreshViewCurPage(CurPartPage);
 
         List<Node> temp = new List<Node>();
         int count = Curpartlist.Count;
@@ -185,15 +183,14 @@ public class OnReceived : MonoBehaviour
         {
             Transform tran = parent.GetChild(i).GetChild(1);//找到SinglePartPanel的子物体Btn,再找子物体下的cube
             Node partOwnCurType = temp[i];//属于当前零件类型的第i个Node类物体
-            string name = partOwnCurType.partName;
-            string type = partOwnCurType.Type;
-            GameObject go = partOwnCurType.gameObject;
+            string name = partOwnCurType.partName;//当前零件的名字
+            string type = partOwnCurType.Type;//当前零件的类型的名字
+            GameObject go = partOwnCurType.gameObject;//当前零件这个物体
             Text t = parent.GetChild(i).GetChild(0).GetComponent<Text>();//用来存储零件名字
-            t.gameObject.SetActive(true);
-            t.text = name + "  " + type;
-            t.text = name;
-
-            if (go.GetComponent<MeshRenderer>())
+            t.text = name;//将零件名字赋给t.text
+            t.gameObject.SetActive(true);//让显示零件信息的Text类型游戏物体处于激活状态
+            
+            if (go.GetComponent<MeshRenderer>())//当前零件如果有MeshRenderer组件
             {
                 go.GetComponent<MeshRenderer>().enabled = true;
 
@@ -205,7 +202,10 @@ public class OnReceived : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// 翻页时隐藏前一页显示的零件
+    /// </summary>
+    /// <param name="temp"前一页存储的零件的集合></param>
     void Cleared(List<GameObject> temp)
     {
         //将Text全部隐藏
@@ -215,17 +215,16 @@ public class OnReceived : MonoBehaviour
             t.gameObject.SetActive(false);
         }
 
-
+        //隐藏上一页所有零件
         for (int i = 0; i < temp.Count; i++)
         {
             GameObject go = temp[i];
             if (go.GetComponent<MeshRenderer>())
             {
                 go.GetComponent<MeshRenderer>().enabled = false;
-                //GameObject.Destroy(go);
             }
         }
-        temp.Clear();
+        temp.Clear();//清空该List集合，以便下次重新添加元素
     }
 
     /// <summary>
@@ -256,7 +255,7 @@ public class OnReceived : MonoBehaviour
 }
 
 /// <summary>
-/// 零件了类型和页数
+/// 零件的类型和页数
 /// </summary>
 public class MyTransform
 {
