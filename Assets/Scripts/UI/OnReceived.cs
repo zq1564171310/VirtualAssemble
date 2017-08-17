@@ -5,7 +5,7 @@ using WyzLink.Control;
 using WyzLink.Parts;
 using WyzLink.Common;
 using System;
-using WyzLink.Tools;
+using WyzLink.ToolsAndCommonParts;
 
 public class OnReceived : MonoBehaviour
 {
@@ -36,8 +36,11 @@ public class OnReceived : MonoBehaviour
         mynodes = common.GetNodeList();//初始化零件集合
         mytypes = common.GetNodeTypes();//初始化零件类型集合
 
-        //List<Tool> list = ToolsCommon.Instance.GetToolList();
-        //List<string> listType = ToolsCommon.Instance.GetToolTypes();
+        List<Tool> list = ToolsCommon.Instance.GetToolList();
+        List<string> listType = ToolsCommon.Instance.GetToolTypes();
+
+        List<CommonParts> lists = CommonPartsCommon.Instance.GetCommonPartsList();
+        List<string> listTypes = CommonPartsCommon.Instance.GetCommonPartsTypes();
 
 
         //将零件类型和其所包含的零件集合分别作为字典的Key和Value添加到字典maps

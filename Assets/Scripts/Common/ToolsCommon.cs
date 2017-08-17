@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using WyzLink.Tools;
+using WyzLink.ToolsAndCommonParts;
 
 public class ToolsCommon : Singleton<ToolsCommon>
 {

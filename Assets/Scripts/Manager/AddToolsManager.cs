@@ -8,18 +8,12 @@ namespace WyzLink.Manager
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-    using WyzLink.Tools;
+    using WyzLink.ToolsAndCommonParts;
 
     public class AddToolsManager : MonoBehaviour
     {
-        //[HideInInspector]
         private GameObject[] Tools;    //Resoures目录下的工具预制体
 
-        //[HideInInspector]
-        //public static List<GameObject> ToolsList = new List<GameObject>();
-
-        //[HideInInspector]
-        //public static List<string> ToolsType = new List<string>();
         // Use this for initialization
         void Start()
         {
@@ -46,6 +40,8 @@ namespace WyzLink.Manager
                 for (int i = 0; i < Tools.Length; i++)
                 {
                     go = Instantiate(Tools[i]);
+                    go.name = Tools[i].name;
+                    go.transform.parent = GlobalVar._RuntimeObject.transform;
                     go.AddComponent<Tool>();
                     tool = go.GetComponent<Tool>();
                     tool.ToolName = go.name;
