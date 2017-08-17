@@ -5,6 +5,7 @@ using WyzLink.Control;
 using WyzLink.Parts;
 using WyzLink.Common;
 using System;
+using WyzLink.Tools;
 
 public class OnReceived : MonoBehaviour
 {
@@ -35,6 +36,10 @@ public class OnReceived : MonoBehaviour
         mynodes = common.GetNodeList();//初始化零件集合
         mytypes = common.GetNodeTypes();//初始化零件类型集合
 
+        //List<Tool> list = ToolsCommon.Instance.GetToolList();
+        //List<string> listType = ToolsCommon.Instance.GetToolTypes();
+
+
         //将零件类型和其所包含的零件集合分别作为字典的Key和Value添加到字典maps
         InitNodes();
 
@@ -43,7 +48,7 @@ public class OnReceived : MonoBehaviour
         //添加监听
         NextPage.onClick.AddListener(NextPage_Btn);
         PreviousPage.onClick.AddListener(PreviousPage_Btn);
-  }
+    }
 
     /// <summary>
     /// 零件下一页按钮
@@ -51,7 +56,7 @@ public class OnReceived : MonoBehaviour
     void NextPage_Btn()
     {
         int PartTotalPage = Mathf.CeilToInt(Curpartlist.Count / (float)UI_Btn_Num);
-        
+
         if (CurPartPage < PartTotalPage && CurClassNum > 0)
         {
             CurPartPage++;
@@ -189,7 +194,7 @@ public class OnReceived : MonoBehaviour
             Text t = parent.GetChild(i).GetChild(0).GetComponent<Text>();//用来存储零件名字
             t.text = name;//将零件名字赋给t.text
             t.gameObject.SetActive(true);//让显示零件信息的Text类型游戏物体处于激活状态
-            
+
             if (go.GetComponent<MeshRenderer>())//当前零件如果有MeshRenderer组件
             {
                 go.GetComponent<MeshRenderer>().enabled = true;
@@ -240,9 +245,9 @@ public class OnReceived : MonoBehaviour
             for (int j = 0; j < mynodes.Count; j++)
             {
                 Node partOwnCurType = mynodes[j];
-                if (partOwnCurType.Type == str && 
-                    (partOwnCurType.GetInstallationState() == InstallationState.NotInstalled 
-                    || partOwnCurType.GetInstallationState()==InstallationState.NextInstalling))
+                if (partOwnCurType.Type == str &&
+                    (partOwnCurType.GetInstallationState() == InstallationState.NotInstalled
+                    || partOwnCurType.GetInstallationState() == InstallationState.NextInstalling))
                 {
                     temp.Add(partOwnCurType);
                 }

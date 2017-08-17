@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using WyzLink.Control;
 using WyzLink.Parts;
 using WyzLink.Common;
 using System;
@@ -32,7 +31,7 @@ public class UIPartsClassPanel : MonoBehaviour
         maps = map;
         mystyps = new List<MyTransform>(map.Keys);
         UpdateListener(1);
-        
+
         //for (int i = 0; i < transform.childCount; i++)
         //{
         //    transform.GetChild(i).GetComponentInChildren<Text>().text = mystyps[i].partclassname;
@@ -41,11 +40,8 @@ public class UIPartsClassPanel : MonoBehaviour
 
     void Start()
     {
-        NodesCommon common = NodesCommon.Instance;
-
         next.onClick.AddListener(Nextbut);
         previous.onClick.AddListener(Previousbut);
-
     }
 
     //右方向按钮
@@ -86,7 +82,7 @@ public class UIPartsClassPanel : MonoBehaviour
     {
         if (call != null)
         {
-           UpdateListener(CurClassNum);
+            UpdateListener(CurClassNum);
         }
     }
 

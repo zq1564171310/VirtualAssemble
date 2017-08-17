@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 存放项目资源对象，包含脚本，物体，材质，后续UI优化以后，将只保留材质贴图等固定资源，实现模块化，将不在获取物体，只获取绝对位置的脚本和物体
@@ -8,15 +9,13 @@ public class GlobalVar : MonoBehaviour
     //物体
     //public static GameObject _ToolsGameObjects = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/ToolsPanel/ToolsGameObject");         //获取工具类型UI对象
 
-    public static GameObject _ErrorMassage = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/ErrorMassage");         //获取工具类型UI对象
+    public static GameObject _Tips = GameObject.Find("Canvas/BG/PartsPanel/Tips");         //提示框
 
     public static GameObject _RuntimeObject = GameObject.Find("RuntimeObject");
 
-    public static UnityEngine.UI.Slider _Slider = GameObject.Find("Canvas/Floor/MainWorkSpace/SliderPlane/Slider").GetComponent<UnityEngine.UI.Slider>();
-    public static UnityEngine.UI.Text _SliderText = GameObject.Find("Canvas/Floor/MainWorkSpace/SliderPlane/SliderText").GetComponent<UnityEngine.UI.Text>();
-
-    //public static UnityEngine.UI.Slider _Slider = GameObject.Find("Canvas/WorkSpacePanel/SliderPlane/Slider").GetComponent<UnityEngine.UI.Slider>();
-    //public static UnityEngine.UI.Text _SliderText = GameObject.Find("Canvas/WorkSpacePanel/SliderPlane/SliderText").GetComponent<UnityEngine.UI.Text>();
+    //UI
+    public static Slider _Slider = GameObject.Find("Canvas/Floor/MainWorkSpace/SliderPlane/Slider").GetComponent<Slider>();
+    public static Text _SliderText = GameObject.Find("Canvas/Floor/MainWorkSpace/SliderPlane/SliderText").GetComponent<Text>();
 
     //材质
     public static Material NextInstallMate = Resources.Load<Material>("NextInstallMate");

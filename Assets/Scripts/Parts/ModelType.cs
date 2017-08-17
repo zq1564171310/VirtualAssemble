@@ -12,5 +12,7 @@ namespace WyzLink.Parts
         Part,
         //工具
         Tools,
+        //常用零件
+        CommonParts,
     }
 }

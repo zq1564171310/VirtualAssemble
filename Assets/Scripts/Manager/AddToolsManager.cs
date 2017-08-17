@@ -8,48 +8,64 @@ namespace WyzLink.Manager
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using WyzLink.Tools;
 
     public class AddToolsManager : MonoBehaviour
     {
-        [HideInInspector]
-        public GameObject[] Tools;    //Resoures目录下的工具预制体
+        //[HideInInspector]
+        private GameObject[] Tools;    //Resoures目录下的工具预制体
 
-        [HideInInspector]
-        public static List<GameObject> ToolsList = new List<GameObject>();
+        //[HideInInspector]
+        //public static List<GameObject> ToolsList = new List<GameObject>();
 
-        [HideInInspector]
-        public static List<string> ToolsType = new List<string>();
+        //[HideInInspector]
+        //public static List<string> ToolsType = new List<string>();
         // Use this for initialization
         void Start()
         {
             Tools = Resources.LoadAll<GameObject>("ToolsPrefabs");
 
+            if (null != Tools && Tools.Length > 0)
+            {
+                if (ToolsController.Instance == null)
+                {
+                    var _ToolsController = new GameObject("ToolsController", typeof(ToolsController));
+                    _ToolsController.transform.parent = GlobalVar._RuntimeObject.transform;
+                }
+                if (ToolsCommon.Instance == null)
+                {
+                    var _ToolsCommon = new GameObject("ToolsCommon", typeof(ToolsCommon));
+                    _ToolsCommon.transform.parent = GlobalVar._RuntimeObject.transform;
+                }
+            }
+
             if (Tools.Length > 0)
             {
+                GameObject go;
+                Tool tool;
                 for (int i = 0; i < Tools.Length; i++)
                 {
-                    ToolsList.Add(Instantiate(Tools[i]));
-                    if (ToolsList[i].name.Contains("一字螺丝刀"))
+                    go = Instantiate(Tools[i]);
+                    go.AddComponent<Tool>();
+                    tool = go.GetComponent<Tool>();
+                    tool.ToolName = go.name;
+
+                    #region Test
+                    if (tool.name.Contains("螺丝刀"))
                     {
-                        if (!ToolsType.Contains("一字螺丝刀"))
-                        {
-                            ToolsType.Add("一字螺丝刀");
-                        }
+                        tool.Type = "螺丝刀";
                     }
-                    else if (ToolsList[i].name.Contains("十字螺丝刀"))
+                    else if (tool.name.Contains("内六角"))
                     {
-                        if (!ToolsType.Contains("十字螺丝刀"))
-                        {
-                            ToolsType.Add("十字螺丝刀");
-                        }
+                        tool.Type = "内六角";
                     }
-                    else if (ToolsList[i].name.Contains("内六角"))
+                    else
                     {
-                        if (!ToolsType.Contains("内六角"))
-                        {
-                            ToolsType.Add("内六角");
-                        }
+                        tool.Type = "其他";
                     }
+                    #endregion
+
+                    ToolsController.Instance.AddToolList(tool);
                 }
             }
         }
