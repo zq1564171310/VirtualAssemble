@@ -57,7 +57,8 @@ namespace WyzLink.Manager
                         node.gameObject.gameObject.AddComponent<Rigidbody>();
                         node.gameObject.GetComponent<Rigidbody>().useGravity = false;
                         node.EndPos = child.transform.position;
-                        node.LocalSize = node.GetDimensions();
+                        //node.LocalSize = node.GetDimensions();
+                        node.LocalSize = child.transform.localScale;
                         node.partName = child.name;
 
                         if (null == node.gameObject.GetComponent<MeshFilter>())
