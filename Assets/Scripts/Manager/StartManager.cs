@@ -37,17 +37,6 @@ namespace WyzLink.Manager
             }
             BeginCanvas = GameObject.Find("BeginCanvas");
             Restart.GetComponent<Button>().onClick.AddListener(StartAssemble);
-            //foreach (Transform tran in BeginCanvas.transform)
-            //{
-            //    if ("Restart" != tran.gameObject.name)
-            //    {
-            //        tran.gameObject.SetActive(false);
-            //    }
-            //    else
-            //    {
-            //        GameObject.Find("BeginCanvas/Restart").gameObject.GetComponent<Button>().onClick.AddListener(StartAssemble);
-            //    }
-            //}
         }
 
         // Update is called once per frame

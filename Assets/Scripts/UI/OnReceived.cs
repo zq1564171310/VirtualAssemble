@@ -80,8 +80,10 @@ public class OnReceived : MonoBehaviour
         }
     }
 
-
-    //刷新
+    /// <summary>
+    /// 刷新当前页面显示的零件物体
+    /// </summary>
+    /// <param name="obj"属于当前类型的零件的当前页码></param>
     private void OnCallBack(int obj)
     {
         //重复点击返回
@@ -93,12 +95,9 @@ public class OnReceived : MonoBehaviour
 
         Cleared(lastlist);
 
-        // RefreshToogles(obj);
-
         List<MyTransform> mys = new List<MyTransform>(maps.Keys);
 
         MyTransform my = null;
-
 
         for (int i = 0; i < mys.Count; i++)
         {
@@ -115,10 +114,7 @@ public class OnReceived : MonoBehaviour
                 RefreshPage(CurPartPage);
             }
         }
-
-
     }
-
 
     /// <summary>
     /// 获取当前类型下零件的总页数

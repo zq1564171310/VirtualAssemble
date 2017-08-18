@@ -212,7 +212,7 @@ namespace WyzLink.Manager
                         StopCoroutine(NodeInstallationStateManagerCoroutine());
                     }
                 }
-                Txt.SetActive(false);
+                //Txt.SetActive(false);
             }
             else
             {

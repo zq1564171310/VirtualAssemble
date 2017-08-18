@@ -11,7 +11,7 @@ public class UIPartsClassPanel : MonoBehaviour
     private Toggle PartClass1, PartClass2, PartClass3;
 
     private Action<int> call;
-    private int CurClassNum = 1;//当前类的页数
+    private int CurClassNum = 1;//当前零件类型的页码
 
     private Dictionary<MyTransform, List<Node>> maps = new Dictionary<MyTransform, List<Node>>();
 
@@ -31,11 +31,6 @@ public class UIPartsClassPanel : MonoBehaviour
         maps = map;
         mystyps = new List<MyTransform>(map.Keys);
         UpdateListener(1);
-
-        //for (int i = 0; i < transform.childCount; i++)
-        //{
-        //    transform.GetChild(i).GetComponentInChildren<Text>().text = mystyps[i].partclassname;
-        //}
     }
 
     void Start()
@@ -87,10 +82,10 @@ public class UIPartsClassPanel : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// 关闭当前类页的无用类开关
     /// </summary>
-    /// <param int name="obj"代表第几个零件类型></param>
-    void UpdateListener(int obj)
+    /// <param int name="CurClassNum"代表当前零件类型的页数></param>
+    void UpdateListener(int CurClassNum)
     {
         //设置三个类别开关都处于激活状态
         PartClass1.gameObject.SetActive(true);
@@ -101,29 +96,28 @@ public class UIPartsClassPanel : MonoBehaviour
         PartClass2.onValueChanged.RemoveAllListeners();
         PartClass3.onValueChanged.RemoveAllListeners();
 
-
         //关闭无用Toggle
-        if (obj % 3 == 1)
+        if (CurClassNum % 3 == 1)
         {
-            if (obj + 1 > mystyps.Count)
+            if (CurClassNum + 1 > mystyps.Count)
             {
                 PartClass2.gameObject.SetActive(false);
                 PartClass3.gameObject.SetActive(false);
 
-                PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
+                PartClass1.GetComponentInChildren<Text>().text = mystyps[CurClassNum - 1].partclassname;
             }
-            else if (obj + 2 > mystyps.Count)
+            else if (CurClassNum + 2 > mystyps.Count)
             {
                 PartClass3.gameObject.SetActive(false);
 
-                PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
-                PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
+                PartClass1.GetComponentInChildren<Text>().text = mystyps[CurClassNum - 1].partclassname;
+                PartClass2.GetComponentInChildren<Text>().text = mystyps[CurClassNum].partclassname;
             }
             else
             {
-                PartClass1.GetComponentInChildren<Text>().text = mystyps[obj - 1].partclassname;
-                PartClass2.GetComponentInChildren<Text>().text = mystyps[obj].partclassname;
-                PartClass3.GetComponentInChildren<Text>().text = mystyps[obj + 1].partclassname;
+                PartClass1.GetComponentInChildren<Text>().text = mystyps[CurClassNum - 1].partclassname;
+                PartClass2.GetComponentInChildren<Text>().text = mystyps[CurClassNum].partclassname;
+                PartClass3.GetComponentInChildren<Text>().text = mystyps[CurClassNum + 1].partclassname;
             }
 
             //更新监听
@@ -132,7 +126,7 @@ public class UIPartsClassPanel : MonoBehaviour
             {
                 if (call != null && Ison)
                 {
-                    call(obj);
+                    call(CurClassNum);
                 }
             }
             );
@@ -141,7 +135,7 @@ public class UIPartsClassPanel : MonoBehaviour
                 {
                     if (call != null && Ison)
                     {
-                        call(obj + 1);
+                        call(CurClassNum + 1);
                     }
                 }
                 );
@@ -150,7 +144,7 @@ public class UIPartsClassPanel : MonoBehaviour
                 {
                     if (call != null && Ison)
                     {
-                        call(obj + 2);
+                        call(CurClassNum + 2);
                     }
                 }
                 );
