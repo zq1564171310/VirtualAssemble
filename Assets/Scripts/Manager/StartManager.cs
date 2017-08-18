@@ -13,28 +13,41 @@ namespace WyzLink.Manager
     public class StartManager : MonoBehaviour
     {
         private GameObject RootPartGameObject;
-        private GameObject CanvasUI;
+        private GameObject BeginCanvas;
+        private GameObject Canvas;
+
+        public Button Restart;//重新开始按钮
+        public Button RecordStart;//上次记录开始按钮
+        public Toggle Pattern_demonstration;//演示模式开关
+        public Toggle Pattern_Study;//学习模式开关
+        public Toggle Pattern_Test;//考试模式开关
 
         // Use this for initialization
         void Start()
         {
             RootPartGameObject = FindObjectOfType<AssembleController>().gameObject;
+            Canvas = GameObject.Find("Canvas");
             if (null != RootPartGameObject)
             {
-                RootPartGameObject.SetActive(false);
-            }
-            CanvasUI = GameObject.Find("Canvas");
-            foreach (Transform tran in CanvasUI.transform)
-            {
-                if ("StartPanel" != tran.gameObject.name)
+                foreach(Transform tran in RootPartGameObject.transform)
                 {
                     tran.gameObject.SetActive(false);
                 }
-                else
-                {
-                    GameObject.Find("Canvas/StartPanel/StartBtn").gameObject.GetComponent<Button>().onClick.AddListener(StartAssemble);
-                }
+                Canvas.SetActive(false);
             }
+            BeginCanvas = GameObject.Find("BeginCanvas");
+            Restart.GetComponent<Button>().onClick.AddListener(StartAssemble);
+            //foreach (Transform tran in BeginCanvas.transform)
+            //{
+            //    if ("Restart" != tran.gameObject.name)
+            //    {
+            //        tran.gameObject.SetActive(false);
+            //    }
+            //    else
+            //    {
+            //        GameObject.Find("BeginCanvas/Restart").gameObject.GetComponent<Button>().onClick.AddListener(StartAssemble);
+            //    }
+            //}
         }
 
         // Update is called once per frame
@@ -45,22 +58,15 @@ namespace WyzLink.Manager
 
         private void StartAssemble()
         {
-            RootPartGameObject.SetActive(true);
-
-            foreach (Transform tran in CanvasUI.transform)
+            if (null != RootPartGameObject)
             {
-                if ("StartPanel" != tran.gameObject.name)
+                foreach (Transform tran in RootPartGameObject.transform)
                 {
                     tran.gameObject.SetActive(true);
                 }
-                else
-                {
-                    tran.gameObject.SetActive(false);
-                }
             }
-
-            //GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().Init();
-
+            Canvas.SetActive(true);
+            BeginCanvas.SetActive(false);
             AssembleManager.Instance.Init();
         }
     }

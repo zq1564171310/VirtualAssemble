@@ -7,7 +7,8 @@ public class OnReceivedTools : MonoBehaviour {
 
     private List<GameObject> ToolsList; //工具集合
     private List<string> ToolsType = new List<string>();//工具类型集合
-                                                        // Use this for initialization
+   
+    // Use this for initialization
     void Start ()
     {
         //ToolsList = AddToolsManager.ToolsList;
