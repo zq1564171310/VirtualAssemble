@@ -12,6 +12,8 @@ namespace WyzLink.Parts
     {
         private Node parentNode = null;
 
+        private float connectorDetectionRadius = 0.01f; // TODO: Need adjustment
+
         private void Awake()
         {
             var transform = this.transform;
@@ -25,6 +27,11 @@ namespace WyzLink.Parts
                 }
                 transform = transform.parent;
             }
+
+            // The collider is used to detect the connectors get close to each other
+            this.gameObject.layer = 8;  // ConnectorLayer
+            var collider = this.gameObject.AddComponent<SphereCollider>();
+            collider.radius = 0.001f;       // TODO: GetRadius for all 
         }
 
         protected virtual void Start()
