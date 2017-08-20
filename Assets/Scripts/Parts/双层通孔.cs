@@ -6,6 +6,7 @@
 
 namespace WyzLink.Parts
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
@@ -17,10 +18,9 @@ namespace WyzLink.Parts
         public float 厚度1;
         public float 厚度2;
 
-        // Use this for initialization
-        void Start()
+        public override string GetName()
         {
-
+            return "双层通孔" + " Ø " + 半径1 + " Ø " + 半径2;
         }
     }
 }

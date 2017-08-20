@@ -53,6 +53,8 @@ namespace WyzLink.Parts
         public bool hasAnimation;
         public AnimationPlayer[] animationPlayers;
 
+        public bool displayConnectorLabels = true;
+
 
         private void Reset()
         {

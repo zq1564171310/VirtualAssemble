@@ -15,10 +15,9 @@ namespace WyzLink.Parts
         public float 半径;
         public float 厚度;
 
-        // Use this for initialization
-        void Start()
+        public override string GetName()
         {
-
+            return "螺纹孔" + " Ø " + 半径;
         }
     }
 }

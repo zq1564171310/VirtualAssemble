@@ -8,8 +8,34 @@ namespace WyzLink.Parts
 {
     using UnityEngine;
 
-    public class ConnectorBase : MonoBehaviour
+    public abstract class ConnectorBase : MonoBehaviour
     {
+        private Node parentNode = null;
 
+        private void Awake()
+        {
+            var transform = this.transform;
+            while (transform != null)
+            {
+                Node node = transform.GetComponent<Node>();
+                if (node != null)
+                {
+                    this.parentNode = node;
+                    break;
+                }
+                transform = transform.parent;
+            }
+        }
+
+        protected virtual void Start()
+        {
+            if (parentNode != null && parentNode.displayConnectorLabels)
+            {
+                var label = UtilityCollection.Instance.CreateLabelUI(this.transform);
+                label.SetLabelText(GetName());
+            }
+        }
+
+        public abstract string GetName();
     }
 }
