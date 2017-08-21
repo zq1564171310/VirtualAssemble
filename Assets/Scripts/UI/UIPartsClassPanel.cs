@@ -17,7 +17,7 @@ public class UIPartsClassPanel : MonoBehaviour
 
     private List<MyTransform> mystyps = new List<MyTransform>();
 
-    public Button next, previous;
+    public Button previous,next ;//零件类型左右翻类按钮
 
     /// <summary>
     /// UI显示类别名称
@@ -62,10 +62,10 @@ public class UIPartsClassPanel : MonoBehaviour
         if (CurClassNum > 1)
         {
             CurClassNum--;
-            int current = ((CurClassNum - 1) * 3) + 1;
+            int current = ((CurClassNum - 1) * 3) + 1;//表示当前零件类页的前一页的第一个类开关
             if (current <= mystyps.Count)
             {
-                Refresh(current);
+                Refresh(current);//刷新打开第一个类开关
             }
         }
 
@@ -73,7 +73,7 @@ public class UIPartsClassPanel : MonoBehaviour
 
 
     //刷新
-    void Refresh(int CurClassNum)
+    void Refresh(int current)
     {
         if (call != null)
         {
