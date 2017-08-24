@@ -9,15 +9,16 @@ namespace WyzLink.Parts
     using UnityEditor;
     using UnityEngine;
 
-    [CustomEditor(typeof(螺纹通孔))]
+    [CustomEditor(typeof(螺丝))]
     [CanEditMultipleObjects]
-    public class 螺纹通孔Editor : Editor
+    public class 螺丝Editor : Editor
     {
         private void OnSceneGUI()
         {
-            螺纹通孔 t = target as 螺纹通孔;
+            螺丝 t = target as 螺丝;
             Handles.color = Color.yellow;
-            HandleExtention.DrawColumn(t.transform, Vector3.zero, t.直径 * 0.001f / 2, t.厚度 * 0.001f);
+            HandleExtention.DrawColumn(t.transform, Vector3.zero + Vector3.forward * t.长度 * 0.001f / 2, t.直径 * 0.001f / 2, t.长度 * 0.001f);
+            HandleExtention.DrawEnd(t.transform, Vector3.zero + Vector3.forward * t.长度 * 0.001f, t.直径 * 0.001f / 2, 0);
         }
     }
 }

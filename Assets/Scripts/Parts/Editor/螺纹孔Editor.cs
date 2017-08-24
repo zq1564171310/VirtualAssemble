@@ -17,8 +17,8 @@ namespace WyzLink.Parts
         {
             螺纹孔 t = target as 螺纹孔;
             Handles.color = Color.yellow;
-            HandleExtention.DrawColumn(t.transform, Vector3.zero + Vector3.forward * t.厚度 * 0.001f / 2, t.半径 * 0.001f, t.厚度 * 0.001f);
-            HandleExtention.DrawEnd(t.transform, Vector3.zero + Vector3.forward * t.厚度 * 0.001f, t.半径 * 0.001f);
+            HandleExtention.DrawColumn(t.transform, Vector3.zero + Vector3.forward * t.厚度 * 0.001f / 2, t.直径 * 0.001f / 2, t.厚度 * 0.001f);
+            HandleExtention.DrawEnd(t.transform, Vector3.zero + Vector3.forward * t.厚度 * 0.001f, t.直径 * 0.001f / 2);
         }
     }
 }

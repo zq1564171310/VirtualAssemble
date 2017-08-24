@@ -12,12 +12,12 @@ namespace WyzLink.Parts
 
     public class 通孔 : ConnectorBase
     {
-        public float 半径;
+        public float 直径;
         public float 厚度;
 
         public override string GetName()
         {
-            return "通孔" + " Ø " + 半径;
+            return "通孔" + " Ø " + 直径;
         }
     }
 }

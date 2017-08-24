@@ -17,7 +17,7 @@ namespace WyzLink.Parts
         {
             通孔 t = target as 通孔;
             Handles.color = Color.yellow;
-            HandleExtention.DrawColumn(t.transform, Vector3.zero, t.半径 * 0.001f, t.厚度 * 0.001f);
+            HandleExtention.DrawColumn(t.transform, Vector3.zero, t.直径 * 0.001f / 2, t.厚度 * 0.001f);
         }
     }
 }

@@ -18,8 +18,8 @@ namespace WyzLink.Parts
             双层通孔 t = target as 双层通孔;
             Handles.color = Color.yellow;
 
-            HandleExtention.DrawColumn(t.transform, Vector3.zero + Vector3.forward * t.厚度1 * 0.001f / 2, t.半径1 * 0.001f, t.厚度1 * 0.001f);
-            HandleExtention.DrawColumn(t.transform, Vector3.zero - Vector3.forward * t.厚度2 * 0.001f / 2, t.半径2 * 0.001f, t.厚度2 * 0.001f);
+            HandleExtention.DrawColumn(t.transform, Vector3.zero + Vector3.forward * t.厚度1 * 0.001f / 2, t.直径1 * 0.001f / 2, t.厚度1 * 0.001f);
+            HandleExtention.DrawColumn(t.transform, Vector3.zero - Vector3.forward * t.厚度2 * 0.001f / 2, t.直径2 * 0.001f / 2, t.厚度2 * 0.001f);
         }
     }
 }

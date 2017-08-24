@@ -6,19 +6,15 @@
 
 namespace WyzLink.Parts
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
-
-    public class 长孔 : ConnectorBase
+    public class 螺丝 : ConnectorBase
     {
         public float 直径;
-        public float 厚度;
         public float 长度;
+        public int 螺纹号;
 
         public override string GetName()
         {
-            return "长孔" + " Ø " + 直径;
+            return "螺丝" + " M" + 螺纹号;
         }
     }
 }

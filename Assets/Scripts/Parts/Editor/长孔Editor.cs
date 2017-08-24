@@ -17,7 +17,7 @@ namespace WyzLink.Parts
         {
             长孔 t = target as 长孔;
             Handles.color = Color.yellow;
-            HandleExtention.DrawDualHole(t.transform, Vector3.zero, t.长度 * 0.001f, t.半径 * 0.001f, t.厚度 * 0.001f);
+            HandleExtention.DrawDualHole(t.transform, Vector3.zero, t.长度 * 0.001f, t.直径 * 0.001f / 2, t.厚度 * 0.001f);
         }
     }
 }
