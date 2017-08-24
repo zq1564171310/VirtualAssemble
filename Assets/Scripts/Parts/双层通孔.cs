@@ -6,11 +6,9 @@
 
 namespace WyzLink.Parts
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
 
+    [AddComponentMenu("接口/双层通孔")]
     public class 双层通孔 : ConnectorBase
     {
         public float 直径1;

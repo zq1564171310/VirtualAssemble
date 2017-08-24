@@ -6,10 +6,9 @@
 
 namespace WyzLink.Parts
 {
-    using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
 
+    [AddComponentMenu("接口/双层长孔")]
     public class 双层长孔 : ConnectorBase
     {
         public float 长度;

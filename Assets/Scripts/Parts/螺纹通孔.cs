@@ -6,10 +6,9 @@
 
 namespace WyzLink.Parts
 {
-    using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
 
+    [AddComponentMenu("接口/螺纹通孔")]
     public class 螺纹通孔 : ConnectorBase
     {
         public float 直径;
