@@ -7,14 +7,12 @@ namespace WyzLink.Manager
 {
     using HoloToolkit.Unity;
     using HoloToolkit.Unity.InputModule;
-    using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.UI;
     using WyzLink.Assemble;
     using WyzLink.Control;
     using WyzLink.Parts;
-    using WyzLink.Utils.ModelDataHelper;
 
     public class AssembleManager : Singleton<AssembleManager>
     {
@@ -24,11 +22,10 @@ namespace WyzLink.Manager
         private float WorkSpaceScalingNum = 1;                          //工作区缩放倍数
         private float WorkSpaceRotaAngle = 90;                               //工作区旋转角度
 
-
         // Use this for initialization
         void Start()
         {
-
+            Init();
         }
 
         public void Init()
@@ -44,12 +41,12 @@ namespace WyzLink.Manager
                 {
                     node.SetInstallationState(InstallationState.NextInstalling);
                     #region Test 跳转页面
-                    //GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().SetIndex(node);
-                    //index = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().GetIndex(node);
+                    GlobalVar._UIPartsPage.SetIndex(node);
+                    index = GlobalVar._UIPartsPage.GetIndex(node);
                     #endregion
                     err += node.name + "(第" + index + "页）" + "/";
                 }
-                //GlobalVar._ErrorMassage.GetComponent<Text>().text = "现在应该安装: " + err;
+                GlobalVar._Tips.text = "现在应该安装:" + err;
             }
             #endregion
 
@@ -65,9 +62,23 @@ namespace WyzLink.Manager
 
         }
 
+        /// <summary>
+        /// 初始化DependencyGraph类，调用底层
+        /// </summary>
+        /// <param name="dependencyGraph"></param>
         public void SetDependencyGraph(DependencyGraph dependencyGraph)
         {
             _DependencyGraph = dependencyGraph;
+        }
+
+
+        /// <summary>
+        /// 获取下一步可以安装的零件集合
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Node> GetNextInstallNode()
+        {
+            return NextInstallNode;
         }
 
         public void NextInstall(Node node)
@@ -86,12 +97,12 @@ namespace WyzLink.Manager
                         nodes.gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.NextInstallMate;
                     }
                     #region Test 跳转页面
-                    //GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().SetIndex(node);
-                    //index = GameObject.Find("Canvas/UIManagerPlane/BackGroudImage/PartsPanel/PartsGameObject").GetComponent<PaginationUtil>().GetIndex(node);
+                    GlobalVar._UIPartsPage.SetIndex(nodes);
+                    index = GlobalVar._UIPartsPage.GetIndex(nodes);
                     #endregion
                     err += nodes.name + "(第" + index + "页）" + "/";
                 }
-                //GlobalVar._ErrorMassage.GetComponent<Text>().text = "现在应该安装:" + err;
+                GlobalVar._Tips.text = "现在应该安装:" + err;
             }
         }
 

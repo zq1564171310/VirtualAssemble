@@ -33,8 +33,8 @@ public class OnReceived : MonoBehaviour
     void Start()
     {
         NodesCommon common = NodesCommon.Instance;
-        mynodes = common.GetNodeList();//初始化零件集合
-        mytypes = common.GetNodeTypes();//初始化零件类型集合
+        mynodes = common.GetNodesList();//初始化零件集合
+        mytypes = common.GetNodesTypes();//初始化零件类型集合
 
         List<Tool> list = ToolsCommon.Instance.GetToolList();
         List<string> listType = ToolsCommon.Instance.GetToolTypes();

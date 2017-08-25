@@ -14,13 +14,22 @@ namespace WyzLink.Manager
 
     public class AddPartsManager : MonoBehaviour
     {
-        private Transform[] PartsTransform;
+        private Transform[] PartsTransform;                    //零件Transform集合
 
-        private AssembleController RootPartGameObject;
+        private AssembleController RootPartGameObject;          //零件跟节点
+
+        private float UIScaling = 5;               //UI布局造成的倍数问题
+
+        private Vector3 MainWorkSpacePos;           //主工作区位置
+
+        private Vector3 SecondWorkSpacePos;        //第二工作区位置
 
         // Use this for initialization
         void Start()
         {
+            MainWorkSpacePos = GameObject.Find("Canvas/Floor/MainWorkSpace").transform.position;
+            SecondWorkSpacePos = GameObject.Find("Canvas/Floor/MainWorkSpace2").transform.position;
+
             //获取根节点的物体
             RootPartGameObject = FindObjectOfType<AssembleController>();
             if (null != RootPartGameObject)
@@ -52,19 +61,10 @@ namespace WyzLink.Manager
                     {
                         child.gameObject.AddComponent<NodeManager>();
                         node = child.gameObject.GetComponent<Node>();
-                        node.gameObject.AddComponent<BoxCollider>();
-                        node.gameObject.GetComponent<BoxCollider>().isTrigger = true;
-                        node.gameObject.gameObject.AddComponent<Rigidbody>();
-                        node.gameObject.GetComponent<Rigidbody>().useGravity = false;
                         node.EndPos = child.transform.position;
                         //node.LocalSize = node.GetDimensions();
                         node.LocalSize = child.transform.localScale;
                         node.partName = child.name;
-
-                        if (null == node.gameObject.GetComponent<MeshFilter>())
-                        {
-                            node.gameObject.GetComponent<BoxCollider>().size /= 10;
-                        }
 
                         #region  Test
                         if (child.name == "底盘平台")
@@ -83,9 +83,27 @@ namespace WyzLink.Manager
                         {
                             node.Type = "抽屉以及抽屉相关";
                         }
+                        else if (node.partName.Contains("按钮"))
+                        {
+                            node.Type = "按钮以及按钮相关";
+                        }
+                        else if (node.partName.Contains("照明"))
+                        {
+                            node.Type = "照明以及照明相关";
+                        }
                         else
                         {
                             node.Type = "其他";
+                        }
+
+                        if (node.nodeId == 5007 || node.nodeId == 5008 || node.nodeId == 5012 || node.nodeId == 5020 || node.nodeId == 5018 || node.nodeId == 5013 || node.nodeId == 5021 || node.nodeId == 5022)
+                        {
+                            node.WorkSpaceID = 2;
+                            node.WorSpaceRelativePos = WorkSpaceManager.GetPartsInOtherWorkSpacePosition(node, MainWorkSpacePos, SecondWorkSpacePos);
+                        }
+                        else
+                        {
+                            node.WorkSpaceID = 1;
                         }
                         #endregion
 
@@ -98,7 +116,7 @@ namespace WyzLink.Manager
                     if (null != NodesController.Instance.GetNodeList()[i].GetComponent<MeshFilter>())
                     {
                         ScalingNum = NodesController.Instance.GetNodeList()[i].Scaling(ModelType.Part);
-                        NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale = new Vector3(NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.x / ScalingNum, NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.y / ScalingNum, NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale.z / ScalingNum);
+                        NodesController.Instance.GetNodeList()[i].gameObject.transform.localScale /= ScalingNum;
                     }
                 }
 

@@ -47,14 +47,15 @@ namespace WyzLink.Parts
         public Vector3 EndPos;                    //安装的终点位置（最终在工作区上的位置）
         public Vector3 LocalSize;                 //原本尺寸（从零件架上取下之后的大小，零件架上的零件都会被放缩到差不多的大小）
         public Quaternion LocalRotation;             //零件原本世界坐标的角度
-        [Range(0, 0.1f)]
-        public float HaulingDistance = 6;                //吸附距离
+        public float HaulingDistance = 0.01f;                 //吸附距离
 
         public bool hasAnimation;
         public AnimationPlayer[] animationPlayers;
 
-        public bool displayConnectorLabels = true;
+        public int WorkSpaceID = 1;                           //属于哪一个工作区安装
+        public Vector3 WorSpaceRelativePos;                   //相对主工作区的位置
 
+        public bool displayConnectorLabels = true;
 
         private void Reset()
         {

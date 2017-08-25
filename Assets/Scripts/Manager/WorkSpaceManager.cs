@@ -31,7 +31,7 @@ namespace WyzLink.Manager
         /// <param name="node">零件</param>
         /// <param name="MainWorkSpace">主工作区位置</param>
         /// <returns></returns>
-        private Vector3 GetPartsInOtherWorkSpacePosition(Node node, Vector3 mainWorkSpacePosition, Vector3 otherWorkSpacePosition)
+        public static Vector3 GetPartsInOtherWorkSpacePosition(Node node, Vector3 mainWorkSpacePosition, Vector3 otherWorkSpacePosition)
         {
             Vector3 var;
             var = node.EndPos - mainWorkSpacePosition + otherWorkSpacePosition;

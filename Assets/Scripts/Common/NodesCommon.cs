@@ -31,30 +31,31 @@ namespace WyzLink.Common
         /// 获取零件类的集合
         /// </summary>
         /// <returns></returns>
-        public List<Node> GetNodeList()
+        public List<Node> GetNodesList()
         {
+            List<Node> list = new List<Node>();
             if (null != NodesController.Instance)
             {
-                return NodesController.Instance.GetNodeList();
+                list = NodesController.Instance.GetNodeList();
             }
             else
             {
                 Debug.LogError("没有实例化零件控制类（NodesController）");
-                return null;
             }
+            return list;
         }
 
         /// <summary>
         /// 获取零件类型
         /// </summary>
         /// <returns></returns>
-        public List<string> GetNodeTypes()
+        public List<string> GetNodesTypes()
         {
+            List<string> list = new List<string>();
             if (null != NodesController.Instance)
             {
                 if (0 < NodesController.Instance.GetNodeList().Count)
                 {
-                    List<string> list = new List<string>();
                     for (int i = 0; i < NodesController.Instance.GetNodeList().Count; i++)
                     {
                         if (!list.Contains(NodesController.Instance.GetNodeList()[i].Type))
@@ -62,19 +63,93 @@ namespace WyzLink.Common
                             list.Add(NodesController.Instance.GetNodeList()[i].Type);
                         }
                     }
-                    return list;
                 }
                 else
                 {
                     Debug.LogError("没有获取到零件，或者零件加上没有零件");
-                    return null;
                 }
             }
             else
             {
                 Debug.LogError("没有实例化零件控制类（NodesController）");
-                return null;
+            }
+            return list;
+        }
+
+
+        public List<Node> GetWorkSpaceNodes(int WorkSpaceID)
+        {
+            List<Node> list = new List<Node>();
+            if (null != NodesController.Instance)
+            {
+                if (0 < NodesController.Instance.GetNodeList().Count)
+                {
+                    for (int i = 0; i < NodesController.Instance.GetNodeList().Count; i++)
+                    {
+                        if (WorkSpaceID == NodesController.Instance.GetNodeList()[i].WorkSpaceID)
+                        {
+                            list.Add(NodesController.Instance.GetNodeList()[i]);
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.LogError("没有获取到零件，或者零件加上没有零件");
+                }
+            }
+            else
+            {
+                Debug.LogError("没有实例化零件控制类（NodesController）");
+            }
+            return list;
+        }
+
+
+        /// <summary>
+        /// 设置零件集合中的某个零件的安装状态
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="state"></param>
+        public void SetInstallationState(int nodeID, InstallationState state)
+        {
+            if (null != NodesController.Instance)
+            {
+                if (0 < NodesController.Instance.GetNodeList().Count)
+                {
+                    for (int i = 0; i < NodesController.Instance.GetNodeList().Count; i++)
+                    {
+                        if (nodeID == NodesController.Instance.GetNodeList()[i].nodeId)
+                        {
+                            NodesController.Instance.GetNodeList()[i].SetInstallationState(state);
+                        }
+                    }
+                }
             }
         }
+
+
+        /// <summary>
+        /// 获取集合中的某个零件的安装状态
+        /// </summary>
+        /// <returns></returns>
+        public InstallationState GetInstallationState(int nodeID)
+        {
+            InstallationState state = InstallationState.Installed;
+            if (null != NodesController.Instance)
+            {
+                if (0 < NodesController.Instance.GetNodeList().Count)
+                {
+                    for (int i = 0; i < NodesController.Instance.GetNodeList().Count; i++)
+                    {
+                        if (nodeID == NodesController.Instance.GetNodeList()[i].nodeId)
+                        {
+                            state = NodesController.Instance.GetNodeList()[i].GetInstallationState();
+                        }
+                    }
+                }
+            }
+            return state;
+        }
+
     }
 }
