@@ -5,7 +5,6 @@
 /// </summary>
 namespace WyzLink.Manager
 {
-    using System.Collections.Generic;
     using UnityEngine;
     using WyzLink.Assemble;
     using WyzLink.Common;

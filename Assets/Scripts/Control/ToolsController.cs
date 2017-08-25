@@ -1,37 +1,45 @@
-﻿using HoloToolkit.Unity;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using WyzLink.ToolsAndCommonParts;
-
-public class ToolsController : Singleton<ToolsController>
+﻿/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
+/// <author>zq</author>
+/// <summary>
+/// 工具控制类
+/// </summary>
+namespace WyzLink.Control
 {
-    private List<Tool> ToolList = new List<Tool>();              //存放所有零件集合
+    using HoloToolkit.Unity;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using WyzLink.ToolsAndCommonParts;
 
-    // Use this for initialization
-    void Start()
+    public class ToolsController : Singleton<ToolsController>
     {
+        private List<Tool> ToolList = new List<Tool>();              //存放所有零件集合
 
-    }
+        // Use this for initialization
+        void Start()
+        {
 
-    // Update is called once per frame
-    void Update()
-    {
+        }
 
-    }
+        // Update is called once per frame
+        void Update()
+        {
 
-    public List<Tool> GetToolList()
-    {
-        return ToolList;
-    }
+        }
 
-    public void SetToolList(List<Tool> listist)
-    {
-        ToolList = listist;
-    }
+        public List<Tool> GetToolList()
+        {
+            return ToolList;
+        }
 
-    public void AddToolList(Tool tool)
-    {
-        ToolList.Add(tool);
+        public void SetToolList(List<Tool> listist)
+        {
+            ToolList = listist;
+        }
+
+        public void AddToolList(Tool tool)
+        {
+            ToolList.Add(tool);
+        }
     }
 }

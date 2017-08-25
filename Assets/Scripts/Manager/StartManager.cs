@@ -1,14 +1,13 @@
 ﻿/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
 /// <author>zq</author>
 /// <summary>
-/// 扫描添加零件到集合
+/// 开始界面处理
 /// </summary>
 namespace WyzLink.Manager
 {
     using UnityEngine;
     using UnityEngine.UI;
     using WyzLink.Assemble;
-    using WyzLink.Utils.ModelDataHelper;
 
     public class StartManager : MonoBehaviour
     {
@@ -29,7 +28,7 @@ namespace WyzLink.Manager
             Canvas = GameObject.Find("Canvas");
             if (null != RootPartGameObject)
             {
-                foreach(Transform tran in RootPartGameObject.transform)
+                foreach (Transform tran in RootPartGameObject.transform)
                 {
                     tran.gameObject.SetActive(false);
                 }

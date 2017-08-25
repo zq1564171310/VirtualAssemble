@@ -12,7 +12,6 @@ namespace WyzLink.Manager
     using WyzLink.Parts;
     using WyzLink.Control;
     using WyzLink.Common;
-    using System.Collections.Generic;
 
     public class NodeManager : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IManipulationHandler
     {

@@ -8,6 +8,8 @@ namespace WyzLink.Manager
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using WyzLink.Common;
+    using WyzLink.Control;
     using WyzLink.ToolsAndCommonParts;
 
     public class AddToolsManager : MonoBehaviour
