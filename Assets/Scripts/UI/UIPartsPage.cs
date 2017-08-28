@@ -72,7 +72,7 @@ namespace WyzLink.UI
 
 
         // Use this for initialization
-        void Start()
+        void Awake()
         {
             foreach (Transform tran in transform)
             {

@@ -24,8 +24,9 @@ namespace WyzLink.Manager
         private Vector3 SecondWorkSpacePos;        //第二工作区位置
 
         // Use this for initialization
-        void Start()
+        void Awake()
         {
+            GameObject go = GameObject.Find("Canvas");
             MainWorkSpacePos = GameObject.Find("Canvas/Floor/MainWorkSpace").transform.position;
             SecondWorkSpacePos = GameObject.Find("Canvas/Floor/MainWorkSpace2").transform.position;
 

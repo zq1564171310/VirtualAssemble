@@ -22,6 +22,12 @@ namespace WyzLink.Manager
         private float WorkSpaceScalingNum = 1;                          //工作区缩放倍数
         private float WorkSpaceRotaAngle = 90;                               //工作区旋转角度
 
+        protected override void Awake()
+        {
+            base.Awake();
+            Find();
+        }
+
         // Use this for initialization
         void Start()
         {
@@ -49,9 +55,13 @@ namespace WyzLink.Manager
                 GlobalVar._Tips.text = "现在应该安装:" + err;
             }
             #endregion
-
             //获取物体的绝对路径，新的UI中都会改掉
             GlobalVar._Slider.onValueChanged.AddListener(SlideTheSlider);
+        }
+
+
+        void Find()
+        {
             GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Left").GetComponent<Button>().onClick.AddListener(RotaLeftBtnClick);
             GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Right").GetComponent<Button>().onClick.AddListener(RotaRightBtnClick);
         }
