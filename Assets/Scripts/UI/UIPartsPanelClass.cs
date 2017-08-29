@@ -10,6 +10,8 @@ namespace WyzLink.UI
     using UnityEngine;
     using UnityEngine.UI;
     using WyzLink.Common;
+    using WyzLink.Control;
+    using WyzLink.Manager;
 
     public class UIPartsPanelClass : MonoBehaviour
     {
@@ -61,20 +63,25 @@ namespace WyzLink.UI
         private List<string> NodeTypesList = new List<string>();            //所有零件类型的集合
 
         private bool InitFlag;
+        private bool flag;
 
         // Use this for initialization
-        void Start()
+        void Awake()
         {
-            if (null != NodesCommon.Instance)
+            if (flag == false)
             {
-                NodeTypesList = NodesCommon.Instance.GetNodesTypes();  //初始化
+                if (null != NodesCommon.Instance)
+                {
+                    NodeTypesList = NodesCommon.Instance.GetNodesTypes();  //初始化
+                }
+                else
+                {
+                    Debug.LogError("NodesCommon没有初始化！");
+                }
+                Init();
+                InitItems();
+                flag = true;
             }
-            else
-            {
-                Debug.LogError("NodesCommon没有初始化！");
-            }
-            Init();
-            InitItems();
         }
 
         void Update()
@@ -102,7 +109,7 @@ namespace WyzLink.UI
         /// <summary>
         /// 初始化元素
         /// </summary>
-        private void InitItems()
+        public void InitItems()
         {
             m_ItemsList = new List<string>();
             //初始化零件数据

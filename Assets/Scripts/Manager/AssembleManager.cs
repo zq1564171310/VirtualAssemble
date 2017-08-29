@@ -14,6 +14,10 @@ namespace WyzLink.Manager
     using WyzLink.Control;
     using WyzLink.Parts;
 
+#if NETFX_CORE  //UWP下编译  
+using Windows.Storage;
+#endif
+
     public class AssembleManager : Singleton<AssembleManager>
     {
         public Node InstalledNode;                      //当前已经被安装完成的零件
@@ -39,7 +43,7 @@ namespace WyzLink.Manager
             #region Test
             InstalledNode = NodesController.Instance.GetNodeList()[0];
             NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNode);
-            if (null != NextInstallNode)
+            if (null != NextInstallNode && EntryMode.Mode != "Test")
             {
                 string err = "";
                 int index = 1;
@@ -57,13 +61,14 @@ namespace WyzLink.Manager
             #endregion
             //获取物体的绝对路径，新的UI中都会改掉
             GlobalVar._Slider.onValueChanged.AddListener(SlideTheSlider);
+            GlobalVar._UIPartsPage.RefreshItems();
         }
-
 
         void Find()
         {
             GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Left").GetComponent<Button>().onClick.AddListener(RotaLeftBtnClick);
             GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Right").GetComponent<Button>().onClick.AddListener(RotaRightBtnClick);
+            GameObject.Find("Canvas/BG/PartsPanel/CaptureScreens_Btn").GetComponent<Button>().onClick.AddListener(CaptureScreensBtnClick);
         }
 
         // Update is called once per frame
@@ -144,6 +149,15 @@ namespace WyzLink.Manager
         public void RotaRightBtnClick()
         {
             WorkSpaceRota(1);
+        }
+
+        public void CaptureScreensBtnClick()
+        {
+#if !NETFX_CORE  
+            ScreenCapture.CaptureScreenshot(Application.persistentDataPath + "/Test.png");
+#else
+            ScreenCapture.CaptureScreenshot(Windows.Storage.KnownFolders.PicturesLibrary + "/Test.png");
+#endif
         }
 
         /// <summary>

@@ -36,7 +36,8 @@ namespace WyzLink.Assemble
         private void InitializeDependencyGraph(AssembleController assembleController, string flowString)
         {
             this.nodeList = LoadAllToDictionary(assembleController.GetAllNodes<Node>());
-            AssembleFlowParser.ParseAssembleFlowFile(flowString, (a0, a1) => {
+            AssembleFlowParser.ParseAssembleFlowFile(flowString, (a0, a1) =>
+            {
                 GraphNode n0;
                 GraphNode n1;
                 if (!this.nodeList.TryGetValue(a0, out n0))
@@ -109,7 +110,7 @@ namespace WyzLink.Assemble
             bool validToInstall = true;
             GraphNode graphNode = GetGraphNode(node);
             if (graphNode != null)
-            { 
+            {
                 foreach (var pnode in graphNode.previousNodes)
                 {
                     if (pnode.node.GetInstallationState() == InstallationState.NotInstalled)

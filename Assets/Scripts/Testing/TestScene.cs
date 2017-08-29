@@ -15,25 +15,38 @@ namespace WyzLink.Assemble
     {
         public Transform[] targets;
 
+        void Start()
+        {
+            var assembleController = Object.FindObjectOfType<AssembleController>();
+            if (assembleController != null)
+            {
+                StartCoroutine(FlowRender(assembleController));
+            }
+            else
+            {
+                Debug.LogError("Not able to find the AssembleController in the scene");
+            }
+        }
+
         private void OnGUI()
         {
-            if (GUI.Button(new Rect(20, 20, 120, 40), "Run flow"))
-            {
-                var assembleController = Object.FindObjectOfType<AssembleController>();
-                if (assembleController != null)
-                {
-                    StartCoroutine(FlowRender(assembleController));
-                }
-                else
-                {
-                    Debug.LogError("Not able to find the AssembleController in the scene");
-                }
-            }
+            //if (GUI.Button(new Rect(20, 20, 120, 40), "Run flow"))
+            //{
+            //    var assembleController = Object.FindObjectOfType<AssembleController>();
+            //    if (assembleController != null)
+            //    {
+            //        StartCoroutine(FlowRender(assembleController));
+            //    }
+            //    else
+            //    {
+            //        Debug.LogError("Not able to find the AssembleController in the scene");
+            //    }
+            //}
 
-            if (GUI.Button(new Rect(160, 20, 120, 40), "Run animations"))
-            {
-                StartCoroutine(TestAnimations());
-            }
+            //if (GUI.Button(new Rect(160, 20, 120, 40), "Run animations"))
+            //{
+            //    StartCoroutine(TestAnimations());
+            //}
         }
 
         private IEnumerator FlowRender(AssembleController assembleController)
@@ -65,7 +78,7 @@ namespace WyzLink.Assemble
                         yield return node.PlayAnimations();
                     }
 
-                    yield return new WaitForSeconds(0.4f);
+                    yield return new WaitForSeconds(1.4f);
 
                     yield return StartCoroutine(FlowRenderOneFlow(assembleController, assembleController.GetDependencyGraph().GetNextSteps(node)));
                 }

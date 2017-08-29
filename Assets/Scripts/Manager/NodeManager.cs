@@ -127,7 +127,14 @@ namespace WyzLink.Manager
                 {
                     if (null != gameObject.GetComponent<HandDraggable>())
                     {
-                        //gameObject.GetComponent<Node>().SetInstallationState(InstallationState.Step1Installed);
+                        NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
+                    }
+                }
+
+                if (EntryMode.Mode == "Test")
+                {
+                    if (null != gameObject.GetComponent<HandDraggable>())
+                    {
                         NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
                     }
                 }
@@ -142,34 +149,76 @@ namespace WyzLink.Manager
                 {
                     if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 0.1f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
                     {
-                        //gameObject.GetComponent<Node>().SetInstallationState(InstallationState.Installed);
-                        NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.Installed);
-                        Destroy(gameObject.GetComponent<HandDraggable>());
-                        bool installatFlag = false;
-
-                        gameObject.transform.position = gameObject.GetComponent<Node>().EndPos;
-
-                        foreach (Node node in NodesController.Instance.GetNodeList())
+                        if (EntryMode.Mode != "Test")
                         {
-                            if (InstallationState.NextInstalling == node.GetInstallationState() || InstallationState.Step1Installed == node.GetInstallationState())
+                            NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.Installed);
+                            Destroy(gameObject.GetComponent<HandDraggable>());
+                            bool installatFlag = false;
+
+                            gameObject.transform.position = gameObject.GetComponent<Node>().EndPos;
+
+                            foreach (Node node in NodesController.Instance.GetNodeList())
                             {
-                                installatFlag = true;
-                                break;
+                                if (InstallationState.NextInstalling == node.GetInstallationState() || InstallationState.Step1Installed == node.GetInstallationState())
+                                {
+                                    installatFlag = true;
+                                    break;
+                                }
+                            }
+
+                            if (false == installatFlag)            //说明这一步所有的零件都已经被安装了，那么该下一步了
+                            {
+                                AssembleManager.Instance.NextInstall(gameObject.GetComponent<Node>());
+                                StopCoroutine(NodeInstallationStateManagerCoroutine());
+                            }
+                            gameObject.GetComponent<Node>().PlayAnimations();
+                            GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject.SetActive(false);
+                            GameObject.Find("RuntimeObject/" + gameObject.GetComponent<Node>().name + gameObject.GetComponent<Node>().nodeId).SetActive(false);
+
+                        }
+                        else
+                        {
+                            bool flag = false;
+                            foreach (Node no in AssembleManager.Instance.GetNextInstallNode())
+                            {
+                                if (gameObject.GetComponent<Node>().nodeId == no.nodeId)
+                                {
+                                    NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.Installed);
+                                    Destroy(gameObject.GetComponent<HandDraggable>());
+                                    bool installatFlag = false;
+
+                                    gameObject.transform.position = gameObject.GetComponent<Node>().EndPos;
+
+                                    foreach (Node node in NodesController.Instance.GetNodeList())
+                                    {
+                                        if (InstallationState.NextInstalling == node.GetInstallationState() || InstallationState.Step1Installed == node.GetInstallationState())
+                                        {
+                                            installatFlag = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (false == installatFlag)            //说明这一步所有的零件都已经被安装了，那么该下一步了
+                                    {
+                                        AssembleManager.Instance.NextInstall(gameObject.GetComponent<Node>());
+                                        StopCoroutine(NodeInstallationStateManagerCoroutine());
+                                    }
+                                    flag = true;
+                                }
+                            }
+
+                            if (false == flag)
+                            {
+                                GlobalVar._Tips.text = "安装错误！";
+                                Destroy(gameObject.GetComponent<HandDraggable>());
+                                Destroy(gameObject.GetComponent<BoxCollider>());
+                                NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.NotInstalled);
+                                StartCoroutine(OnMovesIEnumerator(gameObject));
                             }
                         }
-
-                        if (false == installatFlag)            //说明这一步所有的零件都已经被安装了，那么该下一步了
-                        {
-                            AssembleManager.Instance.NextInstall(gameObject.GetComponent<Node>());
-                            StopCoroutine(NodeInstallationStateManagerCoroutine());
-                        }
-
-                        GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject.SetActive(false);
-                        GameObject.Find("RuntimeObject/" + gameObject.GetComponent<Node>().name + gameObject.GetComponent<Node>().nodeId).SetActive(false);
                     }
                     else if (2 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 0.1f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().WorSpaceRelativePos))
                     {
-                        //gameObject.GetComponent<Node>().SetInstallationState(InstallationState.WorkSpaceInstalled);
                         NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.WorkSpaceInstalled);
                         gameObject.transform.position = gameObject.GetComponent<Node>().WorSpaceRelativePos;
                         Destroy(gameObject.GetComponent<HandDraggable>());
@@ -236,6 +285,25 @@ namespace WyzLink.Manager
         void IManipulationHandler.OnManipulationCanceled(ManipulationEventData eventData)
         {
 
+        }
+
+        IEnumerator OnMovesIEnumerator(GameObject _GameObject)
+        {
+            float f = 0;
+            while (true)
+            {
+                if (f <= 1.5f)
+                {
+                    _GameObject.transform.position = Vector3.Lerp(_GameObject.GetComponent<Node>().EndPos, _GameObject.GetComponent<Node>().EndPos + new Vector3(0, 0, 1.5f), f / 1.5f);
+                    f += Time.deltaTime;
+                }
+                else
+                {
+                    break;
+                }
+                yield return new WaitForSeconds(0);
+            }
+            Destroy(_GameObject);
         }
     }
 }

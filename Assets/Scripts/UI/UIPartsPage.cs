@@ -12,6 +12,7 @@ namespace WyzLink.UI
     using UnityEngine;
     using UnityEngine.UI;
     using WyzLink.Common;
+    using WyzLink.Control;
     using WyzLink.Manager;
     using WyzLink.Parts;
     using WyzLink.Utils.Overriding;
@@ -74,12 +75,6 @@ namespace WyzLink.UI
         // Use this for initialization
         void Awake()
         {
-            foreach (Transform tran in transform)
-            {
-                BtnList.Add(tran.gameObject.GetComponent<Button>());
-                EventTriggerListener.Get(tran.gameObject).onClick = BtnClick;
-            }
-
             RefreshItems();
         }
 
@@ -125,7 +120,6 @@ namespace WyzLink.UI
             m_PageIndex -= 1;
             if (m_PageIndex <= 1)
                 m_PageIndex = 1;
-
 
             BindPage(m_PageIndex);
             m_PanelText.text = string.Format("第" + "{0}/{1}" + "页", m_PageIndex.ToString(), m_PageCount.ToString());
@@ -173,6 +167,7 @@ namespace WyzLink.UI
         /// <param name="index">页面索引</param>
         private void BindPage(int index)
         {
+
             //列表处理
             if (m_ItemsList == null || m_ItemsCount <= 0)
                 return;
@@ -183,7 +178,8 @@ namespace WyzLink.UI
 
             for (int i = 0; i < NodesList.Count; i++)
             {
-                if (InstallationState.NotInstalled == NodesList[i].GetInstallationState() || InstallationState.NextInstalling == NodesList[i].GetInstallationState())
+                //if (InstallationState.NotInstalled == NodesList[i].GetInstallationState() || InstallationState.NextInstalling == NodesList[i].GetInstallationState())
+                if (NodesList[i].partName != "底盘平台")
                 {
                     NodesList[i].gameObject.SetActive(false);
                 }
@@ -284,10 +280,20 @@ namespace WyzLink.UI
                 //为上一页和下一页添加事件
                 NextPage.onClick.AddListener(() => { Next(); });
                 PreviousPage.onClick.AddListener(() => { Previous(); });
+
+                foreach (Transform tran in transform)
+                {
+                    BtnList.Add(tran.gameObject.GetComponent<Button>());
+                    EventTriggerListener.Get(tran.gameObject).onClick = BtnClick;
+                }
                 Init = true;
             }
 
-            m_Type = GlobalVar._UIPartsPanelClass.GetPartsType();
+            if (null != GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel"))
+            {
+                m_Type = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel").GetComponent<UIPartsPanelClass>().GetPartsType();
+            }
+
             if (null == m_ItemsList)
             {
                 m_ItemsList = new List<Node>();
@@ -312,6 +318,8 @@ namespace WyzLink.UI
 
             BindPage(m_PageIndex);
             m_PanelText.text = string.Format("第" + "{0}/{1}" + "页", m_PageIndex.ToString(), m_PageCount.ToString());
+
+
         }
 
         /// <summary>
@@ -326,104 +334,146 @@ namespace WyzLink.UI
             GameObject gameObSec;                       //克隆一份作为第二工作区提示
             GameObject Txt;                             //克隆一份文本
             Transform[] trans;
-            for (int i = 0; i < BtnList.Count; i++)
+
+            if (EntryMode.Mode != "Test")
             {
-                if (BtnList[i].name == go.name)
+                for (int i = 0; i < BtnList.Count; i++)
                 {
-                    node = m_ItemsList[(m_PageIndex - 1) * Page_Count + i];
-                    if (null != NextInstallNode)
+                    if (BtnList[i].name == go.name)
                     {
-                        foreach (Node nd in NextInstallNode)
+                        node = m_ItemsList[(m_PageIndex - 1) * Page_Count + i];
+                        if (null != NextInstallNode)
                         {
-                            if (nd.nodeId == node.nodeId && InstallationState.NextInstalling == node.GetInstallationState())  //此处点击多下会重复生成，bug后续修改
+                            foreach (Node nd in NextInstallNode)
                             {
-                                gameobj = Instantiate(node.gameObject, node.gameObject.transform, true);
-                                gameobj.name = node.name;
-                                gameobj.transform.parent = GameObject.Find("RuntimeObject").transform;
-                                if (null != gameobj.GetComponent<MeshFilter>())
+                                if (nd.nodeId == node.nodeId && InstallationState.NextInstalling == node.GetInstallationState())  //此处点击多下会重复生成，bug后续修改
                                 {
-                                    gameobj.transform.localScale = node.LocalSize;
-                                }
-
-                                gameOb = Instantiate(node.gameObject, node.gameObject.transform, true);
-                                gameOb.name = node.name + node.nodeId;
-                                gameOb.transform.localScale = node.LocalSize;
-                                gameOb.transform.parent = GameObject.Find("RuntimeObject").transform;
-                                gameOb.transform.position = node.EndPos;
-                                if (null != gameOb.GetComponent<MeshRenderer>())
-                                {
-                                    gameOb.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
-                                }
-                                else
-                                {
-                                    trans = gameOb.GetComponentsInChildren<Transform>();
-                                    foreach (Transform tran in trans)
+                                    gameobj = Instantiate(node.gameObject, node.gameObject.transform, true);
+                                    gameobj.name = node.name;
+                                    gameobj.transform.parent = GameObject.Find("RuntimeObject").transform;
+                                    if (null != gameobj.GetComponent<MeshFilter>())
                                     {
-                                        if (null != tran.gameObject.GetComponent<MeshRenderer>())
-                                        {
-                                            tran.gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
-                                        }
+                                        gameobj.transform.localScale = node.LocalSize;
                                     }
-                                }
-                                if (null != gameOb.GetComponent<MeshFilter>())
-                                {
+
+                                    gameOb = Instantiate(node.gameObject, node.gameObject.transform, true);
+                                    gameOb.name = node.name + node.nodeId;
                                     gameOb.transform.localScale = node.LocalSize;
-                                }
-
-                                gameObSec = Instantiate(node.gameObject, node.gameObject.transform, true);
-                                gameObSec.name = node.name + "Sec" + node.nodeId;
-                                gameObSec.transform.localScale = node.LocalSize;
-                                gameObSec.transform.parent = GameObject.Find("RuntimeObject").transform;
-                                gameObSec.transform.position = node.WorSpaceRelativePos;
-                                if (null != gameObSec.GetComponent<MeshRenderer>())
-                                {
-                                    gameObSec.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
-                                }
-                                else
-                                {
-                                    trans = gameObSec.GetComponentsInChildren<Transform>();
-                                    foreach (Transform tran in trans)
+                                    gameOb.transform.parent = GameObject.Find("RuntimeObject").transform;
+                                    gameOb.transform.position = node.EndPos;
+                                    if (null != gameOb.GetComponent<MeshRenderer>())
                                     {
-                                        if (null != tran.gameObject.GetComponent<MeshRenderer>())
+                                        gameOb.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
+                                    }
+                                    else
+                                    {
+                                        trans = gameOb.GetComponentsInChildren<Transform>();
+                                        foreach (Transform tran in trans)
                                         {
-                                            tran.gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
+                                            if (null != tran.gameObject.GetComponent<MeshRenderer>())
+                                            {
+                                                tran.gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
+                                            }
                                         }
                                     }
-                                }
-                                if (null != gameObSec.GetComponent<MeshFilter>())
-                                {
+                                    if (null != gameOb.GetComponent<MeshFilter>())
+                                    {
+                                        gameOb.transform.localScale = node.LocalSize;
+                                    }
+
+                                    gameObSec = Instantiate(node.gameObject, node.gameObject.transform, true);
+                                    gameObSec.name = node.name + "Sec" + node.nodeId;
                                     gameObSec.transform.localScale = node.LocalSize;
+                                    gameObSec.transform.parent = GameObject.Find("RuntimeObject").transform;
+                                    gameObSec.transform.position = node.WorSpaceRelativePos;
+                                    if (null != gameObSec.GetComponent<MeshRenderer>())
+                                    {
+                                        gameObSec.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
+                                    }
+                                    else
+                                    {
+                                        trans = gameObSec.GetComponentsInChildren<Transform>();
+                                        foreach (Transform tran in trans)
+                                        {
+                                            if (null != tran.gameObject.GetComponent<MeshRenderer>())
+                                            {
+                                                tran.gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
+                                            }
+                                        }
+                                    }
+                                    if (null != gameObSec.GetComponent<MeshFilter>())
+                                    {
+                                        gameObSec.transform.localScale = node.LocalSize;
+                                    }
+
+                                    gameobj.gameObject.AddComponent<BoxCollider>();
+                                    if (null == gameobj.gameObject.GetComponent<MeshFilter>())
+                                    {
+                                        gameobj.gameObject.GetComponent<BoxCollider>().size /= 10;
+                                    }
+                                    gameobj.gameObject.AddComponent<HandDraggable>();
+
+                                    #region Test
+                                    Vector3 var3 = gameobj.transform.position;
+                                    StartCoroutine(OnMovesIEnumerator(gameobj, var3));
+                                    #endregion
+
+                                    #region Test 此处根据UI布局写活，后续需要根据UI调整
+                                    Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
+                                    Txt.name = "Text" + node.nodeId;
+                                    Txt.transform.position = node.gameObject.transform.position;
+                                    Txt.GetComponent<Text>().text = node.gameObject.name;
+                                    #endregion
+                                    break;
                                 }
-
-                                gameobj.gameObject.AddComponent<BoxCollider>();
-                                if (null == gameobj.gameObject.GetComponent<MeshFilter>())
-                                {
-                                    gameobj.gameObject.GetComponent<BoxCollider>().size /= 10;
-                                }
-                                gameobj.gameObject.AddComponent<HandDraggable>();
-
-                                #region Test
-                                Vector3 var3 = gameobj.transform.position;
-                                StartCoroutine(OnMovesIEnumerator(gameobj, var3));
-                                #endregion
-
-                                #region Test 此处根据UI布局写活，后续需要根据UI调整
-                                Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
-                                Txt.name = "Text" + node.nodeId;
-                                Txt.transform.position = node.gameObject.transform.position;
-                                Txt.GetComponent<Text>().text = node.gameObject.name;
-                                #endregion
-                                break;
                             }
                         }
-                    }
-                    else
-                    {
-                        Debug.LogError("当前可安装列表为空！");
+                        else
+                        {
+                            Debug.LogError("当前可安装列表为空！");
+                        }
                     }
                 }
             }
-            GlobalVar._Tips.text = "没有轮到该零件安装！";
+            else
+            {
+                for (int i = 0; i < BtnList.Count; i++)
+                {
+                    if (BtnList[i].name == go.name)
+                    {
+                        node = m_ItemsList[(m_PageIndex - 1) * Page_Count + i];
+
+                        gameobj = Instantiate(node.gameObject, node.gameObject.transform, true);
+                        gameobj.name = node.name;
+                        gameobj.transform.parent = GameObject.Find("RuntimeObject").transform;
+                        if (null != gameobj.GetComponent<MeshFilter>())
+                        {
+                            gameobj.transform.localScale = node.LocalSize;
+                        }
+
+                        gameobj.gameObject.AddComponent<BoxCollider>();
+                        if (null == gameobj.gameObject.GetComponent<MeshFilter>())
+                        {
+                            gameobj.gameObject.GetComponent<BoxCollider>().size /= 10;
+                        }
+                        gameobj.gameObject.AddComponent<HandDraggable>();
+
+                        #region Test
+                        Vector3 var3 = gameobj.transform.position;
+                        StartCoroutine(OnMovesIEnumerator(gameobj, var3));
+                        #endregion
+
+                        #region Test 此处根据UI布局写活，后续需要根据UI调整
+                        Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
+                        Txt.name = "Text" + node.nodeId;
+                        Txt.transform.position = node.gameObject.transform.position;
+                        Txt.GetComponent<Text>().text = node.gameObject.name;
+                        #endregion
+                        break;
+                    }
+                }
+            }
+            //GlobalVar._Tips.text = "没有轮到该零件安装！";
         }
 
         IEnumerator OnMovesIEnumerator(GameObject _GameObject, Vector3 statPos)

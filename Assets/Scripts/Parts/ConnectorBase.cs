@@ -38,8 +38,11 @@ namespace WyzLink.Parts
         {
             if (parentNode != null && parentNode.displayConnectorLabels)
             {
-                var label = UtilityCollection.Instance.CreateLabelUI(this.transform);
-                label.SetLabelText(GetName());
+                if (null != UtilityCollection.Instance)
+                {
+                    var label = UtilityCollection.Instance.CreateLabelUI(this.transform);
+                    label.SetLabelText(GetName());
+                }
             }
         }
 

@@ -1,12 +1,14 @@
 ﻿namespace WyzLink.Manager
 {
     using UnityEngine;
+    using UnityEngine.SceneManagement;
     using UnityEngine.UI;
     using WyzLink.Assemble;
+    using WyzLink.Control;
 
     public class EntryMode : MonoBehaviour
     {
-
+        public static string Mode = "Study";
         private GameObject RootPartGameObject;//LCD1
         private GameObject StartCanvas;//开始界面
         private GameObject Canvas;//工作UI
@@ -39,10 +41,10 @@
             }
             StartCanvas = GameObject.Find("StartCanvas");
             // Study.GetComponent<Button>().onClick.AddListener(StartAssemble);
-            Study.GetComponent<Button>().onClick.AddListener(Comein);
-            demonstration.GetComponent<Button>().onClick.AddListener(Comein);
-            Test.GetComponent<Button>().onClick.AddListener(Comein);
-            Debug.Log("assemblemanager == null" + assemblemanager == null);
+            Study.GetComponent<Button>().onClick.AddListener(StudyComein);
+            demonstration.GetComponent<Button>().onClick.AddListener(demonstrationComein);
+            Test.GetComponent<Button>().onClick.AddListener(TestComein);
+            //Debug.Log("assemblemanager == null" + assemblemanager == null);
             Restart.GetComponent<Button>().onClick.AddListener(StartAssemble);
         }
 
@@ -52,10 +54,28 @@
 
         }
 
-        private void Comein()
+        private void StudyComein()
         {
             StartCanvas.SetActive(false);
             ComeCanvas.SetActive(true);
+            Mode = "Study";
+        }
+
+        private void demonstrationComein()
+        {
+            StartCanvas.SetActive(false);
+            ComeCanvas.SetActive(false);
+            Mode = "demonstration";
+            SceneManager.LoadScene(1);
+        }
+
+        private void TestComein()
+        {
+            StartCanvas.SetActive(false);
+            ComeCanvas.SetActive(true);
+            Mode = "Test";
+
+            //SceneManager.LoadScene(2);
         }
 
         private void StartAssemble()

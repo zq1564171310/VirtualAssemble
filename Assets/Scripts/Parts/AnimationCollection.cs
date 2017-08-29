@@ -77,7 +77,7 @@ namespace WyzLink.Parts
             var animator = t.GetComponent<Animator>();
             while (!animator.GetCurrentAnimatorStateInfo(0).IsName("End"))
             {
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(1.3f);
             }
             t.gameObject.SetActive(false);
             play.SetIsDone();
