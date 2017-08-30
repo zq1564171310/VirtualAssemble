@@ -18,5 +18,10 @@ namespace WyzLink.Parts
         {
             return "螺丝" + " M" + 螺纹号;
         }
+
+        public override ConnectorType GetConnectorType()
+        {
+            return ConnectorType.BeginConnector;
+        }
     }
 }

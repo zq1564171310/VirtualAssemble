@@ -18,5 +18,10 @@ namespace WyzLink.Parts
         {
             return "螺纹孔" + " Ø " + 直径;
         }
+
+        public override ConnectorType GetConnectorType()
+        {
+            return ConnectorType.EndConnector;
+        }
     }
 }
