@@ -20,5 +20,10 @@ namespace WyzLink.Parts
         {
             return "双层通孔" + " Ø " + 直径1 + " Ø " + 直径2;
         }
+
+        public override ConnectorType GetConnectorType()
+        {
+            return ConnectorType.MiddleConnector;
+        }
     }
 }

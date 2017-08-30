@@ -19,5 +19,10 @@ namespace WyzLink.Parts
         {
             return "长孔" + " Ø " + 直径;
         }
+
+        public override ConnectorType GetConnectorType()
+        {
+            return ConnectorType.MiddleConnector;
+        }
     }
 }
