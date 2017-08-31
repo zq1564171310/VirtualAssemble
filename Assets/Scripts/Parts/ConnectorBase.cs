@@ -93,7 +93,7 @@ namespace WyzLink.Parts
 
         private IEnumerator _DetectConnection()
         {
-            if (this.lineRenderer == null)
+            if (this.lineRenderer == null && GlobalConfig.Instance.DisplayConnectorRays)
             {
                 this.lineRenderer = this.gameObject.AddComponent<LineRenderer>();
                 this.lineRenderer.useWorldSpace = false;
@@ -130,8 +130,11 @@ namespace WyzLink.Parts
 
         private void RenderRay(float distance)
         {
-            this.lineRenderer.SetPosition(0, Vector3.zero);
-            this.lineRenderer.SetPosition(1, Vector3.back * distance);
+            if (this.lineRenderer != null)
+            {
+                this.lineRenderer.SetPosition(0, Vector3.zero);
+                this.lineRenderer.SetPosition(1, Vector3.back * distance);
+            }
         }
 
         private IEnumerable<ConnectorBase> ProbeConnectors(RaycastHit[] results, float maxDistance, int layerMask)

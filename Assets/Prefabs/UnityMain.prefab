@@ -3182,8 +3182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0693a8a7d1854348a4716031415e011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DisplayLabels: 1
-  DisplayConnectorRays: 1
+  DisplayLabels: 0
+  DisplayConnectorRays: 0
   lineMaterialBase: {fileID: 2100000, guid: 4425ce15263543b42b62c9b41fcbc656, type: 2}
 --- !u!114 &114591638997490482
 MonoBehaviour:
