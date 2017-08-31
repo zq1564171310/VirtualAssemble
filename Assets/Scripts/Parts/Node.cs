@@ -71,7 +71,7 @@ namespace WyzLink.Parts
             this.targetRotation = this.transform.rotation;
         }
 
-        internal InstallationState GetInstallationState()
+        public InstallationState GetInstallationState()
         {
             return this.installationState;
         }
