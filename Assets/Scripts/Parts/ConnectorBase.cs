@@ -23,7 +23,6 @@ namespace WyzLink.Parts
         public bool isConnectorOpen = true;
 
         private const int MaxRaycastBufferSize = 20;
-        private Material lineMaterial;
 
         private void Awake()
         {
@@ -62,6 +61,11 @@ namespace WyzLink.Parts
 
         public abstract string GetName();
         public abstract ConnectorType GetConnectorType();
+        public virtual bool Match(ConnectorBase connector)
+        {
+            Debug.Log("Invalid call to the match method");
+            return false;
+        }
 
         //
         // Test connections
@@ -93,9 +97,9 @@ namespace WyzLink.Parts
             {
                 this.lineRenderer = this.gameObject.AddComponent<LineRenderer>();
                 this.lineRenderer.useWorldSpace = false;
-                this.lineRenderer.material = this.lineMaterial;
-                this.lineRenderer.startWidth = 0.0002f;
-                this.lineRenderer.endWidth = 0.0002f;
+                this.lineRenderer.material = GlobalConfig.Instance.lineMaterialBase;
+                this.lineRenderer.startWidth = 0.001f;
+                this.lineRenderer.endWidth = 0.001f;
             }
             yield return -1;
             // If not finished, keep detecting
@@ -113,6 +117,10 @@ namespace WyzLink.Parts
                     if (distance > longestDistance)
                     {
                         longestDistance = distance + 0.05f;
+                    }
+                    if (connector.GetConnectorType() == ConnectorType.EndConnector && this.Match(connector))
+                    {
+                        // TODO: 
                     }
                 }
                 RenderRay(longestDistance);

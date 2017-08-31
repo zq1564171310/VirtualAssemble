@@ -3184,6 +3184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisplayLabels: 1
   DisplayConnectorRays: 1
+  lineMaterialBase: {fileID: 2100000, guid: 4425ce15263543b42b62c9b41fcbc656, type: 2}
 --- !u!114 &114591638997490482
 MonoBehaviour:
   m_ObjectHideFlags: 1

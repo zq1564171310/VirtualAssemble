@@ -13,5 +13,7 @@ namespace WyzLink.Utils
         public bool DisplayLabels = true;
 
         public bool DisplayConnectorRays = true;
+
+        public Material lineMaterialBase;
     }
 }

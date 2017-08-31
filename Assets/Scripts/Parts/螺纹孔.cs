@@ -23,5 +23,23 @@ namespace WyzLink.Parts
         {
             return ConnectorType.EndConnector;
         }
+
+        public override bool Match(ConnectorBase connector)
+        {
+            if (connector.GetConnectorType() != ConnectorType.BeginConnector)
+            {
+                return false;
+            }
+
+            //if (connector.GetConnectorKey())
+            // TODO:
+
+            if (!(connector is 螺丝))
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }
