@@ -15,11 +15,11 @@ namespace WyzLink.Assemble
     {
         private class GraphNode
         {
-            public Node node;
+            public IFlowNode node;
             public IList<GraphNode> previousNodes = new List<GraphNode>();
             public IList<GraphNode> nextNodes = new List<GraphNode>();
 
-            public GraphNode(Node node)
+            public GraphNode(IFlowNode node)
             {
                 this.node = node;
             }
@@ -35,8 +35,8 @@ namespace WyzLink.Assemble
 
         private void InitializeDependencyGraph(AssembleController assembleController, string flowString)
         {
-            this.nodeList = LoadAllToDictionary(assembleController.GetAllNodes<Node>());
-            AssembleFlowParser.ParseAssembleFlowFile(flowString, (a0, a1) =>
+            this.nodeList = LoadAllToDictionary(assembleController.GetAllNodes<IFlowNode>());
+            assembleController.ParseAssembleFlowFile(flowString, (a0, a1) =>
             {
                 GraphNode n0;
                 GraphNode n1;
@@ -64,28 +64,28 @@ namespace WyzLink.Assemble
             }
         }
 
-        private IDictionary<int, GraphNode> LoadAllToDictionary(IEnumerable<Node> nodes)
+        private IDictionary<int, GraphNode> LoadAllToDictionary(IEnumerable<IFlowNode> nodes)
         {
             IDictionary<int, GraphNode> nodeList = new Dictionary<int, GraphNode>();
             foreach (var node in nodes)
             {
-                nodeList.Add(node.nodeId, new GraphNode(node));
+                nodeList.Add(node.GetID(), new GraphNode(node));
             }
             return nodeList;
         }
 
-        public IEnumerable<Node> GetHeaders()
+        public IEnumerable<IFlowNode> GetHeaders()
         {
             Debug.Assert(headers != null);
             return headers.Select((graphNode) => graphNode.node);
         }
 
-        public IEnumerable<Node> GetAllNodes()
+        public IEnumerable<IFlowNode> GetAllNodes()
         {
             return this.nodeList.Values.Select((n) => n.node);
         }
 
-        public IEnumerable<Node> GetNextSteps(Node node)
+        public IEnumerable<IFlowNode> GetNextSteps(IFlowNode node)
         {
             GraphNode graphNode = GetGraphNode(node);
             if (graphNode != null)
@@ -94,18 +94,18 @@ namespace WyzLink.Assemble
             }
             else
             {
-                throw new System.InvalidOperationException("The node " + node.nodeId + " could not be found in the dpendency graph");
+                throw new System.InvalidOperationException("The node " + node.GetID() + " could not be found in the dpendency graph");
             }
         }
 
-        private GraphNode GetGraphNode(Node node)
+        private GraphNode GetGraphNode(IFlowNode node)
         {
             GraphNode graphNode;
-            nodeList.TryGetValue(node.nodeId, out graphNode);
+            nodeList.TryGetValue(node.GetID(), out graphNode);
             return graphNode;
         }
 
-        public bool IsNodeValidToInstall(Node node)
+        public bool IsNodeValidToInstall(IFlowNode node)
         {
             bool validToInstall = true;
             GraphNode graphNode = GetGraphNode(node);
@@ -113,7 +113,7 @@ namespace WyzLink.Assemble
             {
                 foreach (var pnode in graphNode.previousNodes)
                 {
-                    if (pnode.node.GetInstallationState() == InstallationState.NotInstalled)
+                    if (((Node)pnode.node).GetInstallationState() == InstallationState.NotInstalled)
                     {
                         validToInstall = false;
                         break;
@@ -122,7 +122,7 @@ namespace WyzLink.Assemble
             }
             else
             {
-                throw new System.InvalidOperationException("The node " + node.nodeId + " could not be found in the dpendency graph");
+                throw new System.InvalidOperationException("The node " + node.GetID() + " could not be found in the dpendency graph");
             }
             return validToInstall;
         }

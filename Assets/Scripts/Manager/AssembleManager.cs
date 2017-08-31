@@ -8,6 +8,7 @@ namespace WyzLink.Manager
     using HoloToolkit.Unity;
     using HoloToolkit.Unity.InputModule;
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
     using UnityEngine.UI;
     using WyzLink.Assemble;
@@ -42,7 +43,7 @@ using Windows.Storage;
         {
             #region Test
             InstalledNode = NodesController.Instance.GetNodeList()[0];
-            NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNode);
+            NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNode).Cast<Node>();
             if (null != NextInstallNode && EntryMode.Mode != "Test")
             {
                 string err = "";
@@ -98,7 +99,7 @@ using Windows.Storage;
 
         public void NextInstall(Node node)
         {
-            NextInstallNode = _DependencyGraph.GetNextSteps(node);
+            NextInstallNode = _DependencyGraph.GetNextSteps(node).Cast<Node>();
             if (null != NextInstallNode)
             {
                 string err = "";
@@ -154,9 +155,9 @@ using Windows.Storage;
         public void CaptureScreensBtnClick()
         {
 #if !NETFX_CORE  
-            ScreenCapture.CaptureScreenshot(Application.persistentDataPath + "/Test.png");
+            //ScreenCapture.CaptureScreenshot(Application.persistentDataPath + "/Test.png");
 #else
-            ScreenCapture.CaptureScreenshot(Windows.Storage.KnownFolders.PicturesLibrary + "/Test.png");
+            //ScreenCapture.CaptureScreenshot(Windows.Storage.KnownFolders.PicturesLibrary + "/Test.png");
 #endif
         }
 

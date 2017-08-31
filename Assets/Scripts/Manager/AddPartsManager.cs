@@ -124,7 +124,7 @@ namespace WyzLink.Manager
                 {
                     var _AssembleManager = new GameObject("AssembleManager", typeof(AssembleManager));
                     _AssembleManager.transform.parent = GlobalVar._RuntimeObject.transform;
-                    _AssembleManager.GetComponent<AssembleManager>().SetDependencyGraph(new DependencyGraph(RootPartGameObject.GetComponent<AssembleController>(), RootPartGameObject.GetComponent<AssembleController>().assembleFlow.text));
+                    _AssembleManager.GetComponent<AssembleManager>().SetDependencyGraph(new DependencyGraph(RootPartGameObject.GetComponent<AssembleController>(), RootPartGameObject.GetComponent<AssembleController>().GetAssembleFlowAsset().text));
                 }
             }
         }

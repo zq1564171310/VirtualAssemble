@@ -20,7 +20,7 @@ namespace WyzLink.Assemble
         private IDictionary<int, WindowItem<T>> windowList = new Dictionary<int, WindowItem<T>>();
         private IList<WindowItem<T>> headers;
         private IList<WindowItem<T>> standalones;
-        private AssembleController assembleController;
+        private INodeLoader assembleController;
 
         private bool isDirty = true;
         private bool doLayout = false;
@@ -44,7 +44,7 @@ namespace WyzLink.Assemble
             return windowList.Count;
         }
 
-        public void LoadWindows(AssembleController assembleController, Action<Rect> layoutCallback)
+        public void LoadWindows(INodeLoader assembleController, Action<Rect> layoutCallback)
         {
             if (assembleController == null)
             {
@@ -55,8 +55,7 @@ namespace WyzLink.Assemble
             var needRefresh = UpdateFromHierarchy(assembleController);
             if (needRefresh)
             {
-                var flowString = assembleController.assembleFlow == null ? "" : assembleController.assembleFlow.text;
-                ApplyAssembleFlow(this.windowList, flowString);
+
                 PrepareList(windowList);
                 this.isDirty = false;
             }
@@ -97,9 +96,10 @@ namespace WyzLink.Assemble
             LayoutWindows(layoutCallback);
         }
 
-        private void ApplyAssembleFlow(IDictionary<int, WindowItem<T>> windowList, string flowString)
+        private void ApplyAssembleFlow(IDictionary<int, WindowItem<T>> windowList, INodeLoader assembleController)
         {
-            AssembleFlowParser.ParseAssembleFlowFile(flowString, (int step0, int step1) =>
+            var flowString = assembleController.GetAssembleFlowAsset() == null ? "" : assembleController.GetAssembleFlowAsset().text;
+            assembleController.ParseAssembleFlowFile(flowString, (int step0, int step1) =>
             {
                 WindowItem<T> w0;
                 WindowItem<T> w1;
@@ -287,7 +287,7 @@ namespace WyzLink.Assemble
 
         public void SaveToAsset()
         {
-            if (assembleController.assembleFlow == null)
+            if (assembleController.GetAssembleFlowAsset() == null)
             {
                 var filePath = EditorUtility.SaveFilePanel("把装配工序保存到文件", "Assets", "AssembleFlow.txt", "txt");
                 if (filePath.Length != 0)
@@ -302,13 +302,13 @@ namespace WyzLink.Assemble
                         Debug.Log("Path0" + filePath);
                         SaveToAsset(filePath);
 
-                        assembleController.assembleFlow = AssetDatabase.LoadAssetAtPath<TextAsset>(relativeFilePath);
+                        assembleController.SetAssembleFlowAsset(AssetDatabase.LoadAssetAtPath<TextAsset>(relativeFilePath));
                     }
                 }
             }
             else
             {
-                var assetFilePath = AssetDatabase.GetAssetPath(assembleController.assembleFlow);
+                var assetFilePath = AssetDatabase.GetAssetPath(assembleController.GetAssembleFlowAsset());
                 assetFilePath = Application.dataPath + "/../" + assetFilePath;
                 SaveToAsset(assetFilePath);
             }
@@ -373,7 +373,7 @@ namespace WyzLink.Assemble
         }
 
         // TODO: Need furture clarification about the load process
-        internal bool UpdateFromHierarchy(AssembleController assembleController)
+        internal bool UpdateFromHierarchy(INodeLoader assembleController)
         {
             var needFresh = UpdateWindowList(assembleController);
             if (needFresh)
@@ -384,7 +384,7 @@ namespace WyzLink.Assemble
             return needFresh;
         }
 
-        private bool UpdateWindowList(AssembleController assembleController)
+        private bool UpdateWindowList(INodeLoader assembleController)
         { 
             bool needRefresh = false;
             // A bit hacky, but so far the best way to convert any type to T

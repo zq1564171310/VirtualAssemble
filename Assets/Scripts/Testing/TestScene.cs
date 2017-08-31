@@ -8,6 +8,7 @@ namespace WyzLink.Assemble
 {
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
     using WyzLink.Parts;
 
@@ -53,14 +54,14 @@ namespace WyzLink.Assemble
         {
             yield return new WaitForSeconds(1f);
 
-            foreach (var node in assembleController.GetDependencyGraph().GetAllNodes())
+            foreach (var node in assembleController.GetDependencyGraph().GetAllNodes().Cast<Node>())
             {
                 node.SetInstallationState(InstallationState.NotInstalled);
                 node.gameObject.SetActive(false);
             }
             yield return -1;
 
-            yield return StartCoroutine(FlowRenderOneFlow(assembleController, assembleController.GetDependencyGraph().GetHeaders()));
+            yield return StartCoroutine(FlowRenderOneFlow(assembleController, assembleController.GetDependencyGraph().GetHeaders().Cast<Node>()));
             Debug.Log("All items are installed");
         }
 
@@ -80,7 +81,7 @@ namespace WyzLink.Assemble
 
                     yield return new WaitForSeconds(1.4f);
 
-                    yield return StartCoroutine(FlowRenderOneFlow(assembleController, assembleController.GetDependencyGraph().GetNextSteps(node)));
+                    yield return StartCoroutine(FlowRenderOneFlow(assembleController, assembleController.GetDependencyGraph().GetNextSteps(node).Cast<Node>()));
                 }
             }
         }
