@@ -36,7 +36,7 @@ namespace WyzLink.Assemble
         private void InitializeDependencyGraph(AssembleController assembleController, string flowString)
         {
             this.nodeList = LoadAllToDictionary(assembleController.GetAllNodes<IFlowNode>());
-            AssembleFlowParser.ParseAssembleFlowFile(flowString, (a0, a1) =>
+            assembleController.ParseAssembleFlowFile(flowString, (a0, a1) =>
             {
                 GraphNode n0;
                 GraphNode n1;

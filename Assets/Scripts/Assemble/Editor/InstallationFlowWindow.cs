@@ -7,14 +7,13 @@
 
 namespace WyzLink.Assemble
 {
-    using System;
     using UnityEditor;
     using UnityEngine;
     using WyzLink.Utils;
 
     public class InstallationFlowWindow<T> : EditorWindow where T: Parts.IFlowNode
     {
-        public AssembleController target;
+        public INodeLoader target;
 
         private WindowManager<T> windowManager;
 
@@ -266,7 +265,7 @@ namespace WyzLink.Assemble
             return new Vector2(position.width - PanelMarginLeft, position.height - PanelMarginTop);
         }
 
-        public void LoadContent(AssembleController myController)
+        public void LoadContent(INodeLoader myController)
         {
             this.target = myController;
             this.windowManager = new WindowManager<T>();
