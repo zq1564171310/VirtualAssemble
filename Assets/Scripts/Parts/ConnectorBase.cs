@@ -161,11 +161,5 @@ namespace WyzLink.Parts
             var collider = this.GetComponent<SphereCollider>();
             Destroy(collider);
         }
-
-        public bool TestConnection(out ConnectionTestResults results)
-        {
-            results = null;
-            return false;
-        }
     }
 }
