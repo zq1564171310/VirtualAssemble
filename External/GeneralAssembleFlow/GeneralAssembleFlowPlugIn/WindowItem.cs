@@ -50,7 +50,6 @@ namespace WyzLink.Assemble
         //
         // Layout properties
         //
-        private float childHeight;
         public int LayoutToken { get; set; }        // Used to label the rounds of layout
         public int Layer { get; set; }
 

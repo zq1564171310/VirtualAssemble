@@ -113,7 +113,7 @@ namespace WyzLink.Assemble
             {
                 foreach (var pnode in graphNode.previousNodes)
                 {
-                    if (pnode.node.GetInstallationState() == InstallationState.NotInstalled)
+                    if (((Node)pnode.node).GetInstallationState() == InstallationState.NotInstalled)
                     {
                         validToInstall = false;
                         break;

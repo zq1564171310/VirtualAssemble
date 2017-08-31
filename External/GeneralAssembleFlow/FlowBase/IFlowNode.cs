@@ -13,6 +13,5 @@ namespace WyzLink.Parts
         int GetID();
         string GetName();
         GameObject GetTarget();
-        InstallationState GetInstallationState();
     }
 }

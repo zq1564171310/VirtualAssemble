@@ -157,7 +157,7 @@ using Windows.Storage;
 #if !NETFX_CORE  
             //ScreenCapture.CaptureScreenshot(Application.persistentDataPath + "/Test.png");
 #else
-            ScreenCapture.CaptureScreenshot(Windows.Storage.KnownFolders.PicturesLibrary + "/Test.png");
+            //ScreenCapture.CaptureScreenshot(Windows.Storage.KnownFolders.PicturesLibrary + "/Test.png");
 #endif
         }
 

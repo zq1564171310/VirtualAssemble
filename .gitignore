@@ -31,3 +31,8 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+!External/GeneralAssembleFlow/*.sln
+!External/GeneralAssembleFlow/*/*.csproj
+External/GeneralAssembleFlow/bin
+External/GeneralAssembleFlow/*/bin
+External/GeneralAssembleFlow/*/obj
