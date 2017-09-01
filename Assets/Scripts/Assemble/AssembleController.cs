@@ -15,7 +15,7 @@ namespace WyzLink.Assemble
     public class AssembleController : MonoBehaviour, INodeLoader
     {
         [SerializeField]
-        private TextAsset assembleFlow;
+        public TextAsset assembleFlow;
 
         private DependencyGraph dependencyGraph;
 

@@ -100,6 +100,7 @@ namespace WyzLink.Manager
                         {
                             node.WorkSpaceID = 2;
                             node.WorSpaceRelativePos = WorkSpaceManager.GetPartsInOtherWorkSpacePosition(node, MainWorkSpacePos, SecondWorkSpacePos);
+                            node.WorkSpaceID = 1;
                         }
                         else
                         {
@@ -124,7 +125,7 @@ namespace WyzLink.Manager
                 {
                     var _AssembleManager = new GameObject("AssembleManager", typeof(AssembleManager));
                     _AssembleManager.transform.parent = GlobalVar._RuntimeObject.transform;
-                    _AssembleManager.GetComponent<AssembleManager>().SetDependencyGraph(new DependencyGraph(RootPartGameObject.GetComponent<AssembleController>(), RootPartGameObject.GetComponent<AssembleController>().GetAssembleFlowAsset().text));
+                    _AssembleManager.GetComponent<AssembleManager>().SetDependencyGraph(new DependencyGraph(RootPartGameObject.GetComponent<AssembleController>(), RootPartGameObject.GetComponent<AssembleController>().assembleFlow.text));
                 }
             }
         }

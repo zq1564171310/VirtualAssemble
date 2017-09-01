@@ -43,6 +43,7 @@ using Windows.Storage;
         {
             #region Test
             InstalledNode = NodesController.Instance.GetNodeList()[0];
+
             NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNode).Cast<Node>();
             if (null != NextInstallNode && EntryMode.Mode != "Test")
             {
@@ -58,6 +59,10 @@ using Windows.Storage;
                     err += node.name + "(第" + index + "页）" + "/";
                 }
                 GlobalVar._Tips.text = "现在应该安装:" + err;
+                if (EntryMode.Mode == "Test")
+                {
+                    GlobalVar._Tips.gameObject.SetActive(false);
+                }
             }
             #endregion
             //获取物体的绝对路径，新的UI中都会改掉
@@ -119,6 +124,10 @@ using Windows.Storage;
                     err += nodes.name + "(第" + index + "页）" + "/";
                 }
                 GlobalVar._Tips.text = "现在应该安装:" + err;
+                if (EntryMode.Mode == "Test")
+                {
+                    GlobalVar._Tips.gameObject.SetActive(false);
+                }
             }
         }
 
@@ -154,11 +163,11 @@ using Windows.Storage;
 
         public void CaptureScreensBtnClick()
         {
-#if !NETFX_CORE  
-            //ScreenCapture.CaptureScreenshot(Application.persistentDataPath + "/Test.png");
-#else
-            //ScreenCapture.CaptureScreenshot(Windows.Storage.KnownFolders.PicturesLibrary + "/Test.png");
-#endif
+            //#if !NETFX_CORE  
+            //            ScreenCapture.CaptureScreenshot(Application.persistentDataPath + "/Test.png");
+            //#else
+            //            ScreenCapture.CaptureScreenshot(Windows.Storage.KnownFolders.PicturesLibrary + "/Test.png");
+            //#endif
         }
 
         /// <summary>
