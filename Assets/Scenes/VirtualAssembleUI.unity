@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 1881441}
   - component: {fileID: 1881440}
   - component: {fileID: 1881439}
+  - component: {fileID: 1881442}
   m_Layer: 5
   m_Name: Button 1
   m_TagString: Untagged
@@ -226,6 +227,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1881437}
+--- !u!114 &1881442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1881437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &19027318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1603,97 +1623,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 96303574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e62188adca544cf1b96ccf1630f15f9, type: 3}
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoNotTesselate: 0
-  tesselationRequired: 1
-  curvingRequired: 1
-  angle: 90
-  TransformMisaligned: 0
-  myCanvas: {fileID: 0}
-  mySettings: {fileID: 0}
-  CanvasToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  CanvasToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  savedPos: {x: -159.8, y: -63.5, z: -0.099999905}
-  savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 32, y: 32}
-  savedColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  savedTextUV0: {x: 0, y: 0}
-  savedFill: 1
-  myGraphic: {fileID: 96303577}
-  myImage: {fileID: 0}
-  myText: {fileID: 0}
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &97867682
 GameObject:
   m_ObjectHideFlags: 0
@@ -1910,97 +1850,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 103504141}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e62188adca544cf1b96ccf1630f15f9, type: 3}
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoNotTesselate: 0
-  tesselationRequired: 1
-  curvingRequired: 1
-  angle: 90
-  TransformMisaligned: 0
-  myCanvas: {fileID: 0}
-  mySettings: {fileID: 0}
-  CanvasToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  CanvasToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  savedPos: {x: -159.8, y: -28.5, z: -0.099999905}
-  savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 32, y: 32}
-  savedColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  savedTextUV0: {x: 0, y: 0}
-  savedFill: 1
-  myGraphic: {fileID: 103504144}
-  myImage: {fileID: 0}
-  myText: {fileID: 0}
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &107288814
 GameObject:
   m_ObjectHideFlags: 0
@@ -2128,97 +1988,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 107288814}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e62188adca544cf1b96ccf1630f15f9, type: 3}
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoNotTesselate: 0
-  tesselationRequired: 1
-  curvingRequired: 1
-  angle: 90
-  TransformMisaligned: 0
-  myCanvas: {fileID: 0}
-  mySettings: {fileID: 0}
-  CanvasToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  CanvasToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  savedPos: {x: -199.8, y: 41.499996, z: -0.10000038}
-  savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 32, y: 32}
-  savedColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  savedTextUV0: {x: 0, y: 0}
-  savedFill: 1
-  myGraphic: {fileID: 107288817}
-  myImage: {fileID: 0}
-  myText: {fileID: 0}
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &108008421
 GameObject:
   m_ObjectHideFlags: 0
@@ -7718,6 +7498,7 @@ GameObject:
   - component: {fileID: 420161377}
   - component: {fileID: 420161376}
   - component: {fileID: 420161375}
+  - component: {fileID: 420161378}
   m_Layer: 5
   m_Name: Button 12
   m_TagString: Untagged
@@ -7824,6 +7605,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 420161373}
+--- !u!114 &420161378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 420161373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &422239215
 GameObject:
   m_ObjectHideFlags: 0
@@ -8579,6 +8379,7 @@ GameObject:
   - component: {fileID: 456338683}
   - component: {fileID: 456338682}
   - component: {fileID: 456338681}
+  - component: {fileID: 456338684}
   m_Layer: 5
   m_Name: 'Button 2 '
   m_TagString: Untagged
@@ -8684,6 +8485,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 456338679}
+--- !u!114 &456338684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 456338679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &463105969
 GameObject:
   m_ObjectHideFlags: 0
@@ -9924,97 +9744,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 549520710}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e62188adca544cf1b96ccf1630f15f9, type: 3}
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoNotTesselate: 0
-  tesselationRequired: 1
-  curvingRequired: 1
-  angle: 90
-  TransformMisaligned: 0
-  myCanvas: {fileID: 0}
-  mySettings: {fileID: 0}
-  CanvasToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  CanvasToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  savedPos: {x: -119.799995, y: 41.499996, z: -0.099999905}
-  savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 32, y: 32}
-  savedColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  savedTextUV0: {x: 0, y: 0}
-  savedFill: 1
-  myGraphic: {fileID: 549520713}
-  myImage: {fileID: 0}
-  myText: {fileID: 0}
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &553652305
 GameObject:
   m_ObjectHideFlags: 0
@@ -10703,6 +10443,7 @@ GameObject:
   - component: {fileID: 609183183}
   - component: {fileID: 609183182}
   - component: {fileID: 609183181}
+  - component: {fileID: 609183184}
   m_Layer: 5
   m_Name: Button 3
   m_TagString: Untagged
@@ -10809,6 +10550,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 609183179}
+--- !u!114 &609183184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 609183179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &618033229
 GameObject:
   m_ObjectHideFlags: 0
@@ -11553,97 +11313,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 634770188}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e62188adca544cf1b96ccf1630f15f9, type: 3}
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoNotTesselate: 0
-  tesselationRequired: 1
-  curvingRequired: 1
-  angle: 90
-  TransformMisaligned: 0
-  myCanvas: {fileID: 0}
-  mySettings: {fileID: 0}
-  CanvasToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  CanvasToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  savedPos: {x: -199.8, y: 6.5, z: -0.099999905}
-  savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 32, y: 32}
-  savedColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  savedTextUV0: {x: 0, y: 0}
-  savedFill: 1
-  myGraphic: {fileID: 634770191}
-  myImage: {fileID: 0}
-  myText: {fileID: 0}
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &637868686
 GameObject:
   m_ObjectHideFlags: 0
@@ -12163,97 +11843,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 655907237}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e62188adca544cf1b96ccf1630f15f9, type: 3}
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoNotTesselate: 0
-  tesselationRequired: 1
-  curvingRequired: 1
-  angle: 90
-  TransformMisaligned: 0
-  myCanvas: {fileID: 0}
-  mySettings: {fileID: 0}
-  CanvasToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  CanvasToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  savedPos: {x: -159.8, y: 41.499996, z: -0.099999905}
-  savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 32, y: 32}
-  savedColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  savedTextUV0: {x: 0, y: 0}
-  savedFill: 1
-  myGraphic: {fileID: 655907240}
-  myImage: {fileID: 0}
-  myText: {fileID: 0}
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &666134311
 GameObject:
   m_ObjectHideFlags: 0
@@ -15401,97 +15001,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 768848282}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e62188adca544cf1b96ccf1630f15f9, type: 3}
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoNotTesselate: 0
-  tesselationRequired: 1
-  curvingRequired: 1
-  angle: 90
-  TransformMisaligned: 0
-  myCanvas: {fileID: 0}
-  mySettings: {fileID: 0}
-  CanvasToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  CanvasToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  savedPos: {x: -119.799995, y: -63.5, z: -0.099999905}
-  savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 32, y: 32}
-  savedColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  savedTextUV0: {x: 0, y: 0}
-  savedFill: 1
-  myGraphic: {fileID: 768848285}
-  myImage: {fileID: 0}
-  myText: {fileID: 0}
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &771765088
 GameObject:
   m_ObjectHideFlags: 0
@@ -15771,6 +15291,7 @@ GameObject:
   - component: {fileID: 782903002}
   - component: {fileID: 782903001}
   - component: {fileID: 782903000}
+  - component: {fileID: 782903003}
   m_Layer: 5
   m_Name: Button 11
   m_TagString: Untagged
@@ -15877,6 +15398,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 782902998}
+--- !u!114 &782903003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 782902998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &783629683
 GameObject:
   m_ObjectHideFlags: 0
@@ -16283,6 +15823,7 @@ GameObject:
   - component: {fileID: 804551420}
   - component: {fileID: 804551419}
   - component: {fileID: 804551418}
+  - component: {fileID: 804551421}
   m_Layer: 5
   m_Name: Button 5
   m_TagString: Untagged
@@ -16389,6 +15930,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 804551416}
+--- !u!114 &804551421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 804551416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &809781634
 GameObject:
   m_ObjectHideFlags: 0
@@ -17639,6 +17199,7 @@ GameObject:
   - component: {fileID: 892069487}
   - component: {fileID: 892069486}
   - component: {fileID: 892069485}
+  - component: {fileID: 892069488}
   m_Layer: 5
   m_Name: 'Button 6 '
   m_TagString: Untagged
@@ -17744,6 +17305,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 892069483}
+--- !u!114 &892069488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 892069483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &894060977
 GameObject:
   m_ObjectHideFlags: 0
@@ -19415,6 +18995,7 @@ GameObject:
   - component: {fileID: 1007545817}
   - component: {fileID: 1007545816}
   - component: {fileID: 1007545815}
+  - component: {fileID: 1007545818}
   m_Layer: 5
   m_Name: Button 8
   m_TagString: Untagged
@@ -19521,6 +19102,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1007545813}
+--- !u!114 &1007545818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1007545813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1015358282
 GameObject:
   m_ObjectHideFlags: 0
@@ -19998,6 +19598,7 @@ GameObject:
   - component: {fileID: 1042170353}
   - component: {fileID: 1042170352}
   - component: {fileID: 1042170351}
+  - component: {fileID: 1042170354}
   m_Layer: 5
   m_Name: 'Button 11 '
   m_TagString: Untagged
@@ -20103,6 +19704,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1042170349}
+--- !u!114 &1042170354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1042170349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1051952728
 GameObject:
   m_ObjectHideFlags: 0
@@ -20780,97 +20400,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1099047281}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e62188adca544cf1b96ccf1630f15f9, type: 3}
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoNotTesselate: 0
-  tesselationRequired: 1
-  curvingRequired: 1
-  angle: 90
-  TransformMisaligned: 0
-  myCanvas: {fileID: 0}
-  mySettings: {fileID: 0}
-  CanvasToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  CanvasToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  savedPos: {x: -119.799995, y: -28.5, z: -0.099999905}
-  savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 32, y: 32}
-  savedColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  savedTextUV0: {x: 0, y: 0}
-  savedFill: 1
-  myGraphic: {fileID: 1099047284}
-  myImage: {fileID: 0}
-  myText: {fileID: 0}
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1103901418
 GameObject:
   m_ObjectHideFlags: 0
@@ -21061,6 +20601,7 @@ GameObject:
   - component: {fileID: 1108483643}
   - component: {fileID: 1108483642}
   - component: {fileID: 1108483641}
+  - component: {fileID: 1108483644}
   m_Layer: 5
   m_Name: 'Button 10 '
   m_TagString: Untagged
@@ -21166,6 +20707,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1108483639}
+--- !u!114 &1108483644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1108483639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1112290927
 GameObject:
   m_ObjectHideFlags: 0
@@ -21970,6 +21530,7 @@ GameObject:
   - component: {fileID: 1160282671}
   - component: {fileID: 1160282670}
   - component: {fileID: 1160282669}
+  - component: {fileID: 1160282672}
   m_Layer: 5
   m_Name: 'Button 9 '
   m_TagString: Untagged
@@ -22075,6 +21636,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1160282667}
+--- !u!114 &1160282672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1160282667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1178350665
 GameObject:
   m_ObjectHideFlags: 0
@@ -22921,6 +22501,7 @@ GameObject:
   - component: {fileID: 1220780324}
   - component: {fileID: 1220780323}
   - component: {fileID: 1220780322}
+  - component: {fileID: 1220780325}
   m_Layer: 5
   m_Name: 'Button 8 '
   m_TagString: Untagged
@@ -23026,6 +22607,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1220780320}
+--- !u!114 &1220780325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1220780320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1222055838
 GameObject:
   m_ObjectHideFlags: 0
@@ -27166,6 +26766,7 @@ GameObject:
   - component: {fileID: 1540840497}
   - component: {fileID: 1540840496}
   - component: {fileID: 1540840495}
+  - component: {fileID: 1540840498}
   m_Layer: 5
   m_Name: Button 7
   m_TagString: Untagged
@@ -27272,6 +26873,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1540840493}
+--- !u!114 &1540840498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1540840493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1562941663
 GameObject:
   m_ObjectHideFlags: 0
@@ -27399,97 +27019,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1562941663}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e62188adca544cf1b96ccf1630f15f9, type: 3}
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoNotTesselate: 0
-  tesselationRequired: 1
-  curvingRequired: 1
-  angle: 90
-  TransformMisaligned: 0
-  myCanvas: {fileID: 0}
-  mySettings: {fileID: 0}
-  CanvasToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  CanvasToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  savedPos: {x: -159.8, y: 6.5, z: -0.099999905}
-  savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 32, y: 32}
-  savedColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  savedTextUV0: {x: 0, y: 0}
-  savedFill: 1
-  myGraphic: {fileID: 1562941666}
-  myImage: {fileID: 0}
-  myText: {fileID: 0}
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1569611624
 GameObject:
   m_ObjectHideFlags: 0
@@ -27762,6 +27302,7 @@ GameObject:
   - component: {fileID: 1571546710}
   - component: {fileID: 1571546709}
   - component: {fileID: 1571546708}
+  - component: {fileID: 1571546711}
   m_Layer: 5
   m_Name: 'Button 4 '
   m_TagString: Untagged
@@ -27867,6 +27408,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1571546706}
+--- !u!114 &1571546711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1571546706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1582853478
 GameObject:
   m_ObjectHideFlags: 0
@@ -29315,97 +28875,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1647946578}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e62188adca544cf1b96ccf1630f15f9, type: 3}
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoNotTesselate: 0
-  tesselationRequired: 1
-  curvingRequired: 1
-  angle: 90
-  TransformMisaligned: 0
-  myCanvas: {fileID: 0}
-  mySettings: {fileID: 0}
-  CanvasToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  CanvasToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  savedPos: {x: -199.8, y: -63.5, z: -0.099999905}
-  savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 32, y: 32}
-  savedColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  savedTextUV0: {x: 0, y: 0}
-  savedFill: 1
-  myGraphic: {fileID: 1647946581}
-  myImage: {fileID: 0}
-  myText: {fileID: 0}
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1653118577
 GameObject:
   m_ObjectHideFlags: 0
@@ -29821,6 +29301,7 @@ GameObject:
   - component: {fileID: 1690276015}
   - component: {fileID: 1690276014}
   - component: {fileID: 1690276013}
+  - component: {fileID: 1690276016}
   m_Layer: 5
   m_Name: 'Button 3 '
   m_TagString: Untagged
@@ -29926,6 +29407,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1690276011}
+--- !u!114 &1690276016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1690276011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1724131012
 GameObject:
   m_ObjectHideFlags: 0
@@ -30562,97 +30062,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1754775442}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e62188adca544cf1b96ccf1630f15f9, type: 3}
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoNotTesselate: 0
-  tesselationRequired: 1
-  curvingRequired: 1
-  angle: 90
-  TransformMisaligned: 0
-  myCanvas: {fileID: 0}
-  mySettings: {fileID: 0}
-  CanvasToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  CanvasToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  savedPos: {x: -119.799995, y: 6.5, z: -0.099999905}
-  savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 32, y: 32}
-  savedColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  savedTextUV0: {x: 0, y: 0}
-  savedFill: 1
-  myGraphic: {fileID: 1754775445}
-  myImage: {fileID: 0}
-  myText: {fileID: 0}
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1758025372
 GameObject:
   m_ObjectHideFlags: 0
@@ -31872,6 +31292,7 @@ GameObject:
   - component: {fileID: 1836371510}
   - component: {fileID: 1836371509}
   - component: {fileID: 1836371508}
+  - component: {fileID: 1836371511}
   m_Layer: 5
   m_Name: 'Button 7 '
   m_TagString: Untagged
@@ -31977,6 +31398,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1836371506}
+--- !u!114 &1836371511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1836371506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1840713189
 GameObject:
   m_ObjectHideFlags: 0
@@ -32188,6 +31628,7 @@ GameObject:
   - component: {fileID: 1851282810}
   - component: {fileID: 1851282809}
   - component: {fileID: 1851282808}
+  - component: {fileID: 1851282811}
   m_Layer: 5
   m_Name: Button 6
   m_TagString: Untagged
@@ -32294,6 +31735,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1851282806}
+--- !u!114 &1851282811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1851282806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1851739469
 GameObject:
   m_ObjectHideFlags: 0
@@ -32675,6 +32135,7 @@ GameObject:
   - component: {fileID: 1881215395}
   - component: {fileID: 1881215394}
   - component: {fileID: 1881215393}
+  - component: {fileID: 1881215396}
   m_Layer: 5
   m_Name: Button 2
   m_TagString: Untagged
@@ -32781,6 +32242,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1881215391}
+--- !u!114 &1881215396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1881215391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1894050399
 GameObject:
   m_ObjectHideFlags: 0
@@ -32971,6 +32451,7 @@ GameObject:
   - component: {fileID: 1894496746}
   - component: {fileID: 1894496745}
   - component: {fileID: 1894496744}
+  - component: {fileID: 1894496747}
   m_Layer: 5
   m_Name: 'Button 1 '
   m_TagString: Untagged
@@ -33076,6 +32557,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1894496742}
+--- !u!114 &1894496747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1894496742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1911083266
 GameObject:
   m_ObjectHideFlags: 0
@@ -33711,6 +33211,7 @@ GameObject:
   - component: {fileID: 1931870729}
   - component: {fileID: 1931870728}
   - component: {fileID: 1931870727}
+  - component: {fileID: 1931870730}
   m_Layer: 5
   m_Name: 'Button 5 '
   m_TagString: Untagged
@@ -33816,6 +33317,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1931870725}
+--- !u!114 &1931870730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1931870725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1942599747
 GameObject:
   m_ObjectHideFlags: 0
@@ -33903,6 +33423,7 @@ GameObject:
   - component: {fileID: 1945976717}
   - component: {fileID: 1945976716}
   - component: {fileID: 1945976715}
+  - component: {fileID: 1945976718}
   m_Layer: 5
   m_Name: Button 9
   m_TagString: Untagged
@@ -34009,6 +33530,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1945976713}
+--- !u!114 &1945976718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1945976713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1959602241
 GameObject:
   m_ObjectHideFlags: 0
@@ -34543,6 +34083,7 @@ GameObject:
   - component: {fileID: 1993924589}
   - component: {fileID: 1993924588}
   - component: {fileID: 1993924587}
+  - component: {fileID: 1993924590}
   m_Layer: 5
   m_Name: 'Button 12 '
   m_TagString: Untagged
@@ -34648,6 +34189,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1993924585}
+--- !u!114 &1993924590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1993924585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1994624219
 GameObject:
   m_ObjectHideFlags: 0
@@ -35753,6 +35313,7 @@ GameObject:
   - component: {fileID: 2063256236}
   - component: {fileID: 2063256235}
   - component: {fileID: 2063256234}
+  - component: {fileID: 2063256237}
   m_Layer: 5
   m_Name: Button 10
   m_TagString: Untagged
@@ -35859,6 +35420,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2063256232}
+--- !u!114 &2063256237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2063256232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &2066411320
 GameObject:
   m_ObjectHideFlags: 0
@@ -36337,6 +35917,7 @@ GameObject:
   - component: {fileID: 2107573710}
   - component: {fileID: 2107573709}
   - component: {fileID: 2107573708}
+  - component: {fileID: 2107573711}
   m_Layer: 5
   m_Name: Button 4
   m_TagString: Untagged
@@ -36443,6 +36024,25 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2107573706}
+--- !u!114 &2107573711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2107573706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &2108574053
 GameObject:
   m_ObjectHideFlags: 0
@@ -36674,97 +36274,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2128515801}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e62188adca544cf1b96ccf1630f15f9, type: 3}
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoNotTesselate: 0
-  tesselationRequired: 1
-  curvingRequired: 1
-  angle: 90
-  TransformMisaligned: 0
-  myCanvas: {fileID: 0}
-  mySettings: {fileID: 0}
-  CanvasToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  CanvasToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToWorld:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  MyToLocal:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  savedPos: {x: -199.8, y: -28.5, z: -0.099999905}
-  savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 32, y: 32}
-  savedColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  savedTextUV0: {x: 0, y: 0}
-  savedFill: 1
-  myGraphic: {fileID: 2128515804}
-  myImage: {fileID: 0}
-  myText: {fileID: 0}
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &2143386845
 GameObject:
   m_ObjectHideFlags: 0
