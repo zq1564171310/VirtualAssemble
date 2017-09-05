@@ -7,7 +7,7 @@ public class AudioPlay : MonoBehaviour {
 
     private AudioSource source;
     private AudioClip[] Clips;
-    private Dictionary<string, AudioClip> AudioClip = new Dictionary<string, UnityEngine.AudioClip>();
+    private Dictionary<string, AudioClip> AudioClip = new Dictionary<string, AudioClip>();
 
     // Use this for initialization
     void Start()

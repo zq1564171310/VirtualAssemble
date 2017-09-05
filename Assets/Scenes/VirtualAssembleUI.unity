@@ -29540,6 +29540,7 @@ GameObject:
   - component: {fileID: 1666563323}
   - component: {fileID: 1666563322}
   - component: {fileID: 1666563321}
+  - component: {fileID: 1666563320}
   m_Layer: 5
   m_Name: PartPanel
   m_TagString: Untagged
@@ -29578,6 +29579,17 @@ RectTransform:
   m_AnchoredPosition: {x: 2.1999998, y: -13.5}
   m_SizeDelta: {x: 116, y: 142}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1666563320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1666563318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4038e0807f3c66448c4f1f9b1f09756, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1666563321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35989,6 +36001,7 @@ GameObject:
   - component: {fileID: 2082951300}
   - component: {fileID: 2082951299}
   - component: {fileID: 2082951297}
+  - component: {fileID: 2082951298}
   m_Layer: 5
   m_Name: ClassPanel
   m_TagString: Untagged
@@ -36030,6 +36043,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AllowSwitchOff: 0
+--- !u!114 &2082951298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2082951295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23e146469c7455241a543121c0211ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2082951299
 MonoBehaviour:
   m_ObjectHideFlags: 0
