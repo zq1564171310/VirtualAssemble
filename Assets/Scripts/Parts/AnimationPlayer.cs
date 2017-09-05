@@ -18,7 +18,7 @@ namespace WyzLink.Parts
             #region Test
             if (null == AnimationCollection.Instance)
             {
-                AnimationCollection ani = GameObject.Find("UnityMain/AnimationCollection").GetComponent<AnimationCollection>();
+                return GameObject.Find("UnityMain/AnimationCollection").GetComponent<AnimationCollection>().PlayAnimation(animationName, this.transform);
             }
             #endregion
             return AnimationCollection.Instance.PlayAnimation(animationName, this.transform);

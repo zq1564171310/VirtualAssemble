@@ -14,18 +14,18 @@ namespace WyzLink.UI
     using WyzLink.Common;
     using System;
 
-    public class UIToolsClassPanel : MonoBehaviour
+    public class UICommonClass : MonoBehaviour
     {
         
-        private static OnReceivedTools _OnReceivedTools = new OnReceivedTools();
+        private static UICommonParts _UICommonParts = new UICommonParts();
 
-        private Toggle ToolsClass1, ToolsClass2, ToolsClass3;//工具类型的三个开关
+        private Toggle PartClass1, PartClass2, PartClass3;//类型的三个开关
 
-        private Button m_BtnPrevious, m_BtnNext;//左右翻动工具类别的按钮
+        private Button m_BtnPrevious, m_BtnNext;//左右翻动类别的按钮
 
-        private List<string> ToolsTypeList = new List<string>();//工具类型集合
+        private List<string> ComPartTypeList = new List<string>();//类型集合
 
-        private string m_Type;//当前选中的工具类型
+        private string m_Type;//当前选中的类型
 
         private int m_PageIndex = 1; //类型当前页面索引，初始时为第一页
 
@@ -33,7 +33,7 @@ namespace WyzLink.UI
 
         private int m_ItemsCount = 0;//类型总个数
 
-        private int ToolTypeCount = 3;//每个工具类型的个数
+        private int ComPartTypeCount = 3;//每页类型的个数
 
         private bool InitFlag;
         private bool flag;
@@ -41,16 +41,16 @@ namespace WyzLink.UI
         // Use this for initialization
         void Start()
         {
-            _OnReceivedTools = GameObject.Find("Canvas/BG/ToolsPanel/SingleToolPanel").GetComponent<OnReceivedTools>();
+            _UICommonParts = GameObject.Find("Canvas/BG/CommonPartsPanel/PartPanel").GetComponent<UICommonParts>();
             if (flag == false)
             {
-                if (null != ToolsCommon.Instance)
+                if (null != CommonPartsCommon.Instance)
                 {
-                    ToolsTypeList = ToolsCommon.Instance.GetToolTypes();  //初始化
+                    ComPartTypeList = CommonPartsCommon.Instance.GetCommonPartsTypes();  //初始化
                 }
                 else
                 {
-                    Debug.LogError("ToolsCommon没有初始化！");
+                    Debug.LogError("CommonPartsCommon没有初始化！");
                 }
                 Init();
                 InitItems();
@@ -63,20 +63,20 @@ namespace WyzLink.UI
        /// </summary>
         private void Init()
         {
-            m_BtnNext = GameObject.Find("Canvas/BG/ToolsPanel/NextIcon_Btn").GetComponent<Button>();
-            m_BtnPrevious = GameObject.Find("Canvas/BG/ToolsPanel/PreviousIcon_Btn").GetComponent<Button>();
-            ToolsClass1 = GameObject.Find("Canvas/BG/ToolsPanel/ToolsClassPanel/ToolsClass 1").GetComponent<Toggle>();
-            ToolsClass2 = GameObject.Find("Canvas/BG/ToolsPanel/ToolsClassPanel/ToolsClass 2").GetComponent<Toggle>();
-            ToolsClass3 = GameObject.Find("Canvas/BG/ToolsPanel/ToolsClassPanel/ToolsClass 3").GetComponent<Toggle>();
+            m_BtnNext = GameObject.Find("Canvas/BG/CommonPartsPanel/NextIcon").GetComponent<Button>();
+            m_BtnPrevious = GameObject.Find("Canvas/BG/CommonPartsPanel/PreviousIcon").GetComponent<Button>();
+            PartClass1 = GameObject.Find("Canvas/BG/CommonPartsPanel/ClassPanel/PartClass 1").GetComponent<Toggle>();
+            PartClass2 = GameObject.Find("Canvas/BG/CommonPartsPanel/ClassPanel/PartClass 2").GetComponent<Toggle>();
+            PartClass3 = GameObject.Find("Canvas/BG/CommonPartsPanel/ClassPanel/PartClass 3").GetComponent<Toggle>();
 
             //为上一页和下一页添加事件
             m_BtnNext.onClick.AddListener(() => { Next(); });
             m_BtnPrevious.onClick.AddListener(() => { Previous(); });
 
             //为类型开关添加监听事件
-            ToolsClass1.onValueChanged.AddListener((Ison) => { ToolsClass1RefreshItems(Ison); });
-            ToolsClass2.onValueChanged.AddListener((Ison) => { ToolsClass2RefreshItems(Ison); });
-            ToolsClass3.onValueChanged.AddListener((Ison) => { ToolsClass3RefreshItems(Ison); });
+            PartClass1.onValueChanged.AddListener((Ison) => { PartClass1RefreshItems(Ison); });
+            PartClass2.onValueChanged.AddListener((Ison) => { PartClass2RefreshItems(Ison); });
+            PartClass3.onValueChanged.AddListener((Ison) => { PartClass3RefreshItems(Ison); });
         }
 
         /// <summary>
@@ -85,13 +85,13 @@ namespace WyzLink.UI
         private void InitItems()
         {
             //计算元素总个数
-            if (ToolsTypeList.Count > 0)
-                m_ItemsCount = ToolsTypeList.Count;
+            if (ComPartTypeList.Count > 0)
+                m_ItemsCount = ComPartTypeList.Count;
             else
                 return;
 
             //计算总页数
-            m_PageCount = (m_ItemsCount % ToolTypeCount) == 0 ? m_ItemsCount / ToolTypeCount : (m_ItemsCount / ToolTypeCount) + 1;
+            m_PageCount = (m_ItemsCount % ComPartTypeCount) == 0 ? m_ItemsCount / ComPartTypeCount : (m_ItemsCount / ComPartTypeCount) + 1;
 
             BindPage(m_PageIndex);
         }
@@ -133,24 +133,24 @@ namespace WyzLink.UI
         private void BindPage(int index)
         {
             //列表处理
-            if (ToolsTypeList == null || m_ItemsCount <= 0)
+            if (ComPartTypeList == null || m_ItemsCount <= 0)
                 return;
 
             //索引处理
             if (index < 0 || index > m_ItemsCount)
                 return;
 
-            ToolsClass1.isOn = true;
+            PartClass1.isOn = true;
 
             //按照元素个数可以分为1页和1页以上两种情况
             if (m_PageCount == 1)
             {
                 int canDisplay = 0;
-                for (int i = ToolTypeCount; i > 0; i--)
+                for (int i = ComPartTypeCount; i > 0; i--)
                 {
                     if (canDisplay < m_ItemsCount)
                     {
-                        BindGridItem(transform.GetChild(canDisplay), ToolsTypeList[ToolTypeCount - i]);
+                        BindGridItem(transform.GetChild(canDisplay), ComPartTypeList[ComPartTypeCount - i]);
                         transform.GetChild(canDisplay).gameObject.SetActive(true);
                     }
                     else
@@ -168,13 +168,13 @@ namespace WyzLink.UI
                 if (index == m_PageCount)
                 {
                     int canDisplay = 0;
-                    for (int i = ToolTypeCount; i > 0; i--)
+                    for (int i = ComPartTypeCount; i > 0; i--)
                     {
                         //最后一页剩下的元素数目为 m_ItemsCount - ToolTypeCount * (index-1)
-                        //ToolTypeCount * index - i最后一页第一个类型在ToolsTypeList中的索引
-                        if (canDisplay < m_ItemsCount - ToolTypeCount * (index - 1))
+                        //ComPartTypeCount * index - i最后一页第一个类型在ComPartTypeList中的索引
+                        if (canDisplay < m_ItemsCount - ComPartTypeCount * (index - 1))
                         {
-                            BindGridItem(transform.GetChild(canDisplay), ToolsTypeList[ToolTypeCount * index - i]);
+                            BindGridItem(transform.GetChild(canDisplay), ComPartTypeList[ComPartTypeCount * index - i]);
                             transform.GetChild(canDisplay).gameObject.SetActive(true);
                         }
                         else
@@ -187,79 +187,79 @@ namespace WyzLink.UI
                 }
                 else
                 {
-                    for (int i = ToolTypeCount; i > 0; i--)
+                    for (int i = ComPartTypeCount; i > 0; i--)
                     {
-                        BindGridItem(transform.GetChild(ToolTypeCount - i), ToolsTypeList[ToolTypeCount * index - i]);
-                        transform.GetChild(ToolTypeCount - i).gameObject.SetActive(true);
+                        BindGridItem(transform.GetChild(ComPartTypeCount - i), ComPartTypeList[ComPartTypeCount * index - i]);
+                        transform.GetChild(ComPartTypeCount - i).gameObject.SetActive(true);
                     }
                 }
             }
         }
 
         /// <summary>
-        /// 将一个GridItem实例绑定到指定的Transform上
+        /// 将一个类型实例绑定到指定的Transform上
         /// </summary>
         /// <param name="trans"></param>
         /// <param name="gridItem"></param>
         private void BindGridItem(Transform trans, string gridItem)
         {
             trans.Find("Label").GetComponent<Text>().text = gridItem;
-            if (m_Type != ToolsClass1.transform.Find("Label").GetComponent<Text>().text)     //确保只刷新一次
+            if (m_Type != PartClass1.transform.Find("Label").GetComponent<Text>().text)     //确保只刷新一次
             {
-                m_Type = ToolsClass1.transform.Find("Label").GetComponent<Text>().text;
-                _OnReceivedTools.RefreshItems();
+                m_Type = PartClass1.transform.Find("Label").GetComponent<Text>().text;
+                _UICommonParts.RefreshItems();
             }
         }
 
 
         /// <summary>
-        /// 类型变化，刷新工具界面
+        /// 类型变化，刷新常用零件界面
         /// </summary>
         /// <param name="type"></param>
-        public void ToolsClass1RefreshItems(bool Ison)
+        public void PartClass1RefreshItems(bool Ison)
         {
             if (true == Ison)
             {
-                m_Type = ToolsClass1.transform.Find("Label").GetComponent<Text>().text;
-                _OnReceivedTools.RefreshItems();
+                m_Type = PartClass1.transform.Find("Label").GetComponent<Text>().text;
+                _UICommonParts.RefreshItems();
             }
         }
 
-        public void ToolsClass2RefreshItems(bool Ison)
+        public void PartClass2RefreshItems(bool Ison)
         {
             if (true == Ison)
             {
-                m_Type = ToolsClass2.transform.Find("Label").GetComponent<Text>().text;
-                _OnReceivedTools.RefreshItems();
+                m_Type = PartClass2.transform.Find("Label").GetComponent<Text>().text;
+                _UICommonParts.RefreshItems();
             }
         }
 
-        public void ToolsClass3RefreshItems(bool Ison)
+        public void PartClass3RefreshItems(bool Ison)
         {
             if (true == Ison)
             {
-                m_Type = ToolsClass3.transform.Find("Label").GetComponent<Text>().text;
-                _OnReceivedTools.RefreshItems();
+                m_Type = PartClass3.transform.Find("Label").GetComponent<Text>().text;
+                _UICommonParts.RefreshItems();
             }
         }
 
         /// <summary>
-        /// 设置工具类型
+        /// 设置常用零件类型
         /// </summary>
         /// <param name="type"></param>
-        public void SetToolsType(string type)
+        public void SetComPartType(string type)
         {
             //m_Type = type;
         }
 
 
         /// <summary>
-        /// 获取工具类型
+        /// 获取常用零件类型
         /// </summary>
         /// <returns>
         /// 返回string类型
         /// </returns>
-        public string GetToolsType()
+        public string GetComPartType()
         {
             return m_Type;
         }

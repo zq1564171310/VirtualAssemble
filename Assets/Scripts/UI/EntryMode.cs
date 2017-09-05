@@ -25,6 +25,8 @@
         // Use this for initialization
         void Start()
         {
+            //GlobalVar._TipErrBtn.GetComponent<Button>().onClick.AddListener(ErrBtnOnClick);
+            GlobalVar._TipCanvas.SetActive(false);
             assemblemanager = AssembleManager.Instance;
             RootPartGameObject = FindObjectOfType<AssembleController>().gameObject;
             Canvas = GameObject.Find("Canvas");
@@ -92,6 +94,15 @@
             Debug.Log("assemblemanager == null" + AssembleManager.Instance.InstalledNode == null);
 
             AssembleManager.Instance.Init();
+        }
+
+        private void ErrBtnOnClick()
+        {
+            //GlobalVar._TipErrBtn.SetActive(false);
+            //if (Mode =="Test")
+            //{
+            //    AssembleManager.Instance.InstalledNode();
+            //}
         }
     }
 }

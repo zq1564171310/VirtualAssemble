@@ -12,6 +12,7 @@ namespace WyzLink.Manager
     using WyzLink.Parts;
     using WyzLink.Control;
     using WyzLink.Common;
+    using UnityEngine.UI;
 
     public class NodeManager : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IManipulationHandler
     {
@@ -147,7 +148,7 @@ namespace WyzLink.Manager
             {
                 if (null != gameObject.GetComponent<Node>())
                 {
-                    if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 0.1f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
+                    if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 0.5f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
                     {
                         if (EntryMode.Mode != "Test")
                         {
@@ -203,17 +204,21 @@ namespace WyzLink.Manager
                                         AssembleManager.Instance.NextInstall(gameObject.GetComponent<Node>());
                                         StopCoroutine(NodeInstallationStateManagerCoroutine());
                                     }
+                                    gameObject.GetComponent<Node>().PlayAnimations();
+                                    GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject.SetActive(false);
                                     flag = true;
                                 }
                             }
 
                             if (false == flag)
                             {
-                                GlobalVar._Tips.text = "安装错误！";
                                 Destroy(gameObject.GetComponent<HandDraggable>());
                                 Destroy(gameObject.GetComponent<BoxCollider>());
+                                gameObject.transform.position = gameObject.GetComponent<Node>().EndPos;
                                 NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.NotInstalled);
-                                StartCoroutine(OnMovesIEnumerator(gameObject));
+                                GlobalVar._TipCanvas.SetActive(true);
+                                GlobalVar._TipErrBtn.GetComponent<Button>().onClick.AddListener(OnMovesIEnumerator);
+                                GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject.SetActive(false);
                             }
                         }
                     }
@@ -287,23 +292,25 @@ namespace WyzLink.Manager
 
         }
 
-        IEnumerator OnMovesIEnumerator(GameObject _GameObject)
+        void OnMovesIEnumerator()
         {
-            float f = 0;
-            while (true)
-            {
-                if (f <= 1.5f)
-                {
-                    _GameObject.transform.position = Vector3.Lerp(_GameObject.GetComponent<Node>().EndPos, _GameObject.GetComponent<Node>().EndPos + new Vector3(0, 0, 1.5f), f / 1.5f);
-                    f += Time.deltaTime;
-                }
-                else
-                {
-                    break;
-                }
-                yield return new WaitForSeconds(0);
-            }
-            Destroy(_GameObject);
+            //float f = 0;
+            //while (true)
+            //{
+            //    if (f <= 3f)
+            //    {
+            //        transform.position = Vector3.Lerp(gameObject.GetComponent<Node>().EndPos, gameObject.GetComponent<Node>().EndPos + new Vector3(0, 0, 3f), f / 3f);
+            //        f += Time.deltaTime;
+            //    }
+            //    else
+            //    {
+            //        break;
+            //    }
+            //   // yield return new WaitForSeconds(0);
+            //}
+            Destroy(gameObject);
+            GlobalVar._TipErrBtn.GetComponent<Button>().onClick.RemoveAllListeners();
+            GlobalVar._TipCanvas.SetActive(false);
         }
     }
 }

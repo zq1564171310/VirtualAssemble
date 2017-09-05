@@ -15,24 +15,24 @@ namespace WyzLink.UI
     using WyzLink.Common;
     using UnityEngine.UI;
 
-    public class OnReceivedTools : MonoBehaviour
+    public class UICommonParts : MonoBehaviour
     {
-        private  UIToolsClassPanel _UIToolsClassPanel = new UIToolsClassPanel();
+        private UICommonClass _UICommonClass = new UICommonClass();
 
-        private List<Tool> ToolsList = new List<Tool>();//所有工具集合
-        private List<string> ToolsType = new List<string>();//所有工具类型集合
-        private List<Button> BtnList = new List<Button>();//工具按钮集合
-        private List<Tool> m_ItemsList = new List<Tool>();//属于当前类型的所有工具集合
-        private string m_Type;//当前工具类型
+        private List<CommonParts> CommonPartsList = new List<CommonParts>();//所有常用零件集合
+        private List<string> CommonPartsType = new List<string>();//所有常用零件类型集合
+        private List<Button> BtnList = new List<Button>();//常用零件按钮集合
+        private List<CommonParts> m_ItemsList = new List<CommonParts>();//属于当前类型的所有常用零件集合
+        private string m_Type;//当前常用零件类型
 
-        private int m_PageIndex = 1;//属于当前类型的工具页面索引
-        private int m_PageCount = 0;//属于当前类型的工具总页数
-        private int m_ItemsCount = 0;//属于当前类型的工具元素总个数
+        private int m_PageIndex = 1;//属于当前类型的常用零件页面索引
+        private int m_PageCount = 0;//属于当前类型的常用零件总页数
+        private int m_ItemsCount = 0;//属于当前类型的常用零件元素总个数
 
         private Button PreviousPage;//上一页
         private Button NextPage;// 下一页
         private Text m_PanelText;//用来显示当前页数
-        private int Page_Count = 12;//每页最多可放工具个数
+        private int Page_Count = 12;//每页最多可放常用零件个数
 
         private int InitFlag = 0;
         private bool Init;
@@ -40,7 +40,7 @@ namespace WyzLink.UI
         // Use this for initialization
         void Awake()
         {
-            _UIToolsClassPanel = GameObject.Find("Canvas/BG/ToolsPanel/ToolsClassPanel").GetComponent<UIToolsClassPanel>();
+            _UICommonClass = GameObject.Find("Canvas/BG/CommonPartsPanel/PartPanel").GetComponent<UICommonClass>();
             //RefreshItems();
         }
 
@@ -111,53 +111,44 @@ namespace WyzLink.UI
             //索引处理
             if (index < 0 || index > m_ItemsCount)
                 return;
-            
+
             //先将工具全部隐藏
-            for (int i = 0; i < ToolsList.Count; i++)
+            for (int i = 0; i < CommonPartsList.Count; i++)
             {
-                ToolsList[i].gameObject.SetActive(false);
+                CommonPartsList[i].gameObject.SetActive(false);
             }
 
-            //按照元素个数可以分为1页和1页以上两种情况，1页时m_ItemsCount的值不会大于Page_Count
+            //按照元素个数可以分为1页和1页以上两种情况
             if (m_PageCount == 1)
             {
-                int canDisplay = 0;//可放置工具的按钮的索引
+                int canDisplay = 0;
                 for (int i = Page_Count; i > 0; i--)
                 {
                     if (canDisplay < m_ItemsCount)
                     {
-                        //transform是SingleToolPanel的transform，SingleToolPanel的下面有Page_Count个按钮
-                        //transform.GetChild(canDisplay)就是SingleToolPanel下面某个按钮的transform
-                        //Page_Count - i是示m_ItemsList集合中当前页index的第一个工具元素
                         BindGridItem(transform.GetChild(canDisplay), m_ItemsList[Page_Count - i]);
-                        //显示按钮
                         transform.GetChild(canDisplay).gameObject.SetActive(true);
-                        //显示工具元素
                         m_ItemsList[Page_Count - i].gameObject.SetActive(true);
                     }
                     else
                     {
-                        //对超过canDispaly的按钮实施隐藏
+                        //对超过canDispaly的物体实施隐藏
                         transform.GetChild(canDisplay).gameObject.SetActive(false);
                     }
-                    canDisplay += 1;//索引自增1 
+                    canDisplay += 1;
                 }
             }
-
-            //不止一页
-            //1页以上需要特别处理的是最后1页
-            //和1页时的情况类似判断最后一页剩下的元素数目
-            //第1页时显然剩下的为Page_Count所以不用处理
             else if (m_PageCount > 1)
             {
-              //当前页是最后一页的时候
+                //1页以上需要特别处理的是最后1页
+                //和1页时的情况类似判断最后一页剩下的元素数目
+                //第1页时显然剩下的为Page_Count所以不用处理
                 if (index == m_PageCount)
                 {
                     int canDisplay = 0;
                     for (int i = Page_Count; i > 0; i--)
                     {
                         //最后一页剩下的元素数目为 m_ItemsCount - Page_Count * (index-1)
-                        //Page_Count* index -i表示当前页index的第一个工具元素
                         if (canDisplay < m_ItemsCount - Page_Count * (index - 1))
                         {
                             BindGridItem(transform.GetChild(canDisplay), m_ItemsList[Page_Count * index - i]);
@@ -172,8 +163,6 @@ namespace WyzLink.UI
                         canDisplay += 1;
                     }
                 }
-
-                //当前页不是最后一页
                 else
                 {
                     for (int i = Page_Count; i > 0; i--)
@@ -187,39 +176,39 @@ namespace WyzLink.UI
         }
 
         /// <summary>
-        /// 将属于当前类型的所有工具的集合m_ItemsList，里面的工具元素gridItem绑定到指定的Cube的Transform上
+        /// 将一个GridItem实例绑定到指定的Transform上
         /// </summary>
-        /// <param name="trans"放置工具的按钮的transform></param>
-        /// <param name="gridItem"当前类型的所有工具集合m_ItemsList的某一个元素，要按顺序和按钮对上></param>
-        private void BindGridItem(Transform trans, Tool gridItem)
+        /// <param name="trans"></param>
+        /// <param name="gridItem"></param>
+        private void BindGridItem(Transform trans, CommonParts gridItem)
         {
-            trans.Find("Text").GetComponent<Text>().text = gridItem.ToolName;
-            
+            trans.Find("Text").GetComponent<Text>().text = gridItem.CommonPartsName;
+
             gridItem.gameObject.transform.position = trans.GetChild(1).transform.position;
-           
+
         }
 
         /// <summary>
-        /// 类型变化，刷新工具界面
+        /// 类型变化，刷新常用零件界面
         /// </summary>
         /// <param name="type"></param>
         public void RefreshItems()
         {
             if (false == Init)                   //初始化
             {
-                if (null != ToolsCommon.Instance) 
+                if (null != CommonPartsCommon.Instance)
                 {
-                    ToolsList = ToolsCommon.Instance.GetToolList();
-                    ToolsType = ToolsCommon.Instance.GetToolTypes();
+                    CommonPartsList = CommonPartsCommon.Instance.GetCommonPartsList();
+                    CommonPartsType = CommonPartsCommon.Instance.GetCommonPartsTypes();
                 }
                 else
                 {
-                    Debug.LogError("ToolsCommon没有初始化！");
+                    Debug.LogError("CommonPartsCommon没有初始化！");
                 }
 
-                NextPage = GameObject.Find("Canvas/BG/ToolsPanel/NextPage").GetComponent<Button>();
-                PreviousPage = GameObject.Find("Canvas/BG/ToolsPanel/PreviousPage").GetComponent<Button>();
-                m_PanelText = GameObject.Find("Canvas/BG/ToolsPanel/ViewPage_Text").GetComponent<Text>();
+                NextPage = GameObject.Find("Canvas/BG/CommonPartsPanel/NexPage").GetComponent<Button>();
+                PreviousPage = GameObject.Find("Canvas/BG/CommonPartsPanel/PrePage").GetComponent<Button>();
+                m_PanelText = GameObject.Find("Canvas/BG/CommonPartsPanel/ViewPage").GetComponent<Text>();
 
                 //为上一页和下一页添加事件
                 NextPage.onClick.AddListener(() => { Next(); });
@@ -233,35 +222,35 @@ namespace WyzLink.UI
                 Init = true;
             }
 
-            if (null != GameObject.Find("Canvas/BG/ToolsPanel/ToolsClassPanel"))
+            if (null != GameObject.Find("Canvas/BG/CommonPartsPanel/ClassPanel"))
             {
-                m_Type = GameObject.Find("Canvas/BG/ToolsPanel/ToolsClassPanel").GetComponent<UIToolsClassPanel>().GetToolsType();
+                m_Type = GameObject.Find("Canvas/BG/CommonPartsPanel/ClassPanel").GetComponent<UICommonClass>().GetComPartType();
             }
 
             if (null == m_ItemsList)
             {
-                m_ItemsList = new List<Tool>();
+                m_ItemsList = new List<CommonParts>();
             }
             else
             {
                 m_ItemsList.Clear();           //清空前一类型的数据
             }
 
-            //把属于当前类型的工具加入m_ItemsList集合
-            for (int i = 0; i < ToolsList.Count; i++)
+            //把属于当前类型的常用零件加入m_ItemsList集合
+            for (int i = 0; i < CommonPartsList.Count; i++)
             {
-                if (m_Type == ToolsList[i].Type)
+                if (m_Type == CommonPartsList[i].Type)
                 {
-                    m_ItemsList.Add(ToolsList[i]);
+                    m_ItemsList.Add(CommonPartsList[i]);
                 }
-                   
+
             }
             //计算元素总个数
             m_ItemsCount = m_ItemsList.Count;
             //计算总页数
             m_PageCount = (m_ItemsCount % Page_Count) == 0 ? m_ItemsCount / Page_Count : (m_ItemsCount / Page_Count) + 1;
 
-            m_PageIndex = 1;  //每次刷新都必须把页面重置，防止新的页面页数不够
+            m_PageIndex = 1;  //每次刷新都必须把页面重置
 
             BindPage(m_PageIndex);
             m_PanelText.text = string.Format("第" + "{0}/{1}" + "页", m_PageIndex.ToString(), m_PageCount.ToString());

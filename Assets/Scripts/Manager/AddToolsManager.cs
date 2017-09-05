@@ -49,13 +49,33 @@ namespace WyzLink.Manager
                     tool.ToolName = go.name;
 
                     #region Test
+                    //if (tool.name.Contains("螺丝刀"))
+                    //{
+                    //    tool.Type = "螺丝刀";
+                    //}
+                    //else if (tool.name.Contains("内六角"))
+                    //{
+                    //    tool.Type = "内六角";
+                    //}
+                    //else
+                    //{
+                    //    tool.Type = "其他";
+                    //}
                     if (tool.name.Contains("螺丝刀"))
                     {
                         tool.Type = "螺丝刀";
                     }
-                    else if (tool.name.Contains("内六角"))
+                    else if (tool.name.Contains("M2.0用内六角"))
                     {
-                        tool.Type = "内六角";
+                        tool.Type = "M2.0";
+                    }
+                    else if (tool.name.Contains("M2.5用内六角"))
+                    {
+                        tool.Type = "M2.5";
+                    }
+                    else if (tool.name.Contains("M4用内六角"))
+                    {
+                        tool.Type = "M4";
                     }
                     else
                     {
