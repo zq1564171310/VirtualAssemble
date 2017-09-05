@@ -19,13 +19,13 @@ namespace WyzLink.UI
         
         private static UICommonParts _UICommonParts = new UICommonParts();
 
-        private Toggle PartClass1, PartClass2, PartClass3;//工具类型的三个开关
+        private Toggle PartClass1, PartClass2, PartClass3;//类型的三个开关
 
-        private Button m_BtnPrevious, m_BtnNext;//左右翻动工具类别的按钮
+        private Button m_BtnPrevious, m_BtnNext;//左右翻动类别的按钮
 
-        private List<string> ComPartTypeList = new List<string>();//工具类型集合
+        private List<string> ComPartTypeList = new List<string>();//类型集合
 
-        private string m_Type;//当前选中的工具类型
+        private string m_Type;//当前选中的类型
 
         private int m_PageIndex = 1; //类型当前页面索引，初始时为第一页
 
@@ -33,7 +33,7 @@ namespace WyzLink.UI
 
         private int m_ItemsCount = 0;//类型总个数
 
-        private int ComPartTypeCount = 3;//每个工具类型的个数
+        private int ComPartTypeCount = 3;//每页类型的个数
 
         private bool InitFlag;
         private bool flag;
