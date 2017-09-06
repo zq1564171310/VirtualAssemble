@@ -1,47 +1,33 @@
-﻿namespace WyzLink.Manager
+﻿/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
+/// <author>pixiaoli</author>
+/// <summary>
+/// UI 选择模式
+/// </summary>
+namespace WyzLink.Manager
 {
     using UnityEngine;
     using UnityEngine.SceneManagement;
     using UnityEngine.UI;
-    using WyzLink.Assemble;
-    using WyzLink.Control;
+    using WyzLink.Parts;
 
     public class EntryMode : MonoBehaviour
     {
-        public static string Mode = "Study";
+        private static AssembleModel _AssembleModel;
 
-        private GameObject RootPartGameObject;//LCD1
-        private GameObject StartCanvas;//开始界面
-        private GameObject Canvas;//工作UI
-        private GameObject ComeCanvas;//进入某个模式后的选择UI
-
-        public Button Restart;
-        public Button RecordStart;
-        public Button demonstration;//演示模式
-        public Button Study;//学习模式
-        public Button Test;//考试模式
+        private Button _DemonstrationBtn;                                  //演示模式按钮
+        private Button _StudyBtn;                                          //学习模式按钮
+        private Button _ExamBtn;                                           //考试模式按钮
 
         // Use this for initialization
         void Start()
         {
-            GlobalVar._TipCanvas.SetActive(false);
-            RootPartGameObject = FindObjectOfType<AssembleController>().gameObject;
-            Canvas = GameObject.Find("Canvas");
-            ComeCanvas = GameObject.Find("ComeCanvas");
-            if (null != RootPartGameObject)
-            {
-                foreach (Transform tran in RootPartGameObject.transform)
-                {
-                    tran.gameObject.SetActive(false);
-                }
-                Canvas.SetActive(false);
-                ComeCanvas.SetActive(false);
-            }
-            StartCanvas = GameObject.Find("StartCanvas");
-            Study.GetComponent<Button>().onClick.AddListener(StudyComein);
-            demonstration.GetComponent<Button>().onClick.AddListener(demonstrationComein);
-            Test.GetComponent<Button>().onClick.AddListener(TestComein);
-            Restart.GetComponent<Button>().onClick.AddListener(StartAssemble);
+            _DemonstrationBtn = GameObject.Find("StartCanvas/StartPanel/DemonstrationBtn").GetComponent<Button>();
+            _StudyBtn = GameObject.Find("StartCanvas/StartPanel/StudyBtn").GetComponent<Button>();
+            _ExamBtn = GameObject.Find("StartCanvas/StartPanel/ExamBtn").GetComponent<Button>();
+
+            _StudyBtn.onClick.AddListener(StudyComein);
+            _DemonstrationBtn.onClick.AddListener(DemonstrationComein);
+            _ExamBtn.onClick.AddListener(ExamComein);
         }
 
         // Update is called once per frame
@@ -50,41 +36,41 @@
 
         }
 
-        private void StudyComein()
+
+        /// <summary>
+        /// 获取当前选择的安装模式
+        /// </summary>
+        /// <returns></returns>
+        public static AssembleModel GeAssembleModel()
         {
-            StartCanvas.SetActive(false);
-            ComeCanvas.SetActive(true);
-            Mode = "Study";
+            return _AssembleModel;
         }
 
-        private void demonstrationComein()
+        /// <summary>
+        /// 设置当前安装模式
+        /// </summary>
+        /// <param name="assembleModel"></param>
+        public static void SetAssembleModel(AssembleModel assembleModel)
         {
-            StartCanvas.SetActive(false);
-            ComeCanvas.SetActive(false);
-            Mode = "demonstration";
+            _AssembleModel = assembleModel;
+        }
+
+        //点击演示模式，进入演示模式
+        private void DemonstrationComein()
+        {
             SceneManager.LoadScene(1);
         }
 
-        private void TestComein()
+        //点击学习模式，进入学习模式界面
+        private void StudyComein()
         {
-            StartCanvas.SetActive(false);
-            ComeCanvas.SetActive(true);
-            Mode = "Test";
+            SceneManager.LoadScene(2);
         }
 
-        private void StartAssemble()
+        //点击考试模式，进入考试模式界面
+        private void ExamComein()
         {
-            if (null != RootPartGameObject)
-            {
-                foreach (Transform tran in RootPartGameObject.transform)
-                {
-                    tran.gameObject.SetActive(true);
-                }
-            }
-            Canvas.SetActive(true);
-            ComeCanvas.SetActive(false);
-
-            AssembleManager.Instance.Init();
+            SceneManager.LoadScene(3);
         }
     }
 }

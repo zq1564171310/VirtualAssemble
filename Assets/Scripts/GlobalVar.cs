@@ -15,6 +15,10 @@ public class GlobalVar : MonoBehaviour
     public static GameObject _TipCanvas = GameObject.Find("TipsCanvas");
     public static GameObject _TipErrBtn = GameObject.Find("TipsCanvas/ErrorBack");
 
+    public static GameObject _StartCanvas = GameObject.Find("StartCanvas");//开始界面
+    public static GameObject _Canvas = GameObject.Find("Canvas");//工作UI
+    public static GameObject _ComeCanvas = GameObject.Find("ComeCanvas");//进入某个模式后的选择UI
+
     //UI
     public static UIPartsPanelClass _UIPartsPanelClass = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel").GetComponent<UIPartsPanelClass>();
     public static UIPartsPage _UIPartsPage = GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel").GetComponent<UIPartsPage>();

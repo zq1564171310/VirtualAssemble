@@ -132,7 +132,7 @@ namespace WyzLink.Manager
                     }
                 }
 
-                if (EntryMode.Mode == "Test")
+                if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
                 {
                     if (null != gameObject.GetComponent<HandDraggable>())
                     {
@@ -150,7 +150,7 @@ namespace WyzLink.Manager
                 {
                     if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 0.5f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
                     {
-                        if (EntryMode.Mode != "Test")
+                        if (EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
                         {
                             NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.Installed);
                             Destroy(gameObject.GetComponent<HandDraggable>());

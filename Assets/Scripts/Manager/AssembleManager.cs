@@ -45,7 +45,7 @@ using Windows.Storage;
             InstalledNode = NodesController.Instance.GetNodeList()[0];
 
             NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNode).Cast<Node>();
-            if (null != NextInstallNode && EntryMode.Mode != "Test")
+            if (null != NextInstallNode && EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
             {
                 string err = "";
                 int index = 1;
@@ -59,7 +59,7 @@ using Windows.Storage;
                     err += node.name + "(第" + index + "页）" + "/";
                 }
                 GlobalVar._Tips.text = "现在应该安装:" + err;
-                if (EntryMode.Mode == "Test")
+                if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
                 {
                     GlobalVar._Tips.gameObject.SetActive(false);
                 }
@@ -124,7 +124,7 @@ using Windows.Storage;
                     err += nodes.name + "(第" + index + "页）" + "/";
                 }
                 GlobalVar._Tips.text = "现在应该安装:" + err;
-                if (EntryMode.Mode == "Test")
+                if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
                 {
                     GlobalVar._Tips.gameObject.SetActive(false);
                 }

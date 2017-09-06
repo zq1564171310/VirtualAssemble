@@ -335,7 +335,7 @@ namespace WyzLink.UI
             GameObject Txt;                             //克隆一份文本
             Transform[] trans;
 
-            if (EntryMode.Mode != "Test")
+            if (EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
             {
                 for (int i = 0; i < BtnList.Count; i++)
                 {
