@@ -55,7 +55,7 @@ namespace WyzLink.Assemble
             var needRefresh = UpdateFromHierarchy(assembleController);
             if (needRefresh)
             {
-
+                ApplyAssembleFlow(this.windowList, assembleController);
                 PrepareList(windowList);
                 this.isDirty = false;
             }
