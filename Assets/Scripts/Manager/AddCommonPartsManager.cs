@@ -13,25 +13,26 @@ namespace WyzLink.Manager
 
     public class AddCommonPartsManager : MonoBehaviour
     {
-
-        private GameObject[] CommonParts;    //Resoures目录下的工具预制体
+        private GameObject[] CommonParts;                            //Resoures目录下的工具预制体
+        private GameObject _RuntimeObject;                           //获取物体RuntimeObject
 
         // Use this for initialization
         void Start()
         {
-            CommonParts = Resources.LoadAll<GameObject>("CommonPartsPrefabs");
+            _RuntimeObject = GameObject.Find("RuntimeObject");                         //
+            CommonParts = Resources.LoadAll<GameObject>("CommonPartsPrefabs");         //
 
             if (null != CommonParts && CommonParts.Length > 0)
             {
                 if (CommonPartsController.Instance == null)
                 {
                     var _CommonPartsController = new GameObject("CommonPartsController", typeof(CommonPartsController));
-                    _CommonPartsController.transform.parent = GlobalVar._RuntimeObject.transform;
+                    _CommonPartsController.transform.parent = _RuntimeObject.transform;
                 }
                 if (CommonPartsCommon.Instance == null)
                 {
                     var _CommonPartsCommon = new GameObject("CommonPartsCommon", typeof(CommonPartsCommon));
-                    _CommonPartsCommon.transform.parent = GlobalVar._RuntimeObject.transform;
+                    _CommonPartsCommon.transform.parent = _RuntimeObject.transform;
                 }
             }
 
@@ -43,7 +44,7 @@ namespace WyzLink.Manager
                 {
                     go = Instantiate(CommonParts[i]);
                     go.name = CommonParts[i].name;
-                    go.transform.parent = GlobalVar._RuntimeObject.transform;
+                    go.transform.parent = _RuntimeObject.transform;
                     go.AddComponent<CommonParts>();
                     commonPart = go.GetComponent<CommonParts>();
                     commonPart.CommonPartsName = go.name;

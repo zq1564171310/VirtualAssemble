@@ -18,10 +18,14 @@ namespace WyzLink.Manager
     {
         private Coroutine MaterialCoroutine;                //光标进入和失去材质改变协程
         private Material OriginalMaterial;                     //零件本来的材质
+        private GameObject _TipCanvas;                       //错误提示画布
+        private GameObject _TipErrBtn;
 
         // Use this for initialization
         void Start()
         {
+            _TipCanvas = GameObject.Find("TipsCanvas");
+            _TipErrBtn = GameObject.Find("TipsCanvas/ErrorBack");
             if (null != gameObject.GetComponent<MeshRenderer>())
             {
                 OriginalMaterial = gameObject.GetComponent<MeshRenderer>().sharedMaterial;
@@ -216,8 +220,8 @@ namespace WyzLink.Manager
                                 Destroy(gameObject.GetComponent<BoxCollider>());
                                 gameObject.transform.position = gameObject.GetComponent<Node>().EndPos;
                                 NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.NotInstalled);
-                                GlobalVar._TipCanvas.SetActive(true);
-                                GlobalVar._TipErrBtn.GetComponent<Button>().onClick.AddListener(OnMovesIEnumerator);
+                                _TipCanvas.SetActive(true);
+                                _TipErrBtn.GetComponent<Button>().onClick.AddListener(OnMovesIEnumerator);
                                 GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject.SetActive(false);
                             }
                         }
@@ -309,8 +313,8 @@ namespace WyzLink.Manager
             //   // yield return new WaitForSeconds(0);
             //}
             Destroy(gameObject);
-            GlobalVar._TipErrBtn.GetComponent<Button>().onClick.RemoveAllListeners();
-            GlobalVar._TipCanvas.SetActive(false);
+            _TipErrBtn.GetComponent<Button>().onClick.RemoveAllListeners();
+            _TipCanvas.SetActive(false);
         }
     }
 }

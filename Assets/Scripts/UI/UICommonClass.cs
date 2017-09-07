@@ -10,9 +10,7 @@ namespace WyzLink.UI
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.UI;
-    using WyzLink.Control;
     using WyzLink.Common;
-    using System;
 
     public class UICommonClass : MonoBehaviour
     {

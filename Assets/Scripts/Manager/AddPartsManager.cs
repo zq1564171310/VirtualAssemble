@@ -13,6 +13,8 @@ namespace WyzLink.Manager
 
     public class AddPartsManager : MonoBehaviour
     {
+        private GameObject _RuntimeObject;                           //获取物体RuntimeObject
+
         private Transform[] PartsTransform;                    //零件Transform集合
 
         private AssembleController RootPartGameObject;          //零件跟节点
@@ -27,6 +29,7 @@ namespace WyzLink.Manager
         void Awake()
         {
             GameObject go = GameObject.Find("Canvas");
+            _RuntimeObject = GameObject.Find("RuntimeObject");
             MainWorkSpacePos = GameObject.Find("Canvas/Floor/MainWorkSpace").transform.position;
             SecondWorkSpacePos = GameObject.Find("Canvas/Floor/MainWorkSpace2").transform.position;
 
@@ -37,12 +40,12 @@ namespace WyzLink.Manager
                 if (NodesController.Instance == null)
                 {
                     var _NodesController = new GameObject("NodesController", typeof(NodesController));
-                    _NodesController.transform.parent = GlobalVar._RuntimeObject.transform;
+                    _NodesController.transform.parent = _RuntimeObject.transform;
                 }
                 if (NodesCommon.Instance == null)
                 {
                     var _NodesCommon = new GameObject("NodesCommon", typeof(NodesCommon));
-                    _NodesCommon.transform.parent = GlobalVar._RuntimeObject.transform;
+                    _NodesCommon.transform.parent = _RuntimeObject.transform;
                 }
             }
 
@@ -124,7 +127,7 @@ namespace WyzLink.Manager
                 if (AssembleManager.Instance == null)
                 {
                     var _AssembleManager = new GameObject("AssembleManager", typeof(AssembleManager));
-                    _AssembleManager.transform.parent = GlobalVar._RuntimeObject.transform;
+                    _AssembleManager.transform.parent = _RuntimeObject.transform;
                     _AssembleManager.GetComponent<AssembleManager>().SetDependencyGraph(new DependencyGraph(RootPartGameObject.GetComponent<AssembleController>(), RootPartGameObject.GetComponent<AssembleController>().assembleFlow.text));
                 }
             }

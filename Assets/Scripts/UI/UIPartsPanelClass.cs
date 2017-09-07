@@ -10,8 +10,6 @@ namespace WyzLink.UI
     using UnityEngine;
     using UnityEngine.UI;
     using WyzLink.Common;
-    using WyzLink.Control;
-    using WyzLink.Manager;
 
     public class UIPartsPanelClass : MonoBehaviour
     {

@@ -76,7 +76,11 @@ namespace WyzLink.Common
             return list;
         }
 
-
+        /// <summary>
+        /// 根据工作区ID，获取该ID下面所有的零件的集合
+        /// </summary>
+        /// <param name="WorkSpaceID"></param>
+        /// <returns></returns>
         public List<Node> GetWorkSpaceNodes(int WorkSpaceID)
         {
             List<Node> list = new List<Node>();

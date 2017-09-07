@@ -14,11 +14,13 @@ namespace WyzLink.Manager
 
     public class AddToolsManager : MonoBehaviour
     {
-        private GameObject[] Tools;    //Resoures目录下的工具预制体
+        private GameObject[] Tools;                                  //Resoures目录下的工具预制体
+        private GameObject _RuntimeObject;                           //获取物体RuntimeObject
 
         // Use this for initialization
         void Start()
         {
+            _RuntimeObject = GameObject.Find("RuntimeObject");
             Tools = Resources.LoadAll<GameObject>("ToolsPrefabs");
 
             if (null != Tools && Tools.Length > 0)
@@ -26,12 +28,12 @@ namespace WyzLink.Manager
                 if (ToolsController.Instance == null)
                 {
                     var _ToolsController = new GameObject("ToolsController", typeof(ToolsController));
-                    _ToolsController.transform.parent = GlobalVar._RuntimeObject.transform;
+                    _ToolsController.transform.parent = _RuntimeObject.transform;
                 }
                 if (ToolsCommon.Instance == null)
                 {
                     var _ToolsCommon = new GameObject("ToolsCommon", typeof(ToolsCommon));
-                    _ToolsCommon.transform.parent = GlobalVar._RuntimeObject.transform;
+                    _ToolsCommon.transform.parent = _RuntimeObject.transform;
                 }
             }
 
@@ -43,24 +45,12 @@ namespace WyzLink.Manager
                 {
                     go = Instantiate(Tools[i]);
                     go.name = Tools[i].name;
-                    go.transform.parent = GlobalVar._RuntimeObject.transform;
+                    go.transform.parent = _RuntimeObject.transform;
                     go.AddComponent<Tool>();
                     tool = go.GetComponent<Tool>();
                     tool.ToolName = go.name;
 
                     #region Test
-                    //if (tool.name.Contains("螺丝刀"))
-                    //{
-                    //    tool.Type = "螺丝刀";
-                    //}
-                    //else if (tool.name.Contains("内六角"))
-                    //{
-                    //    tool.Type = "内六角";
-                    //}
-                    //else
-                    //{
-                    //    tool.Type = "其他";
-                    //}
                     if (tool.name.Contains("螺丝刀"))
                     {
                         tool.Type = "螺丝刀";
