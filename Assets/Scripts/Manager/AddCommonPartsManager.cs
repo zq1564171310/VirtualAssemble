@@ -19,8 +19,16 @@ namespace WyzLink.Manager
         // Use this for initialization
         void Start()
         {
-            _RuntimeObject = GameObject.Find("RuntimeObject");                         //
-            CommonParts = Resources.LoadAll<GameObject>("CommonPartsPrefabs");         //
+
+        }
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+            _RuntimeObject = GameObject.Find("RuntimeObject");
+            CommonParts = Resources.LoadAll<GameObject>("CommonPartsPrefabs");
 
             if (null != CommonParts && CommonParts.Length > 0)
             {

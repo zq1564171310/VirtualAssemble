@@ -16,8 +16,7 @@ namespace WyzLink.UI
 
     public class UIToolsClassPanel : MonoBehaviour
     {
-        
-        private static OnReceivedTools _OnReceivedTools = new OnReceivedTools();
+        private static OnReceivedTools _OnReceivedTools;
 
         private Toggle ToolsClass1, ToolsClass2, ToolsClass3;//工具类型的三个开关
 
@@ -36,35 +35,32 @@ namespace WyzLink.UI
         private int ToolTypeCount = 3;//每个工具类型的个数
 
         private bool InitFlag;
-        private bool flag;
 
         // Use this for initialization
         void Start()
         {
-            _OnReceivedTools = GameObject.Find("Canvas/BG/ToolsPanel/SingleToolPanel").GetComponent<OnReceivedTools>();
-            if (flag == false)
-            {
-                if (null != ToolsCommon.Instance)
-                {
-                    ToolsTypeList = ToolsCommon.Instance.GetToolTypes();  //初始化
-                }
-                else
-                {
-                    Debug.LogError("ToolsCommon没有初始化！");
-                }
-                Init();
-                InitItems();
-                flag = true;
-            }
+
         }
 
-       /// <summary>
-       /// 初始化界面各个按钮
-       /// </summary>
-        private void Init()
+        /// <summary>
+        /// 初始化界面各个按钮
+        /// </summary>
+        public void Init()
         {
+            if (null != ToolsCommon.Instance)
+            {
+                ToolsTypeList = ToolsCommon.Instance.GetToolTypes();  //初始化
+            }
+            else
+            {
+                Debug.LogError("ToolsCommon没有初始化！");
+            }
+
+            _OnReceivedTools = GameObject.Find("Canvas/BG/ToolsPanel/SingleToolPanel").GetComponent<OnReceivedTools>();
+
             m_BtnNext = GameObject.Find("Canvas/BG/ToolsPanel/NextIcon_Btn").GetComponent<Button>();
             m_BtnPrevious = GameObject.Find("Canvas/BG/ToolsPanel/PreviousIcon_Btn").GetComponent<Button>();
+
             ToolsClass1 = GameObject.Find("Canvas/BG/ToolsPanel/ToolsClassPanel/ToolsClass 1").GetComponent<Toggle>();
             ToolsClass2 = GameObject.Find("Canvas/BG/ToolsPanel/ToolsClassPanel/ToolsClass 2").GetComponent<Toggle>();
             ToolsClass3 = GameObject.Find("Canvas/BG/ToolsPanel/ToolsClassPanel/ToolsClass 3").GetComponent<Toggle>();
@@ -77,6 +73,8 @@ namespace WyzLink.UI
             ToolsClass1.onValueChanged.AddListener((Ison) => { ToolsClass1RefreshItems(Ison); });
             ToolsClass2.onValueChanged.AddListener((Ison) => { ToolsClass2RefreshItems(Ison); });
             ToolsClass3.onValueChanged.AddListener((Ison) => { ToolsClass3RefreshItems(Ison); });
+
+            InitItems();
         }
 
         /// <summary>

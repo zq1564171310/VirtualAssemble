@@ -59,7 +59,6 @@ namespace WyzLink.UI
         private int Page_Count = 12;
 
         private int InitFlag = 0;
-        private bool Init;
 
         /// <summary>
         /// 零件类型
@@ -70,13 +69,11 @@ namespace WyzLink.UI
 
         private List<Node> NodesList = new List<Node>();            //所有零件类型的集合
 
-
         // Use this for initialization
-        void Awake()
+        void Start()
         {
-            RefreshItems();
-        }
 
+        }
 
         void Update()
         {
@@ -84,6 +81,32 @@ namespace WyzLink.UI
             {
                 RefreshItems();
                 InitFlag++;
+            }
+        }
+
+        public void Init()
+        {
+            if (null != NodesCommon.Instance)
+            {
+                NodesList = NodesCommon.Instance.GetNodesList();
+            }
+            else
+            {
+                Debug.LogError("NodesCommon没有初始化！");
+            }
+
+            NextPage = GameObject.Find("Canvas/BG/PartsPanel/NextPage").GetComponent<Button>();
+            PreviousPage = GameObject.Find("Canvas/BG/PartsPanel/PreviousPage").GetComponent<Button>();
+            m_PanelText = GameObject.Find("Canvas/BG/PartsPanel/ViewPage_Text").GetComponent<Text>();
+
+            //为上一页和下一页添加事件
+            NextPage.onClick.AddListener(() => { Next(); });
+            PreviousPage.onClick.AddListener(() => { Previous(); });
+
+            foreach (Transform tran in transform)
+            {
+                BtnList.Add(tran.gameObject.GetComponent<Button>());
+                EventTriggerListener.Get(tran.gameObject).onClick = BtnClick;
             }
         }
 
@@ -261,33 +284,6 @@ namespace WyzLink.UI
         /// <param name="type"></param>
         public void RefreshItems()
         {
-            if (false == Init)                   //初始化
-            {
-                if (null != NodesCommon.Instance)
-                {
-                    NodesList = NodesCommon.Instance.GetNodesList();
-                }
-                else
-                {
-                    Debug.LogError("NodesCommon没有初始化！");
-                }
-
-                NextPage = GameObject.Find("Canvas/BG/PartsPanel/NextPage").GetComponent<Button>();
-                PreviousPage = GameObject.Find("Canvas/BG/PartsPanel/PreviousPage").GetComponent<Button>();
-                m_PanelText = GameObject.Find("Canvas/BG/PartsPanel/ViewPage_Text").GetComponent<Text>();
-
-                //为上一页和下一页添加事件
-                NextPage.onClick.AddListener(() => { Next(); });
-                PreviousPage.onClick.AddListener(() => { Previous(); });
-
-                foreach (Transform tran in transform)
-                {
-                    BtnList.Add(tran.gameObject.GetComponent<Button>());
-                    EventTriggerListener.Get(tran.gameObject).onClick = BtnClick;
-                }
-                Init = true;
-            }
-
             if (null != GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel"))
             {
                 m_Type = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel").GetComponent<UIPartsPanelClass>().GetPartsType();

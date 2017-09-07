@@ -14,6 +14,7 @@ namespace WyzLink.Manager
     using WyzLink.Assemble;
     using WyzLink.Control;
     using WyzLink.Parts;
+    using WyzLink.UI;
 
 #if NETFX_CORE  //UWP下编译  
 using Windows.Storage;
@@ -27,20 +28,22 @@ using Windows.Storage;
         private float WorkSpaceScalingNum = 1;                          //工作区缩放倍数
         private float WorkSpaceRotaAngle = 90;                               //工作区旋转角度
 
-        protected override void Awake()
-        {
-            base.Awake();
-            Find();
-        }
+        private UIPartsPanelClass _UIPartsPanelClass;
+        private UIPartsPage _UIPartsPage;
 
         // Use this for initialization
         void Start()
         {
-            Init();
+
         }
 
         public void Init()
         {
+            GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Left").GetComponent<Button>().onClick.AddListener(RotaLeftBtnClick);
+            GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Right").GetComponent<Button>().onClick.AddListener(RotaRightBtnClick);
+            GameObject.Find("Canvas/BG/PartsPanel/CaptureScreens_Btn").GetComponent<Button>().onClick.AddListener(CaptureScreensBtnClick);
+            _UIPartsPanelClass = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel").GetComponent<UIPartsPanelClass>();
+            _UIPartsPage = GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel").GetComponent<UIPartsPage>();
             #region Test
             InstalledNode = NodesController.Instance.GetNodeList()[0];
 
@@ -53,8 +56,8 @@ using Windows.Storage;
                 {
                     node.SetInstallationState(InstallationState.NextInstalling);
                     #region Test 跳转页面
-                    GlobalVar._UIPartsPage.SetIndex(node);
-                    index = GlobalVar._UIPartsPage.GetIndex(node);
+                    _UIPartsPage.SetIndex(node);
+                    index = _UIPartsPage.GetIndex(node);
                     #endregion
                     err += node.name + "(第" + index + "页）" + "/";
                 }
@@ -67,14 +70,6 @@ using Windows.Storage;
             #endregion
             //获取物体的绝对路径，新的UI中都会改掉
             GlobalVar._Slider.onValueChanged.AddListener(SlideTheSlider);
-            GlobalVar._UIPartsPage.RefreshItems();
-        }
-
-        void Find()
-        {
-            GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Left").GetComponent<Button>().onClick.AddListener(RotaLeftBtnClick);
-            GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Right").GetComponent<Button>().onClick.AddListener(RotaRightBtnClick);
-            GameObject.Find("Canvas/BG/PartsPanel/CaptureScreens_Btn").GetComponent<Button>().onClick.AddListener(CaptureScreensBtnClick);
         }
 
         // Update is called once per frame
@@ -118,8 +113,8 @@ using Windows.Storage;
                         nodes.gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.NextInstallMate;
                     }
                     #region Test 跳转页面
-                    GlobalVar._UIPartsPage.SetIndex(nodes);
-                    index = GlobalVar._UIPartsPage.GetIndex(nodes);
+                    _UIPartsPage.SetIndex(nodes);
+                    index = _UIPartsPage.GetIndex(nodes);
                     #endregion
                     err += nodes.name + "(第" + index + "页）" + "/";
                 }

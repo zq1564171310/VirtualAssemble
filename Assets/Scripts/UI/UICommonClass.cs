@@ -14,8 +14,7 @@ namespace WyzLink.UI
 
     public class UICommonClass : MonoBehaviour
     {
-        
-        private static UICommonParts _UICommonParts = new UICommonParts();
+        private static UICommonParts _UICommonParts;
 
         private Toggle PartClass1, PartClass2, PartClass3;//类型的三个开关
 
@@ -34,35 +33,32 @@ namespace WyzLink.UI
         private int ComPartTypeCount = 3;//每页类型的个数
 
         private bool InitFlag;
-        private bool flag;
 
         // Use this for initialization
         void Start()
         {
-            _UICommonParts = GameObject.Find("Canvas/BG/CommonPartsPanel/PartPanel").GetComponent<UICommonParts>();
-            if (flag == false)
-            {
-                if (null != CommonPartsCommon.Instance)
-                {
-                    ComPartTypeList = CommonPartsCommon.Instance.GetCommonPartsTypes();  //初始化
-                }
-                else
-                {
-                    Debug.LogError("CommonPartsCommon没有初始化！");
-                }
-                Init();
-                InitItems();
-                flag = true;
-            }
+
         }
 
-       /// <summary>
-       /// 初始化界面各个按钮
-       /// </summary>
-        private void Init()
+        /// <summary>
+        /// 初始化界面各个按钮
+        /// </summary>
+        public void Init()
         {
+            if (null != CommonPartsCommon.Instance)
+            {
+                ComPartTypeList = CommonPartsCommon.Instance.GetCommonPartsTypes();  //初始化
+            }
+            else
+            {
+                Debug.LogError("CommonPartsCommon没有初始化！");
+            }
+
+            _UICommonParts = GameObject.Find("Canvas/BG/CommonPartsPanel/PartPanel").GetComponent<UICommonParts>();
+
             m_BtnNext = GameObject.Find("Canvas/BG/CommonPartsPanel/NextIcon").GetComponent<Button>();
             m_BtnPrevious = GameObject.Find("Canvas/BG/CommonPartsPanel/PreviousIcon").GetComponent<Button>();
+
             PartClass1 = GameObject.Find("Canvas/BG/CommonPartsPanel/ClassPanel/PartClass 1").GetComponent<Toggle>();
             PartClass2 = GameObject.Find("Canvas/BG/CommonPartsPanel/ClassPanel/PartClass 2").GetComponent<Toggle>();
             PartClass3 = GameObject.Find("Canvas/BG/CommonPartsPanel/ClassPanel/PartClass 3").GetComponent<Toggle>();
@@ -75,6 +71,8 @@ namespace WyzLink.UI
             PartClass1.onValueChanged.AddListener((Ison) => { PartClass1RefreshItems(Ison); });
             PartClass2.onValueChanged.AddListener((Ison) => { PartClass2RefreshItems(Ison); });
             PartClass3.onValueChanged.AddListener((Ison) => { PartClass3RefreshItems(Ison); });
+
+            InitItems();
         }
 
         /// <summary>

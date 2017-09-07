@@ -60,26 +60,12 @@ namespace WyzLink.UI
 
         private List<string> NodeTypesList = new List<string>();            //所有零件类型的集合
 
-        private bool InitFlag;
-        private bool flag;
+        private UIPartsPage _UIPartsPage;
 
         // Use this for initialization
-        void Awake()
+        void Start()
         {
-            if (flag == false)
-            {
-                if (null != NodesCommon.Instance)
-                {
-                    NodeTypesList = NodesCommon.Instance.GetNodesTypes();  //初始化
-                }
-                else
-                {
-                    Debug.LogError("NodesCommon没有初始化！");
-                }
-                Init();
-                InitItems();
-                flag = true;
-            }
+
         }
 
         void Update()
@@ -87,10 +73,22 @@ namespace WyzLink.UI
 
         }
 
-        private void Init()
+        public void Init()
         {
+            if (null != NodesCommon.Instance)
+            {
+                NodeTypesList = NodesCommon.Instance.GetNodesTypes();  //初始化
+            }
+            else
+            {
+                Debug.LogError("NodesCommon没有初始化！");
+            }
+
+            _UIPartsPage = GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel").GetComponent<UIPartsPage>();
+
             m_BtnNext = GameObject.Find("Canvas/BG/PartsPanel/NextIcon_Btn").GetComponent<Button>();
             m_BtnPrevious = GameObject.Find("Canvas/BG/PartsPanel/PreviousIcon_Btn").GetComponent<Button>();
+
             PartClass1 = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel/PartClass 1").GetComponent<Toggle>();
             PartClass2 = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel/PartClass 2").GetComponent<Toggle>();
             PartClass3 = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel/PartClass 3").GetComponent<Toggle>();
@@ -102,12 +100,14 @@ namespace WyzLink.UI
             PartClass1.onValueChanged.AddListener((Ison) => { PartClass1RefreshItems(Ison); });
             PartClass2.onValueChanged.AddListener((Ison) => { PartClass2RefreshItems(Ison); });
             PartClass3.onValueChanged.AddListener((Ison) => { PartClass3RefreshItems(Ison); });
+
+            InitItems();
         }
 
         /// <summary>
         /// 初始化元素
         /// </summary>
-        public void InitItems()
+        private void InitItems()
         {
             m_ItemsList = new List<string>();
             //初始化零件数据
@@ -279,7 +279,7 @@ namespace WyzLink.UI
             if (m_Type != PartClass1.transform.Find("Label").GetComponent<Text>().text)     //确保只刷新一次
             {
                 m_Type = PartClass1.transform.Find("Label").GetComponent<Text>().text;
-                GlobalVar._UIPartsPage.RefreshItems();
+                _UIPartsPage.RefreshItems();
             }
         }
 
@@ -292,7 +292,7 @@ namespace WyzLink.UI
             if (true == Ison)
             {
                 m_Type = PartClass1.transform.Find("Label").GetComponent<Text>().text;
-                GlobalVar._UIPartsPage.RefreshItems();
+                _UIPartsPage.RefreshItems();
             }
         }
 
@@ -301,7 +301,7 @@ namespace WyzLink.UI
             if (true == Ison)
             {
                 m_Type = PartClass2.transform.Find("Label").GetComponent<Text>().text;
-                GlobalVar._UIPartsPage.RefreshItems();
+                _UIPartsPage.RefreshItems();
             }
         }
 
@@ -310,7 +310,7 @@ namespace WyzLink.UI
             if (true == Ison)
             {
                 m_Type = PartClass3.transform.Find("Label").GetComponent<Text>().text;
-                GlobalVar._UIPartsPage.RefreshItems();
+                _UIPartsPage.RefreshItems();
             }
         }
 

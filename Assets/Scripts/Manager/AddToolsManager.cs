@@ -20,6 +20,14 @@ namespace WyzLink.Manager
         // Use this for initialization
         void Start()
         {
+
+        }
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
             _RuntimeObject = GameObject.Find("RuntimeObject");
             Tools = Resources.LoadAll<GameObject>("ToolsPrefabs");
 

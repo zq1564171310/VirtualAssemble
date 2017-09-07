@@ -19,16 +19,21 @@ namespace WyzLink.Manager
 
         private AssembleController RootPartGameObject;          //零件跟节点
 
-        private float UIScaling = 5;               //UI布局造成的倍数问题
-
         private Vector3 MainWorkSpacePos;           //主工作区位置
 
         private Vector3 SecondWorkSpacePos;        //第二工作区位置
 
         // Use this for initialization
-        void Awake()
+        void Start()
         {
-            GameObject go = GameObject.Find("Canvas");
+
+        }
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
             _RuntimeObject = GameObject.Find("RuntimeObject");
             MainWorkSpacePos = GameObject.Find("Canvas/Floor/MainWorkSpace").transform.position;
             SecondWorkSpacePos = GameObject.Find("Canvas/Floor/MainWorkSpace2").transform.position;
