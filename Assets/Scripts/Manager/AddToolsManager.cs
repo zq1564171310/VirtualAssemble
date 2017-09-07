@@ -15,7 +15,7 @@ namespace WyzLink.Manager
     public class AddToolsManager : MonoBehaviour
     {
         private GameObject[] Tools;                                  //Resoures目录下的工具预制体
-        private GameObject _RuntimeObject;                           //获取物体RuntimeObject
+        private GameObject _RuntimeObjectTools;                           //获取物体RuntimeObject
 
         // Use this for initialization
         void Start()
@@ -28,7 +28,7 @@ namespace WyzLink.Manager
         /// </summary>
         public void Init()
         {
-            _RuntimeObject = GameObject.Find("RuntimeObject");
+            _RuntimeObjectTools = GameObject.Find("RuntimeObject/Tools");
             Tools = Resources.LoadAll<GameObject>("ToolsPrefabs");
 
             if (null != Tools && Tools.Length > 0)
@@ -36,12 +36,12 @@ namespace WyzLink.Manager
                 if (ToolsController.Instance == null)
                 {
                     var _ToolsController = new GameObject("ToolsController", typeof(ToolsController));
-                    _ToolsController.transform.parent = _RuntimeObject.transform;
+                    _ToolsController.transform.parent = _RuntimeObjectTools.transform;
                 }
                 if (ToolsCommon.Instance == null)
                 {
                     var _ToolsCommon = new GameObject("ToolsCommon", typeof(ToolsCommon));
-                    _ToolsCommon.transform.parent = _RuntimeObject.transform;
+                    _ToolsCommon.transform.parent = _RuntimeObjectTools.transform;
                 }
             }
 
@@ -53,7 +53,7 @@ namespace WyzLink.Manager
                 {
                     go = Instantiate(Tools[i]);
                     go.name = Tools[i].name;
-                    go.transform.parent = _RuntimeObject.transform;
+                    go.transform.parent = _RuntimeObjectTools.transform;
                     go.AddComponent<Tool>();
                     tool = go.GetComponent<Tool>();
                     tool.ToolName = go.name;

@@ -7,12 +7,6 @@ using WyzLink.UI;
 /// </summary>
 public class GlobalVar : MonoBehaviour
 {
-    //UI
-   
-    public static Slider _Slider = GameObject.Find("Canvas/Floor/MainWorkSpace/SliderPlane/Slider").GetComponent<Slider>();
-    public static Text _SliderText = GameObject.Find("Canvas/Floor/MainWorkSpace/SliderPlane/SliderText").GetComponent<Text>();
-    public static Text _Tips = GameObject.Find("Canvas/BG/PartsPanel/Tips").GetComponent<Text>();         //提示框
-
     //材质
     public static Material NextInstallMate = Resources.Load<Material>("NextInstallMate");
     public static Material HighLightMate = Resources.Load<Material>("HighLightMate");

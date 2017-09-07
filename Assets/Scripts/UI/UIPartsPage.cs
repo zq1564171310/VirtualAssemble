@@ -408,10 +408,7 @@ namespace WyzLink.UI
                                     }
                                     gameobj.gameObject.AddComponent<HandDraggable>();
 
-                                    #region Test
-                                    Vector3 var3 = gameobj.transform.position;
-                                    StartCoroutine(OnMovesIEnumerator(gameobj, var3));
-                                    #endregion
+                                    StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));
 
                                     #region Test 此处根据UI布局写活，后续需要根据UI调整
                                     Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
@@ -468,7 +465,6 @@ namespace WyzLink.UI
                     }
                 }
             }
-            //GlobalVar._Tips.text = "没有轮到该零件安装！";
         }
 
         IEnumerator OnMovesIEnumerator(GameObject _GameObject, Vector3 statPos)
