@@ -2135,7 +2135,7 @@ GameObject:
   - component: {fileID: 125818674}
   - component: {fileID: 125818673}
   m_Layer: 5
-  m_Name: Restart
+  m_Name: RestartBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8805,7 +8805,7 @@ GameObject:
   - component: {fileID: 686811212}
   - component: {fileID: 686811216}
   m_Layer: 5
-  m_Name: ComeCanvas
+  m_Name: InitCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -58,18 +58,21 @@ namespace WyzLink.Manager
         //点击演示模式，进入演示模式
         private void DemonstrationComein()
         {
+            SetAssembleModel(AssembleModel.DemonstrationModel);
             SceneManager.LoadScene(1);
         }
 
         //点击学习模式，进入学习模式界面
         private void StudyComein()
         {
+            SetAssembleModel(AssembleModel.StudyModel);
             SceneManager.LoadScene(2);
         }
 
         //点击考试模式，进入考试模式界面
         private void ExamComein()
         {
+            SetAssembleModel(AssembleModel.ExamModel);
             SceneManager.LoadScene(3);
         }
     }

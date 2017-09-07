@@ -8,11 +8,20 @@ namespace WyzLink.Parts
 {
     public enum AssembleModel
     {
-        DemonstrationModel,                      //演示模式
+        /// <summary>
+        /// 演示模式
+        /// </summary>
+        DemonstrationModel,
 
-        StudyModel,                              //学习模式
+        /// <summary>
+        /// 学习模式
+        /// </summary>
+        StudyModel,
 
-        ExamModel,                               //考试模式
+        /// <summary>
+        /// 考试模式
+        /// </summary>
+        ExamModel,
     }
 
 }
