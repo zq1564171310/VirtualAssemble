@@ -44,6 +44,11 @@ namespace WyzLink.Common
             }
         }
 
+
+        /// <summary>
+        /// 获取工具类型集合
+        /// </summary>
+        /// <returns></returns>
         public List<string> GetToolTypes()
         {
             if (null != ToolsController.Instance)

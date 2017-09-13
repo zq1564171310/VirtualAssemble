@@ -17,8 +17,6 @@ namespace WyzLink.UI
 
     public class OnReceivedTools : MonoBehaviour
     {
-        private  UIToolsClassPanel _UIToolsClassPanel = new UIToolsClassPanel();
-
         private List<Tool> ToolsList = new List<Tool>();//所有工具集合
         private List<string> ToolsType = new List<string>();//所有工具类型集合
         private List<Button> BtnList = new List<Button>();//工具按钮集合
@@ -35,20 +33,39 @@ namespace WyzLink.UI
         private int Page_Count = 12;//每页最多可放工具个数
 
         private int InitFlag = 0;
-        private bool Init;
 
-        // Use this for initialization
-        void Awake()
-        {
-            _UIToolsClassPanel = GameObject.Find("Canvas/BG/ToolsPanel/ToolsClassPanel").GetComponent<UIToolsClassPanel>();
-            //RefreshItems();
-        }
 
         void Start()
         {
-            RefreshItems();
+
         }
 
+        public void Init()
+        {
+            if (null != ToolsCommon.Instance)
+            {
+                ToolsList = ToolsCommon.Instance.GetToolList();
+                ToolsType = ToolsCommon.Instance.GetToolTypes();
+            }
+            else
+            {
+                Debug.LogError("ToolsCommon没有初始化！");
+            }
+
+            NextPage = GameObject.Find("Canvas/BG/ToolsPanel/NextPage").GetComponent<Button>();
+            PreviousPage = GameObject.Find("Canvas/BG/ToolsPanel/PreviousPage").GetComponent<Button>();
+            m_PanelText = GameObject.Find("Canvas/BG/ToolsPanel/ViewPage_Text").GetComponent<Text>();
+
+            //为上一页和下一页添加事件
+            NextPage.onClick.AddListener(() => { Next(); });
+            PreviousPage.onClick.AddListener(() => { Previous(); });
+
+            foreach (Transform tran in transform)
+            {
+                BtnList.Add(tran.gameObject.GetComponent<Button>());
+                //EventTriggerListener.Get(tran.gameObject).onClick = BtnClick;
+            }
+        }
 
         void Update()
         {
@@ -111,7 +128,7 @@ namespace WyzLink.UI
             //索引处理
             if (index < 0 || index > m_ItemsCount)
                 return;
-            
+
             //先将工具全部隐藏
             for (int i = 0; i < ToolsList.Count; i++)
             {
@@ -150,7 +167,7 @@ namespace WyzLink.UI
             //第1页时显然剩下的为Page_Count所以不用处理
             else if (m_PageCount > 1)
             {
-              //当前页是最后一页的时候
+                //当前页是最后一页的时候
                 if (index == m_PageCount)
                 {
                     int canDisplay = 0;
@@ -194,9 +211,9 @@ namespace WyzLink.UI
         private void BindGridItem(Transform trans, Tool gridItem)
         {
             trans.Find("Text").GetComponent<Text>().text = gridItem.ToolName;
-            
+
             gridItem.gameObject.transform.position = trans.GetChild(1).transform.position;
-           
+
         }
 
         /// <summary>
@@ -205,34 +222,6 @@ namespace WyzLink.UI
         /// <param name="type"></param>
         public void RefreshItems()
         {
-            if (false == Init)                   //初始化
-            {
-                if (null != ToolsCommon.Instance) 
-                {
-                    ToolsList = ToolsCommon.Instance.GetToolList();
-                    ToolsType = ToolsCommon.Instance.GetToolTypes();
-                }
-                else
-                {
-                    Debug.LogError("ToolsCommon没有初始化！");
-                }
-
-                NextPage = GameObject.Find("Canvas/BG/ToolsPanel/NextPage").GetComponent<Button>();
-                PreviousPage = GameObject.Find("Canvas/BG/ToolsPanel/PreviousPage").GetComponent<Button>();
-                m_PanelText = GameObject.Find("Canvas/BG/ToolsPanel/ViewPage_Text").GetComponent<Text>();
-
-                //为上一页和下一页添加事件
-                NextPage.onClick.AddListener(() => { Next(); });
-                PreviousPage.onClick.AddListener(() => { Previous(); });
-
-                foreach (Transform tran in transform)
-                {
-                    BtnList.Add(tran.gameObject.GetComponent<Button>());
-                    //EventTriggerListener.Get(tran.gameObject).onClick = BtnClick;
-                }
-                Init = true;
-            }
-
             if (null != GameObject.Find("Canvas/BG/ToolsPanel/ToolsClassPanel"))
             {
                 m_Type = GameObject.Find("Canvas/BG/ToolsPanel/ToolsClassPanel").GetComponent<UIToolsClassPanel>().GetToolsType();
@@ -254,7 +243,7 @@ namespace WyzLink.UI
                 {
                     m_ItemsList.Add(ToolsList[i]);
                 }
-                   
+
             }
             //计算元素总个数
             m_ItemsCount = m_ItemsList.Count;

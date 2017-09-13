@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PartAssembleScene.unity
     guid: 6e41f22f5ddf70c41ac72bad6e057f41
-  - enabled: 0
-    path: Assets/Scenes/Test.unity
-    guid: b3776468749c09343b67d39092b9f93e
+  - enabled: 1
+    path: Assets/Scenes/StudyModel.unity
+    guid: e0a322013f05fec438136d38e2bb2e40
+  - enabled: 1
+    path: Assets/Scenes/ExamModel.unity
+    guid: 3d2c60a54c2f8c44baee281d939cd55f

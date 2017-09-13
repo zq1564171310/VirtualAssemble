@@ -13,12 +13,21 @@ namespace WyzLink.Manager
 
     public class AddCommonPartsManager : MonoBehaviour
     {
-
-        private GameObject[] CommonParts;    //Resoures目录下的工具预制体
+        private GameObject[] CommonParts;                            //Resoures目录下的工具预制体
+        private GameObject _RuntimeObjectCommonParts;                           //获取物体RuntimeObject
 
         // Use this for initialization
         void Start()
         {
+
+        }
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+            _RuntimeObjectCommonParts = GameObject.Find("RuntimeObject/CommonParts");
             CommonParts = Resources.LoadAll<GameObject>("CommonPartsPrefabs");
 
             if (null != CommonParts && CommonParts.Length > 0)
@@ -26,12 +35,12 @@ namespace WyzLink.Manager
                 if (CommonPartsController.Instance == null)
                 {
                     var _CommonPartsController = new GameObject("CommonPartsController", typeof(CommonPartsController));
-                    _CommonPartsController.transform.parent = GlobalVar._RuntimeObject.transform;
+                    _CommonPartsController.transform.parent = _RuntimeObjectCommonParts.transform;
                 }
                 if (CommonPartsCommon.Instance == null)
                 {
                     var _CommonPartsCommon = new GameObject("CommonPartsCommon", typeof(CommonPartsCommon));
-                    _CommonPartsCommon.transform.parent = GlobalVar._RuntimeObject.transform;
+                    _CommonPartsCommon.transform.parent = _RuntimeObjectCommonParts.transform;
                 }
             }
 
@@ -43,7 +52,7 @@ namespace WyzLink.Manager
                 {
                     go = Instantiate(CommonParts[i]);
                     go.name = CommonParts[i].name;
-                    go.transform.parent = GlobalVar._RuntimeObject.transform;
+                    go.transform.parent = _RuntimeObjectCommonParts.transform;
                     go.AddComponent<CommonParts>();
                     commonPart = go.GetComponent<CommonParts>();
                     commonPart.CommonPartsName = go.name;

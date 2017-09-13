@@ -14,6 +14,7 @@ namespace WyzLink.Manager
     using WyzLink.Assemble;
     using WyzLink.Control;
     using WyzLink.Parts;
+    using WyzLink.UI;
 
 #if NETFX_CORE  //UWP下编译  
 using Windows.Storage;
@@ -27,25 +28,37 @@ using Windows.Storage;
         private float WorkSpaceScalingNum = 1;                          //工作区缩放倍数
         private float WorkSpaceRotaAngle = 90;                               //工作区旋转角度
 
-        protected override void Awake()
-        {
-            base.Awake();
-            Find();
-        }
+        private Slider _Slider;
+        private Text _SliderText;
+        private Text _Tips;         //提示框
+
+        private UIPartsPanelClass _UIPartsPanelClass;
+        private UIPartsPage _UIPartsPage;
 
         // Use this for initialization
         void Start()
         {
-            Init();
+
         }
 
         public void Init()
         {
+            GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Left").GetComponent<Button>().onClick.AddListener(RotaLeftBtnClick);
+            GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Right").GetComponent<Button>().onClick.AddListener(RotaRightBtnClick);
+            GameObject.Find("Canvas/BG/PartsPanel/CaptureScreens_Btn").GetComponent<Button>().onClick.AddListener(CaptureScreensBtnClick);
+
+            _UIPartsPanelClass = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel").GetComponent<UIPartsPanelClass>();
+            _UIPartsPage = GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel").GetComponent<UIPartsPage>();
+
+            _Slider = GameObject.Find("Canvas/Floor/MainWorkSpace/SliderPlane/Slider").GetComponent<Slider>();
+            _SliderText = GameObject.Find("Canvas/Floor/MainWorkSpace/SliderPlane/SliderText").GetComponent<Text>();
+            _Tips = GameObject.Find("Canvas/BG/PartsPanel/Tips").GetComponent<Text>();         //提示框
+
             #region Test
             InstalledNode = NodesController.Instance.GetNodeList()[0];
 
             NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNode).Cast<Node>();
-            if (null != NextInstallNode && EntryMode.Mode != "Test")
+            if (null != NextInstallNode && EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
             {
                 string err = "";
                 int index = 1;
@@ -53,28 +66,20 @@ using Windows.Storage;
                 {
                     node.SetInstallationState(InstallationState.NextInstalling);
                     #region Test 跳转页面
-                    GlobalVar._UIPartsPage.SetIndex(node);
-                    index = GlobalVar._UIPartsPage.GetIndex(node);
+                    _UIPartsPage.SetIndex(node);
+                    index = _UIPartsPage.GetIndex(node);
                     #endregion
                     err += node.name + "(第" + index + "页）" + "/";
                 }
-                GlobalVar._Tips.text = "现在应该安装:" + err;
-                if (EntryMode.Mode == "Test")
+                _Tips.text = "现在应该安装:" + err;
+                if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
                 {
-                    GlobalVar._Tips.gameObject.SetActive(false);
+                    _Tips.gameObject.SetActive(false);
                 }
             }
             #endregion
             //获取物体的绝对路径，新的UI中都会改掉
-            GlobalVar._Slider.onValueChanged.AddListener(SlideTheSlider);
-            GlobalVar._UIPartsPage.RefreshItems();
-        }
-
-        void Find()
-        {
-            GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Left").GetComponent<Button>().onClick.AddListener(RotaLeftBtnClick);
-            GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Right").GetComponent<Button>().onClick.AddListener(RotaRightBtnClick);
-            GameObject.Find("Canvas/BG/PartsPanel/CaptureScreens_Btn").GetComponent<Button>().onClick.AddListener(CaptureScreensBtnClick);
+            _Slider.onValueChanged.AddListener(SlideTheSlider);
         }
 
         // Update is called once per frame
@@ -118,15 +123,15 @@ using Windows.Storage;
                         nodes.gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.NextInstallMate;
                     }
                     #region Test 跳转页面
-                    GlobalVar._UIPartsPage.SetIndex(nodes);
-                    index = GlobalVar._UIPartsPage.GetIndex(nodes);
+                    _UIPartsPage.SetIndex(nodes);
+                    index = _UIPartsPage.GetIndex(nodes);
                     #endregion
                     err += nodes.name + "(第" + index + "页）" + "/";
                 }
-                GlobalVar._Tips.text = "现在应该安装:" + err;
-                if (EntryMode.Mode == "Test")
+                _Tips.text = "现在应该安装:" + err;
+                if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
                 {
-                    GlobalVar._Tips.gameObject.SetActive(false);
+                    _Tips.gameObject.SetActive(false);
                 }
             }
         }
@@ -148,7 +153,7 @@ using Windows.Storage;
             }
             WorkSpaceScalingNum = (float)(Num / 100.00);
             WorkSpaceScal(WorkSpaceScalingNum);
-            GlobalVar._SliderText.text = "工作区显示比例" + Num + "%";
+            _SliderText.text = "工作区显示比例" + Num + "%";
         }
 
         public void RotaLeftBtnClick()
@@ -215,8 +220,8 @@ using Windows.Storage;
                         NodesController.Instance.GetNodeList()[i].gameObject.transform.Rotate(vec, WorkSpaceRotaAngle, Space.World);
                     }
                 }
-
             }
         }
+
     }
 }

@@ -12,7 +12,6 @@ namespace WyzLink.UI
     using UnityEngine;
     using UnityEngine.UI;
     using WyzLink.Common;
-    using WyzLink.Control;
     using WyzLink.Manager;
     using WyzLink.Parts;
     using WyzLink.Utils.Overriding;
@@ -60,7 +59,6 @@ namespace WyzLink.UI
         private int Page_Count = 12;
 
         private int InitFlag = 0;
-        private bool Init;
 
         /// <summary>
         /// 零件类型
@@ -71,13 +69,11 @@ namespace WyzLink.UI
 
         private List<Node> NodesList = new List<Node>();            //所有零件类型的集合
 
-
         // Use this for initialization
-        void Awake()
+        void Start()
         {
-            RefreshItems();
-        }
 
+        }
 
         void Update()
         {
@@ -85,6 +81,32 @@ namespace WyzLink.UI
             {
                 RefreshItems();
                 InitFlag++;
+            }
+        }
+
+        public void Init()
+        {
+            if (null != NodesCommon.Instance)
+            {
+                NodesList = NodesCommon.Instance.GetNodesList();
+            }
+            else
+            {
+                Debug.LogError("NodesCommon没有初始化！");
+            }
+
+            NextPage = GameObject.Find("Canvas/BG/PartsPanel/NextPage").GetComponent<Button>();
+            PreviousPage = GameObject.Find("Canvas/BG/PartsPanel/PreviousPage").GetComponent<Button>();
+            m_PanelText = GameObject.Find("Canvas/BG/PartsPanel/ViewPage_Text").GetComponent<Text>();
+
+            //为上一页和下一页添加事件
+            NextPage.onClick.AddListener(() => { Next(); });
+            PreviousPage.onClick.AddListener(() => { Previous(); });
+
+            foreach (Transform tran in transform)
+            {
+                BtnList.Add(tran.gameObject.GetComponent<Button>());
+                EventTriggerListener.Get(tran.gameObject).onClick = BtnClick;
             }
         }
 
@@ -262,33 +284,6 @@ namespace WyzLink.UI
         /// <param name="type"></param>
         public void RefreshItems()
         {
-            if (false == Init)                   //初始化
-            {
-                if (null != NodesCommon.Instance)
-                {
-                    NodesList = NodesCommon.Instance.GetNodesList();
-                }
-                else
-                {
-                    Debug.LogError("NodesCommon没有初始化！");
-                }
-
-                NextPage = GameObject.Find("Canvas/BG/PartsPanel/NextPage").GetComponent<Button>();
-                PreviousPage = GameObject.Find("Canvas/BG/PartsPanel/PreviousPage").GetComponent<Button>();
-                m_PanelText = GameObject.Find("Canvas/BG/PartsPanel/ViewPage_Text").GetComponent<Text>();
-
-                //为上一页和下一页添加事件
-                NextPage.onClick.AddListener(() => { Next(); });
-                PreviousPage.onClick.AddListener(() => { Previous(); });
-
-                foreach (Transform tran in transform)
-                {
-                    BtnList.Add(tran.gameObject.GetComponent<Button>());
-                    EventTriggerListener.Get(tran.gameObject).onClick = BtnClick;
-                }
-                Init = true;
-            }
-
             if (null != GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel"))
             {
                 m_Type = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel").GetComponent<UIPartsPanelClass>().GetPartsType();
@@ -335,7 +330,7 @@ namespace WyzLink.UI
             GameObject Txt;                             //克隆一份文本
             Transform[] trans;
 
-            if (EntryMode.Mode != "Test")
+            if (EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
             {
                 for (int i = 0; i < BtnList.Count; i++)
                 {
@@ -413,10 +408,7 @@ namespace WyzLink.UI
                                     }
                                     gameobj.gameObject.AddComponent<HandDraggable>();
 
-                                    #region Test
-                                    Vector3 var3 = gameobj.transform.position;
-                                    StartCoroutine(OnMovesIEnumerator(gameobj, var3));
-                                    #endregion
+                                    StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));
 
                                     #region Test 此处根据UI布局写活，后续需要根据UI调整
                                     Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
@@ -473,7 +465,6 @@ namespace WyzLink.UI
                     }
                 }
             }
-            //GlobalVar._Tips.text = "没有轮到该零件安装！";
         }
 
         IEnumerator OnMovesIEnumerator(GameObject _GameObject, Vector3 statPos)

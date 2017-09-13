@@ -13,20 +13,28 @@ namespace WyzLink.Manager
 
     public class AddPartsManager : MonoBehaviour
     {
+        private GameObject _RuntimeObjectNodes;                           //获取物体RuntimeObject
+
         private Transform[] PartsTransform;                    //零件Transform集合
 
         private AssembleController RootPartGameObject;          //零件跟节点
-
-        private float UIScaling = 5;               //UI布局造成的倍数问题
 
         private Vector3 MainWorkSpacePos;           //主工作区位置
 
         private Vector3 SecondWorkSpacePos;        //第二工作区位置
 
         // Use this for initialization
-        void Awake()
+        void Start()
         {
-            GameObject go = GameObject.Find("Canvas");
+
+        }
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+            _RuntimeObjectNodes = GameObject.Find("RuntimeObject/Nodes");
             MainWorkSpacePos = GameObject.Find("Canvas/Floor/MainWorkSpace").transform.position;
             SecondWorkSpacePos = GameObject.Find("Canvas/Floor/MainWorkSpace2").transform.position;
 
@@ -37,12 +45,12 @@ namespace WyzLink.Manager
                 if (NodesController.Instance == null)
                 {
                     var _NodesController = new GameObject("NodesController", typeof(NodesController));
-                    _NodesController.transform.parent = GlobalVar._RuntimeObject.transform;
+                    _NodesController.transform.parent = _RuntimeObjectNodes.transform;
                 }
                 if (NodesCommon.Instance == null)
                 {
                     var _NodesCommon = new GameObject("NodesCommon", typeof(NodesCommon));
-                    _NodesCommon.transform.parent = GlobalVar._RuntimeObject.transform;
+                    _NodesCommon.transform.parent = _RuntimeObjectNodes.transform;
                 }
             }
 
@@ -124,7 +132,7 @@ namespace WyzLink.Manager
                 if (AssembleManager.Instance == null)
                 {
                     var _AssembleManager = new GameObject("AssembleManager", typeof(AssembleManager));
-                    _AssembleManager.transform.parent = GlobalVar._RuntimeObject.transform;
+                    _AssembleManager.transform.parent = _RuntimeObjectNodes.transform;
                     _AssembleManager.GetComponent<AssembleManager>().SetDependencyGraph(new DependencyGraph(RootPartGameObject.GetComponent<AssembleController>(), RootPartGameObject.GetComponent<AssembleController>().assembleFlow.text));
                 }
             }
