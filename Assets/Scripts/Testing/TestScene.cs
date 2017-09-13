@@ -15,6 +15,7 @@ namespace WyzLink.Assemble
     public class TestScene : MonoBehaviour
     {
         public Transform[] targets;
+        public float delay = 0.4f;
 
         void Start()
         {
@@ -79,7 +80,7 @@ namespace WyzLink.Assemble
                         yield return node.PlayAnimations();
                     }
 
-                    yield return new WaitForSeconds(1.4f);
+                    yield return new WaitForSeconds(delay);
 
                     yield return StartCoroutine(FlowRenderOneFlow(assembleController, assembleController.GetDependencyGraph().GetNextSteps(node).Cast<Node>()));
                 }
