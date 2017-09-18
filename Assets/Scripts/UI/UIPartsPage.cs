@@ -60,6 +60,8 @@ namespace WyzLink.UI
 
         private int InitFlag = 0;
 
+        private string FirstNode = "底盘平台";
+
         /// <summary>
         /// 零件类型
         /// </summary>
@@ -200,11 +202,12 @@ namespace WyzLink.UI
 
             for (int i = 0; i < NodesList.Count; i++)
             {
-                //if (InstallationState.NotInstalled == NodesList[i].GetInstallationState() || InstallationState.NextInstalling == NodesList[i].GetInstallationState())
-                if (NodesList[i].partName != "底盘平台")
+                #region Test
+                if (FirstNode != NodesList[i].partName)
                 {
                     NodesList[i].gameObject.SetActive(false);
                 }
+                #endregion
             }
 
             //按照元素个数可以分为1页和1页以上两种情况
@@ -271,10 +274,15 @@ namespace WyzLink.UI
         /// <param name="gridItem"></param>
         private void BindGridItem(Transform trans, Node gridItem)
         {
-            trans.Find("Text").GetComponent<Text>().text = gridItem.partName;
-            if (InstallationState.NextInstalling == gridItem.gameObject.GetComponent<Node>().GetInstallationState() || InstallationState.NotInstalled == gridItem.gameObject.GetComponent<Node>().GetInstallationState())
+            gridItem.gameObject.transform.position = trans.GetChild(1).transform.position;
+
+            if (InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gridItem.nodeId) || InstallationState.Installed == NodesCommon.Instance.GetInstallationState(gridItem.nodeId))
             {
-                gridItem.gameObject.transform.position = trans.GetChild(1).transform.position;
+                DisAbleButton(trans.gameObject);
+            }
+            else
+            {
+                AbleButton(trans.gameObject);
             }
         }
 
@@ -299,7 +307,7 @@ namespace WyzLink.UI
             }
             for (int i = 0; i < NodesList.Count; i++)
             {
-                if ((InstallationState.NextInstalling == NodesList[i].GetInstallationState() || InstallationState.NotInstalled == NodesList[i].GetInstallationState()) && m_Type == NodesList[i].Type)
+                if (m_Type == NodesList[i].Type && FirstNode != NodesList[i].partName)
                 {
                     m_ItemsList.Add(NodesList[i]);
                 }
@@ -337,15 +345,21 @@ namespace WyzLink.UI
                     if (BtnList[i].name == go.name)
                     {
                         node = m_ItemsList[(m_PageIndex - 1) * Page_Count + i];
+
+                        if (InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(node.nodeId) || InstallationState.Installed == NodesCommon.Instance.GetInstallationState(node.nodeId))
+                        {
+                            continue;
+                        }
+
                         if (null != NextInstallNode)
                         {
                             foreach (Node nd in NextInstallNode)
                             {
-                                if (nd.nodeId == node.nodeId && InstallationState.NextInstalling == node.GetInstallationState())  //此处点击多下会重复生成，bug后续修改
+                                if (nd.nodeId == node.nodeId && InstallationState.NextInstalling == node.GetInstallationState())  
                                 {
                                     gameobj = Instantiate(node.gameObject, node.gameObject.transform, true);
                                     gameobj.name = node.name;
-                                    gameobj.transform.parent = GameObject.Find("RuntimeObject").transform;
+                                    gameobj.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                                     if (null != gameobj.GetComponent<MeshFilter>())
                                     {
                                         gameobj.transform.localScale = node.LocalSize;
@@ -354,7 +368,7 @@ namespace WyzLink.UI
                                     gameOb = Instantiate(node.gameObject, node.gameObject.transform, true);
                                     gameOb.name = node.name + node.nodeId;
                                     gameOb.transform.localScale = node.LocalSize;
-                                    gameOb.transform.parent = GameObject.Find("RuntimeObject").transform;
+                                    gameOb.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                                     gameOb.transform.position = node.EndPos;
                                     if (null != gameOb.GetComponent<MeshRenderer>())
                                     {
@@ -379,7 +393,7 @@ namespace WyzLink.UI
                                     gameObSec = Instantiate(node.gameObject, node.gameObject.transform, true);
                                     gameObSec.name = node.name + "Sec" + node.nodeId;
                                     gameObSec.transform.localScale = node.LocalSize;
-                                    gameObSec.transform.parent = GameObject.Find("RuntimeObject").transform;
+                                    gameObSec.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                                     gameObSec.transform.position = node.WorSpaceRelativePos;
                                     if (null != gameObSec.GetComponent<MeshRenderer>())
                                     {
@@ -416,6 +430,16 @@ namespace WyzLink.UI
                                     Txt.transform.position = node.gameObject.transform.position;
                                     Txt.GetComponent<Text>().text = node.gameObject.name;
                                     #endregion
+
+                                    if (null != gameobj.GetComponent<Node>())
+                                    {
+                                        if (null != gameobj.GetComponent<HandDraggable>())
+                                        {
+                                            NodesCommon.Instance.SetInstallationState(node.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
+                                            DisAbleButton(go);
+                                        }
+                                    }
+
                                     break;
                                 }
                             }
@@ -437,7 +461,7 @@ namespace WyzLink.UI
 
                         gameobj = Instantiate(node.gameObject, node.gameObject.transform, true);
                         gameobj.name = node.name;
-                        gameobj.transform.parent = GameObject.Find("RuntimeObject").transform;
+                        gameobj.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                         if (null != gameobj.GetComponent<MeshFilter>())
                         {
                             gameobj.transform.localScale = node.LocalSize;
@@ -461,6 +485,15 @@ namespace WyzLink.UI
                         Txt.transform.position = node.gameObject.transform.position;
                         Txt.GetComponent<Text>().text = node.gameObject.name;
                         #endregion
+
+                        if (null != gameobj.GetComponent<Node>())
+                        {
+                            if (null != gameobj.GetComponent<HandDraggable>())
+                            {
+                                NodesCommon.Instance.SetInstallationState(node.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
+                                DisAbleButton(go);
+                            }
+                        }
                         break;
                     }
                 }
@@ -470,11 +503,12 @@ namespace WyzLink.UI
         IEnumerator OnMovesIEnumerator(GameObject _GameObject, Vector3 statPos)
         {
             float f = 0;
+            Vector3 var = new Vector3(1.7f, -0.4f, 4.5f);
             while (true)
             {
                 if (f <= 1)
                 {
-                    _GameObject.transform.position = Vector3.Lerp(statPos, new Vector3(1.7f, -0.4f, 4.5f), f);
+                    _GameObject.transform.position = Vector3.Lerp(statPos, var, f);
                     f += Time.deltaTime;
                 }
                 else
@@ -485,5 +519,26 @@ namespace WyzLink.UI
             }
         }
 
+        /// <summary>
+        /// 让按钮看起来不能被点击，仅仅只是UI显示方面
+        /// </summary>
+        /// <param name="go"></param>
+        private void DisAbleButton(GameObject go)
+        {
+            Button but = go.GetComponent<Button>();
+            but.interactable = false;
+            go.transform.GetChild(2).gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// 让按钮看起来能被点击，仅仅只是UI显示方面
+        /// </summary>
+        /// <param name="go"></param>
+        private void AbleButton(GameObject go)
+        {
+            Button but = go.GetComponent<Button>();
+            but.interactable = true;
+            go.transform.GetChild(2).gameObject.SetActive(true);
+        }
     }
 }
