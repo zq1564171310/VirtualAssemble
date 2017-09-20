@@ -104,16 +104,16 @@ namespace WyzLink.Manager
                             node.Type = "其他";
                         }
 
-                        if (node.nodeId == 5007 || node.nodeId == 5008 || node.nodeId == 5012 || node.nodeId == 5020 || node.nodeId == 5018 || node.nodeId == 5013 || node.nodeId == 5021 || node.nodeId == 5022)
-                        {
-                            node.WorkSpaceID = 2;
-                            node.WorSpaceRelativePos = WorkSpaceManager.GetPartsInOtherWorkSpacePosition(node, MainWorkSpacePos, SecondWorkSpacePos);
-                            node.WorkSpaceID = 1;
-                        }
-                        else
-                        {
-                            node.WorkSpaceID = 1;
-                        }
+                        //if (node.nodeId == 5007 || node.nodeId == 5008 || node.nodeId == 5012 || node.nodeId == 5020 || node.nodeId == 5018 || node.nodeId == 5013 || node.nodeId == 5021 || node.nodeId == 5022)
+                        //{
+                        //    node.WorkSpaceID = 2;
+                        //    node.WorSpaceRelativePos = WorkSpaceManager.GetPartsInOtherWorkSpacePosition(node, MainWorkSpacePos, SecondWorkSpacePos);
+                        //    node.WorkSpaceID = 1;
+                        //}
+                        //else
+                        //{
+                        node.WorkSpaceID = 1;
+                        //}
                         #endregion
 
                         NodesController.Instance.AddNodeList(node);

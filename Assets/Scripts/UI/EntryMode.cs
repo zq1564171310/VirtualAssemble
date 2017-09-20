@@ -3,7 +3,7 @@
 /// <summary>
 /// UI 选择模式
 /// </summary>
-namespace WyzLink.Manager
+namespace WyzLink.UI
 {
     using UnityEngine;
     using UnityEngine.SceneManagement;

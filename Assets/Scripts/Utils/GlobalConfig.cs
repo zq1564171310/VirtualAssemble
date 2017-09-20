@@ -8,7 +8,7 @@ namespace WyzLink.Utils
 {
     using UnityEngine;
 
-    public class GlobalConfig : Singleton<GlobalConfig>
+    public class GlobalConfig : HoloToolkit.Unity.Singleton<GlobalConfig> //: Singleton<GlobalConfig>
     {
         public bool DisplayLabels = true;
 

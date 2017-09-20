@@ -54,7 +54,7 @@ namespace WyzLink.UI
         private Text m_PanelText;
 
         /// <summary>
-        /// 一页3个
+        /// 一页12个
         /// </summary>
         private int Page_Count = 12;
 
@@ -355,7 +355,7 @@ namespace WyzLink.UI
                         {
                             foreach (Node nd in NextInstallNode)
                             {
-                                if (nd.nodeId == node.nodeId && InstallationState.NextInstalling == node.GetInstallationState())  
+                                if (nd.nodeId == node.nodeId && InstallationState.NextInstalling == node.GetInstallationState())
                                 {
                                     gameobj = Instantiate(node.gameObject, node.gameObject.transform, true);
                                     gameobj.name = node.name;
@@ -459,6 +459,11 @@ namespace WyzLink.UI
                     {
                         node = m_ItemsList[(m_PageIndex - 1) * Page_Count + i];
 
+                        if (InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(node.nodeId) || InstallationState.Installed == NodesCommon.Instance.GetInstallationState(node.nodeId))
+                        {
+                            continue;
+                        }
+
                         gameobj = Instantiate(node.gameObject, node.gameObject.transform, true);
                         gameobj.name = node.name;
                         gameobj.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
@@ -503,7 +508,9 @@ namespace WyzLink.UI
         IEnumerator OnMovesIEnumerator(GameObject _GameObject, Vector3 statPos)
         {
             float f = 0;
+            #region  Test
             Vector3 var = new Vector3(1.7f, -0.4f, 4.5f);
+            #endregion
             while (true)
             {
                 if (f <= 1)
@@ -534,11 +541,38 @@ namespace WyzLink.UI
         /// 让按钮看起来能被点击，仅仅只是UI显示方面
         /// </summary>
         /// <param name="go"></param>
-        private void AbleButton(GameObject go)
+        public void AbleButton(GameObject go)
         {
             Button but = go.GetComponent<Button>();
             but.interactable = true;
             go.transform.GetChild(2).gameObject.SetActive(true);
         }
+
+        /// <summary>
+        /// 让按钮看起来能被点击，仅仅只是UI显示方面
+        /// </summary>
+        public void AbleButtonPart(Node node)
+        {
+            int index = 0;
+            for (int i = 0; i < m_ItemsList.Count; i++)
+            {
+                if (m_ItemsList[i].nodeId == node.nodeId)
+                {
+                    index = ((i + 1) % Page_Count) - 1;
+                    break;
+                }
+            }
+
+            for (int i = 0; i < BtnList.Count; i++)
+            {
+                if (i == index)
+                {
+                    BtnList[i].GetComponent<Button>().interactable = true;
+                    BtnList[i].transform.GetChild(2).gameObject.SetActive(true);
+                    break;
+                }
+            }
+        }
+
     }
 }

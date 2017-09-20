@@ -3,20 +3,21 @@
 /// <summary>
 /// UI 开始界面
 /// </summary>
-namespace WyzLink.Manager
+namespace WyzLink.UI
 {
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.UI;
     using WyzLink.Assemble;
-    using WyzLink.UI;
+    using WyzLink.Manager;
 
     public class StartUI : MonoBehaviour
     {
         private GameObject _Canvas;                          //零件架等UI的画布
         private GameObject _InitCanvas;                      //初始化UI画布
         private GameObject _TipCanvas;                       //错误提示画布
+        private GameObject _TipErrBtn;
 
         private GameObject _RootPartGameObject;              //LCD1物体
 
@@ -41,6 +42,7 @@ namespace WyzLink.Manager
             _Canvas = GameObject.Find("Canvas");
             _InitCanvas = GameObject.Find("InitCanvas");
             _TipCanvas = GameObject.Find("TipsCanvas");
+            _TipErrBtn = GameObject.Find("TipsCanvas/ErrorBack");
 
             _RootPartGameObject = FindObjectOfType<AssembleController>().gameObject;
 
@@ -111,6 +113,8 @@ namespace WyzLink.Manager
             _UICommonParts.Init();
             _UICommonClass.Init();
 
+            AssembleManager.Instance.GetTipCanvas(_TipCanvas);    //提示框被隐藏了，所以初始化的时候，把被隐藏的物体赋值，否则后续将无法调用该物体
+            AssembleManager.Instance.GetTipErrBtn(_TipErrBtn);
             AssembleManager.Instance.Init();                    //安装处理类初始化
         }
     }

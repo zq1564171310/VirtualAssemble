@@ -35,6 +35,13 @@ using Windows.Storage;
         private UIPartsPanelClass _UIPartsPanelClass;
         private UIPartsPage _UIPartsPage;
 
+        private Button RotaLeftBut;
+        private Button RotaRightBut;
+        private Button CaptureScreensBtn;
+
+        private GameObject _TipCanvas;                       //错误提示画布
+        private GameObject _TipErrBtn;
+
         // Use this for initialization
         void Start()
         {
@@ -43,9 +50,13 @@ using Windows.Storage;
 
         public void Init()
         {
-            GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Left").GetComponent<Button>().onClick.AddListener(RotaLeftBtnClick);
-            GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Right").GetComponent<Button>().onClick.AddListener(RotaRightBtnClick);
-            GameObject.Find("Canvas/BG/PartsPanel/CaptureScreens_Btn").GetComponent<Button>().onClick.AddListener(CaptureScreensBtnClick);
+            RotaLeftBut = GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Left").GetComponent<Button>();
+            RotaRightBut = GameObject.Find("Canvas/Floor/MainWorkSpace/Rota_Right").GetComponent<Button>();
+            CaptureScreensBtn = GameObject.Find("Canvas/BG/PartsPanel/CaptureScreens_Btn").GetComponent<Button>();
+
+            RotaLeftBut.onClick.AddListener(RotaLeftBtnClick);
+            RotaRightBut.onClick.AddListener(RotaRightBtnClick);
+            CaptureScreensBtn.onClick.AddListener(CaptureScreensBtnClick);
 
             _UIPartsPanelClass = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel").GetComponent<UIPartsPanelClass>();
             _UIPartsPage = GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel").GetComponent<UIPartsPage>();
@@ -97,6 +108,49 @@ using Windows.Storage;
             _DependencyGraph = dependencyGraph;
         }
 
+        /// <summary>
+        /// 获取错误提示框的物体
+        /// </summary>
+        /// <param name="go"></param>
+        public void GetTipCanvas(GameObject go)
+        {
+            _TipCanvas = go;
+        }
+
+        /// <summary>
+        /// 获取错误提示框的确认按钮物体
+        /// </summary>
+        /// <param name="go"></param>
+        public void GetTipErrBtn(GameObject go)
+        {
+            _TipErrBtn = go;
+        }
+
+        /// <summary>
+        /// 设置错误提示框的显示状态
+        /// </summary>
+        /// <param name="status"></param>
+        public void SetTipCanvasStatus(bool status)
+        {
+            _TipCanvas.SetActive(status);
+        }
+
+        /// <summary>
+        /// 提供获取错误提示的确认按钮方法
+        /// </summary>
+        /// <returns></returns>
+        public Button GetTipErrBtn()
+        {
+            return _TipErrBtn.GetComponent<Button>();
+        }
+
+        /// <summary>
+        /// 回退之后，让按钮看起来能被点击
+        /// </summary>
+        public void AbleButton(Node node)
+        {
+            _UIPartsPage.AbleButtonPart(node);
+        }
 
         /// <summary>
         /// 获取下一步可以安装的零件集合

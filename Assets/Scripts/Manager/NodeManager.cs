@@ -13,19 +13,18 @@ namespace WyzLink.Manager
     using WyzLink.Control;
     using WyzLink.Common;
     using UnityEngine.UI;
+    using WyzLink.UI;
 
     public class NodeManager : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IManipulationHandler
     {
         private Coroutine MaterialCoroutine;                //光标进入和失去材质改变协程
         private Material OriginalMaterial;                     //零件本来的材质
-        private GameObject _TipCanvas;                       //错误提示画布
-        private GameObject _TipErrBtn;
+
 
         // Use this for initialization
         void Start()
         {
-            _TipCanvas = GameObject.Find("TipsCanvas");
-            _TipErrBtn = GameObject.Find("TipsCanvas/ErrorBack");
+
             if (null != gameObject.GetComponent<MeshRenderer>())
             {
                 OriginalMaterial = gameObject.GetComponent<MeshRenderer>().sharedMaterial;
@@ -83,10 +82,8 @@ namespace WyzLink.Manager
         private IEnumerator NodeInstallationStateManagerCoroutine()
         {
             InstallationState installationState;
-            bool installatFlag;
             while (true)
             {
-                installatFlag = false;
                 if (null != gameObject.GetComponent<Node>())
                 {
                     installationState = gameObject.GetComponent<Node>().GetInstallationState();
@@ -120,30 +117,13 @@ namespace WyzLink.Manager
 
                         break;
                 }
-                yield return new WaitForSeconds(0.0010f);
+                yield return new WaitForSeconds(0.001f);
             }
         }
 
         void IManipulationHandler.OnManipulationStarted(ManipulationEventData eventData)
         {
-            //if (null != gameObject.GetComponent<Node>())
-            //{
-            //    if (InstallationState.NextInstalling == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId))
-            //    {
-            //        if (null != gameObject.GetComponent<HandDraggable>())
-            //        {
-            //            NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
-            //        }
-            //    }
 
-            //    if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
-            //    {
-            //        if (null != gameObject.GetComponent<HandDraggable>())
-            //        {
-            //            NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
-            //        }
-            //    }
-            //}
         }
 
         void IManipulationHandler.OnManipulationUpdated(ManipulationEventData eventData)
@@ -152,7 +132,7 @@ namespace WyzLink.Manager
             {
                 if (null != gameObject.GetComponent<Node>())
                 {
-                    if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 10f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
+                    if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 0.1f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
                     {
                         if (EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
                         {
@@ -176,10 +156,10 @@ namespace WyzLink.Manager
                                 AssembleManager.Instance.NextInstall(gameObject.GetComponent<Node>());
                                 StopCoroutine(NodeInstallationStateManagerCoroutine());
                             }
+
                             gameObject.GetComponent<Node>().PlayAnimations();
                             GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject.SetActive(false);
                             GameObject.Find("RuntimeObject/Nodes/" + gameObject.GetComponent<Node>().name + gameObject.GetComponent<Node>().nodeId).SetActive(false);
-
                         }
                         else
                         {
@@ -220,8 +200,8 @@ namespace WyzLink.Manager
                                 Destroy(gameObject.GetComponent<BoxCollider>());
                                 gameObject.transform.position = gameObject.GetComponent<Node>().EndPos;
                                 NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.NotInstalled);
-                                _TipCanvas.SetActive(true);
-                                _TipErrBtn.GetComponent<Button>().onClick.AddListener(OnMovesIEnumerator);
+                                AssembleManager.Instance.SetTipCanvasStatus(true);
+                                AssembleManager.Instance.GetTipErrBtn().onClick.AddListener(OnMovesIEnumerator);
                                 GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject.SetActive(false);
                             }
                         }
@@ -248,7 +228,6 @@ namespace WyzLink.Manager
 
                         if (false == flag)                 //第二工作区全部安装完毕
                         {
-                            Debug.Log("第二工作区全部安装完毕");
                             if (null == GameObject.Find("RuntimeObject/SecondWorkSpace").GetComponent<BoxCollider>())
                             {
                                 GameObject.Find("RuntimeObject/SecondWorkSpace").AddComponent<BoxCollider>();
@@ -296,11 +275,13 @@ namespace WyzLink.Manager
 
         }
 
+
         void OnMovesIEnumerator()
         {
             Destroy(gameObject);
-            _TipErrBtn.GetComponent<Button>().onClick.RemoveAllListeners();
-            _TipCanvas.SetActive(false);
+            AssembleManager.Instance.GetTipErrBtn().onClick.RemoveAllListeners();              //移除监听
+            AssembleManager.Instance.SetTipCanvasStatus(false);                                //点击确定之后，移除监听
+            AssembleManager.Instance.AbleButton(gameObject.GetComponent<Node>());
         }
     }
 }

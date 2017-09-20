@@ -46,6 +46,10 @@ namespace WyzLink.Parts
 
         protected virtual void Start()
         {
+            if (null == GlobalConfig.Instance)
+            {
+                var globalConfig = new GameObject("GlobalConfig", typeof(GlobalConfig));
+            }
             if (parentNode != null && parentNode.displayConnectorLabels && GlobalConfig.Instance.DisplayLabels)
             {
                 if (null != UtilityCollection.Instance)
