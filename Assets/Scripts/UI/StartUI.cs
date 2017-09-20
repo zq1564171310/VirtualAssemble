@@ -16,8 +16,13 @@ namespace WyzLink.UI
     {
         private GameObject _Canvas;                          //零件架等UI的画布
         private GameObject _InitCanvas;                      //初始化UI画布
-        private GameObject _TipCanvas;                       //错误提示画布
-        private GameObject _TipErrBtn;
+
+        private GameObject _TipCanvas;                       //提示画布
+        private GameObject _TipErrorPlane;                      //错误提示画布
+        private GameObject _TipErrBtn;                       //错误提示的确认按钮
+        private GameObject _PartsInfoPlane;                  //零件信息提示画布
+        private GameObject _PartsInfoText;                   //零件信息提示文本
+        private GameObject _PartsInfoBtn;
 
         private GameObject _RootPartGameObject;              //LCD1物体
 
@@ -42,7 +47,11 @@ namespace WyzLink.UI
             _Canvas = GameObject.Find("Canvas");
             _InitCanvas = GameObject.Find("InitCanvas");
             _TipCanvas = GameObject.Find("TipsCanvas");
-            _TipErrBtn = GameObject.Find("TipsCanvas/ErrorBack");
+            _TipErrorPlane = GameObject.Find("TipsCanvas/ErrorPlane");
+            _TipErrBtn = GameObject.Find("TipsCanvas/ErrorPlane/ErrorBack");
+            _PartsInfoPlane = GameObject.Find("TipsCanvas/PartsInfoPlane");
+            _PartsInfoText = GameObject.Find("TipsCanvas/PartsInfoPlane/InfoContent");
+            _PartsInfoBtn = GameObject.Find("TipsCanvas/PartsInfoPlane/PartsBtn");
 
             _RootPartGameObject = FindObjectOfType<AssembleController>().gameObject;
 
@@ -61,7 +70,10 @@ namespace WyzLink.UI
             _UICommonClass = GameObject.Find("Canvas/BG/CommonPartsPanel/ClassPanel").GetComponent<UICommonClass>();
             _UICommonParts = GameObject.Find("Canvas/BG/CommonPartsPanel/PartPanel").GetComponent<UICommonParts>();
 
-            _TipCanvas.SetActive(false);                         //初始化隐藏错误提示界面
+            foreach (Transform tran in _TipCanvas.transform)                      //初始化隐藏所有提示（错误提示和信息提示）
+            {
+                tran.gameObject.SetActive(false);
+            }
 
             _Canvas.SetActive(false);                            //初始化隐藏零件架等UI
 
@@ -113,8 +125,13 @@ namespace WyzLink.UI
             _UICommonParts.Init();
             _UICommonClass.Init();
 
-            AssembleManager.Instance.GetTipCanvas(_TipCanvas);    //提示框被隐藏了，所以初始化的时候，把被隐藏的物体赋值，否则后续将无法调用该物体
+            AssembleManager.Instance.GetTipCanvas(_TipErrorPlane);    //提示框被隐藏了，所以初始化的时候，把被隐藏的物体赋值，否则后续将无法调用该物体
             AssembleManager.Instance.GetTipErrBtn(_TipErrBtn);
+
+            AssembleManager.Instance.GetPartsInfoPlane(_PartsInfoPlane);
+            AssembleManager.Instance.GetPartsInfoText(_PartsInfoText);
+            AssembleManager.Instance.GetPartsInfoBtn(_PartsInfoBtn);
+
             AssembleManager.Instance.Init();                    //安装处理类初始化
         }
     }

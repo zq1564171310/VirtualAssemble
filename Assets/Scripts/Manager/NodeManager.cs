@@ -19,12 +19,15 @@ namespace WyzLink.Manager
     {
         private Coroutine MaterialCoroutine;                //光标进入和失去材质改变协程
         private Material OriginalMaterial;                     //零件本来的材质
+        private GameObject PartsInfoPlane;                       //零件信息框面板
+        private GameObject PartsInfoContent;
 
 
         // Use this for initialization
         void Start()
         {
-
+            PartsInfoPlane = GameObject.Find("Canvas/PartsInfoPlane");
+            PartsInfoContent = GameObject.Find("Canvas/PartsInfoPlane/PartsInfo/InfoContent");
             if (null != gameObject.GetComponent<MeshRenderer>())
             {
                 OriginalMaterial = gameObject.GetComponent<MeshRenderer>().sharedMaterial;
@@ -40,7 +43,9 @@ namespace WyzLink.Manager
 
         public void OnPointerClick(PointerEventData eventData)
         {
-
+            AssembleManager.Instance.SetPartsInfoPlane(true);
+            AssembleManager.Instance.SetPartsInfoTextValue(gameObject.GetComponent<Node>().note);
+            AssembleManager.Instance.GetPartsInfoBtn().onClick.AddListener(ClosePartInfo);
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -282,6 +287,12 @@ namespace WyzLink.Manager
             AssembleManager.Instance.GetTipErrBtn().onClick.RemoveAllListeners();              //移除监听
             AssembleManager.Instance.SetTipCanvasStatus(false);                                //点击确定之后，移除监听
             AssembleManager.Instance.AbleButton(gameObject.GetComponent<Node>());
+        }
+
+        void ClosePartInfo()
+        {
+            AssembleManager.Instance.GetPartsInfoBtn().onClick.RemoveAllListeners();
+            AssembleManager.Instance.SetPartsInfoPlane(false);
         }
     }
 }

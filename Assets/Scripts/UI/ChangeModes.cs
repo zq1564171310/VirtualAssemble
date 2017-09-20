@@ -9,7 +9,6 @@ namespace WyzLink.UI
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.SceneManagement;
-    using WyzLink.Manager;
     using WyzLink.Parts;
     public class ChangeModes : MonoBehaviour
     {

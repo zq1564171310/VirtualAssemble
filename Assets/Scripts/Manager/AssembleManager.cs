@@ -39,8 +39,11 @@ using Windows.Storage;
         private Button RotaRightBut;
         private Button CaptureScreensBtn;
 
-        private GameObject _TipCanvas;                       //错误提示画布
-        private GameObject _TipErrBtn;
+        private GameObject _TipErrorPlane;                       //错误提示画布
+        private GameObject _TipErrBtn;                           //错误提示的确认按钮
+        private GameObject _PartsInfoPlane;                      //零件信息提示画布
+        private GameObject _PartsInfoText;                       //零件信息提示文本
+        private GameObject _PartInfoBtn;                         //零件信息提示关闭按钮
 
         // Use this for initialization
         void Start()
@@ -114,7 +117,7 @@ using Windows.Storage;
         /// <param name="go"></param>
         public void GetTipCanvas(GameObject go)
         {
-            _TipCanvas = go;
+            _TipErrorPlane = go;
         }
 
         /// <summary>
@@ -126,13 +129,38 @@ using Windows.Storage;
             _TipErrBtn = go;
         }
 
+        public void GetPartsInfoPlane(GameObject go)
+        {
+            _PartsInfoPlane = go;
+        }
+
+        public void GetPartsInfoText(GameObject go)
+        {
+            _PartsInfoText = go;
+        }
+
+        public void GetPartsInfoBtn(GameObject go)
+        {
+            _PartInfoBtn = go;
+        }
+
         /// <summary>
         /// 设置错误提示框的显示状态
         /// </summary>
         /// <param name="status"></param>
         public void SetTipCanvasStatus(bool status)
         {
-            _TipCanvas.SetActive(status);
+            _TipErrorPlane.SetActive(status);
+        }
+
+        public void SetPartsInfoPlane(bool status)
+        {
+            _PartsInfoPlane.SetActive(status);
+        }
+
+        public void SetPartsInfoTextValue(string value)
+        {
+            _PartsInfoText.GetComponent<Text>().text = value;
         }
 
         /// <summary>
@@ -142,6 +170,11 @@ using Windows.Storage;
         public Button GetTipErrBtn()
         {
             return _TipErrBtn.GetComponent<Button>();
+        }
+
+        public Button GetPartsInfoBtn()
+        {
+            return _PartInfoBtn.GetComponent<Button>();
         }
 
         /// <summary>
