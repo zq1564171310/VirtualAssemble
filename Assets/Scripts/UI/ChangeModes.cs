@@ -22,7 +22,7 @@ namespace WyzLink.UI
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
-                StartScence();
+                //StartScence();
             }
         }
         private void StartScence()
