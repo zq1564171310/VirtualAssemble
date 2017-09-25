@@ -24,7 +24,7 @@ using Windows.Storage;
 
     public class AssembleManager : Singleton<AssembleManager>
     {
-        public List<Node> InstalledNodeList = new List<Node>();                      //当前已经被安装完成的零件列表，按顺序放
+        public List<Node> InstalledNodeList = new List<Node>();                      //当前已经被安装完成的零件列表，按顺序放，这个集合中只可能出现两种零件，一种是从零件架上取下来的零件，一种是已经安装的零件
         private IEnumerable<Node> NextInstallNode;                   //下一步将要被安装的零件集合
         private DependencyGraph _DependencyGraph;                    //节点类实例化，用于获取下一步安装
         private float WorkSpaceScalingNum = 1;                          //工作区缩放倍数
@@ -122,9 +122,29 @@ using Windows.Storage;
             InstalledNodeList.Add(installedNode);
         }
 
+        /// <summary>
+        /// 移除当前已经安装的零件
+        /// </summary>
+        /// <param name="installedNode"></param>
         public void ReMoveInstalledNodeList(Node installedNode)
         {
             InstalledNodeList.Remove(installedNode);
+        }
+
+        /// <summary>
+        /// 修改某个零件的安装状态
+        /// </summary>
+        /// <param name="installedNode"></param>
+        public void SetInstalledNodeListStatus(Node installedNode, InstallationState installationState)
+        {
+            for (int i = 0; i < InstalledNodeList.Count; i++)
+            {
+                if (InstalledNodeList[i].nodeId == installedNode.nodeId)
+                {
+                    InstalledNodeList[i].SetInstallationState(installationState);
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -220,7 +240,7 @@ using Windows.Storage;
                 foreach (Node nodes in NextInstallNode)
                 {
                     nodes.SetInstallationState(InstallationState.NextInstalling);
-                    nodes.gameObject.AddComponent<HandDraggable>();
+                    //nodes.gameObject.AddComponent<HandDraggable>();
                     if (null != nodes.gameObject.GetComponent<MeshRenderer>())
                     {
                         nodes.gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.NextInstallMate;
@@ -280,7 +300,16 @@ using Windows.Storage;
         /// </summary>
         public void LastNodeClick()
         {
+            if (InstalledNodeList.Count <= 1)
+            {
+                return;
+            }
             NodesCommon.Instance.SetInstallationState(InstalledNodeList[InstalledNodeList.Count - 1].nodeId, InstallationState.NotInstalled);                //回退之前设置一下安装状态
+            if (InstallationState.NotInstalled == InstalledNodeList[InstalledNodeList.Count - 1].GetInstallationState())
+            {
+                Destroy(GameObject.Find("RuntimeObject/Nodes/" + InstalledNodeList[InstalledNodeList.Count - 1].name + InstalledNodeList[InstalledNodeList.Count - 1].nodeId));   //如果是准备安装状态，那么还要删掉提示的物体
+                Destroy(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + InstalledNodeList[InstalledNodeList.Count - 1].nodeId).gameObject);               //删掉提示的文字
+            }
             Destroy(InstalledNodeList[InstalledNodeList.Count - 1].gameObject);        //回退之前，删除已经安装的零件
             AbleButton(InstalledNodeList[InstalledNodeList.Count - 1]);                //零件架上该零件可以被点击
             ReMoveInstalledNodeList(InstalledNodeList[InstalledNodeList.Count - 1]);    //将已经安装列表更新

@@ -274,6 +274,7 @@ namespace WyzLink.UI
         /// <param name="gridItem"></param>
         private void BindGridItem(Transform trans, Node gridItem)
         {
+            trans.Find("Text").GetComponent<Text>().text = gridItem.partName;
             gridItem.gameObject.transform.position = trans.GetChild(1).transform.position;
 
             if (InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gridItem.nodeId) || InstallationState.Installed == NodesCommon.Instance.GetInstallationState(gridItem.nodeId))
@@ -321,8 +322,6 @@ namespace WyzLink.UI
 
             BindPage(m_PageIndex);
             m_PanelText.text = string.Format("第" + "{0}/{1}" + "页", m_PageIndex.ToString(), m_PageCount.ToString());
-
-
         }
 
         /// <summary>
@@ -421,6 +420,7 @@ namespace WyzLink.UI
                                         gameobj.gameObject.GetComponent<BoxCollider>().size /= 10;
                                     }
                                     gameobj.gameObject.AddComponent<HandDraggable>();
+                                    gameobj.gameObject.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
 
                                     StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));
 
@@ -436,6 +436,7 @@ namespace WyzLink.UI
                                         if (null != gameobj.GetComponent<HandDraggable>())
                                         {
                                             NodesCommon.Instance.SetInstallationState(node.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
+                                            AssembleManager.Instance.AddInstalledNodeList(gameobj.GetComponent<Node>());
                                             DisAbleButton(go);
                                         }
                                     }
@@ -478,6 +479,7 @@ namespace WyzLink.UI
                             gameobj.gameObject.GetComponent<BoxCollider>().size /= 10;
                         }
                         gameobj.gameObject.AddComponent<HandDraggable>();
+                        gameobj.gameObject.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
 
                         #region Test
                         Vector3 var3 = gameobj.transform.position;
@@ -496,6 +498,7 @@ namespace WyzLink.UI
                             if (null != gameobj.GetComponent<HandDraggable>())
                             {
                                 NodesCommon.Instance.SetInstallationState(node.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
+                                AssembleManager.Instance.AddInstalledNodeList(gameobj.GetComponent<Node>());
                                 DisAbleButton(go);
                             }
                         }

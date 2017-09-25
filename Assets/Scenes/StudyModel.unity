@@ -1270,7 +1270,6 @@ GameObject:
   - component: {fileID: 90147540}
   - component: {fileID: 90147539}
   - component: {fileID: 90147538}
-  - component: {fileID: 90147537}
   m_Layer: 5
   m_Name: PartPanel
   m_TagString: Untagged
@@ -1303,18 +1302,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.25, y: -17.04}
   m_SizeDelta: {x: 131.73, y: 141.41}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &90147537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114513460492715588, guid: 5e38823679d4b9841a3b44ffae9b6ec6,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 90147535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4038e0807f3c66448c4f1f9b1f09756, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &90147538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19299,7 +19286,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 1614b70270f8fc3428418fa3a7431f4c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f99dc8b553cd5204bbcee54341d7c869, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -21367,7 +21354,7 @@ Prefab:
     - target: {fileID: 114096876914206390, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
       propertyPath: hasAnimation
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114096876914206390, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
@@ -21377,7 +21364,7 @@ Prefab:
     - target: {fileID: 114282785738278832, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
       propertyPath: hasAnimation
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114282785738278832, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
@@ -21387,7 +21374,7 @@ Prefab:
     - target: {fileID: 114283458024713610, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
       propertyPath: hasAnimation
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114283458024713610, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
@@ -21397,7 +21384,7 @@ Prefab:
     - target: {fileID: 114517015211831542, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
       propertyPath: hasAnimation
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114517015211831542, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}

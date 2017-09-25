@@ -137,16 +137,17 @@ namespace WyzLink.Manager
             {
                 if (null != gameObject.GetComponent<Node>())
                 {
-                    if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 0.1f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
+                    if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 1f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
                     {
                         if (EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
                         {
                             NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.Installed);
+                            AssembleManager.Instance.SetInstalledNodeListStatus(gameObject.GetComponent<Node>(), InstallationState.Installed);
                             Destroy(gameObject.GetComponent<HandDraggable>());
                             bool installatFlag = false;
 
                             gameObject.transform.position = gameObject.GetComponent<Node>().EndPos;
-                            AssembleManager.Instance.AddInstalledNodeList(gameObject.GetComponent<Node>());
+
 
                             foreach (Node node in NodesController.Instance.GetNodeList())
                             {
@@ -164,8 +165,8 @@ namespace WyzLink.Manager
                             }
 
                             gameObject.GetComponent<Node>().PlayAnimations();
-                            GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject.SetActive(false);
-                            GameObject.Find("RuntimeObject/Nodes/" + gameObject.GetComponent<Node>().name + gameObject.GetComponent<Node>().nodeId).SetActive(false);
+                            Destroy(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject);
+                            Destroy(GameObject.Find("RuntimeObject/Nodes/" + gameObject.GetComponent<Node>().name + gameObject.GetComponent<Node>().nodeId));
                         }
                         else
                         {
@@ -175,8 +176,10 @@ namespace WyzLink.Manager
                                 if (gameObject.GetComponent<Node>().nodeId == no.nodeId)
                                 {
                                     NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.Installed);
+                                    AssembleManager.Instance.SetInstalledNodeListStatus(gameObject.GetComponent<Node>(), InstallationState.Installed);
+
                                     Destroy(gameObject.GetComponent<HandDraggable>());
-                                    AssembleManager.Instance.AddInstalledNodeList(gameObject.GetComponent<Node>());
+
                                     bool installatFlag = false;
 
                                     gameObject.transform.position = gameObject.GetComponent<Node>().EndPos;
@@ -196,7 +199,7 @@ namespace WyzLink.Manager
                                         StopCoroutine(NodeInstallationStateManagerCoroutine());
                                     }
                                     gameObject.GetComponent<Node>().PlayAnimations();
-                                    GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject.SetActive(false);
+                                    Destroy(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject);
                                     flag = true;
                                 }
                             }
@@ -210,19 +213,19 @@ namespace WyzLink.Manager
                                 NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.NotInstalled);
                                 AssembleManager.Instance.SetTipCanvasStatus(true);
                                 AssembleManager.Instance.GetTipErrBtn().onClick.AddListener(OnMovesIEnumerator);
-                                GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject.SetActive(false);
+                                Destroy(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject);
                             }
                         }
                     }
-                    //else if (2 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 0.1f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().WorSpaceRelativePos))
+                    //else if (2 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && gameObject.GetComponent<Node>().HaulingDistance >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().WorSpaceRelativePos))
                     //{
                     //    NodesCommon.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.WorkSpaceInstalled);
                     //    gameObject.transform.position = gameObject.GetComponent<Node>().WorSpaceRelativePos;
                     //    Destroy(gameObject.GetComponent<HandDraggable>());
                     //    Destroy(gameObject.GetComponent<BoxCollider>());
                     //    gameObject.transform.parent = GameObject.Find("RuntimeObject/SecondWorkSpace").transform;
-                    //    GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject.SetActive(false);
-                    //    GameObject.Find("RuntimeObject/Nodes/" + gameObject.GetComponent<Node>().name + "Sec" + gameObject.GetComponent<Node>().nodeId).SetActive(false);
+                    //     Destroy(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject);
+                    //     Destroy(GameObject.Find("RuntimeObject/Nodes/" + gameObject.GetComponent<Node>().name + "Sec" + gameObject.GetComponent<Node>().nodeId));
 
                     //    bool flag = false;
                     //    foreach (Transform trans in GameObject.Find("RuntimeObject/SecondWorkSpace").transform)
@@ -256,17 +259,17 @@ namespace WyzLink.Manager
                     }
                 }
 
-                if ("SecondWorkSpace" == gameObject.name && 0.1f >= Vector3.Distance(gameObject.transform.position, GameObject.Find("Canvas/Floor/MainWorkSpace").transform.position))
-                {
-                    for (int i = 0; i < NodesCommon.Instance.GetWorkSpaceNodes(2).Count; i++)
-                    {
-                        NodesCommon.Instance.SetInstallationState(NodesCommon.Instance.GetWorkSpaceNodes(2)[i].GetComponent<Node>().nodeId, InstallationState.Installed);
-                    }
-                    gameObject.transform.position = GameObject.Find("Canvas/Floor/MainWorkSpace").transform.position;
-                    Destroy(gameObject.GetComponent<HandDraggable>());
-                    Destroy(gameObject.GetComponent<BoxCollider>());
-                    Destroy(gameObject.GetComponent<NodeManager>());
-                }
+                //if ("SecondWorkSpace" == gameObject.name && gameObject.GetComponent<Node>().HaulingDistance >= Vector3.Distance(gameObject.transform.position, GameObject.Find("Canvas/Floor/MainWorkSpace").transform.position))
+                //{
+                //    for (int i = 0; i < NodesCommon.Instance.GetWorkSpaceNodes(2).Count; i++)
+                //    {
+                //        NodesCommon.Instance.SetInstallationState(NodesCommon.Instance.GetWorkSpaceNodes(2)[i].GetComponent<Node>().nodeId, InstallationState.Installed);
+                //    }
+                //    gameObject.transform.position = GameObject.Find("Canvas/Floor/MainWorkSpace").transform.position;
+                //    Destroy(gameObject.GetComponent<HandDraggable>());
+                //    Destroy(gameObject.GetComponent<BoxCollider>());
+                //    Destroy(gameObject.GetComponent<NodeManager>());
+                //}
 
             }
         }
