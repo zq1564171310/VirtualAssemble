@@ -21354,7 +21354,7 @@ Prefab:
     - target: {fileID: 114096876914206390, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
       propertyPath: hasAnimation
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114096876914206390, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
@@ -21364,7 +21364,7 @@ Prefab:
     - target: {fileID: 114282785738278832, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
       propertyPath: hasAnimation
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114282785738278832, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
@@ -21374,7 +21374,7 @@ Prefab:
     - target: {fileID: 114283458024713610, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
       propertyPath: hasAnimation
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114283458024713610, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
@@ -21384,13 +21384,17 @@ Prefab:
     - target: {fileID: 114517015211831542, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
       propertyPath: hasAnimation
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114517015211831542, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
         type: 2}
       propertyPath: animationPlayers.Array.data[0]
       value: 
       objectReference: {fileID: 198762721}
+    - target: {fileID: 4017665361487018, guid: 8b7a0a29d6da3a447b546d42b7e7dd53, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8b7a0a29d6da3a447b546d42b7e7dd53, type: 2}
   m_IsPrefabParent: 0

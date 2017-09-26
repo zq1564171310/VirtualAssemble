@@ -7,6 +7,7 @@ namespace WyzLink.Manager
 {
     using HoloToolkit.Unity;
     using HoloToolkit.Unity.InputModule;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
@@ -26,9 +27,16 @@ using Windows.Storage;
     {
         public List<Node> InstalledNodeList = new List<Node>();                      //当前已经被安装完成的零件列表，按顺序放，这个集合中只可能出现两种零件，一种是从零件架上取下来的零件，一种是已经安装的零件
         private IEnumerable<Node> NextInstallNode;                   //下一步将要被安装的零件集合
+        List<Node> NextInstallNodeList = new List<Node>();
         private DependencyGraph _DependencyGraph;                    //节点类实例化，用于获取下一步安装
+
         private float WorkSpaceScalingNum = 1;                          //工作区缩放倍数
         private float WorkSpaceRotaAngle = 90;                               //工作区旋转角度
+        private float RotaAngle = 0;                                         //工作区已经旋转了多少度
+        private Vector3 RotaAngleCenter = new Vector3();                     //工作区旋转的中心点
+        private Vector3 ScaleCenter = new Vector3();                         //物体缩放的中心点
+
+        private Vector3 PartStartPosition = new Vector3(1.7f, -0.4f, 4.5f);
 
         private UIPartsPanelClass _UIPartsPanelClass;
         private UIPartsPage _UIPartsPage;
@@ -56,6 +64,8 @@ using Windows.Storage;
 
         public void Init()
         {
+            ScaleCenter = gameObject.transform.position;
+            RotaAngleCenter = GameObject.Find("Canvas/Floor/MainWorkSpace").transform.position;
             RotaLeftBut = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/Contrarotate").GetComponent<Button>();
             RotaRightBut = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/ClockwiseRotation").GetComponent<Button>();
             _Slider = GameObject.Find("Canvas/BG/WorkAreaControl/SliderPlane/Slider").GetComponent<Slider>();
@@ -80,6 +90,7 @@ using Windows.Storage;
             {
                 string err = "";
                 int index = 1;
+                List<Node> NextInstallNodeList = new List<Node>();
                 foreach (Node node in NextInstallNode)
                 {
                     node.SetInstallationState(InstallationState.NextInstalling);
@@ -87,6 +98,7 @@ using Windows.Storage;
                     _UIPartsPage.SetIndex(node);
                     index = _UIPartsPage.GetIndex(node);
                     err += node.name + "(第" + index + "页）" + "/";
+                    NextInstallNodeList.Add(node);
                 }
                 _Tips.text = "现在应该安装:" + err;
                 if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
@@ -103,6 +115,15 @@ using Windows.Storage;
         void Update()
         {
 
+        }
+
+        /// <summary>
+        /// 获取零件的起点位置
+        /// </summary>
+        /// <returns></returns>
+        public Vector3 GetPartStartPosition()
+        {
+            return PartStartPosition;
         }
 
         /// <summary>
@@ -221,6 +242,11 @@ using Windows.Storage;
             _UIPartsPage.AbleButtonPart(node);
         }
 
+        public void DisButtonPart(Node node)
+        {
+            _UIPartsPage.DisButtonPart(node);
+        }
+
         /// <summary>
         /// 获取下一步可以安装的零件集合
         /// </summary>
@@ -240,7 +266,6 @@ using Windows.Storage;
                 foreach (Node nodes in NextInstallNode)
                 {
                     nodes.SetInstallationState(InstallationState.NextInstalling);
-                    //nodes.gameObject.AddComponent<HandDraggable>();
                     if (null != nodes.gameObject.GetComponent<MeshRenderer>())
                     {
                         nodes.gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.NextInstallMate;
@@ -250,6 +275,7 @@ using Windows.Storage;
                     index = _UIPartsPage.GetIndex(nodes);
                     #endregion
                     err += nodes.name + "(第" + index + "页）" + "/";
+                    NextInstallNodeList.Add(node);
                 }
                 _Tips.text = "现在应该安装:" + err;
                 if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
@@ -259,6 +285,10 @@ using Windows.Storage;
             }
         }
 
+        /// <summary>
+        /// 滑动条缩放
+        /// </summary>
+        /// <param name="value"></param>
         public void SlideTheSlider(float value)
         {
             int Num = 100;
@@ -304,32 +334,99 @@ using Windows.Storage;
             {
                 return;
             }
-            NodesCommon.Instance.SetInstallationState(InstalledNodeList[InstalledNodeList.Count - 1].nodeId, InstallationState.NotInstalled);                //回退之前设置一下安装状态
-            if (InstallationState.NotInstalled == InstalledNodeList[InstalledNodeList.Count - 1].GetInstallationState())
+
+            if (InstallationState.Step1Installed == InstalledNodeList[InstalledNodeList.Count - 1].GetInstallationState())
             {
+                NodesCommon.Instance.SetInstallationState(InstalledNodeList[InstalledNodeList.Count - 1].nodeId, InstallationState.NotInstalled);                //回退之前设置一下安装状态
+
                 Destroy(GameObject.Find("RuntimeObject/Nodes/" + InstalledNodeList[InstalledNodeList.Count - 1].name + InstalledNodeList[InstalledNodeList.Count - 1].nodeId));   //如果是准备安装状态，那么还要删掉提示的物体
                 Destroy(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + InstalledNodeList[InstalledNodeList.Count - 1].nodeId).gameObject);               //删掉提示的文字
-            }
-            Destroy(InstalledNodeList[InstalledNodeList.Count - 1].gameObject);        //回退之前，删除已经安装的零件
-            AbleButton(InstalledNodeList[InstalledNodeList.Count - 1]);                //零件架上该零件可以被点击
-            ReMoveInstalledNodeList(InstalledNodeList[InstalledNodeList.Count - 1]);    //将已经安装列表更新
-            NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNodeList[InstalledNodeList.Count - 1]).Cast<Node>();   //更新当前应该被安装的零件列表
-            if (null != NextInstallNode && EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
-            {
-                string err = "";
-                int index = 1;
-                foreach (Node node in NextInstallNode)
+
+                Destroy(InstalledNodeList[InstalledNodeList.Count - 1].gameObject);        //回退之前，删除已经安装的零件
+                AbleButton(InstalledNodeList[InstalledNodeList.Count - 1]);                //零件架上该零件可以被点击
+                ReMoveInstalledNodeList(InstalledNodeList[InstalledNodeList.Count - 1]);    //将已经安装列表更新
+                NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNodeList[InstalledNodeList.Count - 1]).Cast<Node>();   //更新当前应该被安装的零件列表
+                if (null != NextInstallNode && EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
                 {
-                    node.SetInstallationState(InstallationState.NextInstalling);
-                    //跳转页面
-                    _UIPartsPage.SetIndex(node);
-                    index = _UIPartsPage.GetIndex(node);
-                    err += node.name + "(第" + index + "页）" + "/";
+                    string err = "";
+                    int index = 1;
+                    foreach (Node node in NextInstallNode)
+                    {
+                        node.SetInstallationState(InstallationState.NextInstalling);
+                        //跳转页面
+                        _UIPartsPage.SetIndex(node);
+                        index = _UIPartsPage.GetIndex(node);
+                        err += node.name + "(第" + index + "页）" + "/";
+                        NextInstallNodeList.Add(node);
+                    }
+                    _Tips.text = "现在应该安装:" + err;
+                    if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
+                    {
+                        _Tips.gameObject.SetActive(false);
+                    }
                 }
-                _Tips.text = "现在应该安装:" + err;
-                if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
+            }
+            else if (InstallationState.Installed == InstalledNodeList[InstalledNodeList.Count - 1].GetInstallationState())
+            {
+                NodesCommon.Instance.SetInstallationState(InstalledNodeList[InstalledNodeList.Count - 1].nodeId, InstallationState.Step1Installed);                //回退之前设置一下安装状态
+                InstalledNodeList[InstalledNodeList.Count - 1].transform.position = PartStartPosition;
+                InstalledNodeList[InstalledNodeList.Count - 1].gameObject.transform.position = PartStartPosition;
+                InstalledNodeList[InstalledNodeList.Count - 1].gameObject.AddComponent<HandDraggable>();
+                InstalledNodeList[InstalledNodeList.Count - 1].gameObject.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
+
+                SetInstalledNodeListStatus(InstalledNodeList[InstalledNodeList.Count - 1], InstallationState.Step1Installed);  //集合中元素的状态也要跟着改变
+
+                GameObject Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);                             //克隆一份文本
+                Txt.name = "Text" + InstalledNodeList[InstalledNodeList.Count - 1].nodeId;
+                Txt.transform.position = InstalledNodeList[InstalledNodeList.Count - 1].gameObject.transform.position;
+                Txt.GetComponent<Text>().text = InstalledNodeList[InstalledNodeList.Count - 1].gameObject.name;
+
+
+                GameObject gameOb = Instantiate(InstalledNodeList[InstalledNodeList.Count - 1].gameObject, InstalledNodeList[InstalledNodeList.Count - 1].gameObject.transform, true);              //克隆一份作为提示
+                gameOb.name = InstalledNodeList[InstalledNodeList.Count - 1].name + InstalledNodeList[InstalledNodeList.Count - 1].nodeId;
+                gameOb.transform.localScale = InstalledNodeList[InstalledNodeList.Count - 1].LocalSize;
+                gameOb.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
+                gameOb.transform.position = InstalledNodeList[InstalledNodeList.Count - 1].EndPos;
+                gameOb.transform.RotateAround(GetRotaAngleCenter(), Vector3.up, GetRotaAngle());
+                if (null != gameOb.GetComponent<MeshRenderer>())
                 {
-                    _Tips.gameObject.SetActive(false);
+                    gameOb.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
+                }
+                else
+                {
+                    Transform[] trans = gameOb.GetComponentsInChildren<Transform>();
+                    foreach (Transform tran in trans)
+                    {
+                        if (null != tran.gameObject.GetComponent<MeshRenderer>())
+                        {
+                            tran.gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
+                        }
+                    }
+                }
+                if (null != gameOb.GetComponent<MeshFilter>())
+                {
+                    gameOb.transform.localScale = InstalledNodeList[InstalledNodeList.Count - 1].LocalSize;
+                }
+
+                NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNodeList[InstalledNodeList.Count - 1]).Cast<Node>();   //更新当前应该被安装的零件列表
+                if (null != NextInstallNode && EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
+                {
+                    string err = "";
+                    int index = 1;
+                    foreach (Node node in NextInstallNode)
+                    {
+                        node.SetInstallationState(InstallationState.NextInstalling);
+                        //跳转页面
+                        _UIPartsPage.SetIndex(node);
+                        index = _UIPartsPage.GetIndex(node);
+                        err += node.name + "(第" + index + "页）" + "/";
+                        NextInstallNodeList.Add(node);
+                    }
+                    _Tips.text = "现在应该安装:" + err;
+                    if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
+                    {
+                        _Tips.gameObject.SetActive(false);
+                    }
                 }
             }
         }
@@ -344,6 +441,23 @@ using Windows.Storage;
         }
 
         /// <summary>
+        /// 返回旋转的总角度
+        /// </summary>
+        /// <returns></returns>
+        public float GetRotaAngle()
+        {
+            return RotaAngle;
+        }
+        /// <summary>
+        /// 返回旋转的中心点坐标
+        /// </summary>
+        /// <returns></returns>
+        public Vector3 GetRotaAngleCenter()
+        {
+            return RotaAngleCenter;
+        }
+
+        /// <summary>
         /// 工作取缩放
         /// </summary>
         public void WorkSpaceScal(float scalNum)
@@ -351,6 +465,13 @@ using Windows.Storage;
             for (int i = 0; i < InstalledNodeList.Count; i++)
             {
                 InstalledNodeList[i].gameObject.transform.localScale = InstalledNodeList[i].gameObject.GetComponent<Node>().LocalSize * scalNum;
+            }
+
+            for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
+            {
+                Debug.Log(NodesCommon.Instance.GetNodesList()[i].EndPos + "----------------");
+                NodesCommon.Instance.GetNodesList()[i].EndPos = scalNum * (NodesCommon.Instance.GetNodesList()[i].EndPos - ScaleCenter) + ScaleCenter;
+                Debug.Log(NodesCommon.Instance.GetNodesList()[i].EndPos + "+++++++++++++++++++");
             }
         }
 
@@ -361,20 +482,33 @@ using Windows.Storage;
         public void WorkSpaceRota(int rota)
         {
             //获取工作区中心位置
-            Vector3 vec = GameObject.Find("Canvas/Floor/MainWorkSpace").transform.position;
             if (0 == rota)        //左旋转
             {
                 for (int i = 0; i < InstalledNodeList.Count; i++)
                 {
-                    InstalledNodeList[i].gameObject.transform.RotateAround(vec, Vector3.up, -WorkSpaceRotaAngle);
+                    InstalledNodeList[i].gameObject.transform.RotateAround(RotaAngleCenter, Vector3.up, -WorkSpaceRotaAngle);
                 }
+
+                for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
+                {
+                    NodesCommon.Instance.GetNodesList()[i].EndPos = Quaternion.AngleAxis(-WorkSpaceRotaAngle, Vector3.up) * (NodesCommon.Instance.GetNodesList()[i].EndPos - RotaAngleCenter) + RotaAngleCenter;
+                }
+
+                RotaAngle -= WorkSpaceRotaAngle;
             }
             else                //右旋转
             {
                 for (int i = 0; i < InstalledNodeList.Count; i++)
                 {
-                    InstalledNodeList[i].gameObject.transform.RotateAround(vec, Vector3.up, WorkSpaceRotaAngle);
+                    InstalledNodeList[i].gameObject.transform.RotateAround(RotaAngleCenter, Vector3.up, WorkSpaceRotaAngle);
                 }
+
+                for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
+                {
+                    NodesCommon.Instance.GetNodesList()[i].EndPos = Quaternion.AngleAxis(WorkSpaceRotaAngle, Vector3.up) * (NodesCommon.Instance.GetNodesList()[i].EndPos - RotaAngleCenter) + RotaAngleCenter;
+                }
+
+                RotaAngle += WorkSpaceRotaAngle;
             }
         }
 

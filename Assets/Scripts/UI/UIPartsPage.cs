@@ -71,6 +71,8 @@ namespace WyzLink.UI
 
         private List<Node> NodesList = new List<Node>();            //所有零件类型的集合
 
+        private Coroutine HighLigtCoroutine;
+
         // Use this for initialization
         void Start()
         {
@@ -183,6 +185,30 @@ namespace WyzLink.UI
             }
             m_PageIndex = pageIndex;
             return pageIndex;
+        }
+
+        /// <summary>
+        /// 判断某个零件是否显示在零件架上
+        /// </summary>
+        public bool IsView(Node node)
+        {
+            bool flag = false;
+            if (node.Type != m_Type)
+            {
+                flag = false;
+            }
+            else
+            {
+                if (m_PageIndex == GetIndex(node))
+                {
+                    flag = true;
+                }
+                else
+                {
+                    flag = false;
+                }
+            }
+            return flag;
         }
 
         /// <summary>
@@ -329,7 +355,7 @@ namespace WyzLink.UI
         /// </summary>
         private void BtnClick(GameObject go)
         {
-            Node node;            //被点击的零件
+            Node node;                                  //被点击的零件
             IEnumerable<Node> NextInstallNode = AssembleManager.Instance.GetNextInstallNode();
             GameObject gameobj;                         //克隆一份,作为安装的零件
             GameObject gameOb;                          //克隆一份作为提示
@@ -369,6 +395,7 @@ namespace WyzLink.UI
                                     gameOb.transform.localScale = node.LocalSize;
                                     gameOb.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                                     gameOb.transform.position = node.EndPos;
+                                    gameOb.transform.RotateAround(AssembleManager.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManager.Instance.GetRotaAngle());
                                     if (null != gameOb.GetComponent<MeshRenderer>())
                                     {
                                         gameOb.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
@@ -414,22 +441,22 @@ namespace WyzLink.UI
                                         gameObSec.transform.localScale = node.LocalSize;
                                     }
 
-                                    gameobj.gameObject.AddComponent<BoxCollider>();
-                                    if (null == gameobj.gameObject.GetComponent<MeshFilter>())
+                                    gameobj.AddComponent<BoxCollider>();
+                                    if (null == gameobj.GetComponent<MeshFilter>())
                                     {
-                                        gameobj.gameObject.GetComponent<BoxCollider>().size /= 10;
+                                        gameobj.GetComponent<BoxCollider>().size /= 10;
                                     }
-                                    gameobj.gameObject.AddComponent<HandDraggable>();
-                                    gameobj.gameObject.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
+                                    gameobj.GetComponent<BoxCollider>().size = GetBoxColliderSize(gameobj);
+                                    gameobj.AddComponent<HandDraggable>();
+                                    gameobj.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
 
                                     StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));
+                                    gameobj.transform.RotateAround(AssembleManager.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManager.Instance.GetRotaAngle());
 
-                                    #region Test 此处根据UI布局写活，后续需要根据UI调整
                                     Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
                                     Txt.name = "Text" + node.nodeId;
                                     Txt.transform.position = node.gameObject.transform.position;
                                     Txt.GetComponent<Text>().text = node.gameObject.name;
-                                    #endregion
 
                                     if (null != gameobj.GetComponent<Node>())
                                     {
@@ -437,10 +464,10 @@ namespace WyzLink.UI
                                         {
                                             NodesCommon.Instance.SetInstallationState(node.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
                                             AssembleManager.Instance.AddInstalledNodeList(gameobj.GetComponent<Node>());
+                                            AssembleManager.Instance.SetInstalledNodeListStatus(gameobj.GetComponent<Node>(), InstallationState.Step1Installed);
                                             DisAbleButton(go);
                                         }
                                     }
-
                                     break;
                                 }
                             }
@@ -473,18 +500,17 @@ namespace WyzLink.UI
                             gameobj.transform.localScale = node.LocalSize;
                         }
 
-                        gameobj.gameObject.AddComponent<BoxCollider>();
+                        gameobj.AddComponent<BoxCollider>();
                         if (null == gameobj.gameObject.GetComponent<MeshFilter>())
                         {
-                            gameobj.gameObject.GetComponent<BoxCollider>().size /= 10;
+                            gameobj.GetComponent<BoxCollider>().size /= 10;
                         }
-                        gameobj.gameObject.AddComponent<HandDraggable>();
-                        gameobj.gameObject.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
+                        gameobj.GetComponent<BoxCollider>().size = GetBoxColliderSize(gameobj);
+                        gameobj.AddComponent<HandDraggable>();
+                        gameobj.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
 
-                        #region Test
-                        Vector3 var3 = gameobj.transform.position;
-                        StartCoroutine(OnMovesIEnumerator(gameobj, var3));
-                        #endregion
+                        StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));         //从零件架上飞出
+                        gameobj.transform.RotateAround(AssembleManager.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManager.Instance.GetRotaAngle());
 
                         #region Test 此处根据UI布局写活，后续需要根据UI调整
                         Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
@@ -499,6 +525,7 @@ namespace WyzLink.UI
                             {
                                 NodesCommon.Instance.SetInstallationState(node.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
                                 AssembleManager.Instance.AddInstalledNodeList(gameobj.GetComponent<Node>());
+                                AssembleManager.Instance.SetInstalledNodeListStatus(gameobj.GetComponent<Node>(), InstallationState.Step1Installed);
                                 DisAbleButton(go);
                             }
                         }
@@ -511,14 +538,11 @@ namespace WyzLink.UI
         IEnumerator OnMovesIEnumerator(GameObject _GameObject, Vector3 statPos)
         {
             float f = 0;
-            #region  Test
-            Vector3 var = new Vector3(1.7f, -0.4f, 4.5f);
-            #endregion
             while (true)
             {
                 if (f <= 1)
                 {
-                    _GameObject.transform.position = Vector3.Lerp(statPos, var, f);
+                    _GameObject.transform.position = Vector3.Lerp(statPos, AssembleManager.Instance.GetPartStartPosition(), f);
                     f += Time.deltaTime;
                 }
                 else
@@ -575,6 +599,55 @@ namespace WyzLink.UI
                     break;
                 }
             }
+        }
+
+        /// <summary>
+        /// 让按钮看起来能被点击，仅仅只是UI显示方面
+        /// </summary>
+        public void DisButtonPart(Node node)
+        {
+            int index = 0;
+            for (int i = 0; i < m_ItemsList.Count; i++)
+            {
+                if (m_ItemsList[i].nodeId == node.nodeId)
+                {
+                    index = ((i + 1) % Page_Count) - 1;
+                    break;
+                }
+            }
+
+            for (int i = 0; i < BtnList.Count; i++)
+            {
+                if (i == index)
+                {
+                    BtnList[i].GetComponent<Button>().interactable = false;
+                    BtnList[i].transform.GetChild(2).gameObject.SetActive(false);
+                    break;
+                }
+            }
+        }
+
+
+        public Vector3 GetBoxColliderSize(GameObject go)
+        {
+            Vector3 vector = go.GetComponent<Node>().GetPartModelRealSize(go);
+            Vector3 vect = vector;
+
+            if (vector.x < GlobalVar.ModelSize.x / 2.0)
+            {
+                vect.x = 3 * go.GetComponent<BoxCollider>().size.x;
+            }
+
+            if (vector.y < GlobalVar.ModelSize.y / 2.0)
+            {
+                vect.y = 3 * go.GetComponent<BoxCollider>().size.y;
+            }
+
+            if (vector.z < GlobalVar.ModelSize.z / 2.0)
+            {
+                vect.z = 3 * go.GetComponent<BoxCollider>().size.z;
+            }
+            return vect;
         }
 
     }
