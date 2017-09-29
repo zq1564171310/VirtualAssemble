@@ -20,7 +20,7 @@ namespace WyzLink.Manager
         private Material OriginalMaterial;                     //零件本来的材质
         private GameObject PartsInfoPlane;                       //零件信息框面板
         private GameObject PartsInfoContent;
-
+        private Coroutine NodeInstallationStateManagerCorout;
 
         // Use this for initialization
         void Start()
@@ -42,7 +42,7 @@ namespace WyzLink.Manager
 
         public void StartCount()
         {
-            StartCoroutine(NodeInstallationStateManagerCoroutine());
+            NodeInstallationStateManagerCorout = StartCoroutine(NodeInstallationStateManagerCoroutine());
         }
 
         /// <summary>
@@ -50,7 +50,11 @@ namespace WyzLink.Manager
         /// </summary>
         public void OnEnable()
         {
-            StartCount();
+            if (null != NodeInstallationStateManagerCorout)
+            {
+                StopCoroutine(NodeInstallationStateManagerCoroutine());
+            }
+            NodeInstallationStateManagerCorout = StartCoroutine(NodeInstallationStateManagerCoroutine());
         }
 
         private IEnumerator NodeInstallationStateManagerCoroutine()
@@ -63,7 +67,19 @@ namespace WyzLink.Manager
 
                 if (InstallationState.Installed == installationState)
                 {
-                    AssembleManager.Instance.DisButtonPart(gameObject.GetComponent<Node>());
+                    bool flags = false;
+                    for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
+                    {
+                        if (NodesCommon.Instance.GetNodesList().Contains(gameObject.GetComponent<Node>()))
+                        {
+                            flags = true;
+                            break;
+                        }
+                    }
+                    if (false == flags)
+                    {
+                        AssembleManager.Instance.DisButtonPart(gameObject.GetComponent<Node>());
+                    }
                 }
                 else if (InstallationState.NotInstalled == installationState)
                 {
@@ -86,7 +102,19 @@ namespace WyzLink.Manager
                 }
                 else if (InstallationState.Step1Installed == installationState)
                 {
-                    AssembleManager.Instance.DisButtonPart(gameObject.GetComponent<Node>());
+                    bool flags = false;
+                    for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
+                    {
+                        if (NodesCommon.Instance.GetNodesList().Contains(gameObject.GetComponent<Node>()))
+                        {
+                            flags = true;
+                            break;
+                        }
+                    }
+                    if (false == flags)
+                    {
+                        AssembleManager.Instance.DisButtonPart(gameObject.GetComponent<Node>());
+                    }
                 }
                 else
                 {
@@ -152,7 +180,7 @@ namespace WyzLink.Manager
             {
                 if (null != gameObject.GetComponent<Node>())
                 {
-                    if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 10f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
+                    if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 0.03f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
                     {
                         if (EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
                         {
@@ -181,6 +209,9 @@ namespace WyzLink.Manager
                             gameObject.GetComponent<Node>().PlayAnimations();
                             Destroy(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject);
                             Destroy(GameObject.Find("RuntimeObject/Nodes/" + gameObject.GetComponent<Node>().name + gameObject.GetComponent<Node>().nodeId));
+
+                            Destroy(gameObject.GetComponent<BoxCollider>());
+                            gameObject.AddComponent<MeshCollider>();
                         }
                         else
                         {
@@ -213,6 +244,8 @@ namespace WyzLink.Manager
                                     }
                                     gameObject.GetComponent<Node>().PlayAnimations();
                                     Destroy(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject);
+                                    Destroy(gameObject.GetComponent<BoxCollider>());
+                                    gameObject.AddComponent<MeshCollider>();
                                     flag = true;
                                 }
                             }

@@ -64,7 +64,7 @@ using Windows.Storage;
 
         public void Init()
         {
-            ScaleCenter = gameObject.transform.position;
+            ScaleCenter = GameObject.Find("RuntimeObject/Nodes").transform.position;
             RotaAngleCenter = GameObject.Find("Canvas/Floor/MainWorkSpace").transform.position;
             RotaLeftBut = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/Contrarotate").GetComponent<Button>();
             RotaRightBut = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/ClockwiseRotation").GetComponent<Button>();
@@ -245,6 +245,11 @@ using Windows.Storage;
         public void DisButtonPart(Node node)
         {
             _UIPartsPage.DisButtonPart(node);
+        }
+
+        public bool IsView(Node node)
+        {
+            return _UIPartsPage.IsView(node);
         }
 
         /// <summary>
@@ -462,17 +467,17 @@ using Windows.Storage;
         /// </summary>
         public void WorkSpaceScal(float scalNum)
         {
-            for (int i = 0; i < InstalledNodeList.Count; i++)
-            {
-                InstalledNodeList[i].gameObject.transform.localScale = InstalledNodeList[i].gameObject.GetComponent<Node>().LocalSize * scalNum;
-            }
+            //for (int i = 0; i < InstalledNodeList.Count; i++)
+            //{
+            //    InstalledNodeList[i].gameObject.transform.localScale = InstalledNodeList[i].gameObject.GetComponent<Node>().LocalSize * scalNum;
+            //    InstalledNodeList[i].gameObject.transform.position = scalNum * (InstalledNodeList[i].gameObject.transform.position - ScaleCenter) + ScaleCenter;
+            //}
 
-            for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
-            {
-                Debug.Log(NodesCommon.Instance.GetNodesList()[i].EndPos + "----------------");
-                NodesCommon.Instance.GetNodesList()[i].EndPos = scalNum * (NodesCommon.Instance.GetNodesList()[i].EndPos - ScaleCenter) + ScaleCenter;
-                Debug.Log(NodesCommon.Instance.GetNodesList()[i].EndPos + "+++++++++++++++++++");
-            }
+            //for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
+            //{
+            //    NodesCommon.Instance.GetNodesList()[i].EndPos = scalNum * (NodesCommon.Instance.GetNodesList()[i].EndPos - ScaleCenter) + ScaleCenter;
+            //    NodesCommon.Instance.GetNodesList()[i].LocalSize = NodesCommon.Instance.GetNodesList()[i].LocalSize * scalNum;
+            //}
         }
 
         /// <summary>
