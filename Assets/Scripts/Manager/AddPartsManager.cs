@@ -10,6 +10,7 @@ namespace WyzLink.Manager
     using WyzLink.Common;
     using WyzLink.Control;
     using WyzLink.Parts;
+    using WyzLink.UI;
 
     public class AddPartsManager : MonoBehaviour
     {
@@ -36,10 +37,11 @@ namespace WyzLink.Manager
         {
             _RuntimeObjectNodes = GameObject.Find("RuntimeObject/Nodes");
             MainWorkSpacePos = GameObject.Find("Canvas/Floor/MainWorkSpace").transform.position;
-            SecondWorkSpacePos = GameObject.Find("Canvas/Floor/MainWorkSpace2").transform.position;
+            //SecondWorkSpacePos = GameObject.Find("Canvas/Floor/MainWorkSpace2").transform.position;
 
             //获取根节点的物体
             RootPartGameObject = FindObjectOfType<AssembleController>();
+
             if (null != RootPartGameObject)
             {
                 if (NodesController.Instance == null)

@@ -7,7 +7,6 @@ namespace WyzLink.Manager
 {
     using HoloToolkit.Unity;
     using HoloToolkit.Unity.InputModule;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
@@ -36,7 +35,7 @@ using Windows.Storage;
         private Vector3 RotaAngleCenter = new Vector3();                     //工作区旋转的中心点
         private Vector3 ScaleCenter = new Vector3();                         //物体缩放的中心点
 
-        private Vector3 PartStartPosition = new Vector3(1.7f, -0.4f, 4.5f);
+        private Vector3 PartStartPosition = new Vector3(1.7f, -0.4f, 4.5f);     //零件从零件架上飞下来的初始化位置
 
         private UIPartsPanelClass _UIPartsPanelClass;
         private UIPartsPage _UIPartsPage;
@@ -73,20 +72,19 @@ using Windows.Storage;
             _ChangeModeBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/SwitchMode").GetComponent<Button>();
             _LastNode = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/Backspace").GetComponent<Button>();
             _Tips = GameObject.Find("Canvas/BG/PartsPanel/Tips").GetComponent<Text>();         //提示框
+            _UIPartsPanelClass = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel").GetComponent<UIPartsPanelClass>();
+            _UIPartsPage = GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel").GetComponent<UIPartsPage>();
 
             RotaLeftBut.onClick.AddListener(RotaLeftBtnClick);
             RotaRightBut.onClick.AddListener(RotaRightBtnClick);
             _ChangeModeBtn.onClick.AddListener(ChangeModeClick);
             _LastNode.onClick.AddListener(LastNodeClick);
 
-            _UIPartsPanelClass = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel").GetComponent<UIPartsPanelClass>();
-            _UIPartsPage = GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel").GetComponent<UIPartsPage>();
-
             #region Test
             InstalledNodeList.Add(NodesController.Instance.GetNodeList()[0]);
 
             NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNodeList[InstalledNodeList.Count - 1]).Cast<Node>();
-            if (null != NextInstallNode && EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
+            if (null != NextInstallNode && EntryMode.GeAssembleModel() == AssembleModel.StudyModel)   //学习模式文字提示
             {
                 string err = "";
                 int index = 1;
@@ -101,14 +99,12 @@ using Windows.Storage;
                     NextInstallNodeList.Add(node);
                 }
                 _Tips.text = "现在应该安装:" + err;
-                if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
-                {
-                    _Tips.gameObject.SetActive(false);
-                }
             }
             #endregion
-            //获取物体的绝对路径，新的UI中都会改掉
+
+            //菜单控件添加事件
             _Slider.onValueChanged.AddListener(SlideTheSlider);
+
         }
 
         // Update is called once per frame
@@ -342,34 +338,36 @@ using Windows.Storage;
 
             if (InstallationState.Step1Installed == InstalledNodeList[InstalledNodeList.Count - 1].GetInstallationState())
             {
-                NodesCommon.Instance.SetInstallationState(InstalledNodeList[InstalledNodeList.Count - 1].nodeId, InstallationState.NotInstalled);                //回退之前设置一下安装状态
+                NodesCommon.Instance.SetInstallationState(InstalledNodeList[InstalledNodeList.Count - 1].nodeId, InstallationState.NextInstalling);                //回退之前设置一下安装状态
 
                 Destroy(GameObject.Find("RuntimeObject/Nodes/" + InstalledNodeList[InstalledNodeList.Count - 1].name + InstalledNodeList[InstalledNodeList.Count - 1].nodeId));   //如果是准备安装状态，那么还要删掉提示的物体
                 Destroy(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + InstalledNodeList[InstalledNodeList.Count - 1].nodeId).gameObject);               //删掉提示的文字
 
                 Destroy(InstalledNodeList[InstalledNodeList.Count - 1].gameObject);        //回退之前，删除已经安装的零件
                 AbleButton(InstalledNodeList[InstalledNodeList.Count - 1]);                //零件架上该零件可以被点击
+                NextInstallNodeList.Add(InstalledNodeList[InstalledNodeList.Count - 1]);
                 ReMoveInstalledNodeList(InstalledNodeList[InstalledNodeList.Count - 1]);    //将已经安装列表更新
-                NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNodeList[InstalledNodeList.Count - 1]).Cast<Node>();   //更新当前应该被安装的零件列表
-                if (null != NextInstallNode && EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
-                {
-                    string err = "";
-                    int index = 1;
-                    foreach (Node node in NextInstallNode)
-                    {
-                        node.SetInstallationState(InstallationState.NextInstalling);
-                        //跳转页面
-                        _UIPartsPage.SetIndex(node);
-                        index = _UIPartsPage.GetIndex(node);
-                        err += node.name + "(第" + index + "页）" + "/";
-                        NextInstallNodeList.Add(node);
-                    }
-                    _Tips.text = "现在应该安装:" + err;
-                    if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
-                    {
-                        _Tips.gameObject.SetActive(false);
-                    }
-                }
+
+                //NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNodeList[InstalledNodeList.Count - 1]).Cast<Node>();   //更新当前应该被安装的零件列表
+                //if (null != NextInstallNode && EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
+                //{
+                //    string err = "";
+                //    int index = 1;
+                //    foreach (Node node in NextInstallNode)
+                //    {
+                //        node.SetInstallationState(InstallationState.NextInstalling);
+                //        //跳转页面
+                //        _UIPartsPage.SetIndex(node);
+                //        index = _UIPartsPage.GetIndex(node);
+                //        err += node.name + "(第" + index + "页）" + "/";
+                //        NextInstallNodeList.Add(node);
+                //    }
+                //    _Tips.text = "现在应该安装:" + err;
+                //    if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
+                //    {
+                //        _Tips.gameObject.SetActive(false);
+                //    }
+                //}
             }
             else if (InstallationState.Installed == InstalledNodeList[InstalledNodeList.Count - 1].GetInstallationState())
             {
@@ -413,26 +411,26 @@ using Windows.Storage;
                     gameOb.transform.localScale = InstalledNodeList[InstalledNodeList.Count - 1].LocalSize;
                 }
 
-                NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNodeList[InstalledNodeList.Count - 1]).Cast<Node>();   //更新当前应该被安装的零件列表
-                if (null != NextInstallNode && EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
-                {
-                    string err = "";
-                    int index = 1;
-                    foreach (Node node in NextInstallNode)
-                    {
-                        node.SetInstallationState(InstallationState.NextInstalling);
-                        //跳转页面
-                        _UIPartsPage.SetIndex(node);
-                        index = _UIPartsPage.GetIndex(node);
-                        err += node.name + "(第" + index + "页）" + "/";
-                        NextInstallNodeList.Add(node);
-                    }
-                    _Tips.text = "现在应该安装:" + err;
-                    if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
-                    {
-                        _Tips.gameObject.SetActive(false);
-                    }
-                }
+                //NextInstallNode = _DependencyGraph.GetNextSteps(InstalledNodeList[InstalledNodeList.Count - 1]).Cast<Node>();   //更新当前应该被安装的零件列表
+                //if (null != NextInstallNode && EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
+                //{
+                //    string err = "";
+                //    int index = 1;
+                //    foreach (Node node in NextInstallNode)
+                //    {
+                //        node.SetInstallationState(InstallationState.NextInstalling);
+                //        //跳转页面
+                //        _UIPartsPage.SetIndex(node);
+                //        index = _UIPartsPage.GetIndex(node);
+                //        err += node.name + "(第" + index + "页）" + "/";
+                //        NextInstallNodeList.Add(node);
+                //    }
+                //    _Tips.text = "现在应该安装:" + err;
+                //    if (EntryMode.GeAssembleModel() == AssembleModel.ExamModel)
+                //    {
+                //        _Tips.gameObject.SetActive(false);
+                //    }
+                //}
             }
         }
 

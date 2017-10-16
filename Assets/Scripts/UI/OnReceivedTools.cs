@@ -254,7 +254,6 @@ namespace WyzLink.UI
 
             BindPage(m_PageIndex);
             m_PanelText.text = string.Format("第" + "{0}/{1}" + "页", m_PageIndex.ToString(), m_PageCount.ToString());
-
         }
 
     }

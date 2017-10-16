@@ -15,16 +15,17 @@ namespace WyzLink.UI
         // Use this for initialization
         void Start()
         {
-
+            int a = 0;
         }
 
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
-                //StartScence();
+                StartScence();
             }
         }
+
         private void StartScence()
         {
             EntryMode.SetAssembleModel(AssembleModel.DemonstrationModel);

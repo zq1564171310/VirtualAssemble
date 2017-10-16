@@ -10,13 +10,25 @@ namespace WyzLink.Assemble
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
+    using UnityEngine.SceneManagement;
+    using UnityEngine.UI;
     using WyzLink.Parts;
+    using WyzLink.UI;
 
     public class TestScene : MonoBehaviour
     {
         public Transform[] targets;
 
+        private Button ChangeModeBtn;
+
         void Start()
+        {
+            Init();
+            ChangeModeBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/SwitchMode").GetComponent<Button>();
+            ChangeModeBtn.onClick.AddListener(ChangeModeBtnClick);
+        }
+
+        public void Init()
         {
             var assembleController = Object.FindObjectOfType<AssembleController>();
             if (assembleController != null)
@@ -29,25 +41,15 @@ namespace WyzLink.Assemble
             }
         }
 
+        private void ChangeModeBtnClick()
+        {
+            EntryMode.SetAssembleModel(AssembleModel.DemonstrationModel);
+            SceneManager.LoadScene(0);
+        }
+
         private void OnGUI()
         {
-            //if (GUI.Button(new Rect(20, 20, 120, 40), "Run flow"))
-            //{
-            //    var assembleController = Object.FindObjectOfType<AssembleController>();
-            //    if (assembleController != null)
-            //    {
-            //        StartCoroutine(FlowRender(assembleController));
-            //    }
-            //    else
-            //    {
-            //        Debug.LogError("Not able to find the AssembleController in the scene");
-            //    }
-            //}
 
-            //if (GUI.Button(new Rect(160, 20, 120, 40), "Run animations"))
-            //{
-            //    StartCoroutine(TestAnimations());
-            //}
         }
 
         private IEnumerator FlowRender(AssembleController assembleController)

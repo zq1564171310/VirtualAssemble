@@ -18,15 +18,11 @@ namespace WyzLink.Manager
     {
         private Coroutine MaterialCoroutine;                //光标进入和失去材质改变协程
         private Material OriginalMaterial;                     //零件本来的材质
-        private GameObject PartsInfoPlane;                       //零件信息框面板
-        private GameObject PartsInfoContent;
         private Coroutine NodeInstallationStateManagerCorout;
 
         // Use this for initialization
         void Start()
         {
-            PartsInfoPlane = GameObject.Find("Canvas/PartsInfoPlane");
-            PartsInfoContent = GameObject.Find("Canvas/PartsInfoPlane/PartsInfo/InfoContent");
             if (null != gameObject.GetComponent<MeshRenderer>())
             {
                 OriginalMaterial = gameObject.GetComponent<MeshRenderer>().sharedMaterial;
@@ -63,62 +59,77 @@ namespace WyzLink.Manager
             InstallationState installationState;
             while (true)
             {
-                installationState = NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId);
-
-                if (InstallationState.Installed == installationState)
+                if (AssembleModel.DemonstrationModel != EntryMode.GeAssembleModel())
                 {
-                    bool flags = false;
-                    for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
+                    installationState = NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId);
+
+                    if (InstallationState.Installed == installationState)
                     {
-                        if (NodesCommon.Instance.GetNodesList().Contains(gameObject.GetComponent<Node>()))
+                        bool flags = false;
+                        for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
                         {
-                            flags = true;
-                            break;
+                            if (NodesCommon.Instance.GetNodesList().Contains(gameObject.GetComponent<Node>()))
+                            {
+                                flags = true;
+                                break;
+                            }
+                        }
+                        if (false == flags && null != AssembleManager.Instance)
+                        {
+                            AssembleManager.Instance.DisButtonPart(gameObject.GetComponent<Node>());
                         }
                     }
-                    if (false == flags)
+                    else if (InstallationState.NotInstalled == installationState)
                     {
-                        AssembleManager.Instance.DisButtonPart(gameObject.GetComponent<Node>());
+                        if (null != AssembleManager.Instance)
+                        {
+                            AssembleManager.Instance.AbleButton(gameObject.GetComponent<Node>());
+                        }
                     }
-                }
-                else if (InstallationState.NotInstalled == installationState)
-                {
-                    AssembleManager.Instance.AbleButton(gameObject.GetComponent<Node>());
-                }
-                else if (InstallationState.NextInstalling == installationState)
-                {
-                    if (flag == 0)
+                    else if (InstallationState.NextInstalling == installationState)
                     {
-                        AssembleManager.Instance.AbleButton(gameObject.GetComponent<Node>());
-                        flag = 1;
-                        yield return new WaitForSeconds(0.6f);
+                        if (flag == 0)
+                        {
+                            if (null != AssembleManager.Instance)
+                            {
+                                AssembleManager.Instance.AbleButton(gameObject.GetComponent<Node>());
+                            }
+                            flag = 1;
+                            yield return new WaitForSeconds(0.6f);
+                        }
+                        else
+                        {
+                            if (null != AssembleManager.Instance)
+                            {
+                                AssembleManager.Instance.DisButtonPart(gameObject.GetComponent<Node>());
+                            }
+                            flag = 0;
+                            yield return new WaitForSeconds(0.6f);
+                        }
+                    }
+                    else if (InstallationState.Step1Installed == installationState)
+                    {
+                        bool flags = false;
+                        for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
+                        {
+                            if (NodesCommon.Instance.GetNodesList().Contains(gameObject.GetComponent<Node>()))
+                            {
+                                flags = true;
+                                break;
+                            }
+                        }
+                        if (false == flags)
+                        {
+                            if (null != AssembleManager.Instance)
+                            {
+                                AssembleManager.Instance.DisButtonPart(gameObject.GetComponent<Node>());
+                            }
+                        }
                     }
                     else
                     {
-                        AssembleManager.Instance.DisButtonPart(gameObject.GetComponent<Node>());
-                        flag = 0;
-                        yield return new WaitForSeconds(0.6f);
-                    }
-                }
-                else if (InstallationState.Step1Installed == installationState)
-                {
-                    bool flags = false;
-                    for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
-                    {
-                        if (NodesCommon.Instance.GetNodesList().Contains(gameObject.GetComponent<Node>()))
-                        {
-                            flags = true;
-                            break;
-                        }
-                    }
-                    if (false == flags)
-                    {
-                        AssembleManager.Instance.DisButtonPart(gameObject.GetComponent<Node>());
-                    }
-                }
-                else
-                {
 
+                    }
                 }
                 yield return 0;
             }
@@ -178,7 +189,7 @@ namespace WyzLink.Manager
         {
             if (null != gameObject.GetComponent<HandDraggable>())
             {
-                if (null != gameObject.GetComponent<Node>())
+                if (null != gameObject.GetComponent<Node>())              //0.03
                 {
                     if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 0.03f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
                     {
