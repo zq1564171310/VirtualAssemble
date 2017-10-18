@@ -16,4 +16,8 @@ public class GlobalVar : MonoBehaviour
 
     //大小
     public static Vector3 ModelSize = new Vector3(0.15f, 0.15f, 0.15f);                //定义零件架上零件大小，统一规格摆放到零件架上
+
+    //提示内容
+    public static string ErrorTips1 = "安装错误！零件将被退回零件架，请选择正确的零件安装！";
+    public static string ErrorTips2 = "错误：请先将上一个零件安装完成！";
 }

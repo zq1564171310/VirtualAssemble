@@ -1,7 +1,7 @@
 ﻿/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
 /// <author>zq</author>
 /// <summary>
-/// 所有常用零件控制类
+/// 所有常用零件控制类，真实数据存放
 /// </summary>
 namespace WyzLink.Control
 {

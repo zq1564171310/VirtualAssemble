@@ -69,9 +69,7 @@ namespace WyzLink.UI
 
         private List<Button> BtnList = new List<Button>();          //零件按钮集合
 
-        private List<Node> NodesList = new List<Node>();            //所有零件类型的集合
-
-        private Coroutine HighLigtCoroutine;
+        private List<Node> NodesList = new List<Node>();            //所有零件的集合
 
         // Use this for initialization
         void Start()
@@ -217,7 +215,6 @@ namespace WyzLink.UI
         /// <param name="index">页面索引</param>
         private void BindPage(int index)
         {
-
             //列表处理
             if (m_ItemsList == null || m_ItemsCount <= 0)
                 return;
@@ -228,12 +225,10 @@ namespace WyzLink.UI
 
             for (int i = 0; i < NodesList.Count; i++)
             {
-                #region Test
-                if (FirstNode != NodesList[i].partName)
+                if (FirstNode != NodesList[i].partName)      //第一个零件默认是安装好的,所以第一个零件不需要隐藏，其他零件隐藏起来
                 {
                     NodesList[i].gameObject.SetActive(false);
                 }
-                #endregion
             }
 
             //按照元素个数可以分为1页和1页以上两种情况
@@ -302,15 +297,7 @@ namespace WyzLink.UI
         {
             trans.Find("Text").GetComponent<Text>().text = gridItem.partName;
             gridItem.gameObject.transform.position = trans.GetChild(1).transform.position;
-
-            if (InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gridItem.nodeId) || InstallationState.Installed == NodesCommon.Instance.GetInstallationState(gridItem.nodeId))
-            {
-                DisAbleButton(trans.gameObject);
-            }
-            else
-            {
-                AbleButton(trans.gameObject);
-            }
+            trans.GetComponent<UIPartBtnStateManager>().RefreshData(gridItem);
         }
 
         /// <summary>
@@ -332,6 +319,7 @@ namespace WyzLink.UI
             {
                 m_ItemsList.Clear();           //清空前一类型的数据
             }
+
             for (int i = 0; i < NodesList.Count; i++)
             {
                 if (m_Type == NodesList[i].Type && FirstNode != NodesList[i].partName)
@@ -339,14 +327,20 @@ namespace WyzLink.UI
                     m_ItemsList.Add(NodesList[i]);
                 }
             }
+
             //计算元素总个数
             m_ItemsCount = m_ItemsList.Count;
+
             //计算总页数
             m_PageCount = (m_ItemsCount % Page_Count) == 0 ? m_ItemsCount / Page_Count : (m_ItemsCount / Page_Count) + 1;
 
-            m_PageIndex = 1;  //每次刷新都必须把页面重置，防止新的页面页数不够
+            // if (m_PageIndex > m_PageCount)
+            {
+                m_PageIndex = 1;  //每次刷新都必须把页面重置，防止新的页面页数不够
+            }
 
             BindPage(m_PageIndex);
+
             m_PanelText.text = string.Format("第" + "{0}/{1}" + "页", m_PageIndex.ToString(), m_PageCount.ToString());
         }
 
@@ -363,7 +357,7 @@ namespace WyzLink.UI
             GameObject Txt;                             //克隆一份文本
             Transform[] trans;
 
-            if (EntryMode.GeAssembleModel() != AssembleModel.ExamModel)
+            if (EntryMode.GetAssembleModel() != AssembleModel.ExamModel)
             {
                 for (int i = 0; i < BtnList.Count; i++)
                 {
@@ -373,6 +367,12 @@ namespace WyzLink.UI
 
                         if (InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(node.nodeId) || InstallationState.Installed == NodesCommon.Instance.GetInstallationState(node.nodeId))
                         {
+                            continue;
+                        }
+
+                        if (true == NodesCommon.Instance.IsPartInstallating())        //如果有零件正在安装
+                        {
+                            //此处要给提示
                             continue;
                         }
 
@@ -441,6 +441,7 @@ namespace WyzLink.UI
                                         gameObSec.transform.localScale = node.LocalSize;
                                     }
 
+                                    gameobj.AddComponent<NodeManager>();
                                     gameobj.AddComponent<BoxCollider>();
                                     if (null == gameobj.GetComponent<MeshFilter>())
                                     {
@@ -465,7 +466,6 @@ namespace WyzLink.UI
                                             NodesCommon.Instance.SetInstallationState(node.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
                                             AssembleManager.Instance.AddInstalledNodeList(gameobj.GetComponent<Node>());
                                             AssembleManager.Instance.SetInstalledNodeListStatus(gameobj.GetComponent<Node>(), InstallationState.Step1Installed);
-                                            DisAbleButton(go);
                                         }
                                     }
                                     break;
@@ -492,6 +492,11 @@ namespace WyzLink.UI
                             continue;
                         }
 
+                        if (true == NodesCommon.Instance.IsPartInstallating())        //如果有零件正在安装
+                        {
+                            continue;
+                        }
+
                         gameobj = Instantiate(node.gameObject, node.gameObject.transform, true);
                         gameobj.name = node.name;
                         gameobj.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
@@ -500,6 +505,7 @@ namespace WyzLink.UI
                             gameobj.transform.localScale = node.LocalSize;
                         }
 
+                        gameobj.AddComponent<NodeManager>();
                         gameobj.AddComponent<BoxCollider>();
                         if (null == gameobj.gameObject.GetComponent<MeshFilter>())
                         {
@@ -526,7 +532,6 @@ namespace WyzLink.UI
                                 NodesCommon.Instance.SetInstallationState(node.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
                                 AssembleManager.Instance.AddInstalledNodeList(gameobj.GetComponent<Node>());
                                 AssembleManager.Instance.SetInstalledNodeListStatus(gameobj.GetComponent<Node>(), InstallationState.Step1Installed);
-                                DisAbleButton(go);
                             }
                         }
                         break;
@@ -553,11 +558,13 @@ namespace WyzLink.UI
             }
         }
 
+
+        #region  按钮效果
         /// <summary>
         /// 让按钮看起来不能被点击，仅仅只是UI显示方面
         /// </summary>
         /// <param name="go"></param>
-        private void DisAbleButton(GameObject go)
+        public void DisButton(GameObject go)
         {
             Button but = go.GetComponent<Button>();
             but.interactable = false;
@@ -626,7 +633,7 @@ namespace WyzLink.UI
                 }
             }
         }
-
+        #endregion
 
         public Vector3 GetBoxColliderSize(GameObject go)
         {

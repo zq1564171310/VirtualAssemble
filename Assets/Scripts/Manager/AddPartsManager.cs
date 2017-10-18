@@ -10,7 +10,6 @@ namespace WyzLink.Manager
     using WyzLink.Common;
     using WyzLink.Control;
     using WyzLink.Parts;
-    using WyzLink.UI;
 
     public class AddPartsManager : MonoBehaviour
     {
@@ -69,14 +68,13 @@ namespace WyzLink.Manager
                 {
                     if (null != child.GetComponent<Node>())
                     {
-                        child.gameObject.AddComponent<NodeManager>();
                         node = child.gameObject.GetComponent<Node>();
                         node.EndPos = child.transform.position;
                         //node.LocalSize = node.GetDimensions();
                         node.LocalSize = child.transform.localScale;
                         node.partName = child.name;
 
-                        #region  Test
+                        #region  Test       暂时的零件类型划分，后期需要单独界面，做成可配置的
                         if (child.name == "底盘平台")
                         {
                             node.SetInstallationState(InstallationState.Installed);     //底盘平台默认是安装的

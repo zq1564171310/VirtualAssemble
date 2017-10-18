@@ -57,7 +57,7 @@ namespace WyzLink.Manager
                     commonPart = go.GetComponent<CommonParts>();
                     commonPart.CommonPartsName = go.name;
 
-                    #region Test
+                    #region Test  暂时分类，后期需要添加设置界面，做成可配置的
                     if (commonPart.name.Contains("半圆头"))
                     {
                         commonPart.Type = "半圆头";

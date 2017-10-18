@@ -1,7 +1,7 @@
 ﻿/// <copyright>(c) 2017 WyzLink Inc. All rights reserved.</copyright>
 /// <author>zq</author>
 /// <summary>
-/// 工具一些公共接口
+/// 工具一些公共方法，对外提供数据
 /// </summary>
 namespace WyzLink.Common
 {

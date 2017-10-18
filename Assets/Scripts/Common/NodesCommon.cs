@@ -155,5 +155,28 @@ namespace WyzLink.Common
             return state;
         }
 
+        /// <summary>
+        /// 是否存在零件已经从零件架上取下来，正准备安装
+        /// </summary>
+        /// <returns></returns>
+        public bool IsPartInstallating()
+        {
+            bool flag = false;
+            if (null != NodesController.Instance)
+            {
+                if (0 < NodesController.Instance.GetNodeList().Count)
+                {
+                    for (int i = 0; i < NodesController.Instance.GetNodeList().Count; i++)
+                    {
+                        if (InstallationState.Step1Installed == NodesController.Instance.GetNodeList()[i].GetInstallationState())
+                        {
+                            flag = true;
+                        }
+                    }
+                }
+            }
+            return flag;
+        }
+
     }
 }

@@ -41,7 +41,7 @@ namespace WyzLink.UI
         /// 获取当前选择的安装模式
         /// </summary>
         /// <returns></returns>
-        public static AssembleModel GeAssembleModel()
+        public static AssembleModel GetAssembleModel()
         {
             return _AssembleModel;
         }

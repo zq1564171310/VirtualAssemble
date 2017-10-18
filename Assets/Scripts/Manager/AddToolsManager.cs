@@ -58,7 +58,7 @@ namespace WyzLink.Manager
                     tool = go.GetComponent<Tool>();
                     tool.ToolName = go.name;
 
-                    #region Test
+                    #region Test         暂时分类
                     if (tool.name.Contains("螺丝刀"))
                     {
                         tool.Type = "螺丝刀";
