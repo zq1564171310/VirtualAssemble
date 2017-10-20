@@ -7,7 +7,6 @@
 namespace WyzLink.UI
 {
     using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
     using WyzLink.Common;
     using WyzLink.Manager;
@@ -30,11 +29,6 @@ namespace WyzLink.UI
 
         }
 
-        public void Init()
-        {
-            StartCount();
-        }
-
         private void StartCount()       //开启协程
         {
             if (null != BtnStateCoroutine)
@@ -50,9 +44,9 @@ namespace WyzLink.UI
             InstallationState installationState;                       //声明一个安装状态的变量
             while (true)
             {
-                if (AssembleModel.StudyModel == EntryMode.GetAssembleModel())                      //学习模式需要管按钮的状态
+                if (AssembleModel.StudyModel == EntryMode.GetAssembleModel() || AssembleModel.ExamModel == EntryMode.GetAssembleModel())                      //需要管按钮的状态
                 {
-                    if (null == UIPartBtnNode)              //按钮上没有被绑定的零件
+                    if (null == UIPartBtnNode || null == AssembleManager.Instance)              //按钮上没有被绑定的零件
                     {
                         continue;
                     }
@@ -69,17 +63,20 @@ namespace WyzLink.UI
                     }
                     else if (InstallationState.NextInstalling == installationState)
                     {
-                        if (flag == 0)
+                        if (AssembleModel.StudyModel == EntryMode.GetAssembleModel())                      //学习模式提示待安装的按钮的状态
                         {
-                            AssembleManager.Instance.AbleButton(gameObject);
-                            flag = 1;
-                            yield return new WaitForSeconds(0.6f);
-                        }
-                        else
-                        {
-                            AssembleManager.Instance.DisButton(gameObject);
-                            flag = 0;
-                            yield return new WaitForSeconds(0.6f);
+                            if (flag == 0)
+                            {
+                                AssembleManager.Instance.AbleButton(gameObject);
+                                flag = 1;
+                                yield return new WaitForSeconds(0.6f);
+                            }
+                            else
+                            {
+                                AssembleManager.Instance.DisButton(gameObject);
+                                flag = 0;
+                                yield return new WaitForSeconds(0.6f);
+                            }
                         }
                     }
                     else if (InstallationState.Step1Installed == installationState)

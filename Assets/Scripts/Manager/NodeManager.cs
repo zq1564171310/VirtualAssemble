@@ -52,14 +52,7 @@ namespace WyzLink.Manager
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (null != gameObject.GetComponent<MeshRenderer>() && InstallationState.NextInstalling != gameObject.GetComponent<Node>().GetInstallationState())
-            {
-                TransformIntoMaterial(OriginalMaterial);
-            }
-            else if (null != gameObject.GetComponent<MeshRenderer>() && InstallationState.NextInstalling == gameObject.GetComponent<Node>().GetInstallationState())
-            {
-                TransformIntoMaterial(GlobalVar.NextInstallMate);
-            }
+            TransformIntoMaterial(OriginalMaterial);
         }
 
         private void TransformIntoMaterial(Material targetMat)
@@ -241,7 +234,9 @@ namespace WyzLink.Manager
 
         }
 
-
+        /// <summary>
+        /// 安装错误提示信息关闭
+        /// </summary>
         void OnMovesIEnumerator()
         {
             Destroy(gameObject);
@@ -250,6 +245,9 @@ namespace WyzLink.Manager
             //AssembleManager.Instance.AbleButton(gameObject.GetComponent<Node>());
         }
 
+        /// <summary>
+        /// 关闭零件属性面板
+        /// </summary>
         void ClosePartInfo()
         {
             AssembleManager.Instance.GetPartsInfoBtn().onClick.RemoveAllListeners();

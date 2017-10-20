@@ -71,10 +71,17 @@ namespace WyzLink.UI
 
         private List<Node> NodesList = new List<Node>();            //所有零件的集合
 
+        private float ErrorTime = 0;       //错误提示时间
+        private Text ErrorInfo;           //错误信息提示框内容
+        private Text PartInfo;            //零件信息内容
+        private Text NextParts;           //下一步该零件零件提示内容
+
         // Use this for initialization
         void Start()
         {
-
+            ErrorInfo = GameObject.Find("Canvas/BG/InfoPanel/Panel/Error").GetComponent<Text>();           //错误信息提示框内容
+            PartInfo = GameObject.Find("Canvas/BG/InfoPanel/Panel/Info").GetComponent<Text>();            //零件信息内容
+            NextParts = GameObject.Find("Canvas/BG/InfoPanel/Panel/Tips").GetComponent<Text>();           //下一步该零件零件提示内容
         }
 
         void Update()
@@ -83,6 +90,16 @@ namespace WyzLink.UI
             {
                 RefreshItems();
                 InitFlag++;
+            }
+
+            if ("错误信息提示：" != ErrorInfo.text)
+            {
+                ErrorTime += Time.deltaTime;
+            }
+            if (ErrorTime > 3)
+            {
+                ErrorInfo.text = "错误信息提示：";
+                ErrorTime = 0;
             }
         }
 
@@ -154,20 +171,20 @@ namespace WyzLink.UI
         /// </summary>
         public void SetIndex(Node node)
         {
-            int pageIndex = 1;
-            for (int i = 0; i < m_ItemsList.Count; i++)
-            {
-                if (m_ItemsList[i].nodeId == node.nodeId)
-                {
-                    pageIndex = i / Page_Count + 1;
-                    break;
-                }
-            }
-            m_PageIndex = pageIndex;
-            BindPage(m_PageIndex);
+            //int pageIndex = 1;
+            //for (int i = 0; i < m_ItemsList.Count; i++)
+            //{
+            //    if (m_ItemsList[i].nodeId == node.nodeId)
+            //    {
+            //        pageIndex = i / Page_Count + 1;
+            //        break;
+            //    }
+            //}
+            //m_PageIndex = pageIndex;
+            //BindPage(m_PageIndex);
 
-            //更新界面页数
-            m_PanelText.text = string.Format("第" + "{0}/{1}" + "页", m_PageIndex.ToString(), m_PageCount.ToString());
+            ////更新界面页数
+            //m_PanelText.text = string.Format("第" + "{0}/{1}" + "页", m_PageIndex.ToString(), m_PageCount.ToString());
         }
 
         public int GetIndex(Node node)
@@ -181,7 +198,7 @@ namespace WyzLink.UI
                     break;
                 }
             }
-            m_PageIndex = pageIndex;
+            //m_PageIndex = pageIndex;
             return pageIndex;
         }
 
@@ -373,6 +390,7 @@ namespace WyzLink.UI
                         if (true == NodesCommon.Instance.IsPartInstallating())        //如果有零件正在安装
                         {
                             //此处要给提示
+                            ErrorInfo.text = "错误信息提示：请装完前面一个从零件架上取下的零件，再从零件架上抓取！";
                             continue;
                         }
 
@@ -452,6 +470,21 @@ namespace WyzLink.UI
                                     gameobj.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
 
                                     StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));
+                                    PartInfo.text = "被选中的零件信息：" + gameobj.GetComponent<Node>().note;
+                                    if (null != AssembleManager.Instance.GetNextInstallNode())
+                                    {
+                                        string tips = "";
+                                        int index = 1;
+                                        foreach (Node no in AssembleManager.Instance.GetNextInstallNode())
+                                        {
+                                            if (InstallationState.NextInstalling == no.GetInstallationState())
+                                            {
+                                                index = GetIndex(no);
+                                                tips += no.name + "(第" + index + "页）" + "/";
+                                            }
+                                        }
+                                        NextParts.text = "下一步应该安装的零件:" + tips;
+                                    }
                                     gameobj.transform.RotateAround(AssembleManager.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManager.Instance.GetRotaAngle());
 
                                     Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
@@ -580,58 +613,6 @@ namespace WyzLink.UI
             Button but = go.GetComponent<Button>();
             but.interactable = true;
             go.transform.GetChild(2).gameObject.SetActive(true);
-        }
-
-        /// <summary>
-        /// 让按钮看起来能被点击，仅仅只是UI显示方面
-        /// </summary>
-        public void AbleButtonPart(Node node)
-        {
-            int index = 0;
-            for (int i = 0; i < m_ItemsList.Count; i++)
-            {
-                if (m_ItemsList[i].nodeId == node.nodeId)
-                {
-                    index = ((i + 1) % Page_Count) - 1;
-                    break;
-                }
-            }
-
-            for (int i = 0; i < BtnList.Count; i++)
-            {
-                if (i == index)
-                {
-                    BtnList[i].GetComponent<Button>().interactable = true;
-                    BtnList[i].transform.GetChild(2).gameObject.SetActive(true);
-                    break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 让按钮看起来能被点击，仅仅只是UI显示方面
-        /// </summary>
-        public void DisButtonPart(Node node)
-        {
-            int index = 0;
-            for (int i = 0; i < m_ItemsList.Count; i++)
-            {
-                if (m_ItemsList[i].nodeId == node.nodeId)
-                {
-                    index = ((i + 1) % Page_Count) - 1;
-                    break;
-                }
-            }
-
-            for (int i = 0; i < BtnList.Count; i++)
-            {
-                if (i == index)
-                {
-                    BtnList[i].GetComponent<Button>().interactable = false;
-                    BtnList[i].transform.GetChild(2).gameObject.SetActive(false);
-                    break;
-                }
-            }
         }
         #endregion
 
