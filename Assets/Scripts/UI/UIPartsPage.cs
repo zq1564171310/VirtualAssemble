@@ -413,7 +413,6 @@ namespace WyzLink.UI
                                     gameOb.transform.localScale = node.LocalSize;
                                     gameOb.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                                     gameOb.transform.position = node.EndPos;
-                                    gameOb.transform.RotateAround(AssembleManager.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManager.Instance.GetRotaAngle());
                                     if (null != gameOb.GetComponent<MeshRenderer>())
                                     {
                                         gameOb.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
@@ -550,13 +549,11 @@ namespace WyzLink.UI
 
                         StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));         //从零件架上飞出
                         gameobj.transform.RotateAround(AssembleManager.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManager.Instance.GetRotaAngle());
-
-                        #region Test 此处根据UI布局写活，后续需要根据UI调整
+                        
                         Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
                         Txt.name = "Text" + node.nodeId;
                         Txt.transform.position = node.gameObject.transform.position;
                         Txt.GetComponent<Text>().text = node.gameObject.name;
-                        #endregion
 
                         if (null != gameobj.GetComponent<Node>())
                         {

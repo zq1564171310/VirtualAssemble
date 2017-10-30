@@ -471,7 +471,7 @@ using Windows.Storage;
                         gameOb.name = gameobj.GetComponent<Node>().name + gameobj.GetComponent<Node>().nodeId;
                         gameOb.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                         gameOb.transform.position = gameobj.GetComponent<Node>().EndPos;
-                        //gameOb.transform.RotateAround(GetRotaAngleCenter(), Vector3.up, GetRotaAngle());
+                        gameOb.transform.RotateAround(GetRotaAngleCenter(), Vector3.up, GetRotaAngle());
                         if (null != gameOb.GetComponent<MeshRenderer>())
                         {
                             gameOb.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;

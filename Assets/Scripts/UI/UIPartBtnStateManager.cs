@@ -46,7 +46,7 @@ namespace WyzLink.UI
             {
                 if (AssembleModel.StudyModel == EntryMode.GetAssembleModel() || AssembleModel.ExamModel == EntryMode.GetAssembleModel())                      //需要管按钮的状态
                 {
-                    if (null == UIPartBtnNode || null == AssembleManager.Instance)              //按钮上没有被绑定的零件
+                    if (null == UIPartBtnNode || null == AssembleManager.Instance || null == NodesCommon.Instance)              //按钮上没有被绑定的零件
                     {
                         continue;
                     }
