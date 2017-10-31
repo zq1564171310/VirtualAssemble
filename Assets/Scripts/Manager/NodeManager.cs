@@ -66,11 +66,10 @@ namespace WyzLink.Manager
 
         private IEnumerator TransformMaterialCoroutine(Material targetMat)
         {
-            if (null == GetComponent<MeshRenderer>())
+            if (null != GetComponent<MeshRenderer>())
             {
-                yield return 0;
+                this.GetComponent<MeshRenderer>().material = targetMat;
             }
-            this.GetComponent<MeshRenderer>().material = targetMat;
             yield return 0;
         }
 

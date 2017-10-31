@@ -63,8 +63,9 @@ using Windows.Storage;
 
         public void Init()
         {
-            ScaleCenter = GameObject.Find("RuntimeObject/Nodes").transform.position;
-            RotaAngleCenter = GameObject.Find("Canvas/Floor/MainWorkSpace").transform.position;
+            ScaleCenter = FindObjectOfType<AssembleController>().transform.position;
+            RotaAngleCenter = FindObjectOfType<AssembleController>().transform.position;
+
             RotaLeftBut = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/Contrarotate").GetComponent<Button>();
             RotaRightBut = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/ClockwiseRotation").GetComponent<Button>();
             _Slider = GameObject.Find("Canvas/BG/WorkAreaControl/SliderPlane/Slider").GetComponent<Slider>();
@@ -358,7 +359,6 @@ using Windows.Storage;
             else if (InstallationState.Installed == InstalledNodeList[InstalledNodeList.Count - 1].GetInstallationState())
             {
                 NodesCommon.Instance.SetInstallationState(InstalledNodeList[InstalledNodeList.Count - 1].nodeId, InstallationState.Step1Installed);                //回退之前设置一下安装状态
-                InstalledNodeList[InstalledNodeList.Count - 1].transform.position = PartStartPosition;
                 InstalledNodeList[InstalledNodeList.Count - 1].gameObject.transform.position = PartStartPosition;
                 InstalledNodeList[InstalledNodeList.Count - 1].gameObject.AddComponent<HandDraggable>();
                 InstalledNodeList[InstalledNodeList.Count - 1].gameObject.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
@@ -370,13 +370,11 @@ using Windows.Storage;
                 Txt.transform.position = InstalledNodeList[InstalledNodeList.Count - 1].gameObject.transform.position;
                 Txt.GetComponent<Text>().text = InstalledNodeList[InstalledNodeList.Count - 1].gameObject.name;
 
-
                 GameObject gameOb = Instantiate(InstalledNodeList[InstalledNodeList.Count - 1].gameObject, InstalledNodeList[InstalledNodeList.Count - 1].gameObject.transform, true);              //克隆一份作为提示
                 gameOb.name = InstalledNodeList[InstalledNodeList.Count - 1].name + InstalledNodeList[InstalledNodeList.Count - 1].nodeId;
                 gameOb.transform.localScale = InstalledNodeList[InstalledNodeList.Count - 1].LocalSize;
                 gameOb.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                 gameOb.transform.position = InstalledNodeList[InstalledNodeList.Count - 1].EndPos;
-                gameOb.transform.RotateAround(GetRotaAngleCenter(), Vector3.up, GetRotaAngle());
                 if (null != gameOb.GetComponent<MeshRenderer>())
                 {
                     gameOb.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
@@ -392,10 +390,7 @@ using Windows.Storage;
                         }
                     }
                 }
-                if (null != gameOb.GetComponent<MeshFilter>())
-                {
-                    gameOb.transform.localScale = InstalledNodeList[InstalledNodeList.Count - 1].LocalSize;
-                }
+                gameOb.transform.localScale = InstalledNodeList[InstalledNodeList.Count - 1].LocalSize * GetScale();
             }
         }
 
@@ -447,11 +442,8 @@ using Windows.Storage;
                         gameobj.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                         InstalledNodeList.Add(gameobj.GetComponent<Node>());
                         SetInstalledNodeListStatus(InstalledNodeList[InstalledNodeList.Count - 1], InstallationState.Step1Installed);  //集合中元素的状态也要跟着改变
-                        if (null != gameobj.GetComponent<MeshFilter>())
-                        {
-                            gameobj.transform.localScale = gameobj.GetComponent<Node>().LocalSize;
-                        }
-
+                        gameobj.transform.localScale = gameobj.GetComponent<Node>().LocalSize * GetScale();
+                        gameobj.transform.RotateAround(GetRotaAngleCenter(), Vector3.up, GetRotaAngle());
                         gameobj.AddComponent<NodeManager>();
                         gameobj.AddComponent<BoxCollider>();
                         if (null == gameobj.gameObject.GetComponent<MeshFilter>())
@@ -471,7 +463,7 @@ using Windows.Storage;
                         gameOb.name = gameobj.GetComponent<Node>().name + gameobj.GetComponent<Node>().nodeId;
                         gameOb.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                         gameOb.transform.position = gameobj.GetComponent<Node>().EndPos;
-                        gameOb.transform.RotateAround(GetRotaAngleCenter(), Vector3.up, GetRotaAngle());
+
                         if (null != gameOb.GetComponent<MeshRenderer>())
                         {
                             gameOb.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
@@ -487,10 +479,8 @@ using Windows.Storage;
                                 }
                             }
                         }
-                        if (null != gameOb.GetComponent<MeshFilter>())
-                        {
-                            gameOb.transform.localScale = InstalledNodeList[InstalledNodeList.Count - 1].LocalSize;
-                        }
+                        gameOb.transform.localScale = InstalledNodeList[InstalledNodeList.Count - 1].LocalSize * GetScale();
+                        //gameOb.transform.Rotate(Vector3.up, -GetRotaAngle(), Space.Self);  //拷贝的时候，已经自转过了
                         break;
                     }
                 }
@@ -524,21 +514,42 @@ using Windows.Storage;
         }
 
         /// <summary>
-        /// 工作取缩放
+        /// 返回缩放比例
+        /// </summary>
+        /// <returns></returns>
+        public float GetScale()
+        {
+            float scalNum = 1;
+            scalNum = WorkSpaceScalingNum;
+            return scalNum;
+        }
+
+        /// <summary>
+        /// 工作区缩放
         /// </summary>
         public void WorkSpaceScal(float scalNum)
         {
-            //for (int i = 0; i < InstalledNodeList.Count; i++)
-            //{
-            //    InstalledNodeList[i].gameObject.transform.localScale = InstalledNodeList[i].gameObject.GetComponent<Node>().LocalSize * scalNum;
-            //    InstalledNodeList[i].gameObject.transform.position = scalNum * (InstalledNodeList[i].gameObject.transform.position - ScaleCenter) + ScaleCenter;
-            //}
+            for (int i = 1; i < NodesCommon.Instance.GetNodesList().Count; i++)
+            {
+                NodesCommon.Instance.GetNodesList()[i].EndPos = scalNum * (NodesCommon.Instance.GetNodesList()[i].EndPosForScale - ScaleCenter) + ScaleCenter;
+            }
 
-            //for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
-            //{
-            //    NodesCommon.Instance.GetNodesList()[i].EndPos = scalNum * (NodesCommon.Instance.GetNodesList()[i].EndPos - ScaleCenter) + ScaleCenter;
-            //    NodesCommon.Instance.GetNodesList()[i].LocalSize = NodesCommon.Instance.GetNodesList()[i].LocalSize * scalNum;
-            //}
+            for (int i = 0; i < InstalledNodeList.Count; i++)
+            {
+                InstalledNodeList[i].gameObject.transform.localScale = InstalledNodeList[i].LocalSize * scalNum;
+                InstalledNodeList[i].EndPos = scalNum * (InstalledNodeList[i].EndPosForScale - ScaleCenter) + ScaleCenter;
+
+                if (InstallationState.Installed != InstalledNodeList[i].GetInstallationState())
+                {
+                    GameObject.Find(InstalledNodeList[i].name + InstalledNodeList[i].nodeId).transform.localScale = InstalledNodeList[i].LocalSize * scalNum;
+                    GameObject.Find(InstalledNodeList[i].name + InstalledNodeList[i].nodeId).transform.position = InstalledNodeList[i].EndPos;
+                    InstalledNodeList[i].gameObject.transform.position = PartStartPosition;
+                }
+                else
+                {
+                    InstalledNodeList[i].gameObject.transform.position = InstalledNodeList[i].EndPos;
+                }
+            }
         }
 
         /// <summary>
@@ -550,31 +561,51 @@ using Windows.Storage;
             //获取工作区中心位置
             if (0 == rota)        //左旋转
             {
-                for (int i = 0; i < InstalledNodeList.Count; i++)
-                {
-                    InstalledNodeList[i].gameObject.transform.RotateAround(RotaAngleCenter, Vector3.up, -WorkSpaceRotaAngle);
-                }
-
-                for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
+                for (int i = 1; i < NodesCommon.Instance.GetNodesList().Count; i++)   //因为第一个物体是底座，所以他不在零件架上，直接出现在安装区域，所以应该pas
                 {
                     NodesCommon.Instance.GetNodesList()[i].EndPos = Quaternion.AngleAxis(-WorkSpaceRotaAngle, Vector3.up) * (NodesCommon.Instance.GetNodesList()[i].EndPos - RotaAngleCenter) + RotaAngleCenter;
+                    NodesCommon.Instance.GetNodesList()[i].EndPosForScale = Quaternion.AngleAxis(-WorkSpaceRotaAngle, Vector3.up) * (NodesCommon.Instance.GetNodesList()[i].EndPosForScale - RotaAngleCenter) + RotaAngleCenter;
                 }
 
                 RotaAngle -= WorkSpaceRotaAngle;
+
+                for (int i = 0; i < InstalledNodeList.Count; i++)
+                {
+                    InstalledNodeList[i].EndPos = Quaternion.AngleAxis(-WorkSpaceRotaAngle, Vector3.up) * (InstalledNodeList[i].EndPos - RotaAngleCenter) + RotaAngleCenter;
+                    InstalledNodeList[i].EndPosForScale = Quaternion.AngleAxis(-WorkSpaceRotaAngle, Vector3.up) * (InstalledNodeList[i].EndPosForScale - RotaAngleCenter) + RotaAngleCenter;
+
+                    InstalledNodeList[i].gameObject.transform.RotateAround(RotaAngleCenter, Vector3.up, -WorkSpaceRotaAngle);
+
+                    if (InstallationState.Installed != InstalledNodeList[i].GetInstallationState())   //待安装的零件提示位置和终点位置跟着转
+                    {
+                        GameObject.Find(InstalledNodeList[i].name + InstalledNodeList[i].nodeId).transform.RotateAround(RotaAngleCenter, Vector3.up, -WorkSpaceRotaAngle);
+                        InstalledNodeList[i].transform.position = PartStartPosition;
+                    }
+                }
             }
             else                //右旋转
             {
-                for (int i = 0; i < InstalledNodeList.Count; i++)
-                {
-                    InstalledNodeList[i].gameObject.transform.RotateAround(RotaAngleCenter, Vector3.up, WorkSpaceRotaAngle);
-                }
-
-                for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
+                for (int i = 1; i < NodesCommon.Instance.GetNodesList().Count; i++)
                 {
                     NodesCommon.Instance.GetNodesList()[i].EndPos = Quaternion.AngleAxis(WorkSpaceRotaAngle, Vector3.up) * (NodesCommon.Instance.GetNodesList()[i].EndPos - RotaAngleCenter) + RotaAngleCenter;
+                    NodesCommon.Instance.GetNodesList()[i].EndPosForScale = Quaternion.AngleAxis(WorkSpaceRotaAngle, Vector3.up) * (NodesCommon.Instance.GetNodesList()[i].EndPosForScale - RotaAngleCenter) + RotaAngleCenter;
                 }
 
                 RotaAngle += WorkSpaceRotaAngle;
+
+                for (int i = 0; i < InstalledNodeList.Count; i++)
+                {
+                    InstalledNodeList[i].EndPos = Quaternion.AngleAxis(WorkSpaceRotaAngle, Vector3.up) * (InstalledNodeList[i].EndPos - RotaAngleCenter) + RotaAngleCenter;
+                    InstalledNodeList[i].EndPosForScale = Quaternion.AngleAxis(WorkSpaceRotaAngle, Vector3.up) * (InstalledNodeList[i].EndPosForScale - RotaAngleCenter) + RotaAngleCenter;
+
+                    InstalledNodeList[i].gameObject.transform.RotateAround(RotaAngleCenter, Vector3.up, WorkSpaceRotaAngle);
+
+                    if (InstallationState.Installed != InstalledNodeList[i].GetInstallationState()) //待安装的零件提示位置和终点位置跟着转
+                    {
+                        GameObject.Find(InstalledNodeList[i].gameObject.GetComponent<Node>().name + InstalledNodeList[i].gameObject.GetComponent<Node>().nodeId).transform.RotateAround(RotaAngleCenter, Vector3.up, WorkSpaceRotaAngle);
+                        InstalledNodeList[i].transform.position = PartStartPosition;
+                    }
+                }
             }
         }
 

@@ -31,7 +31,7 @@ namespace WyzLink.UI
 
         private void StartCount()       //开启协程
         {
-            if (null != BtnStateCoroutine)
+            if (true == gameObject.activeInHierarchy && null != BtnStateCoroutine)
             {
                 StopCoroutine(BtnStateCoroutine);
             }

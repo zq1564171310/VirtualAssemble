@@ -403,14 +403,11 @@ namespace WyzLink.UI
                                     gameobj = Instantiate(node.gameObject, node.gameObject.transform, true);
                                     gameobj.name = node.name;
                                     gameobj.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
-                                    if (null != gameobj.GetComponent<MeshFilter>())
-                                    {
-                                        gameobj.transform.localScale = node.LocalSize;
-                                    }
+                                    gameobj.transform.localScale = node.LocalSize * AssembleManager.Instance.GetScale();
 
                                     gameOb = Instantiate(node.gameObject, node.gameObject.transform, true);
                                     gameOb.name = node.name + node.nodeId;
-                                    gameOb.transform.localScale = node.LocalSize;
+
                                     gameOb.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                                     gameOb.transform.position = node.EndPos;
                                     if (null != gameOb.GetComponent<MeshRenderer>())
@@ -428,14 +425,11 @@ namespace WyzLink.UI
                                             }
                                         }
                                     }
-                                    if (null != gameOb.GetComponent<MeshFilter>())
-                                    {
-                                        gameOb.transform.localScale = node.LocalSize;
-                                    }
+                                    gameOb.transform.localScale = node.LocalSize * AssembleManager.Instance.GetScale();
+                                    gameOb.transform.Rotate(Vector3.up, -AssembleManager.Instance.GetRotaAngle(), Space.Self);
 
                                     gameObSec = Instantiate(node.gameObject, node.gameObject.transform, true);
                                     gameObSec.name = node.name + "Sec" + node.nodeId;
-                                    gameObSec.transform.localScale = node.LocalSize;
                                     gameObSec.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                                     gameObSec.transform.position = node.WorSpaceRelativePos;
                                     if (null != gameObSec.GetComponent<MeshRenderer>())
@@ -453,10 +447,8 @@ namespace WyzLink.UI
                                             }
                                         }
                                     }
-                                    if (null != gameObSec.GetComponent<MeshFilter>())
-                                    {
-                                        gameObSec.transform.localScale = node.LocalSize;
-                                    }
+                                    gameObSec.transform.localScale = node.LocalSize * AssembleManager.Instance.GetScale();
+                                    gameObSec.transform.Rotate(Vector3.up, -AssembleManager.Instance.GetRotaAngle(), Space.Self);
 
                                     gameobj.AddComponent<NodeManager>();
                                     gameobj.AddComponent<BoxCollider>();
@@ -485,6 +477,7 @@ namespace WyzLink.UI
                                         NextParts.text = "下一步应该安装的零件:" + tips;
                                     }
                                     gameobj.transform.RotateAround(AssembleManager.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManager.Instance.GetRotaAngle());
+
 
                                     Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
                                     Txt.name = "Text" + node.nodeId;
@@ -532,10 +525,7 @@ namespace WyzLink.UI
                         gameobj = Instantiate(node.gameObject, node.gameObject.transform, true);
                         gameobj.name = node.name;
                         gameobj.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
-                        if (null != gameobj.GetComponent<MeshFilter>())
-                        {
-                            gameobj.transform.localScale = node.LocalSize;
-                        }
+                        gameobj.transform.localScale = node.LocalSize * AssembleManager.Instance.GetScale();
 
                         gameobj.AddComponent<NodeManager>();
                         gameobj.AddComponent<BoxCollider>();
@@ -549,7 +539,7 @@ namespace WyzLink.UI
 
                         StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));         //从零件架上飞出
                         gameobj.transform.RotateAround(AssembleManager.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManager.Instance.GetRotaAngle());
-                        
+
                         Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
                         Txt.name = "Text" + node.nodeId;
                         Txt.transform.position = node.gameObject.transform.position;

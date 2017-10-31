@@ -6,16 +6,36 @@
 
 namespace WyzLink.Parts
 {
+    using System.Collections.Generic;
     using UnityEngine;
+    using WyzLink.Manager;
 
     public class AnimationPlayer : MonoBehaviour
     {
         [SerializeField]
         private string animationName;
 
+        //public AnimationCollection.AnimationPlay PlayAnimation()
+        //{
+        //    #region Test
+        //    if (null == AnimationCollection.Instance)
+        //    {
+        //        return GameObject.Find("UnityMain/AnimationCollection").GetComponent<AnimationCollection>().PlayAnimation(animationName, this.transform);
+        //    }
+        //    #endregion
+        //    return AnimationCollection.Instance.PlayAnimation(animationName, this.transform);
+        //}
+
         public AnimationCollection.AnimationPlay PlayAnimation()
         {
             #region Test
+            if (null != AssembleManager.Instance)
+            {
+                foreach (Transform child in GameObject.Find("UnityMain/AnimationCollection").transform)
+                {
+                    child.localScale = AssembleManager.Instance.GetScale() * new Vector3(1, 1, 1);
+                }
+            }
             if (null == AnimationCollection.Instance)
             {
                 return GameObject.Find("UnityMain/AnimationCollection").GetComponent<AnimationCollection>().PlayAnimation(animationName, this.transform);

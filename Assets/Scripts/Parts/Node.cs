@@ -40,11 +40,11 @@ namespace WyzLink.Parts
 
         private InstallationState installationState;      //安装状态
 
-        private Vector3 targetPosition;
+        public Vector3 targetPosition;
         private Quaternion targetRotation;
 
-        public Vector3 StartPos;                  //安装的起始位置（在零件架上的位置）
-        public Vector3 EndPos;                    //安装的终点位置（最终在工作区上的位置）
+        public Vector3 EndPosForScale;            //安装的终点位置（并且随旋转等操作而变化，不随放缩而变化）
+        public Vector3 EndPos;                    //安装的终点位置（并且随放缩/旋转等操作而变化，某一状态，放缩/旋转之后的安装位置）
         public Vector3 LocalSize;                 //原本尺寸（从零件架上取下之后的大小，零件架上的零件都会被放缩到差不多的大小）
         public Quaternion LocalRotation;             //零件原本世界坐标的角度
 

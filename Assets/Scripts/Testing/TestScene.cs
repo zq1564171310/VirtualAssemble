@@ -23,9 +23,9 @@ namespace WyzLink.Assemble
 
         void Start()
         {
-            Init();
             ChangeModeBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/SwitchMode").GetComponent<Button>();
             ChangeModeBtn.onClick.AddListener(ChangeModeBtnClick);
+            Init();
         }
 
         public void Init()

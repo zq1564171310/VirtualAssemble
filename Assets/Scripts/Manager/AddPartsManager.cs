@@ -70,6 +70,7 @@ namespace WyzLink.Manager
                     {
                         node = child.gameObject.GetComponent<Node>();
                         node.EndPos = child.transform.position;
+                        node.EndPosForScale = node.EndPos;
                         //node.LocalSize = node.GetDimensions();
                         node.LocalSize = child.transform.localScale;
                         node.partName = child.name;
