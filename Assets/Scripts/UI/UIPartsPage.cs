@@ -456,7 +456,7 @@ namespace WyzLink.UI
                                     {
                                         gameobj.GetComponent<BoxCollider>().size /= 10;
                                     }
-                                    gameobj.GetComponent<BoxCollider>().size = GetBoxColliderSize(gameobj);
+                                    //gameobj.GetComponent<BoxCollider>().size = GetBoxColliderSize(gameobj);
                                     gameobj.AddComponent<HandDraggable>();
                                     gameobj.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
 
@@ -533,7 +533,7 @@ namespace WyzLink.UI
                         {
                             gameobj.GetComponent<BoxCollider>().size /= 10;
                         }
-                        gameobj.GetComponent<BoxCollider>().size = GetBoxColliderSize(gameobj);
+                        //gameobj.GetComponent<BoxCollider>().size = GetBoxColliderSize(gameobj);
                         gameobj.AddComponent<HandDraggable>();
                         gameobj.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
 
