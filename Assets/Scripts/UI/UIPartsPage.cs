@@ -374,7 +374,7 @@ namespace WyzLink.UI
             GameObject Txt;                             //克隆一份文本
             Transform[] trans;
 
-            if (EntryMode.GetAssembleModel() != AssembleModel.ExamModel)
+            if (EntryMode.GetAssembleModel() != AssembleModel.ExamModel)         //学习模式
             {
                 for (int i = 0; i < BtnList.Count; i++)
                 {
@@ -404,12 +404,14 @@ namespace WyzLink.UI
                                     gameobj.name = node.name;
                                     gameobj.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                                     gameobj.transform.localScale = node.LocalSize * AssembleManager.Instance.GetScale();
+                                    gameobj.transform.RotateAround(AssembleManager.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManager.Instance.GetRotaAngle());
 
                                     gameOb = Instantiate(node.gameObject, node.gameObject.transform, true);
                                     gameOb.name = node.name + node.nodeId;
 
                                     gameOb.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                                     gameOb.transform.position = node.EndPos;
+                                    gameOb.transform.rotation = gameobj.transform.rotation;
                                     if (null != gameOb.GetComponent<MeshRenderer>())
                                     {
                                         gameOb.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
@@ -426,7 +428,6 @@ namespace WyzLink.UI
                                         }
                                     }
                                     gameOb.transform.localScale = node.LocalSize * AssembleManager.Instance.GetScale();
-                                    gameOb.transform.Rotate(Vector3.up, -AssembleManager.Instance.GetRotaAngle(), Space.Self);
 
                                     gameObSec = Instantiate(node.gameObject, node.gameObject.transform, true);
                                     gameObSec.name = node.name + "Sec" + node.nodeId;
@@ -476,8 +477,6 @@ namespace WyzLink.UI
                                         }
                                         NextParts.text = "下一步应该安装的零件:" + tips;
                                     }
-                                    gameobj.transform.RotateAround(AssembleManager.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManager.Instance.GetRotaAngle());
-
 
                                     Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
                                     Txt.name = "Text" + node.nodeId;
@@ -491,6 +490,8 @@ namespace WyzLink.UI
                                             NodesCommon.Instance.SetInstallationState(node.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
                                             AssembleManager.Instance.AddInstalledNodeList(gameobj.GetComponent<Node>());
                                             AssembleManager.Instance.SetInstalledNodeListStatus(gameobj.GetComponent<Node>(), InstallationState.Step1Installed);
+
+                                            AssembleManager.Instance.AutoScaleAndRota(gameobj.GetComponent<Node>());
                                         }
                                     }
                                     break;
@@ -526,6 +527,7 @@ namespace WyzLink.UI
                         gameobj.name = node.name;
                         gameobj.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                         gameobj.transform.localScale = node.LocalSize * AssembleManager.Instance.GetScale();
+                        gameobj.transform.RotateAround(AssembleManager.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManager.Instance.GetRotaAngle());
 
                         gameobj.AddComponent<NodeManager>();
                         gameobj.AddComponent<BoxCollider>();
@@ -538,7 +540,7 @@ namespace WyzLink.UI
                         gameobj.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
 
                         StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));         //从零件架上飞出
-                        gameobj.transform.RotateAround(AssembleManager.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManager.Instance.GetRotaAngle());
+
 
                         Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
                         Txt.name = "Text" + node.nodeId;
@@ -586,6 +588,10 @@ namespace WyzLink.UI
         /// <param name="go"></param>
         public void DisButton(GameObject go)
         {
+            if (false == go.activeInHierarchy)             //有可能按钮是被隐藏的
+            {
+                return;
+            }
             Button but = go.GetComponent<Button>();
             but.interactable = false;
             go.transform.GetChild(2).gameObject.SetActive(false);
@@ -597,6 +603,10 @@ namespace WyzLink.UI
         /// <param name="go"></param>
         public void AbleButton(GameObject go)
         {
+            if (false == go.activeInHierarchy)           //有可能按钮是被隐藏的
+            {
+                return;
+            }
             Button but = go.GetComponent<Button>();
             but.interactable = true;
             go.transform.GetChild(2).gameObject.SetActive(true);

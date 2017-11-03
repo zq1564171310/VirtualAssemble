@@ -20,20 +20,44 @@ namespace WyzLink.Assemble
         public Transform[] targets;
 
         private Button ChangeModeBtn;
+        private Button PlayModeBtn;
+        private Button PauseModeBtn;
+
+        private Vector3 AssembleCenter = new Vector3();                     //工作区旋转的中心点
+
+        List<Node> list = new List<Node>();
 
         void Start()
         {
             ChangeModeBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/SwitchMode").GetComponent<Button>();
+            PlayModeBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/AddWordArea").GetComponent<Button>();
+            PauseModeBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/DelWordArea").GetComponent<Button>();
+
             ChangeModeBtn.onClick.AddListener(ChangeModeBtnClick);
+            PlayModeBtn.onClick.AddListener(PlayFun);
+            PauseModeBtn.onClick.AddListener(PauseFun);
+
+            AssembleCenter = FindObjectOfType<AssembleController>().transform.position;
+
             Init();
+        }
+
+        void Update()
+        {
+
         }
 
         public void Init()
         {
-            var assembleController = Object.FindObjectOfType<AssembleController>();
+            var assembleController = FindObjectOfType<AssembleController>();
             if (assembleController != null)
             {
                 StartCoroutine(FlowRender(assembleController));
+
+                foreach (Node no in assembleController.GetDependencyGraph().GetHeaders().Cast<Node>())
+                {
+                    list.Add(no);
+                }
             }
             else
             {
@@ -41,10 +65,29 @@ namespace WyzLink.Assemble
             }
         }
 
+        /// <summary>
+        /// 切换模式
+        /// </summary>
         private void ChangeModeBtnClick()
         {
             EntryMode.SetAssembleModel(AssembleModel.DemonstrationModel);
             SceneManager.LoadScene(0);
+        }
+
+        /// <summary>
+        /// 播放
+        /// </summary>
+        private void PlayFun()
+        {
+            Time.timeScale = 1;
+        }
+
+        /// <summary>
+        /// 暂停
+        /// </summary>
+        private void PauseFun()
+        {
+            Time.timeScale = 0;
         }
 
         private void OnGUI()
@@ -73,7 +116,7 @@ namespace WyzLink.Assemble
             {
                 if (assembleController.GetDependencyGraph().IsNodeValidToInstall(node))
                 {
-                    var coroutine = StartCoroutine(AssemblePart(node));
+                    var coroutine = StartCoroutine(AssemblePart(headers, node));
 
                     if (node.hasAnimation)
                     {
@@ -88,12 +131,15 @@ namespace WyzLink.Assemble
             }
         }
 
-        private IEnumerator AssemblePart(Node node)
+        private IEnumerator AssemblePart(IEnumerable<Node> headers, Node node)
         {
             Vector3 velocity = Vector3.up;
             node.transform.position = Vector3.left * 2;
             node.gameObject.SetActive(true);
             node.SetInstallationState(InstallationState.Installed);
+
+            //AutoScaleAndRota(node);
+
             float deltaTime = 0;
             while (deltaTime < 0.6f)
             {
@@ -123,6 +169,72 @@ namespace WyzLink.Assemble
                 yield return AnimationCollection.Instance.PlayAnimation("M12内六角旋入", t);
                 yield return new WaitForSeconds(0.1f);
             }
+        }
+
+        public void AutoScaleAndRota(Node node)
+        {
+            Vector3 mainCamVertor = GameObject.FindWithTag("MainCamera").transform.position;   //照相机坐标
+            Vector3 nodeVector = node.EndPos;
+
+            float angle = Vector3.Angle(AssembleCenter - mainCamVertor, AssembleCenter - nodeVector); //求出两向量之间的夹角  
+            Vector3 normal = Vector3.Cross(AssembleCenter - mainCamVertor, AssembleCenter - nodeVector);//叉乘求出法线向量  
+            angle *= Mathf.Sign(Vector3.Dot(normal, Vector3.up));  //求法线向量与物体上方向向量点乘，结果为1或-1，修正旋转方向
+
+            foreach (Node no in list)
+            {
+                //no.EndPos = Quaternion.AngleAxis(-angle, Vector3.up) * (no.EndPos - AssembleCenter) + AssembleCenter;
+                //no.EndPosForScale = Quaternion.AngleAxis(-angle, Vector3.up) * (no.EndPosForScale - AssembleCenter) + AssembleCenter;
+                //if (InstallationState.Installed == no.GetInstallationState())
+                //{
+                //    no.EndPos = Quaternion.AngleAxis(-angle, Vector3.up) * (no.EndPos - AssembleCenter) + AssembleCenter;
+                //    no.EndPosForScale = Quaternion.AngleAxis(-angle, Vector3.up) * (no.EndPosForScale - AssembleCenter) + AssembleCenter;
+
+                //    no.gameObject.transform.RotateAround(AssembleCenter, Vector3.up, -angle);
+                //}
+            }
+
+            Vector3 nodeSize = node.GetPartModelRealSize(node.gameObject);
+
+            float scaleX = 1;
+            float scaleY = 1;
+            float scaleZ = 1;
+            float scale = 1;
+            if (nodeSize.x < GlobalVar.AutoScalVector.x)
+            {
+                scaleX = GlobalVar.AutoScalVector.x / nodeSize.x;
+                if (nodeSize.y < GlobalVar.AutoScalVector.y)
+                {
+                    scaleY = GlobalVar.AutoScalVector.y / nodeSize.y;
+                    if (nodeSize.z < GlobalVar.AutoScalVector.z)
+                    {
+                        scaleZ = GlobalVar.AutoScalVector.y / nodeSize.y;
+                    }
+                }
+            }
+
+            if (scaleX > 1 || scaleY > 1 || scaleZ > 1)
+            {
+                scale = (scaleX > scaleY && scaleX > scaleZ) ? scaleX : (scaleY > scaleZ ? scaleY : scaleZ);
+            }
+
+            if (scale > 3)     //防止太大
+            {
+                scale = 3;
+            }
+
+            foreach (Node no in list)
+            {
+                no.EndPos = scale * (no.EndPosForScale - AssembleCenter) + AssembleCenter;
+                if (InstallationState.Installed == no.GetInstallationState())
+                {
+                    no.gameObject.transform.localScale = no.LocalSize * scale;
+                    no.EndPos = scale * (no.EndPosForScale - AssembleCenter) + AssembleCenter;
+                    no.gameObject.transform.position = no.EndPos;
+                }
+            }
+
+            //FindObjectOfType<AssembleController>().transform.localScale *= scale;
+
         }
     }
 }

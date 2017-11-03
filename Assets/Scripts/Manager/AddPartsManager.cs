@@ -130,6 +130,7 @@ namespace WyzLink.Manager
                     }
                 }
 
+
                 if (AssembleManager.Instance == null)
                 {
                     var _AssembleManager = new GameObject("AssembleManager", typeof(AssembleManager));

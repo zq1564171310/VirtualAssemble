@@ -31,11 +31,14 @@ namespace WyzLink.UI
 
         private void StartCount()       //开启协程
         {
-            if (true == gameObject.activeInHierarchy && null != BtnStateCoroutine)
+            if (true == gameObject.activeInHierarchy)
             {
-                StopCoroutine(BtnStateCoroutine);
+                if (null != BtnStateCoroutine)
+                {
+                    StopCoroutine(BtnStateCoroutine);
+                }
+                BtnStateCoroutine = StartCoroutine(BtnStateManagerIEnumerator());
             }
-            BtnStateCoroutine = StartCoroutine(BtnStateManagerIEnumerator());
         }
 
         private IEnumerator BtnStateManagerIEnumerator()               //协程的具体实现

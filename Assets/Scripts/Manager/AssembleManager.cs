@@ -504,6 +504,7 @@ using Windows.Storage;
         {
             return RotaAngle;
         }
+
         /// <summary>
         /// 返回旋转的中心点坐标
         /// </summary>
@@ -609,5 +610,83 @@ using Windows.Storage;
             }
         }
 
+        /// <summary>
+        /// 自动旋转和缩放
+        /// </summary>
+        /// <param name="node">当前正在被安装的零件</param>
+        public void AutoScaleAndRota(Node node)
+        {
+            Vector3 mainCamVertor = GameObject.FindWithTag("MainCamera").transform.position;   //照相机坐标
+            Vector3 rootGameObjectVector = FindObjectOfType<AssembleController>().transform.position;  //被拆机器的坐标
+            Vector3 nodeVector = node.EndPos;
+
+            float angle = Vector3.Angle(rootGameObjectVector - mainCamVertor, rootGameObjectVector - nodeVector); //求出两向量之间的夹角  
+            Vector3 normal = Vector3.Cross(rootGameObjectVector - mainCamVertor, rootGameObjectVector - nodeVector);//叉乘求出法线向量  
+            angle *= Mathf.Sign(Vector3.Dot(normal, Vector3.up));  //求法线向量与物体上方向向量点乘，结果为1或-1，修正旋转方向
+
+            //FindObjectOfType<AssembleController>().transform.RotateAround(-RotaAngleCenter, Vector3.up, angle);
+            for (int i = 1; i < NodesCommon.Instance.GetNodesList().Count; i++)   //因为第一个物体是底座，所以他不在零件架上，直接出现在安装区域，所以应该pas
+            {
+                NodesCommon.Instance.GetNodesList()[i].EndPos = Quaternion.AngleAxis(-angle, Vector3.up) * (NodesCommon.Instance.GetNodesList()[i].EndPos - RotaAngleCenter) + RotaAngleCenter;
+                NodesCommon.Instance.GetNodesList()[i].EndPosForScale = Quaternion.AngleAxis(-angle, Vector3.up) * (NodesCommon.Instance.GetNodesList()[i].EndPosForScale - RotaAngleCenter) + RotaAngleCenter;
+            }
+
+            RotaAngle -= angle;
+
+            for (int i = 0; i < InstalledNodeList.Count; i++)
+            {
+                InstalledNodeList[i].EndPos = Quaternion.AngleAxis(-angle, Vector3.up) * (InstalledNodeList[i].EndPos - RotaAngleCenter) + RotaAngleCenter;
+                InstalledNodeList[i].EndPosForScale = Quaternion.AngleAxis(-angle, Vector3.up) * (InstalledNodeList[i].EndPosForScale - RotaAngleCenter) + RotaAngleCenter;
+
+                InstalledNodeList[i].gameObject.transform.RotateAround(RotaAngleCenter, Vector3.up, -angle);
+
+                if (InstallationState.Installed != InstalledNodeList[i].GetInstallationState())   //待安装的零件提示位置和终点位置跟着转
+                {
+                    GameObject.Find(InstalledNodeList[i].name + InstalledNodeList[i].nodeId).transform.RotateAround(RotaAngleCenter, Vector3.up, -angle);
+                    InstalledNodeList[i].transform.position = PartStartPosition;
+                }
+            }
+
+            Vector3 nodeSize = node.GetPartModelRealSize(node.gameObject);
+
+            float scaleX = 1;
+            float scaleY = 1;
+            float scaleZ = 1;
+            float scale = 1;
+            if (nodeSize.x < GlobalVar.AutoScalVector.x)
+            {
+                scaleX = GlobalVar.AutoScalVector.x / nodeSize.x;
+                if (nodeSize.y < GlobalVar.AutoScalVector.y)
+                {
+                    scaleY = GlobalVar.AutoScalVector.y / nodeSize.y;
+                    if (nodeSize.z < GlobalVar.AutoScalVector.z)
+                    {
+                        scaleZ = GlobalVar.AutoScalVector.y / nodeSize.y;
+                    }
+                }
+            }
+
+            if (scaleX > 1 || scaleY > 1 || scaleZ > 1)
+            {
+                scale = (scaleX > scaleY && scaleX > scaleZ) ? scaleX : (scaleY > scaleZ ? scaleY : scaleZ);
+            }
+            else
+            {
+                if (WorkSpaceScalingNum > 1)
+                {
+                    scale = WorkSpaceScalingNum;
+                }
+            }
+
+            if (scale > 3)     //防止太大
+            {
+                scale = 3;
+            }
+
+            WorkSpaceScalingNum = scale;
+            WorkSpaceScal(scale);
+        }
+
     }
+
 }

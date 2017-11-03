@@ -73,8 +73,6 @@ namespace WyzLink.Manager
             yield return 0;
         }
 
-
-
         void IManipulationHandler.OnManipulationStarted(ManipulationEventData eventData)
         {
 
