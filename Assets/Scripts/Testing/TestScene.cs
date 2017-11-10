@@ -29,6 +29,8 @@ namespace WyzLink.Assemble
 
         void Start()
         {
+            Time.timeScale = 0;
+
             ChangeModeBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/SwitchMode").GetComponent<Button>();
             PlayModeBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/AddWordArea").GetComponent<Button>();
             PauseModeBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/DelWordArea").GetComponent<Button>();

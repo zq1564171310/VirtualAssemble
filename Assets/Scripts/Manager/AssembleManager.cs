@@ -48,6 +48,7 @@ using Windows.Storage;
         private Button _ChangeModeBtn;           //切换模式按钮
         private Button _LastNode;                //回退
         private Button _Skip;                    //跳过
+        private Button _AutoScalAndRota;         //自动旋转和缩放
 
         private GameObject _TipErrorPlane;                       //错误提示画布
         private GameObject _TipErrBtn;                           //错误提示的确认按钮
@@ -75,10 +76,12 @@ using Windows.Storage;
             if (AssembleModel.StudyModel == EntryMode.GetAssembleModel())
             {
                 _Skip = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/Skip").GetComponent<Button>();
+                _AutoScalAndRota = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/AutoScalAndRota").GetComponent<Button>();
             }
 
             _UIPartsPanelClass = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel").GetComponent<UIPartsPanelClass>();
             _UIPartsPage = GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel").GetComponent<UIPartsPage>();
+
 
             RotaLeftBut.onClick.AddListener(RotaLeftBtnClick);
             RotaRightBut.onClick.AddListener(RotaRightBtnClick);
@@ -87,6 +90,7 @@ using Windows.Storage;
             if (AssembleModel.StudyModel == EntryMode.GetAssembleModel())
             {
                 _Skip.onClick.AddListener(SkipClick);
+                _AutoScalAndRota.onClick.AddListener(AutoScalAndRotaClick);
             }
             #region Test
             InstalledNodeList.Add(NodesController.Instance.GetNodeList()[0]);
@@ -102,7 +106,7 @@ using Windows.Storage;
                     //跳转页面
                     //_UIPartsPage.SetIndex(node);
                     index = _UIPartsPage.GetIndex(node);
-                    err += node.name + "(第" + index + "页）" + "/";
+                    err += node.name + index + "Pages）" + "/";
                     NextInstallNodeList.Add(node);
                 }
             }
@@ -289,7 +293,7 @@ using Windows.Storage;
                     //_UIPartsPage.SetIndex(nodes);
                     index = _UIPartsPage.GetIndex(nodes);
                     #endregion
-                    err += nodes.name + "(第" + index + "页）" + "/";
+                    err += nodes.name + index + "Pages）" + "/";
                     NextInstallNodeList.Add(node);
                 }
             }
@@ -316,7 +320,7 @@ using Windows.Storage;
             }
             WorkSpaceScalingNum = (float)(Num / 100.00);
             WorkSpaceScal(WorkSpaceScalingNum);
-            _SliderText.text = "工作区缩放" + Num + "%";
+            _SliderText.text = "Scaling" + Num + "%";
         }
 
         public void RotaLeftBtnClick()
@@ -485,6 +489,14 @@ using Windows.Storage;
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 自动放缩和旋转
+        /// </summary>
+        public void AutoScalAndRotaClick()
+        {
+            AutoScaleAndRota(InstalledNodeList[InstalledNodeList.Count - 1]);
         }
 
         public void CaptureScreensBtnClick()

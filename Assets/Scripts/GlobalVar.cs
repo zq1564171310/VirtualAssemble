@@ -16,7 +16,7 @@ public class GlobalVar : MonoBehaviour
     //大小
     public static Vector3 ModelSize = new Vector3(0.15f, 0.15f, 0.15f);             //定义零件架上零件大小，统一规格摆放到零件架上
 
-    public static Vector3 AutoScalVector = new Vector3(0.15f, 0.15f, 0.15f);    //自动旋转缩放的时候，被安装的零件小于这个尺寸，那么就放大
+    public static Vector3 AutoScalVector = new Vector3(0.15f, 0.15f, 0.15f);       //自动旋转缩放的时候，被安装的零件小于这个尺寸，那么就放大
 
     //提示内容
     public static string ErrorTips1 = "安装错误！零件将被退回零件架，请选择正确的零件安装！";

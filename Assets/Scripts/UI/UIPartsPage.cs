@@ -92,13 +92,13 @@ namespace WyzLink.UI
                 InitFlag++;
             }
 
-            if ("错误信息提示：" != ErrorInfo.text)
+            if ("Error information:" != ErrorInfo.text)
             {
                 ErrorTime += Time.deltaTime;
             }
             if (ErrorTime > 3)
             {
-                ErrorInfo.text = "错误信息提示：";
+                ErrorInfo.text = "Error information:";
                 ErrorTime = 0;
             }
         }
@@ -145,7 +145,7 @@ namespace WyzLink.UI
                 m_PageIndex = m_PageCount;
 
             BindPage(m_PageIndex);
-            m_PanelText.text = string.Format("第" + "{0}/{1}" + "页", m_PageIndex.ToString(), m_PageCount.ToString());
+            m_PanelText.text = string.Format("{0}/{1}" + "Pages", m_PageIndex.ToString(), m_PageCount.ToString());
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace WyzLink.UI
                 m_PageIndex = 1;
 
             BindPage(m_PageIndex);
-            m_PanelText.text = string.Format("第" + "{0}/{1}" + "页", m_PageIndex.ToString(), m_PageCount.ToString());
+            m_PanelText.text = string.Format("{0}/{1}" + "Pages", m_PageIndex.ToString(), m_PageCount.ToString());
         }
 
         /// <summary>
@@ -358,7 +358,7 @@ namespace WyzLink.UI
 
             BindPage(m_PageIndex);
 
-            m_PanelText.text = string.Format("第" + "{0}/{1}" + "页", m_PageIndex.ToString(), m_PageCount.ToString());
+            m_PanelText.text = string.Format("{0}/{1}" + "Pages", m_PageIndex.ToString(), m_PageCount.ToString());
         }
 
         /// <summary>
@@ -390,7 +390,7 @@ namespace WyzLink.UI
                         if (true == NodesCommon.Instance.IsPartInstallating())        //如果有零件正在安装
                         {
                             //此处要给提示
-                            ErrorInfo.text = "错误信息提示：请装完前面一个从零件架上取下的零件，再从零件架上抓取！";
+                            ErrorInfo.text = "Error information: please install the previous part removed from the parts rack, and then grab from the parts rack! ";
                             continue;
                         }
 
@@ -462,7 +462,7 @@ namespace WyzLink.UI
                                     gameobj.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
 
                                     StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));
-                                    PartInfo.text = "被选中的零件信息：" + gameobj.GetComponent<Node>().note;
+                                    PartInfo.text = "Selected part information：" + gameobj.GetComponent<Node>().note;
                                     if (null != AssembleManager.Instance.GetNextInstallNode())
                                     {
                                         string tips = "";
@@ -472,10 +472,10 @@ namespace WyzLink.UI
                                             if (InstallationState.NextInstalling == no.GetInstallationState())
                                             {
                                                 index = GetIndex(no);
-                                                tips += no.name + "(第" + index + "页）" + "/";
+                                                tips += no.name + index + "Pages）" + "/";
                                             }
                                         }
-                                        NextParts.text = "下一步应该安装的零件:" + tips;
+                                        NextParts.text = "The parts should be installed at present：" + tips;
                                     }
 
                                     Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
@@ -491,7 +491,7 @@ namespace WyzLink.UI
                                             AssembleManager.Instance.AddInstalledNodeList(gameobj.GetComponent<Node>());
                                             AssembleManager.Instance.SetInstalledNodeListStatus(gameobj.GetComponent<Node>(), InstallationState.Step1Installed);
 
-                                            AssembleManager.Instance.AutoScaleAndRota(gameobj.GetComponent<Node>());
+                                            //AssembleManager.Instance.AutoScaleAndRota(gameobj.GetComponent<Node>());
                                         }
                                     }
                                     break;
