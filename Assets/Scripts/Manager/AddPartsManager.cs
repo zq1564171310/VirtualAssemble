@@ -43,12 +43,12 @@ namespace WyzLink.Manager
 
             if (null != RootPartGameObject)
             {
-                if (NodesController.Instance == null)
+                if (null == NodesController.Instance)
                 {
                     var _NodesController = new GameObject("NodesController", typeof(NodesController));
                     _NodesController.transform.parent = _RuntimeObjectNodes.transform;
                 }
-                if (NodesCommon.Instance == null)
+                if (null == NodesCommon.Instance)
                 {
                     var _NodesCommon = new GameObject("NodesCommon", typeof(NodesCommon));
                     _NodesCommon.transform.parent = _RuntimeObjectNodes.transform;
@@ -131,7 +131,7 @@ namespace WyzLink.Manager
                 }
 
 
-                if (AssembleManager.Instance == null)
+                if (null == AssembleManager.Instance)
                 {
                     var _AssembleManager = new GameObject("AssembleManager", typeof(AssembleManager));
                     _AssembleManager.transform.parent = _RuntimeObjectNodes.transform;

@@ -110,7 +110,6 @@ using Windows.Storage;
 
             //菜单控件添加事件
             _Slider.onValueChanged.AddListener(SlideTheSlider);
-
         }
 
         // Update is called once per frame
@@ -672,10 +671,7 @@ using Windows.Storage;
             }
             else
             {
-                if (WorkSpaceScalingNum > 1)
-                {
-                    scale = WorkSpaceScalingNum;
-                }
+                scale = WorkSpaceScalingNum;
             }
 
             if (scale > 3)     //防止太大
@@ -685,6 +681,69 @@ using Windows.Storage;
 
             WorkSpaceScalingNum = scale;
             WorkSpaceScal(scale);
+
+            if (1 < WorkSpaceScalingNum)               //放大
+            {
+                _SliderText.text = "工作区缩放" + WorkSpaceScalingNum * 100 + "%";
+                _Slider.value = 10 + WorkSpaceScalingNum;
+            }
+            else if (1 == WorkSpaceScalingNum)         //正常比例
+            {
+                _SliderText.text = "工作区缩放" + 100 + "%";
+                _Slider.value = 10;
+            }
+            else                                       //缩小
+            {
+                _SliderText.text = "工作区缩放" + WorkSpaceScalingNum * 100 + "%";
+                _Slider.value = 10 - WorkSpaceScalingNum * 10;
+            }
+        }
+
+        /// <summary>
+        /// 恢复正常大小
+        /// </summary>
+        public void Recovery(Node node)
+        {
+            for (int i = 1; i < NodesCommon.Instance.GetNodesList().Count; i++)   //因为第一个物体是底座，所以他不在零件架上，直接出现在安装区域，所以应该pas
+            {
+                NodesCommon.Instance.GetNodesList()[i].EndPos = Quaternion.AngleAxis(-RotaAngle, Vector3.up) * (NodesCommon.Instance.GetNodesList()[i].EndPos - RotaAngleCenter) + RotaAngleCenter;
+                NodesCommon.Instance.GetNodesList()[i].EndPosForScale = Quaternion.AngleAxis(-RotaAngle, Vector3.up) * (NodesCommon.Instance.GetNodesList()[i].EndPosForScale - RotaAngleCenter) + RotaAngleCenter;
+            }
+
+            for (int i = 0; i < InstalledNodeList.Count; i++)
+            {
+                InstalledNodeList[i].EndPos = Quaternion.AngleAxis(-RotaAngle, Vector3.up) * (InstalledNodeList[i].EndPos - RotaAngleCenter) + RotaAngleCenter;
+                InstalledNodeList[i].EndPosForScale = Quaternion.AngleAxis(-RotaAngle, Vector3.up) * (InstalledNodeList[i].EndPosForScale - RotaAngleCenter) + RotaAngleCenter;
+
+                InstalledNodeList[i].gameObject.transform.RotateAround(RotaAngleCenter, Vector3.up, -RotaAngle);
+
+                if (InstallationState.Installed != InstalledNodeList[i].GetInstallationState())   //待安装的零件提示位置和终点位置跟着转
+                {
+                    GameObject.Find(InstalledNodeList[i].name + InstalledNodeList[i].nodeId).transform.RotateAround(RotaAngleCenter, Vector3.up, -RotaAngle);
+                    InstalledNodeList[i].transform.position = PartStartPosition;
+                }
+            }
+
+            RotaAngle = 0;
+
+            WorkSpaceScalingNum = 1;
+            WorkSpaceScal(WorkSpaceScalingNum);
+
+            if (1 < WorkSpaceScalingNum)               //放大
+            {
+                _SliderText.text = "工作区缩放" + WorkSpaceScalingNum * 100 + "%";
+                _Slider.value = 10 + WorkSpaceScalingNum;
+            }
+            else if (1 == WorkSpaceScalingNum)         //正常比例
+            {
+                _SliderText.text = "工作区缩放" + 100 + "%";
+                _Slider.value = 10;
+            }
+            else                                       //缩小
+            {
+                _SliderText.text = "工作区缩放" + WorkSpaceScalingNum * 100 + "%";
+                _Slider.value = 10 - WorkSpaceScalingNum * 10;
+            }
         }
 
     }

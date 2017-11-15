@@ -38,7 +38,7 @@ namespace WyzLink.Assemble
             PauseModeBtn.onClick.AddListener(PauseFun);
 
             AssembleCenter = FindObjectOfType<AssembleController>().transform.position;
-
+            PauseFun();
             Init();
         }
 
@@ -93,6 +93,11 @@ namespace WyzLink.Assemble
         private void OnGUI()
         {
 
+        }
+
+        private void OnDestroy()
+        {
+            Time.timeScale = 1;
         }
 
         private IEnumerator FlowRender(AssembleController assembleController)
