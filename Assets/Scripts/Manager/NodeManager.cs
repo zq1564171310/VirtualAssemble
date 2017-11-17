@@ -84,7 +84,7 @@ namespace WyzLink.Manager
             {
                 if (null != gameObject.GetComponent<Node>())              //0.03
                 {
-                    if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 0.03f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
+                    if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommon.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 0.09f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
                     {
                         if (EntryMode.GetAssembleModel() != AssembleModel.ExamModel)
                         {
@@ -115,6 +115,10 @@ namespace WyzLink.Manager
 
                             Destroy(gameObject.GetComponent<BoxCollider>());
                             gameObject.AddComponent<MeshCollider>();
+                            if (!gameObject.GetComponent<Node>().hasAnimation)
+                            {
+                                AssembleManager.Instance.Recovery();
+                            }
                         }
                         else
                         {

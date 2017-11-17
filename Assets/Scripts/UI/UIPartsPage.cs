@@ -463,6 +463,10 @@ namespace WyzLink.UI
 
                                     StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));
                                     PartInfo.text = "被选中的零件信息：" + gameobj.GetComponent<Node>().note;
+                                    if (gameobj.name == "测试箱脚垫")
+                                    {
+                                        PartInfo.text = "被选中的零件信息：" + "\n" + "名称：优力胶" + "\n" + "颜色：黄色" + "\n" + "大小：50*30" + "\n" + "孔位：M8沉头孔";
+                                    }
                                     if (null != AssembleManager.Instance.GetNextInstallNode())
                                     {
                                         string tips = "";
@@ -540,7 +544,6 @@ namespace WyzLink.UI
                         gameobj.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
 
                         StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));         //从零件架上飞出
-
 
                         Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
                         Txt.name = "Text" + node.nodeId;

@@ -37,7 +37,7 @@ namespace WyzLink.UI
                 {
                     StopCoroutine(BtnStateCoroutine);
                 }
-                BtnStateCoroutine = StartCoroutine(BtnStateManagerIEnumerator());
+                BtnStateCoroutine = StartCoroutine("BtnStateManagerIEnumerator");
             }
         }
 

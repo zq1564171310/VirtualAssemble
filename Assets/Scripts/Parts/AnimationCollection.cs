@@ -75,11 +75,17 @@ namespace WyzLink.Parts
         private IEnumerator TurnOffAnimation(Transform t, AnimationPlay play)
         {
             var animator = t.GetComponent<Animator>();
+
             while (!animator.GetCurrentAnimatorStateInfo(0).IsName("End"))
             {
                 yield return new WaitForSeconds(1.3f);
             }
+            if (UI.EntryMode.GetAssembleModel() == AssembleModel.StudyModel)
+            {
+                Manager.AssembleManager.Instance.Recovery();
+            }
             t.gameObject.SetActive(false);
+
             play.SetIsDone();
         }
     }

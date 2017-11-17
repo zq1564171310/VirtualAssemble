@@ -55,6 +55,9 @@ using Windows.Storage;
         private GameObject _PartsInfoText;                       //零件信息提示文本
         private GameObject _PartInfoBtn;                         //零件信息提示关闭按钮
 
+        private Text PartInfo;            //零件信息内容
+        private Text NextParts;           //下一步该零件零件提示内容
+
         // Use this for initialization
         void Start()
         {
@@ -79,6 +82,9 @@ using Windows.Storage;
 
             _UIPartsPanelClass = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel").GetComponent<UIPartsPanelClass>();
             _UIPartsPage = GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel").GetComponent<UIPartsPage>();
+
+            PartInfo = GameObject.Find("Canvas/BG/InfoPanel/Panel/Info").GetComponent<Text>();            //零件信息内容
+            NextParts = GameObject.Find("Canvas/BG/InfoPanel/Panel/Tips").GetComponent<Text>();           //下一步该零件零件提示内容
 
             RotaLeftBut.onClick.AddListener(RotaLeftBtnClick);
             RotaRightBut.onClick.AddListener(RotaRightBtnClick);
@@ -105,6 +111,7 @@ using Windows.Storage;
                     err += node.name + "(第" + index + "页）" + "/";
                     NextInstallNodeList.Add(node);
                 }
+                NextParts.text = err;
             }
             #endregion
 
@@ -291,6 +298,7 @@ using Windows.Storage;
                     err += nodes.name + "(第" + index + "页）" + "/";
                     NextInstallNodeList.Add(node);
                 }
+                NextParts.text = err;
             }
         }
 
@@ -354,6 +362,8 @@ using Windows.Storage;
                 Destroy(InstalledNodeList[InstalledNodeList.Count - 1].gameObject);        //回退之前，删除已经安装的零件
                 NextInstallNodeList.Add(InstalledNodeList[InstalledNodeList.Count - 1]);
                 ReMoveInstalledNodeList(InstalledNodeList[InstalledNodeList.Count - 1]);    //将已经安装列表更新
+                Recovery();
+                PartInfo.text = InstalledNodeList[InstalledNodeList.Count - 1].note;
             }
             else if (InstallationState.Installed == InstalledNodeList[InstalledNodeList.Count - 1].GetInstallationState())
             {
@@ -390,6 +400,8 @@ using Windows.Storage;
                     }
                 }
                 gameOb.transform.localScale = InstalledNodeList[InstalledNodeList.Count - 1].LocalSize * GetScale();
+                AutoScaleAndRota(InstalledNodeList[InstalledNodeList.Count - 1]);
+                PartInfo.text = InstalledNodeList[InstalledNodeList.Count - 1].note;
             }
         }
 
@@ -411,6 +423,7 @@ using Windows.Storage;
 
                 Destroy(GameObject.Find("RuntimeObject/Nodes/" + InstalledNodeList[InstalledNodeList.Count - 1].name + InstalledNodeList[InstalledNodeList.Count - 1].nodeId));   //如果是准备安装状态，那么还要删掉提示的物体
                 Destroy(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + InstalledNodeList[InstalledNodeList.Count - 1].nodeId).gameObject);                   //删掉提示的文字
+                PartInfo.text = InstalledNodeList[InstalledNodeList.Count - 1].note;
 
                 bool installatFlag = false;
                 foreach (Node node in NodesController.Instance.GetNodeList())
@@ -421,7 +434,10 @@ using Windows.Storage;
                         break;
                     }
                 }
-
+                if (!InstalledNodeList[InstalledNodeList.Count - 1].gameObject.GetComponent<Node>().hasAnimation)
+                {
+                    Recovery();
+                }
                 if (false == installatFlag)            //说明这一步所有的零件都已经被安装了，那么该下一步了
                 {
                     NextInstall(InstalledNodeList[InstalledNodeList.Count - 1].gameObject.GetComponent<Node>());
@@ -480,6 +496,8 @@ using Windows.Storage;
                         }
                         gameOb.transform.localScale = InstalledNodeList[InstalledNodeList.Count - 1].LocalSize * GetScale();
                         //gameOb.transform.Rotate(Vector3.up, -GetRotaAngle(), Space.Self);  //拷贝的时候，已经自转过了
+                        AutoScaleAndRota(gameobj.GetComponent<Node>());
+                        PartInfo.text = InstalledNodeList[InstalledNodeList.Count - 1].note;
                         break;
                     }
                 }
@@ -702,7 +720,7 @@ using Windows.Storage;
         /// <summary>
         /// 恢复正常大小
         /// </summary>
-        public void Recovery(Node node)
+        public void Recovery()
         {
             for (int i = 1; i < NodesCommon.Instance.GetNodesList().Count; i++)   //因为第一个物体是底座，所以他不在零件架上，直接出现在安装区域，所以应该pas
             {

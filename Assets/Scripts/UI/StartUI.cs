@@ -105,7 +105,10 @@ namespace WyzLink.UI
             {
                 foreach (Transform tran in _RootPartGameObject.transform)
                 {
-                    tran.gameObject.SetActive(true);
+                    if ("NoSee" != tran.gameObject.tag)
+                    {
+                        tran.gameObject.SetActive(true);
+                    }
                 }
             }
             _Canvas.SetActive(true);                            //显示零件架等UI
