@@ -98,6 +98,19 @@ namespace WyzLink.Assemble
             }
         }
 
+  public IEnumerable<IFlowNode> GetPreviousSteps(IFlowNode node)
+        {
+            GraphNode graphNode = GetGraphNode(node);
+            if (graphNode != null)
+            {
+                return graphNode.previousNodes.Select((n) => n.node);
+            }
+            else
+            {
+                throw new System.InvalidOperationException("The node " + node.GetID() + " could not be found in the dpendency graph");
+            }
+        }
+
         private GraphNode GetGraphNode(IFlowNode node)
         {
             GraphNode graphNode;

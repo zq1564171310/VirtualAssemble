@@ -8,10 +8,14 @@ namespace WyzLink.Manager
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using UnityEngine.UI;
     using WyzLink.Parts;
 
     public class WorkSpaceManager : MonoBehaviour
     {
+
+        private Button _AddWorkSpaceBtn;                    //添加工作区
+        private Button _DelWorkSpaceBtn;                    //删除工作区
 
         // Use this for initialization
         void Start()

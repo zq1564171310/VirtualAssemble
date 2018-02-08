@@ -40,6 +40,8 @@ using Windows.Storage;
         private UIPartsPanelClass _UIPartsPanelClass;
         private UIPartsPage _UIPartsPage;
 
+        private GameObject _MainWorkSpace;
+
         private Button RotaLeftBut;              //向左转
         private Button RotaRightBut;             //向右转
         private Button CaptureScreensBtn;        //拍照
@@ -48,6 +50,8 @@ using Windows.Storage;
         private Button _ChangeModeBtn;           //切换模式按钮
         private Button _LastNode;                //回退
         private Button _Skip;                    //跳过
+        private Button _AddWorkSpaceBtn;                    //添加工作区
+        private Button _DelWorkSpaceBtn;                    //删除工作区
 
         private GameObject _TipErrorPlane;                       //错误提示画布
         private GameObject _TipErrBtn;                           //错误提示的确认按钮
@@ -75,6 +79,8 @@ using Windows.Storage;
             _SliderText = GameObject.Find("Canvas/BG/WorkAreaControl/SliderPlane/SliderText").GetComponent<Text>();
             _ChangeModeBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/SwitchMode").GetComponent<Button>();
             _LastNode = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/Backspace").GetComponent<Button>();
+            _AddWorkSpaceBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/AddWordArea").GetComponent<Button>();
+            _DelWorkSpaceBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/DelWordArea").GetComponent<Button>();
             if (AssembleModel.StudyModel == EntryMode.GetAssembleModel())
             {
                 _Skip = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/Skip").GetComponent<Button>();
@@ -82,6 +88,8 @@ using Windows.Storage;
 
             _UIPartsPanelClass = GameObject.Find("Canvas/BG/PartsPanel/PartsClassPanel").GetComponent<UIPartsPanelClass>();
             _UIPartsPage = GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel").GetComponent<UIPartsPage>();
+
+            _MainWorkSpace = GameObject.Find("Canvas/Floor/MainWorkSpace");
 
             PartInfo = GameObject.Find("Canvas/BG/InfoPanel/Panel/Info").GetComponent<Text>();            //零件信息内容
             NextParts = GameObject.Find("Canvas/BG/InfoPanel/Panel/Tips").GetComponent<Text>();           //下一步该零件零件提示内容
@@ -93,6 +101,8 @@ using Windows.Storage;
             if (AssembleModel.StudyModel == EntryMode.GetAssembleModel())
             {
                 _Skip.onClick.AddListener(SkipClick);
+                _AddWorkSpaceBtn.onClick.AddListener(AddWorkSpace);
+                _DelWorkSpaceBtn.onClick.AddListener(DelWorkSpace);
             }
             #region Test
             InstalledNodeList.Add(NodesController.Instance.GetNodeList()[0]);
@@ -278,13 +288,14 @@ using Windows.Storage;
         /// <returns></returns>
         public IEnumerable<Node> GetNextInstallNode()
         {
-            return NextInstallNode;
+            //return NextInstallNode;
+            return NextInstallNodeList;
         }
 
         public void NextInstall(Node node)
         {
             NextInstallNode = _DependencyGraph.GetNextSteps(node).Cast<Node>();
-            if (null != NextInstallNode)
+            if (null != NextInstallNode || NextInstallNode.Count() == 0)
             {
                 string err = "";
                 int index = 1;
@@ -300,6 +311,37 @@ using Windows.Storage;
                 }
                 NextParts.text = err;
             }
+
+            if (NextInstallNodeList.Count == 0)
+            {
+                for (int i = 0; i < NodesCommon.Instance.GetNodesList().Count; i++)
+                {
+                    if (InstallationState.NotInstalled == NodesCommon.Instance.GetNodesList()[i].GetInstallationState())
+                    {
+                        NextInstallNodeList.Add(NodesCommon.Instance.GetNodesList()[i]);
+                        NodesCommon.Instance.GetNodesList()[i].SetInstallationState(InstallationState.NextInstalling);
+                        int index = _UIPartsPage.GetIndex(NodesCommon.Instance.GetNodesList()[i]);
+                        NextParts.text = NodesCommon.Instance.GetNodesList()[i].name + "(第" + index + "页）" + "/";
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 添加工作区
+        /// </summary>
+        public void AddWorkSpace()
+        {
+
+        }
+
+        /// <summary>
+        /// 删除工作区
+        /// </summary>
+        public void DelWorkSpace()
+        {
+
         }
 
         /// <summary>
@@ -402,6 +444,17 @@ using Windows.Storage;
                 gameOb.transform.localScale = InstalledNodeList[InstalledNodeList.Count - 1].LocalSize * GetScale();
                 AutoScaleAndRota(InstalledNodeList[InstalledNodeList.Count - 1]);
                 PartInfo.text = InstalledNodeList[InstalledNodeList.Count - 1].note;
+                string tips = "";
+                int index = 1;
+                foreach (Node no in NextInstallNodeList)
+                {
+                    if (InstallationState.NextInstalling == no.GetInstallationState())
+                    {
+                        index = _UIPartsPage.GetIndex(no);
+                        tips += no.name + "(第" + index + "页）" + "/";
+                    }
+                }
+                NextParts.text = "下一步应该安装的零件:" + tips;
             }
         }
 
@@ -442,6 +495,18 @@ using Windows.Storage;
                 {
                     NextInstall(InstalledNodeList[InstalledNodeList.Count - 1].gameObject.GetComponent<Node>());
                 }
+
+                string tips = "";
+                int index = 1;
+                foreach (Node no in NextInstallNodeList)
+                {
+                    if (InstallationState.NextInstalling == no.GetInstallationState())
+                    {
+                        index = _UIPartsPage.GetIndex(no);
+                        tips += no.name + "(第" + index + "页）" + "/";
+                    }
+                }
+                NextParts.text = "下一步应该安装的零件:" + tips;
             }
             else       //说明没有零件从零件架上取下来，那么应该判断下一步安装的零件列表中是否存在零件，如果存在自动取下一个零件，让该零件进入已安装序列，并且安装状态置为待安装NextInstalling-->Step1Installed
             {
