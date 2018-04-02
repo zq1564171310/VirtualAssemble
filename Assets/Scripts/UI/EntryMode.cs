@@ -58,7 +58,7 @@ namespace WyzLink.UI
         //点击演示模式，进入演示模式
         private void DemonstrationComein()
         {
-            SetAssembleModel(AssembleModel.DemonstrationModel);
+            SetAssembleModel(AssembleModel.DemoModel);
             SceneManager.LoadScene(1);
         }
 

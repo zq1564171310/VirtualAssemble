@@ -13,7 +13,12 @@ namespace WyzLink.Parts
     public class WorkSpace : MonoBehaviour
     {
         /// <summary>
-        /// 工作区逻辑
+        /// 是否是主工作区
+        /// </summary>
+        public bool IsMainWorkSpace;
+
+        /// <summary>
+        /// 工作区名字
         /// </summary>
         public string WorkSpaceName;
 
@@ -22,7 +27,10 @@ namespace WyzLink.Parts
         /// </summary>
         public int WorkSpaceID;
 
-        //public
+        /// <summary>
+        /// 工作区坐标
+        /// </summary>
+        public Vector3 WorkSpacePos;
 
         // Use this for initialization
         void Start()

@@ -11,6 +11,7 @@ namespace WyzLink.Parts
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using WyzLink.LogicManager;
     using WyzLink.Utils;
 
     public class AnimationCollection : Singleton<AnimationCollection>
@@ -82,11 +83,12 @@ namespace WyzLink.Parts
             }
             if (UI.EntryMode.GetAssembleModel() == AssembleModel.StudyModel)
             {
-                Manager.AssembleManager.Instance.Recovery();
+                AssembleManagerStudyModel.Instance.Recovery();
             }
             t.gameObject.SetActive(false);
 
             play.SetIsDone();
+
         }
     }
 }

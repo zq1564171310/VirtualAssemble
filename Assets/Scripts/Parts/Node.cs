@@ -70,6 +70,7 @@ namespace WyzLink.Parts
             // Capture the target points
             this.targetPosition = this.transform.position;
             this.targetRotation = this.transform.rotation;
+            //this.LocalRotation = this.transform.rotation;
         }
 
         public InstallationState GetInstallationState()

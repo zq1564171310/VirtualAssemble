@@ -8,7 +8,8 @@ namespace WyzLink.Parts
 {
     using System.Collections.Generic;
     using UnityEngine;
-    using WyzLink.Manager;
+    using WyzLink.LogicManager;
+    using WyzLink.UI;
 
     public class AnimationPlayer : MonoBehaviour
     {
@@ -29,11 +30,18 @@ namespace WyzLink.Parts
         public AnimationCollection.AnimationPlay PlayAnimation()
         {
             #region Test
-            if (null != AssembleManager.Instance)
+            if (null != AssembleManagerExamModel.Instance && EntryMode.GetAssembleModel() == AssembleModel.ExamModel)
             {
                 foreach (Transform child in GameObject.Find("UnityMain/AnimationCollection").transform)
                 {
-                    child.localScale = AssembleManager.Instance.GetScale() * new Vector3(1, 1, 1);
+                    child.localScale = AssembleManagerExamModel.Instance.GetScale() * new Vector3(1, 1, 1);
+                }
+            }
+            if (null != AssembleManagerStudyModel.Instance && EntryMode.GetAssembleModel() == AssembleModel.ExamModel)
+            {
+                foreach (Transform child in GameObject.Find("UnityMain/AnimationCollection").transform)
+                {
+                    child.localScale = AssembleManagerStudyModel.Instance.GetScale() * new Vector3(1, 1, 1);
                 }
             }
             if (null == AnimationCollection.Instance)

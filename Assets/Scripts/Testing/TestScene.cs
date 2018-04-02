@@ -19,16 +19,27 @@ namespace WyzLink.Assemble
     {
         public Transform[] targets;
 
-        private Button ChangeModeBtn;
-        private Button PlayModeBtn;
-        private Button PauseModeBtn;
+        private Button ChangeModeBtn;                                   //模式切换按钮
+        private Button PlayModeBtn;                                     //播放按钮
+        private Button PauseModeBtn;                                    //暂停按钮
+        private Text Part;                                              //零件
+        private Text PartInfo;                                          //零件信息内容
+        private Text PlayInfo;                                          //播放状态信息显示框
+        private Text CurrentPart;                                       //当前被安装的零件信息
 
         private Vector3 AssembleCenter = new Vector3();                     //工作区旋转的中心点
 
         List<Node> list = new List<Node>();
 
+        private Node CurrentNode;                                       //当前安装的零件
+
         void Start()
         {
+            Part = GameObject.Find("Canvas/BG/CommonPartsPanel/PartPanel/Part").GetComponent<Text>();
+            PartInfo = GameObject.Find("Canvas/BG/CommonPartsPanel/InfoPanel/PartInfo").GetComponent<Text>();
+            CurrentPart = GameObject.Find("Canvas/BG/CommonPartsPanel/CurrentPartPanel/CurrentPart").GetComponent<Text>();
+            PlayInfo = GameObject.Find("Canvas/BG/InfoPanel/Panel/PlayInfo").GetComponent<Text>();
+
             ChangeModeBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/SwitchMode").GetComponent<Button>();
             PlayModeBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/AddWordArea").GetComponent<Button>();
             PauseModeBtn = GameObject.Find("Canvas/BG/WorkAreaControl/PartPanel/DelWordArea").GetComponent<Button>();
@@ -70,7 +81,7 @@ namespace WyzLink.Assemble
         /// </summary>
         private void ChangeModeBtnClick()
         {
-            EntryMode.SetAssembleModel(AssembleModel.DemonstrationModel);
+            EntryMode.SetAssembleModel(AssembleModel.DemoModel);
             SceneManager.LoadScene(0);
         }
 
@@ -80,6 +91,7 @@ namespace WyzLink.Assemble
         private void PlayFun()
         {
             Time.timeScale = 1;
+            PlayInfo.text = "当前安装状态：播放";
         }
 
         /// <summary>
@@ -88,11 +100,7 @@ namespace WyzLink.Assemble
         private void PauseFun()
         {
             Time.timeScale = 0;
-        }
-
-        private void OnGUI()
-        {
-
+            PlayInfo.text = "当前安装状态：暂停";
         }
 
         private void OnDestroy()
@@ -121,6 +129,17 @@ namespace WyzLink.Assemble
             {
                 if (assembleController.GetDependencyGraph().IsNodeValidToInstall(node))
                 {
+                    Part.text = "下一个被安装零件：" + node.name;
+                    PartInfo.text = "下一个被安装的零件信息：" + node.note.Replace("&", "\n");
+                    node.transform.position = Part.transform.position;
+                    node.gameObject.SetActive(true);
+                    CurrentNode = node;
+                    Quaternion qrota = CurrentNode.transform.rotation;
+                    StartCoroutine("RotaManagerIEnumerator");
+                    yield return new WaitForSeconds(2f);
+                    StopCoroutine("RotaManagerIEnumerator");
+                    CurrentNode.gameObject.transform.rotation = qrota;
+                    CurrentNode = null;
                     var coroutine = StartCoroutine(AssemblePart(headers, node));
 
                     if (node.hasAnimation)
@@ -128,9 +147,7 @@ namespace WyzLink.Assemble
                         yield return coroutine;
                         yield return node.PlayAnimations();
                     }
-
-                    yield return new WaitForSeconds(1.4f);
-
+                    CurrentPart.text = "当前被安装零件：" + node.name;
                     yield return StartCoroutine(FlowRenderOneFlow(assembleController, assembleController.GetDependencyGraph().GetNextSteps(node).Cast<Node>()));
                 }
             }
@@ -139,8 +156,6 @@ namespace WyzLink.Assemble
         private IEnumerator AssemblePart(IEnumerable<Node> headers, Node node)
         {
             Vector3 velocity = Vector3.up;
-            node.transform.position = Vector3.left * 2;
-            node.gameObject.SetActive(true);
             node.SetInstallationState(InstallationState.Installed);
 
             //AutoScaleAndRota(node);
@@ -240,6 +255,19 @@ namespace WyzLink.Assemble
 
             //FindObjectOfType<AssembleController>().transform.localScale *= scale;
 
+        }
+
+
+        private IEnumerator RotaManagerIEnumerator()               //协程的具体实现
+        {
+            if (null != CurrentNode.gameObject)
+            {
+                while (true)
+                {
+                    CurrentNode.gameObject.transform.Rotate(Vector3.up * 50 * Time.deltaTime, Space.Self);
+                    yield return 0;
+                }
+            }
         }
     }
 }

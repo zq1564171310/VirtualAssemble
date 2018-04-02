@@ -11,7 +11,7 @@ namespace WyzLink.Parts
         /// <summary>
         /// 演示模式
         /// </summary>
-        DemonstrationModel,
+        DemoModel,
 
         /// <summary>
         /// 学习模式

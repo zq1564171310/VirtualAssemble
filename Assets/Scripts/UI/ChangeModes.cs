@@ -20,15 +20,15 @@ namespace WyzLink.UI
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                StartScence();
-            }
+            //if (Input.GetKeyDown(KeyCode.A))
+            //{
+            //    StartScence();
+            //}
         }
 
         private void StartScence()
         {
-            EntryMode.SetAssembleModel(AssembleModel.DemonstrationModel);
+            EntryMode.SetAssembleModel(AssembleModel.DemoModel);
             SceneManager.LoadScene(0);
         }
 

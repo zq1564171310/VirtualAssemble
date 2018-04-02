@@ -1,5 +1,0 @@
-1.权限：Project Settings > Player>Capabilities勾选SpatialPerception；
-
-2.SDK版本：版本最低为10.0.10586.0，Package.appxmanifest文件中，找到TargetDeviceFamily这一行，并将MaxVersionTested="10.0.10240.0" 修改为 MaxVersionTested="10.0.10586.0"；
-
-3.

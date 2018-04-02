@@ -98,7 +98,7 @@ namespace WyzLink.Assemble
             }
         }
 
-  public IEnumerable<IFlowNode> GetPreviousSteps(IFlowNode node)
+        public IEnumerable<IFlowNode> GetPreviousSteps(IFlowNode node)
         {
             GraphNode graphNode = GetGraphNode(node);
             if (graphNode != null)

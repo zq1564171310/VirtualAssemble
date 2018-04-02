@@ -10,35 +10,13 @@ namespace WyzLink.Control
     using UnityEngine;
     using WyzLink.Parts;
 
-    public class NodesController : Singleton<NodesController>
+    public interface NodesController
     {
-        private List<Node> NodeList = new List<Node>();              //存放所有零件集合
 
-        // Use this for initialization
-        void Start()
-        {
+        IList<Node> GetNodeList();
 
-        }
+        void SetNodeList(List<Node> listist);
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-        public List<Node> GetNodeList()
-        {
-            return NodeList;
-        }
-
-        public void SetNodeList(List<Node> listist)
-        {
-            NodeList = listist;
-        }
-
-        public void AddNodeList(Node node)
-        {
-            NodeList.Add(node);
-        }
+        void AddNodeList(Node node);
     }
 }

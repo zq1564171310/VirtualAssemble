@@ -9,7 +9,7 @@ namespace WyzLink.UI
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-    using WyzLink.Manager;
+    using WyzLink.LogicManager;
     using WyzLink.ToolsAndCommonParts;
     using HoloToolkit.Unity;
     using WyzLink.Common;
