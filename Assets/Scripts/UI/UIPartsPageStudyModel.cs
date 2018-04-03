@@ -496,6 +496,7 @@ namespace WyzLink.UI
                                 if (nd.nodeId == node.nodeId && InstallationState.NextInstalling == node.GetInstallationState())
                                 {
                                     gameobj = Instantiate(node.gameObject, node.gameObject.transform, true);
+                                    gameobj.gameObject.transform.rotation = node.TargetRotation;
                                     gameobj.name = node.name;
                                     gameobj.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
                                     gameobj.transform.localScale = node.LocalSize * AssembleManagerStudyModel.Instance.GetScale();

@@ -58,6 +58,19 @@ namespace WyzLink.Parts
 
         public bool displayConnectorLabels = true;
 
+        public Quaternion TargetRotation
+        {
+            get
+            {
+                return targetRotation;
+            }
+
+            set
+            {
+                targetRotation = value;
+            }
+        }
+
         private void Reset()
         {
             // 添加文件的时候或者重置的时候生成新节点标识
