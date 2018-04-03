@@ -359,7 +359,7 @@ using Windows.Storage;
                     index = _UIPartsPage.GetIndex(nodes);
                     #endregion
                     err += nodes.name + "(第" + index + "页）" + "/";
-                    NextInstallNodeList.Add(node);
+                    NextInstallNodeList.Add(nodes);
                 }
                 NextParts.text = err;
             }

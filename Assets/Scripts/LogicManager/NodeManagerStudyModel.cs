@@ -108,20 +108,29 @@ namespace WyzLink.LogicManager
             {
                 if (null != gameObject.GetComponent<Node>())              //0.08f
                 {
-                    if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommonStudyModel.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 0.08f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
+                    if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommonStudyModel.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 2f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
                     {
                         bool flag = false;
                         foreach (Node no in AssembleManagerStudyModel.Instance.GetNextInstallNode())
                         {
-
                             if (gameObject.GetComponent<Node>().nodeId == no.nodeId)
                             {
                                 flag = true;
+                                NodesCommonStudyModel.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.Installed);
+                                AssembleManagerStudyModel.Instance.SetInstalledNodeListStatus(gameObject.GetComponent<Node>(), InstallationState.Installed);
+                                PlayerPrefs.SetInt(gameObject.GetComponent<Node>().nodeId.ToString() + "StudyModel", (int)InstallationState.Installed);
+                                PlayerPrefs.SetInt("CurrentNodeIDStudyModel", gameObject.GetComponent<Node>().nodeId);
+                                foreach (Node node in NodesControllerStudyModel.Instance.GetNodeList())
+                                {
+                                    if (InstallationState.NextInstalling == node.GetInstallationState())
+                                    {
+                                        PlayerPrefs.SetInt(node.nodeId.ToString() + "StudyModel", (int)InstallationState.NextInstalling);
+                                    }
+                                }
+
                                 Destroy(gameObject.GetComponent<HandDraggable>());
 
                                 bool installatFlag = false;
-
-                                gameObject.transform.position = gameObject.GetComponent<Node>().EndPos;
 
                                 foreach (Node node in NodesControllerStudyModel.Instance.GetNodeList())
                                 {
@@ -131,9 +140,19 @@ namespace WyzLink.LogicManager
                                         break;
                                     }
                                 }
-                                gameObject.GetComponent<Node>().PlayAnimations();
+
                                 Destroy(gameObject.GetComponent<BoxCollider>());
 
+                                gameObject.transform.position = gameObject.GetComponent<Node>().EndPos;
+                                gameObject.GetComponent<Node>().PlayAnimations();
+                                Destroy(GameObject.Find("RuntimeObject/Nodes/" + gameObject.GetComponent<Node>().name + gameObject.GetComponent<Node>().nodeId));   //如果是准备安装状态，那么还要删掉提示的物体
+                                AssembleManagerStudyModel.Instance.GetTipErrBtn().onClick.AddListener(OnMovesIEnumerator);
+                                Destroy(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject);
+
+                                if (!gameObject.GetComponent<Node>().hasAnimation)
+                                {
+                                    AssembleManagerStudyModel.Instance.Recovery();
+                                }
                                 if (false == installatFlag)            //说明这一步所有的零件都已经被安装了，那么该下一步了
                                 {
                                     AssembleManagerStudyModel.Instance.NextInstall(gameObject.GetComponent<Node>());
@@ -142,14 +161,6 @@ namespace WyzLink.LogicManager
                             }
                         }
 
-                        if (false == flag)
-                        {
-                            Destroy(gameObject.GetComponent<HandDraggable>());
-                            Destroy(gameObject.GetComponent<BoxCollider>());
-                            gameObject.transform.position = gameObject.GetComponent<Node>().EndPos;
-                            AssembleManagerStudyModel.Instance.GetTipErrBtn().onClick.AddListener(OnMovesIEnumerator);
-                            Destroy(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject);
-                        }
                     }
                     else
                     {
