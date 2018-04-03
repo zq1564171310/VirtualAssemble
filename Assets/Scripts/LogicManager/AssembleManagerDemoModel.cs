@@ -53,7 +53,7 @@ using Windows.Storage;
 
             if (NextInstallNodeList.Count <= 0)
             {
-                int currentNodeId = PlayerPrefs.GetInt("CurrentNodeID");
+                int currentNodeId = PlayerPrefs.GetInt("CurrentNodeIDDemoModel");
                 Node currentNode = NodesControllerDemoModel.Instance.GetNodeList()[0];
                 for (int i = 0; i < InstalledNodeList.Count; i++)
                 {

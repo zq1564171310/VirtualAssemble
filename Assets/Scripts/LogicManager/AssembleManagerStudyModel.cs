@@ -116,7 +116,7 @@ using Windows.Storage;
 
             if (NextInstallNodeList.Count <= 0)
             {
-                int currentNodeId = PlayerPrefs.GetInt("CurrentNodeID");
+                int currentNodeId = PlayerPrefs.GetInt("CurrentNodeIDStudyModel");
                 Node currentNode = NodesControllerStudyModel.Instance.GetNodeList()[0];
                 for (int i = 0; i < InstalledNodeList.Count; i++)
                 {
@@ -513,13 +513,13 @@ using Windows.Storage;
             {
                 NodesCommonStudyModel.Instance.SetInstallationState(InstalledNodeList[InstalledNodeList.Count - 1].nodeId, InstallationState.Installed);              //跳过之前设置一下安装状态
                 SetInstalledNodeListStatus(InstalledNodeList[InstalledNodeList.Count - 1], InstallationState.Installed);  //集合中元素的状态也要跟着改变
-                PlayerPrefs.SetInt(InstalledNodeList[InstalledNodeList.Count - 1].nodeId.ToString(), (int)InstallationState.Installed);
-                PlayerPrefs.SetInt("CurrentNodeID", InstalledNodeList[InstalledNodeList.Count - 1].nodeId);
+                PlayerPrefs.SetInt(InstalledNodeList[InstalledNodeList.Count - 1].nodeId.ToString() + "StudyModel", (int)InstallationState.Installed);
+                PlayerPrefs.SetInt("CurrentNodeIDStudyModel", InstalledNodeList[InstalledNodeList.Count - 1].nodeId);
                 foreach (Node node in NodesControllerStudyModel.Instance.GetNodeList())
                 {
                     if (InstallationState.NextInstalling == node.GetInstallationState())
                     {
-                        PlayerPrefs.SetInt(node.nodeId.ToString(), (int)InstallationState.NextInstalling);
+                        PlayerPrefs.SetInt(node.nodeId.ToString() + "StudyModel", (int)InstallationState.NextInstalling);
                     }
                 }
 

@@ -79,7 +79,7 @@ namespace WyzLink.LogicManager
                         else
                         {
                             //node.SetInstallationState(InstallationState.NotInstalled);  //其他零件默认是未安装的
-                            node.SetInstallationState((InstallationState)PlayerPrefs.GetInt(node.nodeId.ToString()));
+                            node.SetInstallationState((InstallationState)PlayerPrefs.GetInt(node.nodeId.ToString()+"DemoModel"));
                         }
 
                         if (node.partName.Contains("测试箱"))
