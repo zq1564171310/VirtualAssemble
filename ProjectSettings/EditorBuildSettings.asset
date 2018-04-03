@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/VirtualAssembleUI.unity
+    path: Assets/Scenes/StartUI.unity
     guid: c9b928f2baa66ab45b21fa4b0d138111
   - enabled: 1
-    path: Assets/Scenes/PartAssembleScene.unity
+    path: Assets/Scenes/DemoModel.unity
     guid: 6e41f22f5ddf70c41ac72bad6e057f41
   - enabled: 1
     path: Assets/Scenes/StudyModel.unity

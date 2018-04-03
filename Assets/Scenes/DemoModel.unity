@@ -3171,6 +3171,11 @@ Prefab:
       propertyPath: note
       value: "\u6D4B\u8BD5\u7BB1\u811A\u57AB\u4FE1\u606F"
       objectReference: {fileID: 0}
+    - target: {fileID: 114966178287188552, guid: 8b7a0a29d6da3a447b546d42b7e7dd53,
+        type: 2}
+      propertyPath: assembleFlow
+      value: 
+      objectReference: {fileID: 4900000, guid: 565bea1ac86b7284a9314f7aaaa1bb71, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8b7a0a29d6da3a447b546d42b7e7dd53, type: 2}
   m_IsPrefabParent: 0
