@@ -67,6 +67,7 @@ namespace WyzLink.LogicManager
                         node = child.gameObject.GetComponent<Node>();
                         node.EndPos = child.transform.position;
                         node.EndPosForScale = node.EndPos;
+                        node.TargetRotation = child.transform.rotation;
                         //node.LocalSize = node.GetDimensions();
                         node.LocalSize = child.transform.localScale;
                         node.partName = child.name;
@@ -79,7 +80,7 @@ namespace WyzLink.LogicManager
                         else
                         {
                             //node.SetInstallationState(InstallationState.NotInstalled);  //其他零件默认是未安装的
-                            node.SetInstallationState((InstallationState)PlayerPrefs.GetInt(node.nodeId.ToString()+"ExamModel"));
+                            node.SetInstallationState((InstallationState)PlayerPrefs.GetInt(node.nodeId.ToString() + "ExamModel"));
                         }
 
                         if (node.partName.Contains("测试箱"))

@@ -110,10 +110,10 @@ using Windows.Storage;
                 }
             }
 
-            if (NextInstallNodeList.Count <= 0)
+            int currentNodeId = PlayerPrefs.GetInt("CurrentNodeIDExamModel");
+            Node currentNode = NodesControllerExamModel.Instance.GetNodeList()[0];
+            if (0 != currentNodeId)
             {
-                int currentNodeId = PlayerPrefs.GetInt("CurrentNodeIDExamModel");
-                Node currentNode = NodesControllerExamModel.Instance.GetNodeList()[0];
                 for (int i = 0; i < InstalledNodeList.Count; i++)
                 {
                     if (InstalledNodeList[i].nodeId == currentNodeId)
@@ -122,8 +122,8 @@ using Windows.Storage;
                         break;
                     }
                 }
-                NextInstallNode = _DependencyGraph.GetNextSteps(currentNode).Cast<Node>();
             }
+            NextInstall(currentNode);
             #endregion
 
             //菜单控件添加事件
@@ -302,36 +302,35 @@ using Windows.Storage;
 
         public void NextInstall(Node node)
         {
-            NextInstallNode = _DependencyGraph.GetNextSteps(node).Cast<Node>();
-            if (null != NextInstallNode || NextInstallNode.Count() == 0)
+            bool flag = false;
+            for (int i = 0; i < NodesControllerExamModel.Instance.GetNodeList().Count; i++)
             {
-                string err = "";
-                int index = 1;
-                foreach (Node nodes in NextInstallNode)
+                if (NodesControllerExamModel.Instance.GetNodeList()[i].GetInstallationState() != InstallationState.NotInstalled)
                 {
-                    nodes.SetInstallationState(InstallationState.NextInstalling);
-                    #region Test 跳转页面
-                    //_UIPartsPage.SetIndex(nodes);
-                    index = _UIPartsPage.GetIndex(nodes);
-                    #endregion
-                    err += nodes.name + "(第" + index + "页）" + "/";
-                    NextInstallNodeList.Add(node);
+                    continue;
                 }
-                NextParts.text = err;
-            }
-
-            if (NextInstallNodeList.Count == 0)
-            {
-                for (int i = 0; i < NodesCommonExamModel.Instance.GetNodesList().Count; i++)
+                var previousIList = _DependencyGraph.GetPreviousSteps(NodesControllerExamModel.Instance.GetNodeList()[i]);
+                if (null != previousIList && previousIList.Count() > 0)
                 {
-                    if (InstallationState.NotInstalled == NodesCommonExamModel.Instance.GetNodesList()[i].GetInstallationState())
+                    flag = false;
+                    foreach (Node nod in previousIList)
                     {
-                        NextInstallNodeList.Add(NodesCommonExamModel.Instance.GetNodesList()[i]);
-                        NodesCommonExamModel.Instance.GetNodesList()[i].SetInstallationState(InstallationState.NextInstalling);
-                        int index = _UIPartsPage.GetIndex(NodesCommonExamModel.Instance.GetNodesList()[i]);
-                        NextParts.text = NodesCommonExamModel.Instance.GetNodesList()[i].name + "(第" + index + "页）" + "/";
-                        break;
+                        if (nod.GetInstallationState() == InstallationState.NextInstalling || nod.GetInstallationState() == InstallationState.NotInstalled || nod.GetInstallationState() == InstallationState.Step1Installed)
+                        {
+                            flag = true;
+                            break;
+                        }
                     }
+                    if (false == flag)
+                    {
+                        NodesControllerExamModel.Instance.GetNodeList()[i].SetInstallationState(InstallationState.NextInstalling);
+                        NextInstallNodeList.Add(NodesControllerExamModel.Instance.GetNodeList()[i]);
+                    }
+                }
+                else
+                {
+                    NodesControllerExamModel.Instance.GetNodeList()[i].SetInstallationState(InstallationState.NextInstalling);
+                    NextInstallNodeList.Add(NodesControllerExamModel.Instance.GetNodeList()[i]);
                 }
             }
         }
@@ -469,13 +468,13 @@ using Windows.Storage;
             {
                 NodesCommonExamModel.Instance.SetInstallationState(InstalledNodeList[InstalledNodeList.Count - 1].nodeId, InstallationState.Installed);              //跳过之前设置一下安装状态
                 SetInstalledNodeListStatus(InstalledNodeList[InstalledNodeList.Count - 1], InstallationState.Installed);  //集合中元素的状态也要跟着改变
-                PlayerPrefs.SetInt(InstalledNodeList[InstalledNodeList.Count - 1].nodeId.ToString()+"ExamModel", (int)InstallationState.Installed);
+                PlayerPrefs.SetInt(InstalledNodeList[InstalledNodeList.Count - 1].nodeId.ToString() + "ExamModel", (int)InstallationState.Installed);
                 PlayerPrefs.SetInt("CurrentNodeIDExamModel", InstalledNodeList[InstalledNodeList.Count - 1].nodeId);
                 foreach (Node node in NodesControllerExamModel.Instance.GetNodeList())
                 {
                     if (InstallationState.NextInstalling == node.GetInstallationState())
                     {
-                        PlayerPrefs.SetInt(node.nodeId.ToString()+"ExamModel", (int)InstallationState.NextInstalling);
+                        PlayerPrefs.SetInt(node.nodeId.ToString() + "ExamModel", (int)InstallationState.NextInstalling);
                     }
                 }
 
@@ -490,40 +489,14 @@ using Windows.Storage;
                 PartInfo.text = "被选中的零件信息：" + InstalledNodeList[InstalledNodeList.Count - 1].note.Replace("&", "\n").ToString();
 
 
-                bool installatFlag = false;
-                foreach (Node node in NodesControllerExamModel.Instance.GetNodeList())
-                {
-                    if (InstallationState.NextInstalling == node.GetInstallationState() || InstallationState.Step1Installed == node.GetInstallationState())
-                    {
-                        installatFlag = true;
-                        break;
-                    }
-                }
+
                 if (!InstalledNodeList[InstalledNodeList.Count - 1].gameObject.GetComponent<Node>().hasAnimation)
                 {
                     Recovery();
                 }
-                if (false == installatFlag)            //说明这一步所有的零件都已经被安装了，那么该下一步了
-                {
-                    NextInstall(InstalledNodeList[InstalledNodeList.Count - 1].gameObject.GetComponent<Node>());
-                }
-                else
-                {
-                    if (null != NodesControllerExamModel.Instance.GetNodeList())
-                    {
-                        string tips = "";
-                        int index = 1;
-                        foreach (Node no in NodesControllerExamModel.Instance.GetNodeList())
-                        {
-                            if (InstallationState.NextInstalling == no.GetInstallationState())
-                            {
-                                index = _UIPartsPage.GetIndex(no);
-                                tips += no.name + "(第" + index + "页）" + "/";
-                            }
-                        }
-                        NextParts.text = "下一步应该安装的零件:" + tips;
-                    }
-                }
+
+                //说明这一步所有的零件都已经被安装了，那么该下一步了
+                NextInstall(InstalledNodeList[InstalledNodeList.Count - 1].gameObject.GetComponent<Node>());
             }
             else       //说明没有零件从零件架上取下来，那么应该判断下一步安装的零件列表中是否存在零件，如果存在自动取下一个零件，让该零件进入已安装序列，并且安装状态置为待安装NextInstalling-->Step1Installed
             {

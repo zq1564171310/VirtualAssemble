@@ -469,65 +469,50 @@ namespace WyzLink.UI
             GameObject Txt;                             //克隆一份文本
             Transform[] trans;
 
-            if (EntryMode.GetAssembleModel() != AssembleModel.ExamModel)         //学习模式
+            for (int i = 0; i < BtnList.Count; i++)
             {
-                for (int i = 0; i < BtnList.Count; i++)
+                if (BtnList[i].name == go.name)
                 {
-                    if (BtnList[i].name == go.name)
+                    node = m_ItemsList[(m_PageIndex - 1) * Page_Count + i];
+
+                    if (InstallationState.Step1Installed == NodesCommonStudyModel.Instance.GetInstallationState(node.nodeId) || InstallationState.Installed == NodesCommonStudyModel.Instance.GetInstallationState(node.nodeId))
                     {
-                        node = m_ItemsList[(m_PageIndex - 1) * Page_Count + i];
+                        continue;
+                    }
 
-                        if (InstallationState.Step1Installed == NodesCommonStudyModel.Instance.GetInstallationState(node.nodeId) || InstallationState.Installed == NodesCommonStudyModel.Instance.GetInstallationState(node.nodeId))
-                        {
-                            continue;
-                        }
+                    if (true == NodesCommonStudyModel.Instance.IsPartInstallating())        //如果有零件正在安装
+                    {
+                        //此处要给提示
+                        ErrorInfo.text = "错误信息提示：请装完前面一个从零件架上取下的零件，再从零件架上抓取！";
+                        continue;
+                    }
 
-                        if (true == NodesCommonStudyModel.Instance.IsPartInstallating())        //如果有零件正在安装
+                    if (null != NextInstallNode)
+                    {
+                        foreach (Node nd in NextInstallNode)
                         {
-                            //此处要给提示
-                            ErrorInfo.text = "错误信息提示：请装完前面一个从零件架上取下的零件，再从零件架上抓取！";
-                            continue;
-                        }
-
-                        if (null != NextInstallNode)
-                        {
-                            foreach (Node nd in NextInstallNode)
+                            if (nd.nodeId == node.nodeId && InstallationState.NextInstalling == node.GetInstallationState())
                             {
-                                if (nd.nodeId == node.nodeId && InstallationState.NextInstalling == node.GetInstallationState())
+                                gameobj = Instantiate(node.gameObject, node.gameObject.transform, true);
+                                gameobj.gameObject.transform.rotation = node.TargetRotation;
+                                gameobj.name = node.name;
+                                gameobj.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
+                                gameobj.transform.localScale = node.LocalSize * AssembleManagerStudyModel.Instance.GetScale();
+                                gameobj.transform.RotateAround(AssembleManagerStudyModel.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManagerStudyModel.Instance.GetRotaAngle());
+
+                                gameOb = Instantiate(node.gameObject, node.gameObject.transform, true);
+                                gameOb.name = node.name + node.nodeId;
+
+                                gameOb.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
+                                gameOb.transform.position = node.EndPos;
+                                gameOb.transform.rotation = gameobj.transform.rotation;
+                                if (null != gameOb.GetComponent<MeshRenderer>())
                                 {
-                                    gameobj = Instantiate(node.gameObject, node.gameObject.transform, true);
-                                    gameobj.gameObject.transform.rotation = node.TargetRotation;
-                                    gameobj.name = node.name;
-                                    gameobj.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
-                                    gameobj.transform.localScale = node.LocalSize * AssembleManagerStudyModel.Instance.GetScale();
-                                    //gameobj.transform.rotation = node.LocalRotation;
-                                    gameobj.transform.RotateAround(AssembleManagerStudyModel.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManagerStudyModel.Instance.GetRotaAngle());
+                                    gameOb.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
 
-                                    gameOb = Instantiate(node.gameObject, node.gameObject.transform, true);
-                                    gameOb.name = node.name + node.nodeId;
-
-                                    gameOb.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
-                                    gameOb.transform.position = node.EndPos;
-                                    gameOb.transform.rotation = gameobj.transform.rotation;
-                                    if (null != gameOb.GetComponent<MeshRenderer>())
+                                    trans = gameOb.GetComponentsInChildren<Transform>();
+                                    if (null != trans)
                                     {
-                                        gameOb.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
-
-                                        trans = gameOb.GetComponentsInChildren<Transform>();
-                                        if (null != trans)
-                                        {
-                                            foreach (Transform tran in trans)
-                                            {
-                                                if (null != tran.gameObject.GetComponent<MeshRenderer>())
-                                                {
-                                                    tran.gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        trans = gameOb.GetComponentsInChildren<Transform>();
                                         foreach (Transform tran in trans)
                                         {
                                             if (null != tran.gameObject.GetComponent<MeshRenderer>())
@@ -536,116 +521,74 @@ namespace WyzLink.UI
                                             }
                                         }
                                     }
-                                    gameOb.transform.localScale = node.LocalSize * AssembleManagerStudyModel.Instance.GetScale();
-
-                                    gameobj.AddComponent<NodeManagerStudyModel>();
-                                    gameobj.AddComponent<BoxCollider>();
-                                    if (null == gameobj.GetComponent<MeshFilter>())
-                                    {
-                                        gameobj.GetComponent<BoxCollider>().size /= 10;
-                                    }
-                                    //gameobj.GetComponent<BoxCollider>().size = GetBoxColliderSize(gameobj);
-                                    gameobj.AddComponent<HandDraggable>();
-                                    gameobj.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
-
-                                    StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));
-                                    PartInfo.text = "被选中的零件信息：" + gameobj.GetComponent<Node>().note.Replace("&", "\n").ToString();
-                                    if (null != AssembleManagerStudyModel.Instance.GetNextInstallNode())
-                                    {
-                                        string tips = "";
-                                        int index = 1;
-                                        foreach (Node no in AssembleManagerStudyModel.Instance.GetNextInstallNode())
-                                        {
-                                            if (InstallationState.NextInstalling == no.GetInstallationState())
-                                            {
-                                                index = GetIndex(no);
-                                                tips += no.name + "(第" + index + "页）" + "/";
-                                            }
-                                        }
-                                        NextParts.text = "下一步应该安装的零件:" + tips;
-                                    }
-
-                                    Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
-                                    Txt.name = "Text" + node.nodeId;
-                                    Txt.transform.position = node.gameObject.transform.position;
-                                    Txt.GetComponent<Text>().text = node.gameObject.name;
-
-                                    if (null != gameobj.GetComponent<Node>())
-                                    {
-                                        if (null != gameobj.GetComponent<HandDraggable>())
-                                        {
-                                            NodesCommonStudyModel.Instance.SetInstallationState(node.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
-                                            AssembleManagerStudyModel.Instance.AddInstalledNodeList(gameobj.GetComponent<Node>());
-                                            AssembleManagerStudyModel.Instance.SetInstalledNodeListStatus(gameobj.GetComponent<Node>(), InstallationState.Step1Installed);
-
-                                            AssembleManagerStudyModel.Instance.AutoScaleAndRota(gameobj.GetComponent<Node>());
-                                        }
-                                    }
-                                    break;
                                 }
+                                else
+                                {
+                                    trans = gameOb.GetComponentsInChildren<Transform>();
+                                    foreach (Transform tran in trans)
+                                    {
+                                        if (null != tran.gameObject.GetComponent<MeshRenderer>())
+                                        {
+                                            tran.gameObject.GetComponent<MeshRenderer>().sharedMaterial = GlobalVar.HideLightMate;
+                                        }
+                                    }
+                                }
+                                gameOb.transform.localScale = node.LocalSize * AssembleManagerStudyModel.Instance.GetScale();
+
+                                gameobj.AddComponent<NodeManagerStudyModel>();
+                                gameobj.AddComponent<BoxCollider>();
+                                if (null == gameobj.GetComponent<MeshFilter>())
+                                {
+                                    gameobj.GetComponent<BoxCollider>().size /= 10;
+                                }
+                                //gameobj.GetComponent<BoxCollider>().size = GetBoxColliderSize(gameobj);
+                                gameobj.AddComponent<HandDraggable>();
+                                gameobj.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
+
+                                StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));
+                                PartInfo.text = "被选中的零件信息：" + gameobj.GetComponent<Node>().note.Replace("&", "\n").ToString();
+                                if (null != AssembleManagerStudyModel.Instance.GetNextInstallNode())
+                                {
+                                    string tips = "";
+                                    int index = 1;
+                                    foreach (Node no in AssembleManagerStudyModel.Instance.GetNextInstallNode())
+                                    {
+                                        if (InstallationState.NextInstalling == no.GetInstallationState())
+                                        {
+                                            index = GetIndex(no);
+                                            tips += no.name + "(第" + index + "页）" + "/";
+                                        }
+                                    }
+                                    NextParts.text = "下一步应该安装的零件:" + tips;
+                                }
+
+                                Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
+                                Txt.name = "Text" + node.nodeId;
+                                Txt.transform.position = node.gameObject.transform.position;
+                                Txt.GetComponent<Text>().text = node.gameObject.name;
+
+                                if (null != gameobj.GetComponent<Node>())
+                                {
+                                    if (null != gameobj.GetComponent<HandDraggable>())
+                                    {
+                                        NodesCommonStudyModel.Instance.SetInstallationState(node.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
+                                        AssembleManagerStudyModel.Instance.AddInstalledNodeList(gameobj.GetComponent<Node>());
+                                        AssembleManagerStudyModel.Instance.SetInstalledNodeListStatus(gameobj.GetComponent<Node>(), InstallationState.Step1Installed);
+
+                                        AssembleManagerStudyModel.Instance.AutoScaleAndRota(gameobj.GetComponent<Node>());
+                                    }
+                                }
+                                break;
                             }
                         }
-                        else
-                        {
-                            Debug.LogError("当前可安装列表为空！");
-                        }
                     }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < BtnList.Count; i++)
-                {
-                    if (BtnList[i].name == go.name)
+                    else
                     {
-                        node = m_ItemsList[(m_PageIndex - 1) * Page_Count + i];
-
-                        if (InstallationState.Step1Installed == NodesCommonStudyModel.Instance.GetInstallationState(node.nodeId) || InstallationState.Installed == NodesCommonStudyModel.Instance.GetInstallationState(node.nodeId))
-                        {
-                            continue;
-                        }
-
-                        if (true == NodesCommonStudyModel.Instance.IsPartInstallating())        //如果有零件正在安装
-                        {
-                            continue;
-                        }
-
-                        gameobj = Instantiate(node.gameObject, node.gameObject.transform, true);
-                        gameobj.name = node.name;
-                        gameobj.transform.parent = GameObject.Find("RuntimeObject/Nodes").transform;
-                        gameobj.transform.localScale = node.LocalSize * AssembleManagerStudyModel.Instance.GetScale();
-                        gameobj.transform.RotateAround(AssembleManagerStudyModel.Instance.GetRotaAngleCenter(), Vector3.up, AssembleManagerStudyModel.Instance.GetRotaAngle());
-
-                        gameobj.AddComponent<NodeManagerStudyModel>();
-                        gameobj.AddComponent<BoxCollider>();
-                        if (null == gameobj.gameObject.GetComponent<MeshFilter>())
-                        {
-                            gameobj.GetComponent<BoxCollider>().size /= 10;
-                        }
-                        //gameobj.GetComponent<BoxCollider>().size = GetBoxColliderSize(gameobj);
-                        gameobj.AddComponent<HandDraggable>();
-                        gameobj.GetComponent<HandDraggable>().RotationMode = HandDraggable.RotationModeEnum.LockObjectRotation;
-
-                        StartCoroutine(OnMovesIEnumerator(gameobj, gameobj.transform.position));         //从零件架上飞出
-
-                        Txt = Instantiate(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text"), GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1").transform, true);
-                        Txt.name = "Text" + node.nodeId;
-                        Txt.transform.position = node.gameObject.transform.position;
-                        Txt.GetComponent<Text>().text = node.gameObject.name;
-
-                        if (null != gameobj.GetComponent<Node>())
-                        {
-                            if (null != gameobj.GetComponent<HandDraggable>())
-                            {
-                                NodesCommonStudyModel.Instance.SetInstallationState(node.GetComponent<Node>().nodeId, InstallationState.Step1Installed);
-                                AssembleManagerStudyModel.Instance.AddInstalledNodeList(gameobj.GetComponent<Node>());
-                                AssembleManagerStudyModel.Instance.SetInstalledNodeListStatus(gameobj.GetComponent<Node>(), InstallationState.Step1Installed);
-                            }
-                        }
-                        break;
+                        Debug.LogError("当前可安装列表为空！");
                     }
                 }
             }
+
         }
 
         IEnumerator OnMovesIEnumerator(GameObject _GameObject, Vector3 statPos)

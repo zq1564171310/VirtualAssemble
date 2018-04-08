@@ -61,40 +61,37 @@ namespace WyzLink.UI
         }
 
         private IEnumerator BtnStateManagerIEnumerator()               //协程的具体实现
-        {
-            int flag = 0;                                              //闪烁提示的标记
+        {                                           //闪烁提示的标记
             InstallationState installationState;                       //声明一个安装状态的变量
             while (true)
             {
-                if (AssembleModel.StudyModel == EntryMode.GetAssembleModel() || AssembleModel.ExamModel == EntryMode.GetAssembleModel())                      //需要管按钮的状态
+
+                if (null == UIPartBtnNode || null == AssembleManagerExamModel.Instance || null == NodesCommonExamModel.Instance)              //按钮上没有被绑定的零件
                 {
-                    if (null == UIPartBtnNode || null == AssembleManagerStudyModel.Instance || null == NodesCommonStudyModel.Instance)              //按钮上没有被绑定的零件
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    installationState = NodesCommonStudyModel.Instance.GetInstallationState(UIPartBtnNode.nodeId);   //获取按钮上被绑定的零件的状态
+                installationState = NodesCommonExamModel.Instance.GetInstallationState(UIPartBtnNode.nodeId);   //获取按钮上被绑定的零件的状态
 
-                    if (InstallationState.Installed == installationState)
-                    {
-                        AssembleManagerStudyModel.Instance.DisButton(gameObject);
-                    }
-                    else if (InstallationState.NotInstalled == installationState)
-                    {
-                        AssembleManagerStudyModel.Instance.AbleButton(gameObject);
-                    }
-                    else if (InstallationState.NextInstalling == installationState)
-                    {
-                   
-                    }
-                    else if (InstallationState.Step1Installed == installationState)
-                    {
-                        AssembleManagerStudyModel.Instance.DisButton(gameObject);
-                    }
-                    else
-                    {
+                if (InstallationState.Installed == installationState)
+                {
+                    AssembleManagerExamModel.Instance.DisButton(gameObject);
+                }
+                else if (InstallationState.NotInstalled == installationState)
+                {
+                    AssembleManagerExamModel.Instance.AbleButton(gameObject);
+                }
+                else if (InstallationState.NextInstalling == installationState)
+                {
 
-                    }
+                }
+                else if (InstallationState.Step1Installed == installationState)
+                {
+                    AssembleManagerExamModel.Instance.DisButton(gameObject);
+                }
+                else
+                {
+
                 }
                 yield return 0;
             }
@@ -103,6 +100,7 @@ namespace WyzLink.UI
         public void RefreshData(Node node)
         {
             UIPartBtnNode = node;
+            StartStatusCount();
         }
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)

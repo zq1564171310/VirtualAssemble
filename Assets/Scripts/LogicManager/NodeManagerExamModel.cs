@@ -120,7 +120,7 @@ namespace WyzLink.LogicManager
 
         private IEnumerator TransformMaterialCoroutine(Dictionary<GameObject, Material> targetMat)
         {
-            foreach (KeyValuePair<GameObject,Material> pair in targetMat)
+            foreach (KeyValuePair<GameObject, Material> pair in targetMat)
             {
                 GameObject go = pair.Key;
                 go.GetComponent<MeshRenderer>().material = pair.Value;
@@ -154,49 +154,65 @@ namespace WyzLink.LogicManager
         {
             if (null != gameObject.GetComponent<HandDraggable>())
             {
-                if (null != gameObject.GetComponent<Node>())
+                if (null != gameObject.GetComponent<Node>())              //0.08f
                 {
-                    if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommonExamModel.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 0.08f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
+                    if (1 == gameObject.GetComponent<Node>().WorkSpaceID && InstallationState.Step1Installed == NodesCommonExamModel.Instance.GetInstallationState(gameObject.GetComponent<Node>().nodeId) && 8f >= Vector3.Distance(gameObject.transform.position, gameObject.GetComponent<Node>().EndPos))
                     {
+                        bool flag = false;
                         NodesCommonExamModel.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.Installed);
                         AssembleManagerExamModel.Instance.SetInstalledNodeListStatus(gameObject.GetComponent<Node>(), InstallationState.Installed);
-                        Destroy(gameObject.GetComponent<HandDraggable>());
-                        bool installatFlag = false;
-
-                        gameObject.transform.position = gameObject.GetComponent<Node>().EndPos;
-
-                        foreach (Node node in NodesControllerExamModel.Instance.GetNodeList())
+                        foreach (Node no in AssembleManagerExamModel.Instance.GetNextInstallNode())
                         {
-                            if (InstallationState.NextInstalling == node.GetInstallationState() || InstallationState.Step1Installed == node.GetInstallationState())
+                            if (gameObject.GetComponent<Node>().nodeId == no.nodeId)
                             {
-                                installatFlag = true;
+                                flag = true;
+                                PlayerPrefs.SetInt(gameObject.GetComponent<Node>().nodeId.ToString() + "ExamModel", (int)InstallationState.Installed);
+                                PlayerPrefs.SetInt("CurrentNodeIDExamModel", gameObject.GetComponent<Node>().nodeId);
+                                foreach (Node node in NodesControllerExamModel.Instance.GetNodeList())
+                                {
+                                    if (InstallationState.NextInstalling == node.GetInstallationState())
+                                    {
+                                        PlayerPrefs.SetInt(node.nodeId.ToString() + "ExamModel", (int)InstallationState.NextInstalling);
+                                    }
+                                }
                                 break;
                             }
                         }
 
-                        if (false == installatFlag)            //说明这一步所有的零件都已经被安装了，那么该下一步了
-                        {
-                            AssembleManagerExamModel.Instance.NextInstall(gameObject.GetComponent<Node>());
-                        }
-
-                        gameObject.GetComponent<Node>().PlayAnimations();
-                        Destroy(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject);
-                        Destroy(GameObject.Find("RuntimeObject/Nodes/" + gameObject.GetComponent<Node>().name + gameObject.GetComponent<Node>().nodeId));
-                        PlayerPrefs.SetInt(gameObject.GetComponent<Node>().nodeId.ToString(), (int)InstallationState.Installed);
+                        Destroy(gameObject.GetComponent<HandDraggable>());
 
                         Destroy(gameObject.GetComponent<BoxCollider>());
-                        gameObject.AddComponent<MeshCollider>();
+
+                        gameObject.transform.position = gameObject.GetComponent<Node>().EndPos;
+                        gameObject.GetComponent<Node>().PlayAnimations();
+                        Destroy(GameObject.Find("RuntimeObject/Nodes/" + gameObject.GetComponent<Node>().name + gameObject.GetComponent<Node>().nodeId));   //如果是准备安装状态，那么还要删掉提示的物体
+                        Destroy(GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).gameObject);
+
                         if (!gameObject.GetComponent<Node>().hasAnimation)
                         {
                             AssembleManagerExamModel.Instance.Recovery();
                         }
-                    }
 
+                        if (false == flag)   //说明装错了
+                        {
+                            NodesCommonExamModel.Instance.SetInstallationState(gameObject.GetComponent<Node>().nodeId, InstallationState.NotInstalled);
+                            AssembleManagerExamModel.Instance.SetInstalledNodeListStatus(gameObject.GetComponent<Node>(), InstallationState.NotInstalled);
+                            AssembleManagerExamModel.Instance.SetTipCanvasStatus(true);
+                            AssembleManagerExamModel.Instance.GetTipErrBtn().onClick.AddListener(OnMovesIEnumerator);
+                            AssembleManagerExamModel.Instance.ReMoveInstalledNodeList(gameObject.GetComponent<Node>());
+                        }
+                        else
+                        {
+                            //安装对了，那么该下一步了
+                            AssembleManagerExamModel.Instance.NextInstall(gameObject.GetComponent<Node>());
+                        }
+                    }
                     else
                     {
                         GameObject.Find("Canvas/BG/PartsPanel/SinglePartPanel/Button 1/Text" + gameObject.GetComponent<Node>().nodeId).transform.position = gameObject.transform.position;
                     }
                 }
+
             }
         }
 
