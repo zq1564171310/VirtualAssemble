@@ -25,23 +25,65 @@ namespace WyzLink.LogicManager
         // Use this for initialization
         void Start()
         {
-            if (null != GetComponent<MeshRenderer>())
+            //if (null != GetComponent<MeshRenderer>())
+            //{
+            //    OriginalMaterial.Add(gameObject, gameObject.GetComponent<MeshRenderer>().sharedMaterial);
+            //    HighLightMaterial.Add(gameObject, GlobalVar.HighLightMate);
+            //}
+            //else
+            //{
+            //    Transform[] trans = gameObject.GetComponentsInChildren<Transform>();
+            //    foreach (Transform tran in trans)
+            //    {
+            //        if (null != tran.gameObject.GetComponent<MeshRenderer>())
+            //        {
+            //            OriginalMaterial.Add(tran.gameObject, tran.GetComponent<MeshRenderer>().sharedMaterial);
+            //            HighLightMaterial.Add(tran.gameObject, GlobalVar.HighLightMate);
+            //        }
+            //    }
+            //}
+
+            FindGame(transform);
+
+        }
+
+
+
+
+        public void FindGame(Transform t)
+        {
+            Transform[] trans = FindChild(t);
+            if (trans == null)
+                return;
+            for (int i = 0; i < trans.Length; i++)
             {
-                OriginalMaterial.Add(gameObject, gameObject.GetComponent<MeshRenderer>().sharedMaterial);
-                HighLightMaterial.Add(gameObject, GlobalVar.HighLightMate);
+                FindGame(trans[i]);
+            }
+
+        }
+        public int a;
+        public Transform[] FindChild(Transform t)
+        {
+            Transform temp = t;
+            MeshRenderer mr = temp.GetComponent<MeshRenderer>();
+            if (mr != null)
+            {
+                OriginalMaterial.Add(temp.gameObject, mr.sharedMaterial);
+                HighLightMaterial.Add(temp.gameObject, GlobalVar.HighLightMate);
+            }
+
+            Transform[] trans = new Transform[t.childCount];
+            if (t.childCount > 0)
+            {
+                for (int i = 0; i < t.childCount; i++)
+                {
+                    a++;
+                    trans[i] = t.GetChild(i);
+                }
+                return trans;
             }
             else
-            {
-                Transform[] trans = gameObject.GetComponentsInChildren<Transform>();
-                foreach (Transform tran in trans)
-                {
-                    if (null != tran.gameObject.GetComponent<MeshRenderer>())
-                    {
-                        OriginalMaterial.Add(tran.gameObject, tran.GetComponent<MeshRenderer>().sharedMaterial);
-                        HighLightMaterial.Add(tran.gameObject, GlobalVar.HighLightMate);
-                    }
-                }
-            }
+                return null;
         }
 
         // Update is called once per frame
@@ -78,21 +120,27 @@ namespace WyzLink.LogicManager
 
         private IEnumerator TransformMaterialCoroutine(Dictionary<GameObject, Material> targetMat)
         {
-            if (null != GetComponent<MeshRenderer>())
+            foreach (KeyValuePair<GameObject,Material> pair in targetMat)
             {
-                this.GetComponent<MeshRenderer>().material = targetMat[gameObject];
+                GameObject go = pair.Key;
+                go.GetComponent<MeshRenderer>().material = pair.Value;
             }
-            else
-            {
-                Transform[] trans = gameObject.GetComponentsInChildren<Transform>();
-                foreach (Transform tran in trans)
-                {
-                    if (null != tran.gameObject.GetComponent<MeshRenderer>())
-                    {
-                        tran.GetComponent<MeshRenderer>().material = targetMat[tran.gameObject];
-                    }
-                }
-            }
+
+            //if (null != GetComponent<MeshRenderer>())
+            //{
+            //    this.GetComponent<MeshRenderer>().material = targetMat[gameObject];
+            //}
+            //else
+            //{
+            //    Transform[] trans = gameObject.GetComponentsInChildren<Transform>();
+            //    foreach (Transform tran in trans)
+            //    {
+            //        if (null != tran.gameObject.GetComponent<MeshRenderer>())
+            //        {
+            //            tran.GetComponent<MeshRenderer>().material = targetMat[tran.gameObject];
+            //        }
+            //    }
+            //}
             yield return 0;
         }
 
